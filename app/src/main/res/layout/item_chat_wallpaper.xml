@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="item"
+            type="com.chat.sms_text.messages.model.ChatWallpaper" />
+
+    </data>
+
+    <RelativeLayout
+        android:layout_width="@dimen/_88sdp"
+        android:layout_height="@dimen/_116sdp"
+        android:background="@{item.isWallpaperSelected ? @drawable/bg_stroke_app_theme_rounded : @drawable/bg_unselected_stroke_rounded}"
+        android:padding="@dimen/_5sdp">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:cardBackgroundColor="@android:color/transparent"
+            app:cardCornerRadius="@dimen/_6sdp"
+            app:cardElevation="0dp">
+
+            <View
+                android:id="@+id/chatColor"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:chatBoxColorRes="@{item.chatWallpaper}" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/changeWallpaper"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:src="@drawable/img_chat_design" />
+
+        </androidx.cardview.widget.CardView>
+
+    </RelativeLayout>
+</layout>

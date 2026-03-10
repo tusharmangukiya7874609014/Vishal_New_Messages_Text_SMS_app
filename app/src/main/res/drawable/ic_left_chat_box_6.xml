@@ -1,0 +1,12 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="150dp"
+    android:height="26dp"
+    android:viewportWidth="150"
+    android:viewportHeight="26">
+  <path
+      android:pathData="M9,0L146,0A4,4 0,0 1,150 4L150,22A4,4 0,0 1,146 26L9,26A4,4 0,0 1,5 22L5,4A4,4 0,0 1,9 0z"
+      android:fillColor="?attr/chatBoxColor"/>
+  <path
+      android:pathData="M0,25.03C2.9,24.33 5.17,21.99 5.85,19L10,23.27C10,23.33 5.57,27.96 0,25.03Z"
+      android:fillColor="?attr/chatBoxColor"/>
+</vector>

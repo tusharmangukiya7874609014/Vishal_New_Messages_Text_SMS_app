@@ -1,0 +1,122 @@
+package com.chat.sms_text.messages.activity
+
+import android.content.Intent
+import android.os.Bundle
+import android.view.View
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.lifecycleScope
+import com.chat.sms_text.messages.R
+import com.chat.sms_text.messages.ads.NativeAdHelper
+import com.chat.sms_text.messages.database.Const
+import com.chat.sms_text.messages.database.SharedPreferencesHelper
+import com.chat.sms_text.messages.databinding.ActivityBlockingBinding
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+
+class BlockingActivity : BaseActivity() {
+    private lateinit var binding: ActivityBlockingBinding
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_blocking)
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+            insets
+        }
+        runAdsCampion()
+        initClickListener()
+    }
+
+    private fun runAdsCampion() {
+        lifecycleScope.launch(Dispatchers.IO) {
+            delay(300)
+
+            val isAppAdsShowing = SharedPreferencesHelper.getBoolean(
+                this@BlockingActivity, Const.IS_ADS_ENABLED, false
+            )
+
+            if (!isAppAdsShowing) return@launch
+
+            val isAppNativeAdsEnabled = SharedPreferencesHelper.getBoolean(
+                this@BlockingActivity, Const.IS_NATIVE_ENABLED, false
+            )
+
+            val retrievedAdsJson = SharedPreferencesHelper.getJsonFromPreferences(
+                this@BlockingActivity, Const.MESSAGE_MANAGER_RESPONSE
+            )
+
+            val getAdsPageResponse =
+                retrievedAdsJson.optJSONObject("activities")?.optJSONObject("BlockingActivity")
+                    ?: return@launch
+
+            val isCurrentPageAdsEnabled = getAdsPageResponse.optBoolean("isAdsShowing")
+
+            if (!isCurrentPageAdsEnabled) return@launch
+
+            val isCurrentPageNativeAdsEnabled =
+                getAdsPageResponse.optBoolean("isNativeAdsShowing") && isAppNativeAdsEnabled
+
+            val nativeAdsType = getAdsPageResponse.optString("isNativeAdsType").ifEmpty {
+                SharedPreferencesHelper.getString(
+                    this@BlockingActivity,
+                    Const.IS_NATIVE_ADS_TYPE_DEFAULT,
+                    Const.STRING_DEFAULT_VALUE
+                )
+            } ?: ""
+
+            val currentPageNativeAdsId = getAdsPageResponse.optString("nativeAdsID").ifEmpty {
+                SharedPreferencesHelper.getString(
+                    this@BlockingActivity, Const.NATIVE_ID, Const.STRING_DEFAULT_VALUE
+                )
+            } ?: ""
+
+            withContext(Dispatchers.Main) {
+                if (isFinishing || isDestroyed) return@withContext
+
+                if (isCurrentPageNativeAdsEnabled) {
+                    runNativeAds(
+                        nativeAdsType = nativeAdsType, nativeAdsId = currentPageNativeAdsId
+                    )
+                }
+            }
+        }
+    }
+
+    private fun runNativeAds(
+        nativeAdsType: String, nativeAdsId: String
+    ) {
+        binding.nativeAdContainer.visibility = View.VISIBLE
+        NativeAdHelper.loadNativeAd(
+            this, binding.nativeAdContainer, nativeAdsType, nativeAdsId = nativeAdsId
+        )
+    }
+
+    private fun initClickListener() {
+        binding.rvBlockedNumber.setOnClickListener {
+            val intent = Intent(this, BlockedNumberActivity::class.java)
+            startActivity(intent)
+        }
+
+        binding.rvBlockedMessages.setOnClickListener {
+            val intent = Intent(this, BlockedMessagesActivity::class.java)
+            startActivity(intent)
+        }
+
+        binding.ivBack.setOnClickListener {
+            onBackPressedDispatcher.onBackPressed()
+        }
+    }
+
+    override fun onResume() {
+        if (!isDefaultSmsApp(this)) {
+            startActivity(Intent(this, HomeActivity::class.java))
+            finishAffinity()
+        }
+        super.onResume()
+    }
+}

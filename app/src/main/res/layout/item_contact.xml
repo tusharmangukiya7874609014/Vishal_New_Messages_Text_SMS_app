@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="isContactsVisible"
+            type="Boolean" />
+
+        <variable
+            name="item"
+            type="com.chat.sms_text.messages.model.ContactModel.ContactItem" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="@dimen/_4sdp"
+        android:layout_marginEnd="@dimen/_16sdp"
+        android:background="?attr/itemBackground"
+        android:orientation="horizontal"
+        android:padding="@dimen/_6sdp">
+
+        <RelativeLayout
+            android:layout_width="@dimen/_36sdp"
+            android:layout_height="@dimen/_36sdp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="@dimen/_5sdp">
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cvProfileView"
+                android:layout_width="@dimen/_32sdp"
+                android:layout_height="@dimen/_32sdp"
+                android:layout_centerInParent="true"
+                app:cardBackgroundColor="?attr/itemBackgroundColor"
+                app:cardCornerRadius="@dimen/_25sdp"
+                app:cardElevation="2dp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/ivDefaultProfile"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_centerInParent="true"
+                        android:src="@drawable/ic_dark_profile_popup"
+                        app:isSelected="@{item.isSelectedProfile}"
+                        app:profilePhotoUri="@{item.photoUri}" />
+
+                </RelativeLayout>
+
+            </androidx.cardview.widget.CardView>
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="@dimen/_8sdp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:fontFamily="@font/medium_sans"
+                android:maxLines="2"
+                android:text="@{item.name}"
+                android:textColor="?attr/titleTextColor"
+                android:textSize="@dimen/_11ssp"
+                tools:text="Jenice Reddy" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:fontFamily="@font/light_sans"
+                android:maxLines="1"
+                android:textColor="?attr/subTextColor"
+                android:textSize="@dimen/_10ssp"
+                android:visibility="@{isContactsVisible ? View.VISIBLE : View.GONE}"
+                app:contactId="@{String.valueOf(item.contactId)}"
+                tools:text="78628 21545" />
+
+        </LinearLayout>
+    </LinearLayout>
+</layout>

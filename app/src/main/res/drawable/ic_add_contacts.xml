@@ -1,0 +1,16 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+  <path
+      android:pathData="M10,2C7.101,2 4.75,4.351 4.75,7.25C4.75,10.149 7.101,12.5 10,12.5C12.899,12.5 15.25,10.149 15.25,7.25C15.25,4.351 12.899,2 10,2Z"
+      android:fillColor="?attr/iconColor"/>
+  <path
+      android:pathData="M10,16C6.548,16 3.75,18.798 3.75,22.25C3.75,22.664 3.414,23 3,23C2.586,23 2.25,22.664 2.25,22.25C2.25,17.97 5.72,14.5 10,14.5C14.28,14.5 17.75,17.97 17.75,22.25C17.75,22.664 17.414,23 17,23C16.586,23 16.25,22.664 16.25,22.25C16.25,18.798 13.452,16 10,16Z"
+      android:fillColor="?attr/iconColor"
+      android:fillType="evenOdd"/>
+  <path
+      android:pathData="M23.242,12.242H20.758V9.758C20.758,9.339 20.418,9 20,9C19.581,9 19.242,9.339 19.242,9.758V12.242H16.758C16.339,12.242 16,12.581 16,13C16,13.418 16.339,13.758 16.758,13.758H19.242V16.242C19.242,16.661 19.581,17 20,17C20.418,17 20.758,16.661 20.758,16.242V13.758H23.242C23.661,13.758 24,13.418 24,13C24,12.581 23.661,12.242 23.242,12.242Z"
+      android:fillColor="?attr/iconColor"/>
+</vector>

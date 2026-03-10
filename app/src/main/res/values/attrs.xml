@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="mainBackground" format="color" />
+    <attr name="phonePermissions" format="reference" />
+    <attr name="backgroundDefaultPermission" format="reference" />
+    <attr name="titleTextColor" format="color" />
+    <attr name="subTextColor" format="color" />
+    <attr name="itemBackground" format="reference" />
+    <attr name="itemBackgroundColor" format="color" />
+    <attr name="navigationDrawerIcon" format="reference" />
+    <attr name="filterIcon" format="reference" />
+    <attr name="moreIcon" format="reference" />
+    <attr name="searchIcon" format="reference" />
+    <attr name="archivedIcon" format="reference" />
+    <attr name="backupAndRestoreIcon" format="reference" />
+    <attr name="scheduledIcon" format="reference" />
+    <attr name="lockIcon" format="reference" />
+    <attr name="blockIcon" format="reference" />
+    <attr name="settingIcon" format="reference" />
+    <attr name="backIcon" format="reference" />
+    <attr name="conversationIcon" format="reference" />
+    <attr name="chatBoxColor" format="color" />
+    <attr name="attachBoxIcon" format="reference" />
+    <attr name="clearTextIcon" format="reference" />
+    <attr name="bottom_sheet" format="reference" />
+    <attr name="filterListIcon" format="reference" />
+    <attr name="markAllReadMessages" format="reference" />
+    <attr name="switchColor" format="color" />
+    <attr name="closeDialogIcon" format="reference" />
+    <attr name="shimmerColor" format="color" />
+    <attr name="deleteMessageIcon" format="reference" />
+    <attr name="callIcon" format="reference" />
+    <attr name="deleteToolbarIcon" format="reference" />
+    <attr name="unarchivedIcon" format="reference" />
+    <attr name="pinIcon" format="reference" />
+    <attr name="unPinIcon" format="reference" />
+    <attr name="itemSelectedColor" format="color" />
+    <attr name="removeSelectedImages" format="reference" />
+    <attr name="shareIcon" format="reference" />
+    <attr name="downloadIcon" format="reference" />
+    <attr name="swapColorIcon" format="reference" />
+    <attr name="unselectedView" format="color" />
+    <attr name="clearIcon" format="reference" />
+    <attr name="privateSettingIcon" format="reference" />
+    <attr name="unlockChatIcon" format="reference" />
+    <attr name="forgetPasswordIcon" format="reference" />
+    <attr name="closeIconSelect" format="reference" />
+    <attr name="noContactsFound" format="reference" />
+    <attr name="privateChatsIcon" format="reference" />
+    <attr name="stepOneWidget" format="reference" />
+    <attr name="stepTwoWidget" format="reference" />
+    <attr name="stepThreeWidget" format="reference" />
+    <attr name="searchHome" format="reference" />
+    <attr name="upSideArrow" format="reference" />
+    <attr name="downSideArrow" format="reference" />
+    <attr name="subHeadingColor" format="color" />
+    <attr name="archivedBoxIcon" format="reference" />
+    <attr name="popupBackgroundColor" format="color" />
+    <attr name="addToContact" format="reference" />
+    <attr name="stroke_color" format="reference" />
+    <attr name="shimmer_effect_box" format="reference" />
+    <attr name="iconColor" format="color" />
+    <attr name="defaultChatBoxColor" format="reference" />
+    <attr name="system_warning_image" format="reference" />
+    <attr name="exitDialogImage" format="reference" />
+    <attr name="contactEditIcon" format="reference" />
+    <attr name="deleteQuickMessage" format="reference" />
+    <attr name="editQuickMessage" format="reference" />
+    <attr name="dialogItemBackground" format="color" />
+    <attr name="pencil" format="reference" />
+    <attr name="unfillStar" format="reference" />
+    <attr name="fillStar" format="reference" />
+    <attr name="deleteSelected" format="reference" />
+    <attr name="copySelected" format="reference" />
+    <attr name="clearSelected" format="reference" />
+    <attr name="profileView" format="reference" />
+    <attr name="callViewPopup" format="reference" />
+    <attr name="messagesViewPopup" format="reference" />
+    <attr name="openViewPopup" format="reference" />
+    <attr name="viewInChatPopup" format="reference" />
+    <attr name="copyPopup" format="reference" />
+    <attr name="strokeView" format="color" />
+    <attr name="multiSelection" format="reference"/>
+    <attr name="pinPopup" format="reference"/>
+    <attr name="unPinPopup" format="reference"/>
+    <attr name="markAsReadPopup" format="reference"/>
+    <attr name="addToPrivateChatPopup" format="reference"/>
+    <attr name="blockPopup" format="reference"/>
+    <attr name="deletePopup" format="reference"/>
+    <attr name="removeToPrivateChatPopup" format="reference"/>
+    <attr name="dialogBoxColor" format="color"/>
+    <attr name="addQuickResponse" format="reference"/>
+    <attr name="defaultPermission" format="reference"/>
+    <attr name="displayOverlayPermission" format="reference"/>
+</resources>

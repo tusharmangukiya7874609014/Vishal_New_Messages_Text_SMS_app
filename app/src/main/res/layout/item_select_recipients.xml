@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="item"
+            type="com.chat.sms_text.messages.model.ContactModel.ContactItem" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/_5sdp"
+        android:layout_marginVertical="@dimen/_3sdp">
+
+        <RelativeLayout
+            android:id="@+id/rvMainView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:layout_marginEnd="@dimen/_5sdp"
+            android:background="@drawable/bg_theme_related_stroke"
+            android:padding="@dimen/_5sdp">
+
+            <RelativeLayout
+                android:id="@+id/rvProfileView"
+                android:layout_width="@dimen/_24sdp"
+                android:layout_height="@dimen/_24sdp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cvProfileView"
+                    android:layout_width="@dimen/_24sdp"
+                    android:layout_height="@dimen/_24sdp"
+                    android:layout_centerInParent="true"
+                    app:cardBackgroundColor="?attr/itemBackgroundColor"
+                    app:cardCornerRadius="@dimen/_25sdp"
+                    app:cardElevation="2dp">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:id="@+id/ivDefaultProfile"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_centerInParent="true"
+                            android:src="@drawable/ic_dark_profile_popup"
+                            app:profilePhotoUri="@{item.photoUri}"
+                            app:isSelected="@{false}" />
+
+                    </RelativeLayout>
+
+                </androidx.cardview.widget.CardView>
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/txtContactName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:layout_toEndOf="@+id/rvProfileView"
+                android:ellipsize="end"
+                android:fontFamily="@font/medium_sans"
+                android:gravity="center_vertical"
+                android:maxLines="1"
+                android:text="@{item.name}"
+                android:textColor="?attr/titleTextColor"
+                android:textSize="@dimen/_11ssp"
+                tools:text="Vishal Saradhara" />
+
+        </RelativeLayout>
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/ivRemoveImage"
+            android:layout_width="@dimen/_14sdp"
+            android:layout_height="@dimen/_14sdp"
+            android:layout_alignEnd="@+id/rvMainView"
+            android:layout_marginEnd="-7dp"
+            android:src="?attr/removeSelectedImages" />
+
+    </RelativeLayout>
+
+</layout>

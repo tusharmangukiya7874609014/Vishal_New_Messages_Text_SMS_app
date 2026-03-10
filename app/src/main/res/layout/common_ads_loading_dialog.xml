@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+    </data>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/_10sdp"
+        app:cardBackgroundColor="@android:color/transparent"
+        app:cardCornerRadius="@dimen/_8sdp"
+        app:cardElevation="0dp">
+
+        <RelativeLayout
+            android:id="@+id/progressBar"
+            android:layout_width="@dimen/_110sdp"
+            android:layout_height="@dimen/_115sdp"
+            android:layout_centerInParent="true"
+            android:background="?attr/itemBackground">
+
+            <ProgressBar
+                android:id="@+id/progress"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_46sdp"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:indeterminateTint="@color/app_theme_color"
+                android:progressTint="@color/app_theme_color" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/progress"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:fontFamily="@font/medium_sans"
+                android:text="@string/ads_loading"
+                android:textColor="?attr/titleTextColor"
+                android:textSize="@dimen/_12ssp" />
+
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
+</layout>

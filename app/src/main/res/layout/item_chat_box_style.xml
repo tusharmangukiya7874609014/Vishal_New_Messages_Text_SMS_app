@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="item"
+            type="com.chat.sms_text.messages.model.ChatBoxStyle" />
+
+    </data>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/_31sdp"
+        android:layout_marginVertical="@dimen/_4sdp">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/ivChatStyle"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginHorizontal="@dimen/_3sdp"
+            android:scaleType="fitXY"
+            app:chatBoxStyleImageSrc="@{item.chatBox}"
+            tools:src="@drawable/ic_right_chat_box_1" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/ivSelect"
+            android:layout_width="@dimen/_16sdp"
+            android:layout_height="@dimen/_16sdp"
+            android:layout_centerInParent="true"
+            android:src="@drawable/img_check"
+            android:visibility="@{item.isChatBoxSelected ? View.VISIBLE : View.GONE}"
+            tools:visibility="visible" />
+
+    </RelativeLayout>
+</layout>

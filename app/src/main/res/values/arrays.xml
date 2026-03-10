@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="light_chat_box_colors">
+        <item>@color/light_chat_box_color_1</item>
+        <item>@color/light_chat_box_color_2</item>
+        <item>@color/light_chat_box_color_3</item>
+        <item>@color/light_chat_box_color_4</item>
+        <item>@color/light_chat_box_color_5</item>
+        <item>@color/light_chat_box_color_6</item>
+        <item>@color/light_chat_box_color_7</item>
+        <item>@color/light_chat_box_color_8</item>
+        <item>@color/light_chat_box_color_9</item>
+        <item>@color/light_chat_box_color_10</item>
+        <item>@color/light_chat_box_color_11</item>
+        <item>@color/light_chat_box_color_12</item>
+        <item>@color/light_chat_box_color_13</item>
+        <item>@color/light_chat_box_color_14</item>
+        <item>@color/light_chat_box_color_15</item>
+        <item>@color/light_chat_box_color_16</item>
+        <item>@color/light_chat_box_color_17</item>
+        <item>@color/light_chat_box_color_18</item>
+        <item>@color/light_chat_box_color_19</item>
+        <item>@color/light_chat_box_color_20</item>
+        <item>@color/light_chat_box_color_21</item>
+        <item>@color/light_chat_box_color_22</item>
+        <item>@color/light_chat_box_color_23</item>
+        <item>@color/light_chat_box_color_24</item>
+        <item>@color/light_chat_box_color_25</item>
+        <item>@color/light_chat_box_color_26</item>
+        <item>@color/light_chat_box_color_27</item>
+        <item>@color/light_chat_box_color_28</item>
+    </array>
+
+    <array name="dark_chat_box_colors">
+        <item>@color/dark_chat_box_color_1</item>
+        <item>@color/dark_chat_box_color_2</item>
+        <item>@color/dark_chat_box_color_3</item>
+        <item>@color/dark_chat_box_color_4</item>
+        <item>@color/dark_chat_box_color_5</item>
+        <item>@color/dark_chat_box_color_6</item>
+        <item>@color/dark_chat_box_color_7</item>
+        <item>@color/dark_chat_box_color_8</item>
+        <item>@color/dark_chat_box_color_9</item>
+        <item>@color/dark_chat_box_color_10</item>
+        <item>@color/dark_chat_box_color_11</item>
+        <item>@color/dark_chat_box_color_12</item>
+        <item>@color/dark_chat_box_color_13</item>
+        <item>@color/dark_chat_box_color_14</item>
+        <item>@color/dark_chat_box_color_15</item>
+        <item>@color/dark_chat_box_color_16</item>
+        <item>@color/dark_chat_box_color_17</item>
+        <item>@color/dark_chat_box_color_18</item>
+        <item>@color/dark_chat_box_color_19</item>
+        <item>@color/dark_chat_box_color_20</item>
+        <item>@color/dark_chat_box_color_21</item>
+        <item>@color/dark_chat_box_color_22</item>
+        <item>@color/dark_chat_box_color_23</item>
+        <item>@color/dark_chat_box_color_24</item>
+        <item>@color/dark_chat_box_color_25</item>
+        <item>@color/dark_chat_box_color_26</item>
+        <item>@color/dark_chat_box_color_27</item>
+        <item>@color/dark_chat_box_color_28</item>
+    </array>
+</resources>

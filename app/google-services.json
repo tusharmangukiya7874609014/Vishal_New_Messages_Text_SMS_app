@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "267111472962",
+    "firebase_url": "https://messages--text-sms-default-rtdb.firebaseio.com",
+    "project_id": "messages--text-sms",
+    "storage_bucket": "messages--text-sms.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:267111472962:android:b87a3083fccb06e88732db",
+        "android_client_info": {
+          "package_name": "com.chat.sms_text.messages"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBehR39dII-Vip67b4iiprPjWxIZMzM6LE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

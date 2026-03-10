@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <RelativeLayout
+        android:id="@+id/main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="?attr/mainBackground"
+        tools:context=".activity.SwipeActionsActivity">
+
+        <LinearLayout
+            android:id="@+id/rvTopHeaderView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_8sdp"
+            android:orientation="horizontal">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/ivBack"
+                android:layout_width="@dimen/_28sdp"
+                android:layout_height="@dimen/_28sdp"
+                android:layout_gravity="center_vertical"
+                android:src="?attr/backIcon" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:fontFamily="@font/semi_bold_sans"
+                android:text="@string/swipe_actions"
+                android:textColor="?attr/titleTextColor"
+                android:textSize="@dimen/_13ssp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/rvAdsView"
+            android:layout_below="@+id/rvTopHeaderView"
+            android:layout_marginHorizontal="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:id="@+id/rvRightSwipe"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/medium_sans"
+                    android:text="@string/right_swipe"
+                    android:textColor="?attr/titleTextColor"
+                    android:textSize="@dimen/_11ssp" />
+
+                <TextView
+                    android:id="@+id/txtChangeRightSide"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:fontFamily="@font/semi_bold_sans"
+                    android:text="@string/change"
+                    android:textAlignment="viewEnd"
+                    android:textColor="@color/app_theme_color"
+                    android:textSize="@dimen/_12ssp" />
+
+                <TextView
+                    android:id="@+id/txtRightSideSelected"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/txtChangeRightSide"
+                    android:layout_centerVertical="true"
+                    android:layout_marginTop="@dimen/_1sdp"
+                    android:fontFamily="@font/light_sans"
+                    android:text="@string/delete"
+                    android:textColor="?attr/subHeadingColor"
+                    android:textSize="@dimen/_10ssp" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_52sdp"
+                    android:layout_below="@+id/txtRightSideSelected"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    android:background="?attr/itemBackground">
+
+                    <RelativeLayout
+                        android:id="@+id/rvSwipeRightSideView"
+                        android:layout_width="@dimen/_52sdp"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/bg_theme_rounded_button_8dp">
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:id="@+id/ivRightSelectedSwipe"
+                            android:layout_width="@dimen/_25sdp"
+                            android:layout_height="@dimen/_25sdp"
+                            android:layout_centerInParent="true"
+                            android:src="@drawable/ic_delete_swipe" />
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_toEndOf="@+id/rvSwipeRightSideView">
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:id="@+id/ivRightProfile"
+                            android:layout_width="@dimen/_32sdp"
+                            android:layout_height="@dimen/_32sdp"
+                            android:layout_marginStart="@dimen/_15sdp"
+                            android:layout_marginEnd="@dimen/_10sdp"
+                            android:src="@drawable/ic_profile_view" />
+
+                        <View
+                            android:id="@+id/topHeaderRight"
+                            android:layout_width="@dimen/_150sdp"
+                            android:layout_height="@dimen/_4sdp"
+                            android:layout_marginTop="@dimen/_8sdp"
+                            android:layout_toEndOf="@+id/ivRightProfile"
+                            android:background="@drawable/bg_shimmer_view" />
+
+                        <View
+                            android:id="@+id/subHeaderRight"
+                            android:layout_width="@dimen/_80sdp"
+                            android:layout_height="@dimen/_4sdp"
+                            android:layout_below="@+id/topHeaderRight"
+                            android:layout_marginTop="@dimen/_10sdp"
+                            android:layout_toEndOf="@+id/ivRightProfile"
+                            android:background="@drawable/bg_shimmer_view" />
+
+                    </RelativeLayout>
+
+                </RelativeLayout>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rvLeftSwipe"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_15sdp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/medium_sans"
+                    android:text="@string/left_swipe"
+                    android:textColor="?attr/titleTextColor"
+                    android:textSize="@dimen/_11ssp" />
+
+                <TextView
+                    android:id="@+id/txtChangeLeftSide"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:fontFamily="@font/semi_bold_sans"
+                    android:text="@string/change"
+                    android:textAlignment="viewEnd"
+                    android:textColor="@color/app_theme_color"
+                    android:textSize="@dimen/_12ssp" />
+
+                <TextView
+                    android:id="@+id/txtLeftSideSelected"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/txtChangeLeftSide"
+                    android:layout_centerVertical="true"
+                    android:layout_marginTop="@dimen/_1sdp"
+                    android:fontFamily="@font/light_sans"
+                    android:text="@string/archive"
+                    android:textColor="?attr/subHeadingColor"
+                    android:textSize="@dimen/_10ssp" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_52sdp"
+                    android:layout_below="@+id/txtLeftSideSelected"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    android:background="?attr/itemBackground">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_toStartOf="@+id/rvSwipeLeftSideView">
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:id="@+id/ivProfile"
+                            android:layout_width="@dimen/_32sdp"
+                            android:layout_height="@dimen/_32sdp"
+                            android:layout_marginStart="@dimen/_15sdp"
+                            android:layout_marginEnd="@dimen/_10sdp"
+                            android:src="@drawable/ic_profile_view" />
+
+                        <View
+                            android:id="@+id/topHeader"
+                            android:layout_width="@dimen/_150sdp"
+                            android:layout_height="@dimen/_4sdp"
+                            android:layout_marginTop="@dimen/_8sdp"
+                            android:layout_toEndOf="@+id/ivProfile"
+                            android:background="@drawable/bg_shimmer_view" />
+
+                        <View
+                            android:id="@+id/subHeader"
+                            android:layout_width="@dimen/_80sdp"
+                            android:layout_height="@dimen/_4sdp"
+                            android:layout_below="@+id/topHeader"
+                            android:layout_marginTop="@dimen/_10sdp"
+                            android:layout_toEndOf="@+id/ivProfile"
+                            android:background="@drawable/bg_shimmer_view" />
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/rvSwipeLeftSideView"
+                        android:layout_width="@dimen/_52sdp"
+                        android:layout_height="match_parent"
+                        android:layout_alignParentEnd="true"
+                        android:background="@drawable/bg_theme_rounded_button_8dp">
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:id="@+id/ivLeftSelectedSwipe"
+                            android:layout_width="@dimen/_25sdp"
+                            android:layout_height="@dimen/_25sdp"
+                            android:layout_centerInParent="true"
+                            android:src="@drawable/ic_archive_swipe" />
+
+                    </RelativeLayout>
+
+                </RelativeLayout>
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+        <RelativeLayout
+            android:id="@+id/rvAdsView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true">
+
+            <FrameLayout
+                android:id="@+id/nativeAdContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_3sdp"
+                android:visibility="gone" />
+
+        </RelativeLayout>
+    </RelativeLayout>
+</layout>

@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+    </data>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/_15sdp"
+        app:cardCornerRadius="@dimen/_8sdp"
+        app:cardElevation="0dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/itemBackground"
+            android:padding="@dimen/_10sdp">
+
+            <TextView
+                android:id="@+id/txtTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:fontFamily="@font/medium_sans"
+                android:textStyle="bold"
+                android:maxLength="20"
+                android:text="@string/update_quick_response"
+                android:textAlignment="center"
+                android:textColor="@color/app_theme_color"
+                android:textSize="@dimen/_15ssp" />
+
+            <RelativeLayout
+                android:id="@+id/rvEditMessageView"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_38sdp"
+                android:layout_below="@+id/txtTitle"
+                android:layout_marginHorizontal="@dimen/_5sdp"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:background="?attr/itemBackground"
+                android:backgroundTint="?attr/dialogBoxColor"
+                android:visibility="visible">
+
+                <EditText
+                    android:id="@+id/etAddQuickMessage"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginHorizontal="@dimen/_7sdp"
+                    android:layout_toStartOf="@+id/ivClose"
+                    android:autofillHints="name"
+                    android:background="@null"
+                    android:ellipsize="end"
+                    android:fontFamily="@font/regular_sans"
+                    android:hint="@string/add_quick_message"
+                    android:inputType="none"
+                    android:maxLines="1"
+                    android:textColor="?attr/titleTextColor"
+                    android:textColorHint="?attr/subTextColor"
+                    android:textCursorDrawable="@drawable/custom_cursor"
+                    android:textSize="@dimen/_12ssp" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/ivClose"
+                    android:layout_width="@dimen/_16sdp"
+                    android:layout_height="@dimen/_14sdp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="@dimen/_8sdp"
+                    android:src="?attr/pencil"
+                    android:visibility="visible"
+                    app:tint="@color/app_theme_color" />
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_36sdp"
+                android:layout_below="@+id/rvEditMessageView"
+                android:layout_marginHorizontal="@dimen/_7sdp"
+                android:layout_marginBottom="@dimen/_5sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:orientation="horizontal">
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btnCancel"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/_35sdp"
+                    android:layout_gravity="center"
+                    android:layout_marginEnd="@dimen/_5sdp"
+                    android:layout_weight="1"
+                    android:background="?attr/itemBackground"
+                    android:backgroundTint="?attr/dialogBoxColor"
+                    android:elevation="0dp"
+                    android:fontFamily="@font/medium_sans"
+                    android:outlineProvider="none"
+                    android:shadowColor="@android:color/transparent"
+                    android:stateListAnimator="@null"
+                    android:text="@string/cancel"
+                    android:textAllCaps="false"
+                    android:textColor="?attr/titleTextColor"
+                    android:textSize="@dimen/_13ssp"
+                    android:translationZ="0dp" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btnApply"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/_35sdp"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="@dimen/_5sdp"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_theme_rounded_button_8dp"
+                    android:elevation="0dp"
+                    android:fontFamily="@font/medium_sans"
+                    android:outlineProvider="none"
+                    android:shadowColor="@android:color/transparent"
+                    android:stateListAnimator="@null"
+                    android:text="@string/apply"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/_13ssp"
+                    android:translationZ="0dp" />
+
+            </LinearLayout>
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
+</layout>

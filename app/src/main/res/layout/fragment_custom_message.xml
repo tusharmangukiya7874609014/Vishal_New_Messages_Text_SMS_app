@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="?attr/mainBackground"
+        android:overScrollMode="never"
+        android:padding="@dimen/_8sdp"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            tools:context=".fragment.CustomMessageFragment">
+
+            <RadioGroup
+                android:id="@+id/rgQuickMessage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_12sdp">
+
+                <RadioButton
+                    android:id="@+id/rbStatementOne"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/_32sdp"
+                    android:buttonTint="@color/app_theme_color"
+                    android:checked="true"
+                    android:fontFamily="@font/medium_sans"
+                    android:paddingHorizontal="@dimen/_5sdp"
+                    android:text="@string/can_t_talk_now_i_ll_call_you_back_soon"
+                    android:textColor="?attr/titleTextColor"
+                    android:textSize="@dimen/_11ssp"
+                    android:theme="@style/RadioButton" />
+
+                <RadioButton
+                    android:id="@+id/rbStatementTwo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/_32sdp"
+                    android:buttonTint="@color/app_theme_color"
+                    android:fontFamily="@font/medium_sans"
+                    android:paddingHorizontal="@dimen/_5sdp"
+                    android:text="@string/sorry_i_missed_your_call_what_s_up"
+                    android:textColor="?attr/titleTextColor"
+                    android:textSize="@dimen/_11ssp"
+                    android:theme="@style/RadioButton" />
+
+                <RadioButton
+                    android:id="@+id/rbStatementThree"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/_32sdp"
+                    android:buttonTint="@color/app_theme_color"
+                    android:fontFamily="@font/medium_sans"
+                    android:paddingHorizontal="@dimen/_5sdp"
+                    android:text="@string/busy_at_the_moment_will_reply_shortly"
+                    android:textColor="?attr/titleTextColor"
+                    android:textSize="@dimen/_11ssp"
+                    android:theme="@style/RadioButton" />
+
+                <RadioButton
+                    android:id="@+id/rbStatementFour"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/_32sdp"
+                    android:buttonTint="@color/app_theme_color"
+                    android:fontFamily="@font/medium_sans"
+                    android:paddingHorizontal="@dimen/_5sdp"
+                    android:text="@string/call_ended_let_me_know_if_it_s_urgent"
+                    android:textColor="?attr/titleTextColor"
+                    android:textSize="@dimen/_11ssp"
+                    android:theme="@style/RadioButton" />
+
+                <RadioButton
+                    android:id="@+id/rbStatementFive"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/_32sdp"
+                    android:buttonTint="@color/app_theme_color"
+                    android:fontFamily="@font/medium_sans"
+                    android:paddingHorizontal="@dimen/_5sdp"
+                    android:text="@string/can_t_talk_right_now_text_me_instead"
+                    android:textColor="?attr/titleTextColor"
+                    android:textSize="@dimen/_11ssp"
+                    android:theme="@style/RadioButton" />
+
+            </RadioGroup>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:background="?attr/itemBackground"
+                android:padding="@dimen/_8sdp">
+
+                <EditText
+                    android:id="@+id/etQuickMessages"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="@dimen/_5sdp"
+                    android:layout_toStartOf="@+id/ivSendMessage"
+                    android:autofillHints="name"
+                    android:background="@null"
+                    android:ellipsize="end"
+                    android:fontFamily="@font/regular_sans"
+                    android:hint="@string/write_personal_message"
+                    android:inputType="none"
+                    android:maxLines="5"
+                    android:textColor="?attr/titleTextColor"
+                    android:textColorHint="@color/light_theme_sub_title_color"
+                    android:textCursorDrawable="@drawable/custom_cursor"
+                    android:textSize="@dimen/_12ssp" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/ivSendMessage"
+                    android:layout_width="@dimen/_25sdp"
+                    android:layout_height="@dimen/_25sdp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:padding="4dp"
+                    android:src="@drawable/ic_send_message_call"
+                    android:tint="@color/app_theme_color" />
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+</layout>

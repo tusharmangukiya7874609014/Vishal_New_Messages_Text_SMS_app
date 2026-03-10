@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/_15sdp"
+        app:cardCornerRadius="@dimen/_9sdp"
+        app:cardElevation="0dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="?attr/itemBackground"
+            android:orientation="vertical"
+            android:padding="@dimen/_10sdp">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="@dimen/_70sdp"
+                android:layout_height="@dimen/_70sdp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:src="@drawable/ic_user_block" />
+
+            <TextView
+                android:id="@+id/txtTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:fontFamily="@font/medium_sans"
+                android:gravity="center"
+                android:maxLines="2"
+                android:paddingHorizontal="@dimen/_7sdp"
+                android:textAlignment="center"
+                android:textColor="?attr/titleTextColor"
+                android:textSize="@dimen/_13ssp"
+                tools:text="Block Jennie ?" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/txtStatement"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_gravity="center"
+                    android:fontFamily="@font/regular_sans"
+                    android:maxLines="2"
+                    android:textAlignment="center"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:textColor="?attr/subTextColor"
+                    android:textSize="@dimen/_11ssp"
+                    android:visibility="gone"
+                    tools:text="Are you sure you want to unblock this number?"
+                    tools:visibility="gone" />
+
+                <RelativeLayout
+                    android:id="@+id/rvBlockNumber"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_34sdp"
+                    android:layout_centerHorizontal="true"
+                    android:background="?attr/itemBackground"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:backgroundTint="?attr/dialogBoxColor"
+                    android:visibility="gone"
+                    tools:visibility="visible">
+
+                    <EditText
+                        android:id="@+id/etBlockContacts"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginHorizontal="@dimen/_10sdp"
+                        android:autofillHints="name"
+                        android:background="@null"
+                        android:ellipsize="end"
+                        android:fontFamily="@font/regular_sans"
+                        android:hint="@string/enter_a_phone_number"
+                        android:inputType="number"
+                        android:maxLines="1"
+                        android:textColor="?attr/titleTextColor"
+                        android:textColorHint="?attr/titleTextColor"
+                        android:textCursorDrawable="@drawable/custom_cursor"
+                        android:textSize="@dimen/_11ssp" />
+
+                </RelativeLayout>
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_36sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:orientation="horizontal">
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btnCancel"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_marginEnd="@dimen/_5sdp"
+                    android:layout_weight="1"
+                    android:background="?attr/itemBackground"
+                    android:backgroundTint="?attr/dialogBoxColor"
+                    android:elevation="0dp"
+                    android:fontFamily="@font/semi_bold_sans"
+                    android:outlineProvider="none"
+                    android:shadowColor="@android:color/transparent"
+                    android:stateListAnimator="@null"
+                    android:text="@string/cancel"
+                    android:textAllCaps="false"
+                    android:textColor="?attr/titleTextColor"
+                    android:textSize="@dimen/_11ssp"
+                    android:translationZ="0dp" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btnYes"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="@dimen/_5sdp"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_theme_rounded_button_8dp"
+                    android:elevation="0dp"
+                    android:fontFamily="@font/semi_bold_sans"
+                    android:outlineProvider="none"
+                    android:shadowColor="@android:color/transparent"
+                    android:stateListAnimator="@null"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/_11ssp"
+                    android:translationZ="0dp"
+                    tools:text="@string/block" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+</layout>

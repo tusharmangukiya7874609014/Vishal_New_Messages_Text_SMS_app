@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="item"
+            type="com.chat.sms_text.messages.model.ChatBoxColor" />
+
+    </data>
+
+    <RelativeLayout
+        android:id="@+id/rvMainContentView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@{item.isChatBoxColorSelected ? @drawable/bg_oval_stroke : @drawable/bg_oval_stroke_unselected}"
+        android:padding="@dimen/_5sdp">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="@dimen/_40sdp"
+            android:layout_height="@dimen/_40sdp"
+            app:cardCornerRadius="@dimen/_50sdp"
+            app:cardElevation="0dp">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:chatBoxColorRes="@{item.chatBoxColor}"
+                tools:background="@color/app_theme_color" />
+
+        </androidx.cardview.widget.CardView>
+
+    </RelativeLayout>
+
+</layout>

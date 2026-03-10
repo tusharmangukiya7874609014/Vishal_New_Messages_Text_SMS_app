@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="item"
+            type="com.chat.sms_text.messages.model.Password" />
+    </data>
+
+    <RelativeLayout
+        android:id="@+id/rlNumberView"
+        android:layout_width="@dimen/_52sdp"
+        android:layout_height="@dimen/_52sdp"
+        android:layout_marginHorizontal="@dimen/_10sdp"
+        android:layout_marginVertical="@dimen/_8sdp"
+        android:background="@drawable/bg_oval_number_keyboard"
+        app:passwordBackgroundTint="@{item.isNumberSelected}"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:fontFamily="@font/medium_sans"
+            android:text="@{item.number}"
+            android:textSize="@dimen/_20ssp"
+            android:textStyle="bold"
+            app:selectedTextColor="@{item.isNumberSelected}"
+            tools:text="@string/_0" />
+
+    </RelativeLayout>
+</layout>

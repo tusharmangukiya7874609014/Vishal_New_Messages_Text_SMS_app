@@ -1,0 +1,372 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="leftChatBoxStyle"
+            type="android.graphics.drawable.Drawable" />
+
+        <variable
+            name="rightChatBoxStyle"
+            type="android.graphics.drawable.Drawable" />
+
+        <variable
+            name="leftChatBoxColor"
+            type="android.content.res.ColorStateList" />
+
+        <variable
+            name="rightChatBoxColor"
+            type="android.content.res.ColorStateList" />
+    </data>
+
+    <RelativeLayout
+        android:id="@+id/main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="?attr/mainBackground"
+        tools:context=".activity.ChatWallpaperActivity">
+
+        <LinearLayout
+            android:id="@+id/rvTopHeaderView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_8sdp"
+            android:orientation="horizontal">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/ivBack"
+                android:layout_width="@dimen/_28sdp"
+                android:layout_height="@dimen/_28sdp"
+                android:layout_gravity="center_vertical"
+                android:src="?attr/backIcon" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:fontFamily="@font/semi_bold_sans"
+                android:text="@string/chat_wallpaper"
+                android:textColor="?attr/titleTextColor"
+                android:textSize="@dimen/_13ssp" />
+
+        </LinearLayout>
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/rvAdsView"
+            android:layout_below="@+id/rvTopHeaderView"
+            android:layout_marginHorizontal="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:overScrollMode="never">
+
+            <LinearLayout
+                android:id="@+id/rvMainContentView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="?attr/itemBackground"
+                    android:orientation="vertical">
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:cardBackgroundColor="@android:color/transparent"
+                        app:cardCornerRadius="@dimen/_8sdp"
+                        app:cardElevation="0dp">
+
+                        <RelativeLayout
+                            android:id="@+id/rvChangeColor"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <androidx.appcompat.widget.AppCompatImageView
+                                android:id="@+id/chatDesign"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_alignTop="@+id/llChatConversation"
+                                android:layout_alignBottom="@+id/llChatConversation"
+                                android:scaleType="centerCrop"
+                                android:src="@drawable/img_chat_design_view" />
+
+                            <LinearLayout
+                                android:id="@+id/llChatConversation"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginHorizontal="@dimen/_7sdp"
+                                    android:orientation="vertical">
+
+                                    <RelativeLayout
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginTop="@dimen/_10sdp"
+                                        android:layout_marginEnd="@dimen/_60sdp"
+                                        android:background="@{leftChatBoxStyle}"
+                                        android:backgroundTint="@{leftChatBoxColor}"
+                                        android:padding="@dimen/_8sdp"
+                                        tools:background="@drawable/ic_left_chat_box_1">
+
+                                        <TextView
+                                            android:id="@+id/txtFirstFromMessage"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_centerVertical="true"
+                                            android:layout_marginStart="@dimen/_6sdp"
+                                            android:fontFamily="@font/medium_sans"
+                                            android:text="@string/hello_guys"
+                                            android:textColor="?attr/titleTextColor"
+                                            android:textSize="@dimen/_11ssp" />
+
+                                    </RelativeLayout>
+
+                                    <RelativeLayout
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginTop="@dimen/_7sdp"
+                                        android:layout_marginEnd="@dimen/_60sdp"
+                                        android:background="@{leftChatBoxStyle}"
+                                        android:backgroundTint="@{leftChatBoxColor}"
+                                        android:padding="@dimen/_8sdp"
+                                        tools:background="@drawable/ic_left_chat_box_1">
+
+                                        <TextView
+                                            android:id="@+id/txtSecondFromMessage"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_centerVertical="true"
+                                            android:layout_marginStart="@dimen/_6sdp"
+                                            android:fontFamily="@font/medium_sans"
+                                            android:text="@string/wow_nice_theme"
+                                            android:textColor="?attr/titleTextColor"
+                                            android:textSize="@dimen/_11ssp" />
+
+                                    </RelativeLayout>
+
+                                    <RelativeLayout
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="end"
+                                        android:layout_marginStart="@dimen/_60sdp"
+                                        android:layout_marginTop="@dimen/_7sdp"
+                                        android:background="@{rightChatBoxStyle}"
+                                        android:backgroundTint="@{rightChatBoxColor}"
+                                        android:padding="@dimen/_8sdp"
+                                        tools:background="@drawable/ic_right_chat_box_1"
+                                        tools:backgroundTint="@color/app_theme_color">
+
+                                        <TextView
+                                            android:id="@+id/txtFirstToMessage"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_centerVertical="true"
+                                            android:layout_marginEnd="@dimen/_6sdp"
+                                            android:fontFamily="@font/medium_sans"
+                                            android:text="@string/thanks"
+                                            android:textColor="?attr/titleTextColor"
+                                            android:textSize="@dimen/_11ssp" />
+
+                                    </RelativeLayout>
+
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginHorizontal="@dimen/_7sdp"
+                                    android:layout_marginBottom="@dimen/_12sdp"
+                                    android:orientation="vertical">
+
+                                    <RelativeLayout
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginTop="@dimen/_7sdp"
+                                        android:layout_marginEnd="@dimen/_60sdp"
+                                        android:background="@{leftChatBoxStyle}"
+                                        android:backgroundTint="@{leftChatBoxColor}"
+                                        android:padding="@dimen/_8sdp"
+                                        tools:background="@drawable/ic_left_chat_box_1">
+
+                                        <TextView
+                                            android:id="@+id/txtFromMessage"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_alignParentStart="true"
+                                            android:layout_centerVertical="true"
+                                            android:layout_marginStart="@dimen/_6sdp"
+                                            android:fontFamily="@font/medium_sans"
+                                            android:text="@string/yeah_this_is_my_favorite_color_it_feels_so_clean_and_modern"
+                                            android:textColor="?attr/titleTextColor"
+                                            android:textSize="@dimen/_11ssp" />
+
+                                    </RelativeLayout>
+
+                                    <RelativeLayout
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="end"
+                                        android:layout_marginStart="@dimen/_60sdp"
+                                        android:layout_marginTop="@dimen/_7sdp"
+                                        android:background="@{rightChatBoxStyle}"
+                                        android:backgroundTint="@{rightChatBoxColor}"
+                                        android:padding="@dimen/_8sdp"
+                                        tools:background="@drawable/ic_right_chat_box_1"
+                                        tools:backgroundTint="@color/app_theme_color">
+
+                                        <TextView
+                                            android:id="@+id/txtToMessage"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginEnd="@dimen/_6sdp"
+                                            android:fontFamily="@font/medium_sans"
+                                            android:text="@string/really_txt"
+                                            android:textColor="?attr/titleTextColor"
+                                            android:textSize="@dimen/_11ssp" />
+
+                                    </RelativeLayout>
+
+                                </LinearLayout>
+
+                            </LinearLayout>
+
+                        </RelativeLayout>
+
+                    </androidx.cardview.widget.CardView>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:baselineAligned="false">
+
+                    <RelativeLayout
+                        android:id="@+id/rvAppDefaultWallpaper"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1">
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:id="@+id/ivDefaultWallpaper"
+                            android:layout_width="@dimen/_30sdp"
+                            android:layout_height="@dimen/_30sdp"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginTop="@dimen/_5sdp"
+                            android:src="@drawable/img_app_icon" />
+
+                        <TextView
+                            android:id="@+id/txtDefault"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/ivDefaultWallpaper"
+                            android:layout_marginBottom="1dp"
+                            android:fontFamily="@font/medium_sans"
+                            android:paddingHorizontal="@dimen/_5sdp"
+                            android:paddingVertical="@dimen/_6sdp"
+                            android:text="@string/default_wallpaper"
+                            android:textAlignment="center"
+                            android:textColor="?attr/titleTextColor"
+                            android:textSize="@dimen/_10ssp" />
+
+                        <View
+                            android:layout_width="1dp"
+                            android:layout_height="wrap_content"
+                            android:layout_alignBottom="@+id/txtDefault"
+                            android:layout_alignParentEnd="true"
+                            android:background="?attr/subTextColor" />
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/rvChooseFromGallary"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1">
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:id="@+id/ivGallary"
+                            android:layout_width="@dimen/_30sdp"
+                            android:layout_height="@dimen/_30sdp"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginTop="@dimen/_5sdp"
+                            android:src="@drawable/ic_choose_gallary" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/ivGallary"
+                            android:fontFamily="@font/medium_sans"
+                            android:paddingHorizontal="@dimen/_5sdp"
+                            android:paddingVertical="@dimen/_6sdp"
+                            android:text="@string/choose_from_gallary"
+                            android:textAlignment="center"
+                            android:textColor="?attr/titleTextColor"
+                            android:textSize="@dimen/_10ssp" />
+
+                    </RelativeLayout>
+
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:fontFamily="@font/semi_bold_sans"
+                    android:text="@string/other_s_stylish_wallpaper"
+                    android:textColor="@color/app_theme_color"
+                    android:textSize="@dimen/_12ssp" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvChatWallpaper"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:orientation="horizontal"
+                    android:overScrollMode="never"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:listitem="@layout/item_chat_wallpaper" />
+
+            </LinearLayout>
+
+        </androidx.core.widget.NestedScrollView>
+
+        <RelativeLayout
+            android:id="@+id/rvAdsView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true">
+
+            <FrameLayout
+                android:id="@+id/nativeAdContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_3sdp"
+                android:visibility="gone" />
+
+            <include
+                android:id="@+id/banner_ad_container"
+                layout="@layout/banner_ad_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_3sdp"
+                android:visibility="gone" />
+
+        </RelativeLayout>
+    </RelativeLayout>
+</layout>

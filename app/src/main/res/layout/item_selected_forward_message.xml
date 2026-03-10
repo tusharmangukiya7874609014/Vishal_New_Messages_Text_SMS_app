@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:id="@+id/rvSelectedImages"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:visibility="gone"
+            tools:visibility="gone">
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cvSelectedImages"
+                android:layout_width="@dimen/_50sdp"
+                android:layout_height="@dimen/_50sdp"
+                android:layout_margin="@dimen/_4sdp"
+                app:cardBackgroundColor="@android:color/transparent"
+                app:cardCornerRadius="@dimen/_5sdp"
+                app:cardElevation="0dp">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/ivSelectedImages"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    android:src="@color/app_theme_color" />
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/ivRemoveImage"
+                android:layout_width="@dimen/_16sdp"
+                android:layout_height="@dimen/_16sdp"
+                android:layout_alignEnd="@+id/cvSelectedImages"
+                android:layout_marginEnd="-5dp"
+                android:src="?attr/removeSelectedImages" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rvSelectedText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            tools:visibility="visible">
+
+            <RelativeLayout
+                android:id="@+id/rvSelectedSMSView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/_4sdp"
+                android:background="?attr/itemBackground"
+                android:backgroundTint="?attr/chatBoxColor"
+                android:padding="@dimen/_8sdp">
+
+                <TextView
+                    android:id="@+id/txtSelectedText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/medium_sans"
+                    android:textColor="?attr/titleTextColor"
+                    android:textSize="@dimen/_11ssp"
+                    android:maxLines="2"
+                    android:ellipsize="end"
+                    android:maxWidth="@dimen/_150sdp"
+                    tools:text="Dear User, Your Registration is successful in e-Filing and the Transaction ID is FOS007678195945. Your User ID is PEZPS9700B.
+                            - e-Filing, Income Tax Department" />
+
+            </RelativeLayout>
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/ivRemoveSMS"
+                android:layout_width="@dimen/_16sdp"
+                android:layout_height="@dimen/_16sdp"
+                android:layout_alignEnd="@+id/rvSelectedSMSView"
+                android:layout_marginEnd="-5dp"
+                android:src="?attr/removeSelectedImages" />
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+</layout>

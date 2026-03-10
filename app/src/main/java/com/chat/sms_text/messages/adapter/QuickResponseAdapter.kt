@@ -1,0 +1,69 @@
+package com.chat.sms_text.messages.adapter
+
+import android.content.Context
+import android.view.LayoutInflater
+import android.view.ViewGroup
+import android.widget.Toast
+import androidx.recyclerview.widget.RecyclerView
+import com.chat.sms_text.messages.R
+import com.chat.sms_text.messages.databinding.ItemQuickResponseBinding
+import com.chat.sms_text.messages.listener.OnQuickMessageInterface
+import com.chat.sms_text.messages.model.QuickResponse
+
+class QuickResponseAdapter(
+    private var context: Context,
+    private var quickResponseMessageList: MutableList<QuickResponse>,
+    private var onQuickMessageInterface: OnQuickMessageInterface
+) : RecyclerView.Adapter<QuickResponseAdapter.ViewHolder>() {
+
+    class ViewHolder(val binding: ItemQuickResponseBinding) :
+        RecyclerView.ViewHolder(binding.root)
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        val binding =
+            ItemQuickResponseBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return ViewHolder(binding)
+    }
+
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        with(holder) {
+            with(quickResponseMessageList[position]) {
+                binding.txtQuickMessage.text = message
+            }
+
+            binding.ivEditView.setOnClickListener {
+                if (bindingAdapterPosition != RecyclerView.NO_POSITION && bindingAdapterPosition < quickResponseMessageList.size) {
+                    onQuickMessageInterface.onQuickMessageEditClick(
+                        quickResponseMessageList[position],
+                        bindingAdapterPosition
+                    )
+                }
+            }
+
+            binding.ivDeleteView.setOnClickListener {
+                if (bindingAdapterPosition != RecyclerView.NO_POSITION && bindingAdapterPosition < quickResponseMessageList.size && bindingAdapterPosition > 9) {
+                    onQuickMessageInterface.onQuickMessageDeleteClick(
+                        quickResponseMessageList[position],
+                        bindingAdapterPosition
+                    )
+                } else {
+                    Toast.makeText(
+                        context,
+                        context.getString(R.string.this_message_cannot_be_deleted_because_it_is_a_default_quick_response),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
+        }
+    }
+
+    override fun getItemCount(): Int {
+        return quickResponseMessageList.size
+    }
+
+    fun updateList(newList: MutableList<QuickResponse>) {
+        quickResponseMessageList.clear()
+        quickResponseMessageList.addAll(newList)
+        notifyDataSetChanged()
+    }
+}

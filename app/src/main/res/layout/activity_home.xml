@@ -1,0 +1,355 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.drawerlayout.widget.DrawerLayout
+        android:id="@+id/drawerLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="false">
+
+        <RelativeLayout
+            android:id="@+id/main"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="?attr/mainBackground"
+            android:clickable="true"
+            tools:visibility="visible">
+
+            <LinearLayout
+                android:id="@+id/rvTopHeaderView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:orientation="horizontal"
+                tools:visibility="visible">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/ivNavigationDrawer"
+                    android:layout_width="@dimen/_28sdp"
+                    android:layout_height="@dimen/_28sdp"
+                    android:layout_gravity="center_vertical"
+                    android:src="?attr/navigationDrawerIcon" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:fontFamily="@font/medium_sans"
+                    android:text="@string/messages"
+                    android:textColor="@color/app_theme_color"
+                    android:textSize="@dimen/_16ssp"
+                    android:textStyle="bold" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical">
+
+                    <RelativeLayout
+                        android:id="@+id/rvMultiSelection"
+                        android:layout_width="@dimen/_28sdp"
+                        android:layout_height="@dimen/_28sdp"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="@dimen/_8sdp"
+                        android:layout_toStartOf="@+id/ivSearchView"
+                        android:background="?attr/itemBackground">
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:id="@+id/ivMultiSelection"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_centerInParent="true"
+                            android:src="?attr/multiSelection" />
+
+                    </RelativeLayout>
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/ivSearchView"
+                        android:layout_width="@dimen/_28sdp"
+                        android:layout_height="@dimen/_28sdp"
+                        android:layout_centerInParent="true"
+                        android:layout_marginEnd="@dimen/_8sdp"
+                        android:layout_toStartOf="@+id/rvFilter"
+                        android:src="?attr/searchHome" />
+
+                    <RelativeLayout
+                        android:id="@+id/rvFilter"
+                        android:layout_width="@dimen/_28sdp"
+                        android:layout_height="@dimen/_28sdp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:background="?attr/itemBackground">
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:id="@+id/ivFilter"
+                            android:layout_width="@dimen/_17sdp"
+                            android:layout_height="@dimen/_17sdp"
+                            android:layout_centerInParent="true"
+                            android:src="?attr/filterIcon" />
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/rvMore"
+                        android:layout_width="@dimen/_30sdp"
+                        android:layout_height="@dimen/_30sdp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:background="?attr/itemBackground"
+                        android:visibility="gone">
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:id="@+id/ivMore"
+                            android:layout_width="@dimen/_30sdp"
+                            android:layout_height="@dimen/_30sdp"
+                            android:layout_centerInParent="true"
+                            android:src="?attr/markAllReadMessages" />
+
+                    </RelativeLayout>
+                </RelativeLayout>
+
+            </LinearLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvMessageFilterView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/rvTopHeaderView"
+                android:layout_marginHorizontal="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginBottom="@dimen/_8sdp"
+                android:orientation="horizontal"
+                android:overScrollMode="never"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:listitem="@layout/item_message_filter" />
+
+            <RelativeLayout
+                android:id="@+id/rvNoMessageView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_centerInParent="true"
+                android:visibility="gone"
+                tools:visibility="gone">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/ivNoRecentMessage"
+                    android:layout_width="@dimen/_125sdp"
+                    android:layout_height="@dimen/_125sdp"
+                    android:layout_centerInParent="true"
+                    android:src="@drawable/img_no_message" />
+
+                <TextView
+                    android:id="@+id/txtNoRecentMessage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/ivNoRecentMessage"
+                    android:layout_centerInParent="true"
+                    android:layout_marginHorizontal="@dimen/_12sdp"
+                    android:fontFamily="@font/regular_sans"
+                    android:text="@string/your_recent_conversations_will_appear_here_once_you_start_messaging"
+                    android:textAlignment="center"
+                    android:textColor="?attr/subTextColor"
+                    android:textSize="@dimen/_12ssp" />
+
+            </RelativeLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_above="@+id/rvAdsView"
+                android:layout_below="@+id/rvMessageFilterView">
+
+                <ProgressBar
+                    android:id="@+id/paginationProgress"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="10dp"
+                    android:layout_marginBottom="@dimen/_5sdp"
+                    android:indeterminate="true"
+                    android:indeterminateTint="@color/app_theme_color"
+                    android:progressDrawable="@android:drawable/progress_horizontal"
+                    android:progressTint="@color/app_theme_color"
+                    android:visibility="visible"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvMessageList"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_marginTop="5dp"
+                    android:orientation="vertical"
+                    android:overScrollMode="never"
+                    android:paddingBottom="8dp"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/paginationProgress"
+                    tools:listitem="@layout/item_message_history"
+                    tools:visibility="gone" />
+
+                <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+                    android:id="@+id/fabStartChat"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginEnd="@dimen/_9sdp"
+                    android:layout_marginBottom="@dimen/_25sdp"
+                    android:backgroundTint="@color/app_theme_color"
+                    android:fontFamily="@font/medium_sans"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/_13ssp"
+                    app:icon="@drawable/ic_message_fab"
+                    app:iconSize="@dimen/_24sdp"
+                    app:iconTint="@color/white"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/ivScrollUp"
+                android:layout_width="@dimen/_38sdp"
+                android:layout_height="@dimen/_38sdp"
+                android:layout_above="@+id/rvAdsView"
+                android:layout_centerHorizontal="true"
+                android:layout_marginStart="@dimen/_12sdp"
+                android:layout_marginBottom="@dimen/_27sdp"
+                android:src="@drawable/ic_up_side"
+                android:visibility="gone"
+                tools:visibility="visible" />
+
+            <RelativeLayout
+                android:id="@+id/rvAdsView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true">
+
+                <FrameLayout
+                    android:id="@+id/nativeAdContainer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_3sdp"
+                    android:visibility="gone" />
+
+                <include
+                    android:id="@+id/banner_ad_container"
+                    layout="@layout/banner_ad_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_3sdp"
+                    android:visibility="gone" />
+
+            </RelativeLayout>
+
+            <include
+                android:id="@+id/iSelectionHeader"
+                layout="@layout/item_message_selection_header_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                tools:visibility="gone" />
+
+            <RelativeLayout
+                android:id="@+id/rvDefaultPermissionView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/rvMessageFilterView"
+                android:visibility="visible"
+                tools:visibility="visible">
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/ivDefaultPermissions"
+                        android:layout_width="@dimen/_210sdp"
+                        android:layout_height="@dimen/_200sdp"
+                        android:layout_centerHorizontal="true"
+                        android:src="?attr/defaultPermission" />
+
+                    <TextView
+                        android:id="@+id/txtSubTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/ivDefaultPermissions"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginHorizontal="@dimen/_12sdp"
+                        android:fontFamily="@font/regular_sans"
+                        android:text="@string/to_send_or_receive_sms_messages_this_app_must_be_set_as_the_default_messaging_app"
+                        android:textAlignment="center"
+                        android:textColor="?attr/subTextColor"
+                        android:textSize="@dimen/_11ssp"
+                        android:visibility="visible" />
+
+                    <com.facebook.shimmer.ShimmerFrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_38sdp"
+                        android:layout_below="@+id/txtSubTitle"
+                        android:layout_marginHorizontal="@dimen/_45sdp"
+                        android:layout_marginTop="@dimen/_25sdp"
+                        android:layout_marginBottom="@dimen/_25sdp"
+                        app:shimmer_auto_start="true"
+                        app:shimmer_base_alpha="0.8"
+                        app:shimmer_direction="left_to_right"
+                        app:shimmer_duration="1600"
+                        app:shimmer_highlight_alpha="1"
+                        app:shimmer_intensity="0.9">
+
+                        <androidx.appcompat.widget.AppCompatButton
+                            android:id="@+id/btnSetDefaultPermission"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/_38sdp"
+                            android:background="@drawable/bg_theme_rounded_button_10dp"
+                            android:elevation="0dp"
+                            android:fontFamily="@font/semi_bold_sans"
+                            android:outlineProvider="none"
+                            android:shadowColor="@android:color/transparent"
+                            android:stateListAnimator="@null"
+                            android:text="@string/set_as_default"
+                            android:textAllCaps="false"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/_13ssp"
+                            tools:visibility="visible" />
+
+                    </com.facebook.shimmer.ShimmerFrameLayout>
+
+                </RelativeLayout>
+
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+        <com.google.android.material.navigation.NavigationView
+            android:id="@+id/navigationView"
+            android:layout_width="280dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            android:background="@drawable/nav_drawer_background"
+            android:elevation="8dp"
+            android:fitsSystemWindows="true"
+            tools:visibility="gone">
+
+            <include
+                android:id="@+id/navigationItemView"
+                layout="@layout/item_navigation_drawer" />
+
+        </com.google.android.material.navigation.NavigationView>
+    </androidx.drawerlayout.widget.DrawerLayout>
+</layout>

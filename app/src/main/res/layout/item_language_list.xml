@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="item"
+            type="com.chat.sms_text.messages.model.AppLanguage" />
+
+    </data>
+
+    <RelativeLayout
+        android:id="@+id/rvMainLanguage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="@dimen/_4sdp"
+        android:padding="@dimen/_6sdp"
+        app:selectedLanguage="@{item.isLanguageSelected}"
+        tools:background="?attr/itemBackground">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:baselineAligned="false"
+            android:layout_marginHorizontal="@dimen/_4sdp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/medium_sans"
+                android:text="@{item.countryName}"
+                android:textSize="@dimen/_11ssp"
+                app:languageTextColor="@{item.isLanguageSelected}"
+                tools:text="@string/english" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_4sdp"
+                android:fontFamily="@font/regular_sans"
+                android:text="@{item.exampleName}"
+                android:textSize="@dimen/_10ssp"
+                app:languageTextColor="@{item.isLanguageSelected}"
+                tools:text="@string/english" />
+
+        </LinearLayout>
+
+        <RelativeLayout
+            android:id="@+id/rvSelectionView"
+            android:layout_width="@dimen/_20sdp"
+            android:layout_height="@dimen/_25sdp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            tools:visibility="visible">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/ivSelectedMark"
+                android:layout_width="@dimen/_16sdp"
+                android:layout_height="@dimen/_16sdp"
+                android:layout_centerVertical="true"
+                android:src="@{item.isLanguageSelected ? @drawable/img_check : @drawable/bg_oval_selected}"
+                tools:src="@drawable/img_check" />
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+</layout>

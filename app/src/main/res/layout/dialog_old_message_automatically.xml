@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+    </data>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/_15sdp"
+        app:cardCornerRadius="@dimen/_8sdp"
+        app:cardElevation="0dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="?attr/itemBackground"
+            android:padding="@dimen/_10sdp">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/ivDelete"
+                android:layout_width="@dimen/_100sdp"
+                android:layout_height="@dimen/_90sdp"
+                android:layout_centerHorizontal="true"
+                android:src="?attr/deleteMessageIcon" />
+
+            <TextView
+                android:id="@+id/txtTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/ivDelete"
+                android:layout_centerHorizontal="true"
+                android:fontFamily="@font/medium_sans"
+                android:text="@string/delete_old_message_automatically"
+                android:textAlignment="center"
+                android:textColor="?attr/titleTextColor"
+                android:textSize="@dimen/_12ssp" />
+
+            <TextView
+                android:id="@+id/txtStatement"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/txtTitle"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="@dimen/_3sdp"
+                android:fontFamily="@font/regular_sans"
+                android:text="@string/message_will_be_deleted_after_the_specified_number_of_days"
+                android:textAlignment="center"
+                android:textColor="?attr/subTextColor"
+                android:textSize="@dimen/_11ssp" />
+
+            <RelativeLayout
+                android:id="@+id/rvNumberOfDays"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_36sdp"
+                android:layout_below="@+id/txtStatement"
+                android:layout_marginHorizontal="@dimen/_3sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:background="?attr/itemBackground"
+                android:backgroundTint="?attr/mainBackground">
+
+                <EditText
+                    android:id="@+id/etNumberOfDays"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginHorizontal="@dimen/_10sdp"
+                    android:autofillHints="name"
+                    android:background="@null"
+                    android:ellipsize="end"
+                    android:fontFamily="@font/regular_sans"
+                    android:hint="@string/number_of_days"
+                    android:inputType="number"
+                    android:maxLines="1"
+                    android:textColor="?attr/titleTextColor"
+                    android:textColorHint="?attr/subTextColor"
+                    android:textCursorDrawable="@drawable/custom_cursor"
+                    android:textSize="@dimen/_11ssp" />
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_36sdp"
+                android:layout_below="@+id/rvNumberOfDays"
+                android:layout_marginHorizontal="@dimen/_5sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:orientation="horizontal">
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btnNever"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_marginEnd="@dimen/_5sdp"
+                    android:layout_weight="1"
+                    android:background="?attr/itemBackground"
+                    android:backgroundTint="?attr/dialogBoxColor"
+                    android:elevation="0dp"
+                    android:fontFamily="@font/semi_bold_sans"
+                    android:outlineProvider="none"
+                    android:shadowColor="@android:color/transparent"
+                    android:stateListAnimator="@null"
+                    android:text="@string/never"
+                    android:textAllCaps="false"
+                    android:textColor="?attr/titleTextColor"
+                    android:textSize="@dimen/_11ssp"
+                    android:translationZ="0dp" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btnYes"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="@dimen/_5sdp"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_theme_rounded_button_8dp"
+                    android:elevation="0dp"
+                    android:fontFamily="@font/semi_bold_sans"
+                    android:outlineProvider="none"
+                    android:shadowColor="@android:color/transparent"
+                    android:stateListAnimator="@null"
+                    android:text="@string/apply"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/_11ssp"
+                    android:translationZ="0dp" />
+
+            </LinearLayout>
+
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
+
+</layout>

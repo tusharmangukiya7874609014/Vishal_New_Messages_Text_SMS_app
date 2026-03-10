@@ -1,0 +1,450 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:id="@+id/rvSelectedFromView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cvProfileView"
+                android:layout_width="@dimen/_18sdp"
+                android:layout_height="@dimen/_18sdp"
+                android:layout_marginVertical="@dimen/_8sdp"
+                android:layout_marginStart="@dimen/_5sdp"
+                app:cardBackgroundColor="?attr/itemBackgroundColor"
+                app:cardCornerRadius="@dimen/_25sdp"
+                app:cardElevation="0dp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/ivOriginalProfile"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_centerInParent="true"
+                        android:scaleType="centerCrop"
+                        android:visibility="gone" />
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/ivBlockProfile"
+                        android:layout_width="@dimen/_11sdp"
+                        android:layout_height="@dimen/_11sdp"
+                        android:layout_centerInParent="true"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/ic_block"
+                        android:visibility="gone" />
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/ivDefaultProfile"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_centerInParent="true"
+                        android:src="@drawable/ic_dark_profile_popup" />
+
+                </RelativeLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <RelativeLayout
+                android:id="@+id/rvFromMessage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@+id/cvProfileView"
+                android:layout_marginVertical="@dimen/_5sdp"
+                android:layout_marginEnd="@dimen/_60sdp"
+                android:visibility="gone"
+                tools:visibility="visible">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/ivLeftCorner"
+                    android:layout_width="@dimen/_12sdp"
+                    android:layout_height="@dimen/_12sdp"
+                    android:layout_marginTop="-4dp"
+                    android:src="@drawable/ic_left_corner"
+                    app:tint="?attr/chatBoxColor" />
+
+                <RelativeLayout
+                    android:id="@+id/rvFromMessageColor"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="-5dp"
+                    android:layout_toEndOf="@+id/ivLeftCorner"
+                    android:background="@drawable/bg_chat_bubble_theme_left_2"
+                    android:padding="@dimen/_8sdp">
+
+                    <TextView
+                        android:id="@+id/txtFromMessage"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/medium_sans"
+                        android:maxWidth="240dp"
+                        android:textColor="?attr/titleTextColor"
+                        android:textSize="@dimen/_11ssp"
+                        tools:text="Hello, I am doing good,thanks. Are you busy for a call right now? 📞" />
+
+                    <LinearLayout
+                        android:id="@+id/llTranslateMessage"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/txtFromMessage"
+                        android:layout_alignParentStart="true"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:layout_marginBottom="2dp"
+                        android:background="@drawable/bg_theme_rounded_button_8dp"
+                        android:backgroundTint="#26000000"
+                        android:orientation="horizontal"
+                        android:padding="@dimen/_4sdp">
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:layout_width="@dimen/_11sdp"
+                            android:layout_height="@dimen/_11sdp"
+                            android:layout_gravity="center_vertical"
+                            android:src="@drawable/ic_translate_message"
+                            app:tint="?attr/titleTextColor" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginStart="@dimen/_2sdp"
+                            android:fontFamily="@font/regular_sans"
+                            android:text="@string/translate"
+                            android:textColor="?attr/titleTextColor"
+                            android:textSize="@dimen/_8ssp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/rvFromCopyCode"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/txtFromMessage"
+                        android:layout_marginStart="@dimen/_5sdp"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:layout_marginBottom="2dp"
+                        android:layout_toEndOf="@+id/llTranslateMessage"
+                        android:background="@drawable/bg_theme_rounded_button_8dp"
+                        android:backgroundTint="#26000000"
+                        android:orientation="horizontal"
+                        android:padding="@dimen/_4sdp"
+                        android:visibility="gone"
+                        tools:visibility="visible">
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:layout_width="@dimen/_11sdp"
+                            android:layout_height="@dimen/_11sdp"
+                            android:layout_gravity="center_vertical"
+                            android:src="@drawable/ic_copy"
+                            app:tint="?attr/titleTextColor"
+                            tools:visibility="visible" />
+
+                        <TextView
+                            android:id="@+id/txtFromCode"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginStart="@dimen/_3sdp"
+                            android:fontFamily="@font/regular_sans"
+                            android:textColor="?attr/titleTextColor"
+                            android:textSize="@dimen/_8ssp"
+                            tools:text="Copy Code : 786285" />
+
+                    </LinearLayout>
+
+                </RelativeLayout>
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/ivFromStarMessage"
+                    android:layout_width="@dimen/_18sdp"
+                    android:layout_height="@dimen/_18sdp"
+                    android:layout_below="@+id/rvFromMessageColor"
+                    android:layout_alignEnd="@+id/rvFromMessageColor"
+                    android:layout_marginTop="-10dp"
+                    android:layout_marginEnd="8dp"
+                    android:src="@drawable/ic_fill_star_message"
+                    android:visibility="gone"
+                    tools:visibility="visible" />
+
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/txtFromMessageTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/rvFromMessage"
+                android:layout_marginStart="@dimen/_32sdp"
+                android:fontFamily="@font/medium_sans"
+                android:textSize="@dimen/_8ssp"
+                android:visibility="gone"
+                tools:text="2:58 PM"
+                tools:visibility="visible" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/rvFromImages"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/rvFromMessage"
+                android:layout_alignParentStart="true"
+                android:layout_marginVertical="@dimen/_5sdp"
+                android:layout_marginStart="@dimen/_12sdp"
+                android:visibility="gone"
+                tools:visibility="gone">
+
+                <RelativeLayout
+                    android:id="@+id/rvFromImageView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="@dimen/_168sdp"
+                        android:layout_height="@dimen/_224sdp"
+                        app:cardBackgroundColor="@android:color/transparent"
+                        app:cardCornerRadius="@dimen/_7sdp"
+                        app:cardMaxElevation="0dp">
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:id="@+id/ivFromMessage"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/img_attach_dummy" />
+
+                    </androidx.cardview.widget.CardView>
+
+                </RelativeLayout>
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/ivFromStarImages"
+                    android:layout_width="@dimen/_18sdp"
+                    android:layout_height="@dimen/_18sdp"
+                    android:layout_below="@+id/rvFromImageView"
+                    android:layout_marginTop="-12dp"
+                    android:layout_marginEnd="8dp"
+                    android:src="@drawable/ic_fill_star_message"
+                    android:visibility="gone"
+                    app:layout_constraintEnd_toEndOf="@+id/rvFromImageView"
+                    app:layout_constraintTop_toBottomOf="@+id/rvFromImageView"
+                    tools:visibility="visible" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rvSelectedToView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/rvSelectedFromView">
+
+            <RelativeLayout
+                android:id="@+id/rvToMessage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_marginVertical="@dimen/_5sdp"
+                android:layout_marginEnd="@dimen/_5sdp"
+                android:visibility="gone"
+                tools:visibility="visible">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/ivRightCorner"
+                    android:layout_width="@dimen/_12sdp"
+                    android:layout_height="@dimen/_12sdp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginTop="-4dp"
+                    android:src="@drawable/ic_right_corner"
+                    app:tint="?attr/defaultChatBoxColor" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/rvToMessageColor"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="-5dp"
+                    android:layout_toStartOf="@+id/ivRightCorner"
+                    android:background="@drawable/bg_chat_bubble_theme_right_2"
+                    android:backgroundTint="?attr/defaultChatBoxColor"
+                    android:padding="@dimen/_8sdp">
+
+                    <TextView
+                        android:id="@+id/txtToMessage"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:fontFamily="@font/medium_sans"
+                        android:maxWidth="240dp"
+                        android:textColor="?attr/titleTextColor"
+                        android:textSize="@dimen/_11ssp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:text="Nothing to be fair, It has been boring here pretty much all the time." />
+
+                    <LinearLayout
+                        android:id="@+id/llToTranslateMessage"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:background="@drawable/bg_theme_rounded_button_8dp"
+                        android:backgroundTint="#26000000"
+                        android:orientation="horizontal"
+                        android:padding="@dimen/_4sdp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/txtToMessage">
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:layout_width="@dimen/_11sdp"
+                            android:layout_height="@dimen/_11sdp"
+                            android:layout_gravity="center_vertical"
+                            android:src="@drawable/ic_translate_message"
+                            app:tint="?attr/titleTextColor" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginStart="@dimen/_2sdp"
+                            android:fontFamily="@font/regular_sans"
+                            android:text="@string/translate"
+                            android:textColor="?attr/titleTextColor"
+                            android:textSize="@dimen/_8ssp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/rvToCopyCode"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:layout_marginEnd="@dimen/_5sdp"
+                        android:background="@drawable/bg_theme_rounded_button_8dp"
+                        android:backgroundTint="#26000000"
+                        android:orientation="horizontal"
+                        android:padding="@dimen/_4sdp"
+                        android:visibility="gone"
+                        app:layout_constraintEnd_toStartOf="@+id/llToTranslateMessage"
+                        app:layout_constraintTop_toBottomOf="@id/txtToMessage"
+                        tools:visibility="visible">
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:id="@+id/ivCopyCode"
+                            android:layout_width="@dimen/_11sdp"
+                            android:layout_height="@dimen/_11sdp"
+                            android:layout_gravity="center_vertical"
+                            android:src="@drawable/ic_copy"
+                            app:tint="?attr/titleTextColor"
+                            tools:visibility="visible" />
+
+                        <TextView
+                            android:id="@+id/txtToCode"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginStart="@dimen/_3sdp"
+                            android:fontFamily="@font/regular_sans"
+                            android:textColor="?attr/titleTextColor"
+                            android:textSize="@dimen/_8ssp"
+                            tools:text="Copy Code : 786285" />
+
+                    </LinearLayout>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/ivToStarMessage"
+                    android:layout_width="@dimen/_18sdp"
+                    android:layout_height="@dimen/_18sdp"
+                    android:layout_below="@+id/rvToMessageColor"
+                    android:layout_alignStart="@+id/rvToMessageColor"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="-10dp"
+                    android:src="@drawable/ic_fill_star_message"
+                    android:visibility="gone"
+                    tools:visibility="visible" />
+
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/txtToMessageTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/rvToMessage"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="@dimen/_12sdp"
+                android:fontFamily="@font/medium_sans"
+                android:textSize="@dimen/_8ssp"
+                android:visibility="gone"
+                tools:text="2:58 PM"
+                tools:visibility="visible" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/rvToImages"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/rvToMessage"
+                android:layout_alignParentEnd="true"
+                android:layout_marginVertical="@dimen/_5sdp"
+                android:layout_marginEnd="@dimen/_12sdp"
+                android:visibility="gone"
+                tools:visibility="gone">
+
+                <RelativeLayout
+                    android:id="@+id/rvToImageView"
+                    android:layout_width="@dimen/_168sdp"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="@dimen/_168sdp"
+                        android:layout_height="@dimen/_224sdp"
+                        android:layout_alignParentEnd="true"
+                        app:cardCornerRadius="@dimen/_7sdp"
+                        app:cardMaxElevation="0dp"
+                        tools:visibility="visible">
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:id="@+id/ivToMessage"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/img_attach_dummy_girl" />
+
+                    </androidx.cardview.widget.CardView>
+
+                </RelativeLayout>
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/ivToStarImages"
+                    android:layout_width="@dimen/_18sdp"
+                    android:layout_height="@dimen/_18sdp"
+                    android:layout_below="@+id/rvToImageView"
+                    android:layout_alignStart="@+id/rvToImageView"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="-10dp"
+                    android:src="@drawable/ic_fill_star_message"
+                    android:visibility="gone"
+                    app:layout_constraintStart_toStartOf="@+id/rvToImageView"
+                    app:layout_constraintTop_toBottomOf="@+id/rvToImageView"
+                    tools:visibility="visible" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </RelativeLayout>
+    </RelativeLayout>
+</layout>

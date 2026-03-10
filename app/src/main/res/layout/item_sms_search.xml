@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="item"
+            type="com.chat.sms_text.messages.model.ChatMatchResult" />
+
+    </data>
+
+    <RelativeLayout
+        android:id="@+id/rvMainContentView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="@dimen/_11sdp"
+        android:paddingVertical="@dimen/_6sdp">
+
+        <RelativeLayout
+            android:id="@+id/rvProfileView"
+            android:layout_width="@dimen/_34sdp"
+            android:layout_height="wrap_content">
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cvProfileView"
+                android:layout_width="@dimen/_34sdp"
+                android:layout_height="@dimen/_34sdp"
+                android:layout_centerInParent="true"
+                app:cardCornerRadius="@dimen/_25sdp"
+                app:cardElevation="0dp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/ivOriginalProfile"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_centerInParent="true"
+                        android:scaleType="centerCrop"
+                        app:blockedProfile="@{ivBlockProfile}"
+                        app:messageTitle="@{txtMessageTitle}"
+                        app:profileCard="@{cvProfileView}"
+                        app:profileMessage="@{item.address}" />
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/ivBlockProfile"
+                        android:layout_width="@dimen/_20sdp"
+                        android:layout_height="@dimen/_20sdp"
+                        android:layout_centerInParent="true"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/ic_block"
+                        android:visibility="gone" />
+
+                </RelativeLayout>
+
+            </androidx.cardview.widget.CardView>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rvMessageDetails"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_8sdp"
+            android:layout_marginEnd="@dimen/_8sdp"
+            android:layout_toEndOf="@+id/rvProfileView">
+
+            <TextView
+                android:id="@+id/txtMessageTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:fontFamily="@font/medium_sans"
+                android:maxLines="1"
+                app:contactName="@{item.address}"
+                android:textColor="?attr/titleTextColor"
+                android:textSize="@dimen/_11ssp"
+                tools:text="Eyes Clinic" />
+
+            <TextView
+                android:id="@+id/txtLastMessage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/txtMessageTitle"
+                android:layout_marginTop="2dp"
+                android:ellipsize="end"
+                android:fontFamily="@font/regular_sans"
+                android:maxLines="2"
+                android:textColor="?attr/subTextColor"
+                android:textSize="@dimen/_10ssp"
+                tools:text="8 Messages" />
+
+        </RelativeLayout>
+    </RelativeLayout>
+</layout>

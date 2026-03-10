@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <RelativeLayout
+        android:id="@+id/main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="?attr/mainBackground"
+        tools:context=".activity.ScheduledMessageActivity">
+
+        <LinearLayout
+            android:id="@+id/rvTopHeaderView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_8sdp"
+            android:orientation="horizontal">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/ivBack"
+                android:layout_width="@dimen/_28sdp"
+                android:layout_height="@dimen/_28sdp"
+                android:layout_gravity="center_vertical"
+                android:src="?attr/backIcon" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:fontFamily="@font/semi_bold_sans"
+                android:text="@string/scheduled"
+                android:textColor="?attr/titleTextColor"
+                android:textSize="@dimen/_13ssp" />
+
+        </LinearLayout>
+
+        <ProgressBar
+            android:id="@+id/paginationProgress"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="10dp"
+            android:layout_below="@+id/rvTopHeaderView"
+            android:layout_marginVertical="@dimen/_5sdp"
+            android:indeterminate="true"
+            android:indeterminateTint="@color/app_theme_color"
+            android:progressDrawable="@android:drawable/progress_horizontal"
+            android:progressTint="@color/app_theme_color"
+            android:visibility="visible"
+            tools:visibility="gone" />
+
+        <RelativeLayout
+            android:id="@+id/mainContentView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/paginationProgress"
+            android:layout_above="@+id/rvAdsView"
+            android:layout_marginHorizontal="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_8sdp">
+
+            <TextView
+                android:id="@+id/txtSubTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/light_sans"
+                android:layout_centerHorizontal="true"
+                android:text="@string/automatically_send_a_message_at_the_exact_moment_you_d_like"
+                android:textAlignment="center"
+                android:textColor="?attr/subTextColor"
+                android:textSize="@dimen/_10ssp" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvScheduledChatView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/txtSubTitle"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:orientation="vertical"
+                android:overScrollMode="never"
+                tools:visibility="gone"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:listitem="@layout/item_scheduled_message" />
+
+            <LinearLayout
+                android:id="@+id/llNoScheduledMessage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/txtSubTitle"
+                android:layout_marginTop="@dimen/_12sdp"
+                android:orientation="vertical"
+                tools:visibility="visible">
+
+                <RelativeLayout
+                    android:id="@+id/rvFirstChat"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/_2sdp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/txtFirstFromMessage"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_marginTop="@dimen/_7sdp"
+                        android:layout_marginEnd="@dimen/_60sdp"
+                        android:background="@drawable/bg_rounded_chat_box"
+                        android:fontFamily="@font/medium_sans"
+                        android:padding="@dimen/_8sdp"
+                        android:text="@string/hey_are_you_free_to_meet_tomorrow"
+                        android:textColor="?attr/titleTextColor"
+                        android:textSize="@dimen/_11ssp" />
+
+                    <TextView
+                        android:id="@+id/txtFirstToMessage"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/txtFirstFromMessage"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginStart="@dimen/_60sdp"
+                        android:layout_marginTop="@dimen/_7sdp"
+                        android:background="@drawable/bg_rounded_chat_box"
+                        android:backgroundTint="@color/app_theme_color"
+                        android:fontFamily="@font/medium_sans"
+                        android:padding="@dimen/_8sdp"
+                        android:text="@string/to_be_fair_it_s_been_pretty_boring_here_lately_so_yeah_i_m_free"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/_11ssp" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/rvSecondChat"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/_2sdp"
+                    android:layout_marginTop="@dimen/_3sdp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/txtFromMessage"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_marginTop="@dimen/_7sdp"
+                        android:layout_marginEnd="@dimen/_60sdp"
+                        android:background="@drawable/bg_rounded_chat_box"
+                        android:fontFamily="@font/medium_sans"
+                        android:padding="@dimen/_8sdp"
+                        android:text="@string/sounds_good_do_you_want_to_discuss_the_project_updates"
+                        android:textColor="?attr/titleTextColor"
+                        android:textSize="@dimen/_11ssp" />
+
+                    <TextView
+                        android:id="@+id/txtToMessage"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/txtFromMessage"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginStart="@dimen/_60sdp"
+                        android:layout_marginTop="@dimen/_7sdp"
+                        android:background="@drawable/bg_rounded_chat_box"
+                        android:backgroundTint="@color/app_theme_color"
+                        android:fontFamily="@font/medium_sans"
+                        android:padding="@dimen/_8sdp"
+                        android:text="@string/yes_let_s_finalize_the_project_for_friday_looking_forward_to_it"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/_11ssp" />
+
+                </RelativeLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:layout_marginTop="@dimen/_3sdp"
+                    android:layout_marginEnd="@dimen/_5sdp"
+                    android:fontFamily="@font/semi_bold_sans"
+                    android:text="@string/sending_on_march_6th"
+                    android:textColor="?attr/subTextColor"
+                    android:textSize="@dimen/_11ssp" />
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+            android:id="@+id/rvStartChat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_marginBottom="@dimen/_30sdp"
+            android:backgroundTint="@color/app_theme_color"
+            android:fontFamily="@font/medium_sans"
+            android:textAllCaps="false"
+            android:layout_marginEnd="@dimen/_10sdp"
+            android:layout_above="@+id/rvAdsView"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_13ssp"
+            app:iconSize="@dimen/_24sdp"
+            app:icon="@drawable/ic_message_fab"
+            app:iconTint="@color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <RelativeLayout
+            android:id="@+id/rvAdsView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true">
+
+            <FrameLayout
+                android:id="@+id/nativeAdContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_3sdp"
+                android:visibility="gone" />
+
+            <include
+                android:id="@+id/banner_ad_container"
+                layout="@layout/banner_ad_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_3sdp"
+                android:visibility="gone" />
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+</layout>

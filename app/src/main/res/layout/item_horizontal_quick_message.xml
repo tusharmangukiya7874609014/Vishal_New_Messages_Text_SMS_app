@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="?attr/itemBackground"
+        android:layout_marginVertical="@dimen/_2sdp"
+        android:layout_marginHorizontal="@dimen/_3sdp"
+        android:padding="@dimen/_5sdp">
+
+        <TextView
+            android:id="@+id/txtQuickMessage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/medium_sans"
+            android:textSize="@dimen/_12ssp"
+            android:layout_marginVertical="2dp"
+            android:layout_marginHorizontal="@dimen/_5sdp"
+            android:textColor="?attr/titleTextColor"
+            tools:text="❤" />
+
+    </RelativeLayout>
+</layout>

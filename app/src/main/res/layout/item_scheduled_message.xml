@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.text.TextUtils" />
+
+        <import type="android.view.View" />
+
+        <variable
+            name="item"
+            type="com.chat.sms_text.messages.model.ScheduledSms" />
+    </data>
+
+    <RelativeLayout
+        android:id="@+id/rvMainContentView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingVertical="@dimen/_6sdp">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cvProfileView"
+            android:layout_width="@dimen/_36sdp"
+            android:layout_height="@dimen/_36sdp"
+            app:cardBackgroundColor="?attr/itemBackgroundColor"
+            app:cardCornerRadius="@dimen/_25sdp"
+            app:cardElevation="0dp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/ivOriginalProfile"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_centerInParent="true"
+                    android:scaleType="centerCrop"
+                    app:blockedProfile="@{ivBlockProfile}"
+                    app:messageTitle="@{txtMessageTitle}"
+                    app:profileCard="@{cvProfileView}"
+                    app:profileMessage="@{item.number}" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/ivBlockProfile"
+                    android:layout_width="@dimen/_20sdp"
+                    android:layout_height="@dimen/_20sdp"
+                    android:layout_centerInParent="true"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/ic_block"
+                    android:visibility="gone" />
+
+            </RelativeLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <RelativeLayout
+            android:id="@+id/rvMessageDetails"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_8sdp"
+            android:layout_marginEnd="@dimen/_8sdp"
+            android:layout_toEndOf="@+id/cvProfileView">
+
+            <TextView
+                android:id="@+id/txtMessageTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:fontFamily="@font/medium_sans"
+                android:maxLines="1"
+                android:text='@{!TextUtils.isEmpty(item.name) ? item.name : item.number}'
+                android:textColor="?attr/titleTextColor"
+                android:textSize="@dimen/_12ssp"
+                tools:text="Eyes Clinic" />
+
+            <TextView
+                android:id="@+id/txtScheduleMessage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/txtMessageTitle"
+                android:layout_marginTop="3dp"
+                android:ellipsize="end"
+                android:fontFamily="@font/regular_sans"
+                android:maxLines="2"
+                android:text="@{item.message}"
+                android:textColor="?attr/subTextColor"
+                android:textSize="13sp"
+                android:visibility="@{!TextUtils.isEmpty(item.message) ? View.VISIBLE : View.GONE}"
+                tools:text="Good morning. I’m Angela a dental nurse at Eyes Dental ,can I help you?" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvSelectedImages"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/txtScheduleMessage"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:orientation="horizontal"
+                android:visibility="gone"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:listitem="@layout/item_selected_images"
+                tools:visibility="visible" />
+
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/txtDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/rvMessageDetails"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="@dimen/_4sdp"
+            android:ellipsize="end"
+            android:fontFamily="@font/semi_bold_sans"
+            android:maxLines="1"
+            android:text="@{item.time}"
+            android:textColor="@color/app_theme_color"
+            android:textSize="@dimen/_10ssp"
+            tools:text="May 23" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_below="@+id/txtDate"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_7sdp"
+            android:layout_toEndOf="@+id/cvProfileView"
+            android:alpha="0.6"
+            android:background="?attr/subHeadingColor" />
+
+    </RelativeLayout>
+</layout>

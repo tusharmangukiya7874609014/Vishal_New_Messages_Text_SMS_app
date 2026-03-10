@@ -1,0 +1,494 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/bottom_sheet"
+        android:paddingBottom="@dimen/_12sdp"
+        tools:background="@drawable/bg_bottom_sheet_light">
+
+        <View
+            android:layout_width="@dimen/_40sdp"
+            android:layout_height="4dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/_8sdp"
+            android:background="@drawable/bg_bottom_sheet_top_view" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp">
+
+            <TextView
+                android:id="@+id/txtCancel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="@dimen/_12sdp"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:fontFamily="@font/medium_sans"
+                android:text="@string/cancel"
+                android:textColor="?attr/subTextColor"
+                android:textSize="@dimen/_13ssp" />
+
+            <TextView
+                android:id="@+id/txtApplyFilter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:layout_marginEnd="@dimen/_12sdp"
+                android:layout_toEndOf="@+id/txtCancel"
+                android:fontFamily="@font/semi_bold_sans"
+                android:text="@string/apply_filters"
+                android:textAlignment="viewEnd"
+                android:textColor="@color/app_theme_color"
+                android:textSize="@dimen/_13ssp" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/ivFilter"
+                android:layout_width="@dimen/_25sdp"
+                android:layout_height="@dimen/_25sdp"
+                android:layout_below="@+id/txtApplyFilter"
+                android:layout_alignParentEnd="true"
+                android:layout_marginHorizontal="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:src="?attr/filterListIcon" />
+
+            <RelativeLayout
+                android:id="@+id/rvMessageFilterList"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/ivFilter"
+                android:layout_marginHorizontal="@dimen/_10sdp"
+                tools:visibility="visible">
+
+                <RelativeLayout
+                    android:id="@+id/rvDefaultFilter"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_12sdp"
+                    android:padding="@dimen/_7sdp"
+                    android:background="?attr/itemBackground">
+
+                    <TextView
+                        android:id="@+id/txtDefault"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_centerVertical="true"
+                        android:layout_toStartOf="@+id/ivDefaultFilter"
+                        android:fontFamily="@font/regular_sans"
+                        android:text="@string/txt_default"
+                        android:textColor="?attr/titleTextColor"
+                        android:textSize="@dimen/_11ssp" />
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/ivDefaultFilter"
+                        android:layout_width="@dimen/_20sdp"
+                        android:layout_height="@dimen/_20sdp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/ic_checked" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/rvTodayFilter"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/rvDefaultFilter"
+                    android:layout_marginTop="@dimen/_12sdp"
+                    android:padding="@dimen/_7sdp"
+                    android:background="?attr/itemBackground">
+
+                    <TextView
+                        android:id="@+id/txtToday"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_centerVertical="true"
+                        android:layout_toStartOf="@+id/ivTodayFilter"
+                        android:fontFamily="@font/regular_sans"
+                        android:text="@string/today"
+                        android:textColor="?attr/titleTextColor"
+                        android:textSize="@dimen/_11ssp" />
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/ivTodayFilter"
+                        android:layout_width="@dimen/_20sdp"
+                        android:layout_height="@dimen/_20sdp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/ic_checked"
+                        android:visibility="invisible" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/rvMonthFilter"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/rvTodayFilter"
+                    android:layout_marginTop="@dimen/_12sdp"
+                    android:padding="@dimen/_7sdp"
+                    android:background="?attr/itemBackground">
+
+                    <TextView
+                        android:id="@+id/txtMonth"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_centerVertical="true"
+                        android:layout_toStartOf="@+id/ivMonthFilter"
+                        android:fontFamily="@font/regular_sans"
+                        android:text="@string/month"
+                        android:textColor="?attr/titleTextColor"
+                        android:textSize="@dimen/_11ssp" />
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/ivMonthFilter"
+                        android:layout_width="@dimen/_20sdp"
+                        android:layout_height="@dimen/_20sdp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/ic_checked"
+                        android:visibility="invisible" />
+
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:id="@+id/llSelectMonthOrYear"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/rvMonthFilter"
+                    android:layout_marginTop="@dimen/_12sdp"
+                    android:baselineAligned="false"
+                    android:orientation="horizontal"
+                    android:visibility="gone"
+                    android:weightSum="2"
+                    tools:visibility="visible">
+
+                    <LinearLayout
+                        android:id="@+id/rvSelectMonth"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginEnd="@dimen/_7sdp"
+                        android:layout_weight="1"
+                        android:background="?attr/itemBackground"
+                        android:orientation="vertical"
+                        android:padding="@dimen/_7sdp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/regular_sans"
+                            android:text="@string/select_month"
+                            android:textColor="?attr/titleTextColor"
+                            android:textSize="@dimen/_10ssp" />
+
+                        <TextView
+                            android:id="@+id/txtSelectedMonth"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="bottom"
+                            android:layout_marginTop="2dp"
+                            android:fontFamily="@font/semi_bold_sans"
+                            android:textColor="@color/app_theme_color"
+                            android:textSize="@dimen/_11ssp"
+                            tools:text="January" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/rvSelectYear"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="@dimen/_7sdp"
+                        android:layout_weight="1"
+                        android:background="?attr/itemBackground"
+                        android:orientation="vertical"
+                        android:padding="@dimen/_7sdp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/regular_sans"
+                            android:text="@string/select_year"
+                            android:textColor="?attr/titleTextColor"
+                            android:textSize="@dimen/_10ssp" />
+
+                        <TextView
+                            android:id="@+id/txtSelectedYear"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="bottom"
+                            android:layout_marginTop="2dp"
+                            android:fontFamily="@font/semi_bold_sans"
+                            android:textColor="@color/app_theme_color"
+                            android:textSize="@dimen/_11ssp"
+                            tools:text="2025" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <RelativeLayout
+                    android:id="@+id/rvYearFilter"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/llSelectMonthOrYear"
+                    android:layout_marginTop="@dimen/_12sdp"
+                    android:padding="@dimen/_7sdp"
+                    android:background="?attr/itemBackground">
+
+                    <TextView
+                        android:id="@+id/txtYear"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_centerVertical="true"
+                        android:layout_toStartOf="@+id/ivYearFilter"
+                        android:fontFamily="@font/regular_sans"
+                        android:text="@string/year"
+                        android:textColor="?attr/titleTextColor"
+                        android:textSize="@dimen/_11ssp" />
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/ivYearFilter"
+                        android:layout_width="@dimen/_20sdp"
+                        android:layout_height="@dimen/_20sdp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/ic_checked"
+                        android:visibility="invisible" />
+
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:id="@+id/llSelectSpecificYear"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/rvYearFilter"
+                    android:layout_marginTop="@dimen/_12sdp"
+                    android:background="?attr/itemBackground"
+                    android:baselineAligned="false"
+                    android:orientation="vertical"
+                    android:padding="@dimen/_7sdp"
+                    android:visibility="gone"
+                    tools:visibility="visible">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/regular_sans"
+                        android:text="@string/select_year"
+                        android:textColor="?attr/titleTextColor"
+                        android:textSize="@dimen/_10ssp" />
+
+                    <TextView
+                        android:id="@+id/txtSelectedSpecificYear"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom"
+                        android:layout_marginTop="3dp"
+                        android:fontFamily="@font/semi_bold_sans"
+                        android:textColor="@color/app_theme_color"
+                        android:textSize="@dimen/_11ssp"
+                        tools:text="2025" />
+
+                </LinearLayout>
+
+                <RelativeLayout
+                    android:id="@+id/rvDateRangeFilter"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/llSelectSpecificYear"
+                    android:layout_marginTop="@dimen/_12sdp"
+                    android:padding="@dimen/_7sdp"
+                    android:background="?attr/itemBackground">
+
+                    <TextView
+                        android:id="@+id/txtDateRange"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_centerVertical="true"
+                        android:layout_toStartOf="@+id/ivDateRangeFilter"
+                        android:fontFamily="@font/regular_sans"
+                        android:text="@string/date_range"
+                        android:textColor="?attr/titleTextColor"
+                        android:textSize="@dimen/_11ssp" />
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/ivDateRangeFilter"
+                        android:layout_width="@dimen/_20sdp"
+                        android:layout_height="@dimen/_20sdp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/ic_checked"
+                        android:visibility="invisible" />
+
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:id="@+id/llSelectDateRange"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/rvDateRangeFilter"
+                    android:layout_marginTop="@dimen/_12sdp"
+                    android:baselineAligned="false"
+                    android:orientation="horizontal"
+                    android:visibility="gone"
+                    android:weightSum="2"
+                    tools:visibility="visible">
+
+                    <LinearLayout
+                        android:id="@+id/rvFromDate"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginEnd="@dimen/_7sdp"
+                        android:layout_weight="1"
+                        android:background="?attr/itemBackground"
+                        android:orientation="vertical"
+                        android:padding="@dimen/_7sdp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/regular_sans"
+                            android:text="@string/select_from_date"
+                            android:textColor="?attr/titleTextColor"
+                            android:textSize="@dimen/_10ssp" />
+
+                        <TextView
+                            android:id="@+id/txtSelectedFromDate"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="bottom"
+                            android:layout_marginTop="2dp"
+                            android:fontFamily="@font/semi_bold_sans"
+                            android:textColor="@color/app_theme_color"
+                            android:textSize="@dimen/_11ssp"
+                            tools:text="18 Feb 2025" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/rvSelectToDate"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="@dimen/_7sdp"
+                        android:layout_weight="1"
+                        android:background="?attr/itemBackground"
+                        android:orientation="vertical"
+                        android:padding="@dimen/_7sdp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/regular_sans"
+                            android:text="@string/select_to_date"
+                            android:textColor="?attr/titleTextColor"
+                            android:textSize="@dimen/_10ssp" />
+
+                        <TextView
+                            android:id="@+id/txtSelectedToDate"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="bottom"
+                            android:layout_marginTop="2dp"
+                            android:fontFamily="@font/semi_bold_sans"
+                            android:textColor="@color/app_theme_color"
+                            android:textSize="@dimen/_11ssp"
+                            tools:text="18 May 2025" />
+
+                    </LinearLayout>
+                </LinearLayout>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rvCustomMonthSelection"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/ivFilter"
+                android:layout_marginHorizontal="@dimen/_10sdp"
+                android:visibility="gone"
+                tools:visibility="gone">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvCustomMonthView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="@dimen/_15sdp"
+                    android:orientation="horizontal"
+                    app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                    app:spanCount="3"
+                    tools:listitem="@layout/item_custom_month_picker" />
+
+                <TextView
+                    android:id="@+id/txtNext"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/rvCustomMonthView"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_marginEnd="@dimen/_12sdp"
+                    android:fontFamily="@font/medium_sans"
+                    android:padding="@dimen/_5sdp"
+                    android:text="@string/next"
+                    android:textColor="@color/app_theme_color"
+                    android:textSize="@dimen/_14ssp" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rvCustomYearSelection"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/ivFilter"
+                android:layout_marginHorizontal="@dimen/_10sdp"
+                android:visibility="gone"
+                tools:visibility="visible">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvCustomYearView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_above="@+id/txtApply"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="@dimen/_15sdp"
+                    android:orientation="horizontal"
+                    app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                    app:spanCount="3"
+                    tools:visibility="gone"
+                    tools:listitem="@layout/item_custom_month_picker" />
+
+                <TextView
+                    android:id="@+id/txtApply"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:fontFamily="@font/semi_bold_sans"
+                    android:padding="@dimen/_5sdp"
+                    android:text="@string/apply"
+                    android:textColor="@color/app_theme_color"
+                    android:textSize="@dimen/_13ssp" />
+
+            </RelativeLayout>
+
+        </RelativeLayout>
+    </RelativeLayout>
+</layout>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+    </data>
+
+    <LinearLayout
+        android:id="@+id/rvMainContentView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/_8sdp"
+        android:background="?attr/itemBackground"
+        android:paddingHorizontal="@dimen/_7sdp"
+        android:paddingVertical="@dimen/_7sdp">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/ivFilterIcon"
+            android:layout_width="@dimen/_17sdp"
+            android:layout_height="@dimen/_17sdp"
+            android:backgroundTint="?attr/subTextColor" />
+
+        <TextView
+            android:id="@+id/txtFilterName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginHorizontal="@dimen/_5sdp"
+            android:fontFamily="@font/medium_sans"
+            android:text="@string/transactions"
+            android:textSize="@dimen/_10ssp" />
+
+    </LinearLayout>
+</layout>

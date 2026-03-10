@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+    </data>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/_15sdp"
+        app:cardCornerRadius="@dimen/_8sdp"
+        app:cardElevation="0dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/itemBackground"
+            android:padding="@dimen/_10sdp">
+
+            <TextView
+                android:id="@+id/txtTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:fontFamily="@font/semi_bold_sans"
+                android:text="@string/scheduled_message"
+                android:textAlignment="center"
+                android:textColor="@color/app_theme_color"
+                android:textSize="@dimen/_14ssp" />
+
+            <RadioGroup
+                android:id="@+id/rgScheduleMessageSelection"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/txtTitle"
+                android:layout_marginTop="@dimen/_8sdp">
+
+                <RadioButton
+                    android:id="@+id/rbSendNow"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/_30sdp"
+                    android:buttonTint="@color/app_theme_color"
+                    android:fontFamily="@font/regular_sans"
+                    android:paddingHorizontal="@dimen/_5sdp"
+                    android:text="@string/send_now"
+                    android:textColor="?attr/titleTextColor"
+                    android:textSize="@dimen/_12ssp"
+                    android:theme="@style/RadioButton" />
+
+                <RadioButton
+                    android:id="@+id/rbCopyText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/_30sdp"
+                    android:buttonTint="@color/app_theme_color"
+                    android:fontFamily="@font/regular_sans"
+                    android:paddingHorizontal="@dimen/_5sdp"
+                    android:text="@string/copy_text"
+                    android:textColor="?attr/titleTextColor"
+                    android:textSize="@dimen/_12ssp"
+                    android:theme="@style/RadioButton" />
+
+                <RadioButton
+                    android:id="@+id/rbDelete"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/_30sdp"
+                    android:buttonTint="@color/app_theme_color"
+                    android:fontFamily="@font/regular_sans"
+                    android:paddingHorizontal="@dimen/_5sdp"
+                    android:text="@string/delete"
+                    android:textColor="?attr/titleTextColor"
+                    android:textSize="@dimen/_12ssp"
+                    android:theme="@style/RadioButton" />
+
+            </RadioGroup>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_36sdp"
+                android:layout_below="@+id/rgScheduleMessageSelection"
+                android:layout_marginHorizontal="@dimen/_5sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:orientation="horizontal">
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btnCancel"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_marginEnd="@dimen/_5sdp"
+                    android:layout_weight="1"
+                    android:background="?attr/itemBackground"
+                    android:backgroundTint="?attr/dialogBoxColor"
+                    android:elevation="0dp"
+                    android:fontFamily="@font/semi_bold_sans"
+                    android:outlineProvider="none"
+                    android:shadowColor="@android:color/transparent"
+                    android:stateListAnimator="@null"
+                    android:text="@string/cancel"
+                    android:textAllCaps="false"
+                    android:textColor="?attr/titleTextColor"
+                    android:textSize="@dimen/_11ssp"
+                    android:translationZ="0dp" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btnYes"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="@dimen/_5sdp"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_theme_rounded_button_8dp"
+                    android:elevation="0dp"
+                    android:fontFamily="@font/semi_bold_sans"
+                    android:outlineProvider="none"
+                    android:shadowColor="@android:color/transparent"
+                    android:stateListAnimator="@null"
+                    android:text="@string/apply"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/_11ssp"
+                    android:translationZ="0dp" />
+
+            </LinearLayout>
+
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
+</layout>

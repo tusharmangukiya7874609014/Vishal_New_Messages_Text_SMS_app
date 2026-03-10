@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/itemBackground"
+        android:layout_marginVertical="@dimen/_4sdp"
+        android:padding="@dimen/_4sdp">
+
+        <TextView
+            android:id="@+id/txtQuickMessage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginStart="5dp"
+            android:layout_toStartOf="@+id/ivEditView"
+            android:fontFamily="@font/regular_sans"
+            android:maxLines="1"
+            android:textColor="?attr/titleTextColor"
+            android:textSize="@dimen/_12ssp"
+            android:textStyle="bold"
+            tools:text="How are you ?" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/ivEditView"
+            android:layout_width="@dimen/_28sdp"
+            android:layout_height="@dimen/_26sdp"
+            android:layout_centerVertical="true"
+            android:layout_marginVertical="@dimen/_2sdp"
+            android:layout_marginEnd="@dimen/_5sdp"
+            android:layout_toStartOf="@+id/ivDeleteView"
+            android:src="?attr/editQuickMessage" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/ivDeleteView"
+            android:layout_width="@dimen/_28sdp"
+            android:layout_height="@dimen/_26sdp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="5dp"
+            android:src="?attr/deleteQuickMessage" />
+
+    </RelativeLayout>
+</layout>
