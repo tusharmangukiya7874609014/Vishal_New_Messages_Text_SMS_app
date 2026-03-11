@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.chat.sms_text.messages">
+    package="com.texting.sms.messaging_app">
 
     <uses-feature
         android:name="android.hardware.telephony"
@@ -96,10 +96,10 @@
             android:exported="false"
             android:windowSoftInputMode="adjustResize|stateVisible" />
         <activity
-            android:name="com.chat.sms_text.messages.activity.WidgetActivity"
+            android:name=".activity.WidgetActivity"
             android:exported="false" />
         <activity
-            android:name="com.chat.sms_text.messages.activity.AllConversationsActivity"
+            android:name=".activity.AllConversationsActivity"
             android:exported="false" />
         <activity
             android:name=".activity.SecurityQuestionsActivity"
@@ -123,7 +123,7 @@
             android:name=".activity.ChatWallpaperActivity"
             android:exported="false" />
         <activity
-            android:name="com.chat.sms_text.messages.activity.AppearanceActivity"
+            android:name=".activity.AppearanceActivity"
             android:exported="true" />
         <activity
             android:name=".activity.ImagePreviewActivity"
@@ -150,7 +150,7 @@
             android:name=".activity.SwipeActionsActivity"
             android:exported="false" />
         <activity
-            android:name="com.chat.sms_text.messages.activity.AppThemeActivity"
+            android:name=".activity.AppThemeActivity"
             android:exported="false" />
         <activity
             android:name=".activity.SettingsActivity"
@@ -240,7 +240,7 @@
             android:exported="false"
             tools:node="merge">
             <meta-data
-                android:name="com.chat.sms_text.messages.utils.AppStartupInitializer"
+                android:name="com.texting.sms.messaging_app.utils.AppStartupInitializer"
                 android:value="androidx.startup" />
         </provider>
 

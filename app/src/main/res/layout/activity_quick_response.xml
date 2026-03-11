@@ -33,10 +33,10 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
                 android:layout_gravity="center"
                 android:layout_marginStart="@dimen/_10sdp"
                 android:layout_toEndOf="@+id/ivBack"
-                android:layout_centerVertical="true"
                 android:fontFamily="@font/semi_bold_sans"
                 android:text="@string/quick_response"
                 android:textColor="?attr/titleTextColor"
@@ -55,9 +55,9 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginHorizontal="@dimen/_10sdp"
-            android:layout_below="@+id/rvTopHeaderView"
             android:layout_above="@+id/rvAdsView"
+            android:layout_below="@+id/rvTopHeaderView"
+            android:layout_marginHorizontal="@dimen/_10sdp"
             android:layout_marginTop="@dimen/_10sdp"
             android:orientation="vertical">
 
@@ -73,29 +73,5 @@
 
         </RelativeLayout>
 
-        <RelativeLayout
-            android:id="@+id/rvAdsView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentBottom="true">
-
-            <FrameLayout
-                android:id="@+id/nativeAdContainer"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_3sdp"
-                android:visibility="gone" />
-
-            <include
-                android:id="@+id/banner_ad_container"
-                layout="@layout/banner_ad_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_3sdp"
-                android:visibility="gone" />
-
-        </RelativeLayout>
     </RelativeLayout>
 </layout>

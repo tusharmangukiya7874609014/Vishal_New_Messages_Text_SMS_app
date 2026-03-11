@@ -8,9 +8,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:267111472962:android:b87a3083fccb06e88732db",
+        "mobilesdk_app_id": "1:267111472962:android:856e503f1505e6388732db",
         "android_client_info": {
-          "package_name": "com.chat.sms_text.messages"
+          "package_name": "com.texting.sms.messaging_app"
         }
       },
       "oauth_client": [],

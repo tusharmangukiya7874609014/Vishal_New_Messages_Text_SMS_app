@@ -12,11 +12,11 @@ android {
         create("release") {
         }
     }
-    namespace = "com.chat.sms_text.messages"
+    namespace = "com.texting.sms.messaging_app"
     compileSdk = 36
 
     defaultConfig {
-        applicationId = "com.chat.sms_text.messages"
+        applicationId = "com.texting.sms.messaging_app"
         minSdk = 26
         targetSdk = 36
         versionCode = 2

@@ -13,7 +13,7 @@
 
         <variable
             name="item"
-            type="com.chat.sms_text.messages.model.ContactModel.HeaderWithFirstItem" />
+            type="com.texting.sms.messaging_app.model.ContactModel.HeaderWithFirstItem" />
     </data>
 
     <LinearLayout

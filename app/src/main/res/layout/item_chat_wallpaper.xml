@@ -8,7 +8,7 @@
 
         <variable
             name="item"
-            type="com.chat.sms_text.messages.model.ChatWallpaper" />
+            type="com.texting.sms.messaging_app.model.ChatWallpaper" />
 
     </data>
 

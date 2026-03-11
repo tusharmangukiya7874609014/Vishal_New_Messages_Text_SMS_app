@@ -9,7 +9,7 @@
 
         <variable
             name="item"
-            type="com.chat.sms_text.messages.model.ChatBoxColor" />
+            type="com.texting.sms.messaging_app.model.ChatBoxColor" />
 
     </data>
 

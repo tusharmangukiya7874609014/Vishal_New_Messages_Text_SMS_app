@@ -19,10 +19,10 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
--keep,allowobfuscation class com.chat.sms_text.messages.activity.AppearanceActivity
--keep class com.chat.sms_text.messages.activity.AppearanceActivity$*
+-keep,allowobfuscation class com.texting.sms.messaging_app.activity.AppearanceActivity
+-keep class com.texting.sms.messaging_app.activity.AppearanceActivity$*
 
--keep class com.chat.sms_text.messages.response.Language { *; }
--keep class com.chat.sms_text.messages.response.MessageLanguageListResponse { *; }
--keep class com.chat.sms_text.messages.response.MessageTranslateResponse { *; }
--keep class com.chat.sms_text.messages.response.TranslateRequest { *; }
+-keep class com.texting.sms.messaging_app.response.Language { *; }
+-keep class com.texting.sms.messaging_app.response.MessageLanguageListResponse { *; }
+-keep class com.texting.sms.messaging_app.response.MessageTranslateResponse { *; }
+-keep class com.texting.sms.messaging_app.response.TranslateRequest { *; }
