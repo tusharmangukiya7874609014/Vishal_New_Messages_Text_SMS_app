@@ -27,22 +27,22 @@ class KeyboardAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         with(holder) {
-            binding.item = numberList[position]
+            binding.item = numberList[absoluteAdapterPosition]
             binding.executePendingBindings()
 
-            if (rowIndex == position) {
-                numberList[position].isNumberSelected = true
-                lastSelectedPosition = position
+            if (rowIndex == absoluteAdapterPosition) {
+                numberList[absoluteAdapterPosition].isNumberSelected = true
+                lastSelectedPosition = absoluteAdapterPosition
             } else {
-                numberList[position].isNumberSelected = false
+                numberList[absoluteAdapterPosition].isNumberSelected = false
             }
 
             binding.rlNumberView.setOnClickListener {
-                if (bindingAdapterPosition != RecyclerView.NO_POSITION && bindingAdapterPosition < numberList.size) {
-                    rowIndex = bindingAdapterPosition
+                if (absoluteAdapterPosition != RecyclerView.NO_POSITION && absoluteAdapterPosition < numberList.size) {
+                    rowIndex = absoluteAdapterPosition
                     keyboardInterface.onItemClick(
-                        numberList[bindingAdapterPosition],
-                        position
+                        numberList[absoluteAdapterPosition],
+                        absoluteAdapterPosition
                     )
                 }
             }
@@ -55,7 +55,7 @@ class KeyboardAdapter(
         payloads: MutableList<Any>
     ) {
         if (payloads.isNotEmpty()) {
-            holder.binding.item = numberList[position]
+            holder.binding.item = numberList[holder.absoluteAdapterPosition]
         } else {
             onBindViewHolder(holder, position)
         }

@@ -26,7 +26,7 @@ class BackupHistoryAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         with(holder) {
-            with(backupHistory[position]) {
+            with(backupHistory[absoluteAdapterPosition]) {
                 binding.txtBackUpDate.text = backupTime
                 binding.txtBackUpSize.text = fileSize
                 val totalMessageTxt =
@@ -35,8 +35,8 @@ class BackupHistoryAdapter(
             }
 
             itemView.setOnClickListener {
-                if (bindingAdapterPosition != RecyclerView.NO_POSITION && bindingAdapterPosition < backupHistory.size) {
-                    onBackupClickInterface.onSelectBackupClick(backupHistory[bindingAdapterPosition])
+                if (absoluteAdapterPosition != RecyclerView.NO_POSITION && absoluteAdapterPosition < backupHistory.size) {
+                    onBackupClickInterface.onSelectBackupClick(backupHistory[absoluteAdapterPosition])
                 }
             }
         }

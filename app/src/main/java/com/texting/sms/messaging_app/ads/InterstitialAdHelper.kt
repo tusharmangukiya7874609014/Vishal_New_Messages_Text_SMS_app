@@ -1,6 +1,5 @@
 package com.texting.sms.messaging_app.ads
 
-import android.R
 import android.app.Activity
 import android.app.Dialog
 import android.content.Context
@@ -59,10 +58,14 @@ object InterstitialAdHelper {
 
     /** Show Interstitial Ad */
     fun showAd(activity: Activity, onAdDismissed: () -> Unit) {
-        if (activity.isFinishing && activity.isDestroyed) return
+        if (activity.isFinishing || activity.isDestroyed) {
+            onAdDismissed()
+            return
+        }
 
         if (interstitialAd == null) {
             loadAd(activity)
+            onAdDismissed()
             return
         }
 
@@ -170,7 +173,7 @@ object InterstitialAdHelper {
         val layoutInflater = LayoutInflater.from(context)
         val customLoadingProgress = CommonAdsLoadingDialogBinding.inflate(layoutInflater)
         loadingDialog.setContentView(customLoadingProgress.root)
-        loadingDialog.window?.setBackgroundDrawableResource(R.color.transparent)
+        loadingDialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
 
         loadingDialog.show()
     }

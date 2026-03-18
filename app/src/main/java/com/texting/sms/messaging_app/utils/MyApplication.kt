@@ -22,6 +22,9 @@ import com.texting.sms.messaging_app.database.SharedPreferencesHelper
 import com.texting.sms.messaging_app.model.AppTheme
 import com.vanniktech.emoji.EmojiManager
 import com.vanniktech.emoji.google.GoogleEmojiProvider
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class MyApplication : Application(), Application.ActivityLifecycleCallbacks,
     DefaultLifecycleObserver {
@@ -29,6 +32,9 @@ class MyApplication : Application(), Application.ActivityLifecycleCallbacks,
     lateinit var appOpenAdManager: AppOpenAdManager
     private var currentActivity: Activity? = null
     private var isAppInBackground = true
+
+    @Volatile
+    private var isAdsInitialized = false
 
     override fun onCreate() {
         super<Application>.onCreate()
@@ -44,10 +50,7 @@ class MyApplication : Application(), Application.ActivityLifecycleCallbacks,
         registerActivityLifecycleCallbacks(this)
         ProcessLifecycleOwner.get().lifecycle.addObserver(this)
 
-        MobileAds.initialize(
-            this,
-            InitializationConfig.Builder("ca-app-pub-3940256099942544~3347511713").build()
-        ) {}
+        initializeAdsSafely()
 
         appOpenAdManager = AppOpenAdManager()
 
@@ -55,7 +58,32 @@ class MyApplication : Application(), Application.ActivityLifecycleCallbacks,
             this, Const.IS_ADS_ENABLED, false
         )
 
-        if (isAdsEnabled) appOpenAdManager.loadAd(this)
+        initializeAdsSafely {
+            if (isAdsEnabled) {
+                Handler(Looper.getMainLooper()).postDelayed({
+                    appOpenAdManager.loadAd(this)
+                }, 1000)
+            }
+        }
+    }
+
+    private fun initializeAdsSafely(onComplete: (() -> Unit)? = null) {
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                MobileAds.initialize(
+                    this@MyApplication,
+                    InitializationConfig.Builder("ca-app-pub-3940256099942544~3347511713").build()
+                ) {
+                    isAdsInitialized = true
+
+                    Handler(Looper.getMainLooper()).post {
+                        onComplete?.invoke()
+                    }
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
     }
 
     override fun attachBaseContext(base: Context) {

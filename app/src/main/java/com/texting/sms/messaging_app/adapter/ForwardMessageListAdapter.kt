@@ -33,8 +33,8 @@ class ForwardMessageListAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         with(holder) {
-            with(selectedMessageList[position]) {
-                val messageId = selectedMessageList[position]
+            with(selectedMessageList[absoluteAdapterPosition]) {
+                val messageId = selectedMessageList[absoluteAdapterPosition]
                 if (isValidMessageId(messageId)) {
                     binding.rvSelectedImages.visibility = View.GONE
                     val messageOfSMS = getSmsBodyById(context = context, messageId = messageId)
@@ -54,19 +54,19 @@ class ForwardMessageListAdapter(
                 }
 
                 binding.ivRemoveSMS.setOnClickListener {
-                    if (bindingAdapterPosition != RecyclerView.NO_POSITION && bindingAdapterPosition < selectedMessageList.size) {
+                    if (absoluteAdapterPosition != RecyclerView.NO_POSITION && absoluteAdapterPosition < selectedMessageList.size) {
                         onRemoveSelectedMessage.onRemoveSelectedMessage(
-                            selectedMessageList[bindingAdapterPosition],
-                            bindingAdapterPosition
+                            selectedMessageList[absoluteAdapterPosition],
+                            absoluteAdapterPosition
                         )
                     }
                 }
 
                 binding.ivSelectedImages.setOnClickListener {
-                    if (bindingAdapterPosition != RecyclerView.NO_POSITION && bindingAdapterPosition < selectedMessageList.size) {
+                    if (absoluteAdapterPosition != RecyclerView.NO_POSITION && absoluteAdapterPosition < selectedMessageList.size) {
                         onRemoveSelectedMessage.onRemoveSelectedMessage(
-                            selectedMessageList[bindingAdapterPosition],
-                            bindingAdapterPosition
+                            selectedMessageList[absoluteAdapterPosition],
+                            absoluteAdapterPosition
                         )
                     }
                 }

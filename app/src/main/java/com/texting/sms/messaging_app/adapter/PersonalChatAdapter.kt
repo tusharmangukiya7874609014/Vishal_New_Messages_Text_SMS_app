@@ -646,7 +646,7 @@ class PersonalChatAdapter(
             }
 
             binding.rvToImages.setOnLongClickListener {
-                if (bindingAdapterPosition == RecyclerView.NO_POSITION) return@setOnLongClickListener true
+                if (absoluteAdapterPosition == RecyclerView.NO_POSITION) return@setOnLongClickListener true
                 if (isFromMiniPopup) {
                     onOpenFullChatInterface.onItemClick()
                     true
@@ -658,7 +658,7 @@ class PersonalChatAdapter(
             }
 
             binding.rvToImages.setOnClickListener {
-                if (bindingAdapterPosition == RecyclerView.NO_POSITION) return@setOnClickListener
+                if (absoluteAdapterPosition == RecyclerView.NO_POSITION) return@setOnClickListener
                 if (isFromMiniPopup) {
                     onOpenFullChatInterface.onItemClick()
                 } else {
@@ -675,7 +675,7 @@ class PersonalChatAdapter(
             }
 
             binding.rvFromImages.setOnLongClickListener {
-                if (bindingAdapterPosition == RecyclerView.NO_POSITION) return@setOnLongClickListener true
+                if (absoluteAdapterPosition == RecyclerView.NO_POSITION) return@setOnLongClickListener true
                 if (isFromMiniPopup) {
                     onOpenFullChatInterface.onItemClick()
                     true
@@ -687,7 +687,7 @@ class PersonalChatAdapter(
             }
 
             binding.rvFromImages.setOnClickListener {
-                if (bindingAdapterPosition == RecyclerView.NO_POSITION) return@setOnClickListener
+                if (absoluteAdapterPosition == RecyclerView.NO_POSITION) return@setOnClickListener
                 if (isFromMiniPopup) {
                     onOpenFullChatInterface.onItemClick()
                 } else {
@@ -704,7 +704,7 @@ class PersonalChatAdapter(
             }
 
             binding.rvFromCopyCode.setOnLongClickListener {
-                if (bindingAdapterPosition == RecyclerView.NO_POSITION) return@setOnLongClickListener true
+                if (absoluteAdapterPosition == RecyclerView.NO_POSITION) return@setOnLongClickListener true
                 if (isFromMiniPopup) {
                     onOpenFullChatInterface.onItemClick()
                     true
@@ -716,7 +716,7 @@ class PersonalChatAdapter(
             }
 
             binding.rvFromCopyCode.setOnClickListener {
-                if (bindingAdapterPosition == RecyclerView.NO_POSITION) return@setOnClickListener
+                if (absoluteAdapterPosition == RecyclerView.NO_POSITION) return@setOnClickListener
                 if (isFromMiniPopup) {
                     onOpenFullChatInterface.onItemClick()
                 } else {
@@ -731,7 +731,7 @@ class PersonalChatAdapter(
             }
 
             binding.rvToCopyCode.setOnLongClickListener {
-                if (bindingAdapterPosition == RecyclerView.NO_POSITION) return@setOnLongClickListener true
+                if (absoluteAdapterPosition == RecyclerView.NO_POSITION) return@setOnLongClickListener true
                 if (isFromMiniPopup) {
                     onOpenFullChatInterface.onItemClick()
                     true
@@ -743,7 +743,7 @@ class PersonalChatAdapter(
             }
 
             binding.rvToCopyCode.setOnClickListener {
-                if (bindingAdapterPosition == RecyclerView.NO_POSITION) return@setOnClickListener
+                if (absoluteAdapterPosition == RecyclerView.NO_POSITION) return@setOnClickListener
                 if (isFromMiniPopup) {
                     onOpenFullChatInterface.onItemClick()
                 } else {
@@ -758,7 +758,7 @@ class PersonalChatAdapter(
             }
 
             binding.llTranslateMessage.setOnLongClickListener {
-                if (bindingAdapterPosition == RecyclerView.NO_POSITION) return@setOnLongClickListener true
+                if (absoluteAdapterPosition == RecyclerView.NO_POSITION) return@setOnLongClickListener true
                 if (isFromMiniPopup) {
                     onOpenFullChatInterface.onItemClick()
                     true
@@ -770,7 +770,7 @@ class PersonalChatAdapter(
             }
 
             binding.llTranslateMessage.setOnClickListener {
-                if (bindingAdapterPosition == RecyclerView.NO_POSITION) return@setOnClickListener
+                if (absoluteAdapterPosition == RecyclerView.NO_POSITION) return@setOnClickListener
                 if (isFromMiniPopup) {
                     onOpenFullChatInterface.onItemClick()
                 } else {
@@ -779,14 +779,14 @@ class PersonalChatAdapter(
                     } else {
                         onClickPreviewImageInterface.onItemTranslateClick(
                             item,
-                            position = bindingAdapterPosition
+                            position = absoluteAdapterPosition
                         )
                     }
                 }
             }
 
             binding.llToTranslateMessage.setOnLongClickListener {
-                if (bindingAdapterPosition == RecyclerView.NO_POSITION) return@setOnLongClickListener true
+                if (absoluteAdapterPosition == RecyclerView.NO_POSITION) return@setOnLongClickListener true
                 if (isFromMiniPopup) {
                     onOpenFullChatInterface.onItemClick()
                     true
@@ -798,7 +798,7 @@ class PersonalChatAdapter(
             }
 
             binding.llToTranslateMessage.setOnClickListener {
-                if (bindingAdapterPosition == RecyclerView.NO_POSITION) return@setOnClickListener
+                if (absoluteAdapterPosition == RecyclerView.NO_POSITION) return@setOnClickListener
                 if (isFromMiniPopup) {
                     onOpenFullChatInterface.onItemClick()
                 } else {
@@ -807,14 +807,14 @@ class PersonalChatAdapter(
                     } else {
                         onClickPreviewImageInterface.onItemTranslateClick(
                             item,
-                            position = bindingAdapterPosition
+                            position = absoluteAdapterPosition
                         )
                     }
                 }
             }
 
             binding.txtFromMessage.setOnLongClickListener {
-                if (bindingAdapterPosition == RecyclerView.NO_POSITION) return@setOnLongClickListener true
+                if (absoluteAdapterPosition == RecyclerView.NO_POSITION) return@setOnLongClickListener true
                 if (isFromMiniPopup) {
                     onOpenFullChatInterface.onItemClick()
                     true
@@ -826,7 +826,7 @@ class PersonalChatAdapter(
             }
 
             binding.txtFromMessage.setOnClickListener {
-                if (bindingAdapterPosition == RecyclerView.NO_POSITION) return@setOnClickListener
+                if (absoluteAdapterPosition == RecyclerView.NO_POSITION) return@setOnClickListener
                 if (isFromMiniPopup) {
                     onOpenFullChatInterface.onItemClick()
                 } else {
@@ -853,7 +853,7 @@ class PersonalChatAdapter(
             }
 
             binding.txtToMessage.setOnLongClickListener {
-                if (bindingAdapterPosition == RecyclerView.NO_POSITION) return@setOnLongClickListener true
+                if (absoluteAdapterPosition == RecyclerView.NO_POSITION) return@setOnLongClickListener true
                 if (isFromMiniPopup) {
                     onOpenFullChatInterface.onItemClick()
                     true
@@ -865,7 +865,7 @@ class PersonalChatAdapter(
             }
 
             binding.txtToMessage.setOnClickListener {
-                if (bindingAdapterPosition == RecyclerView.NO_POSITION) return@setOnClickListener
+                if (absoluteAdapterPosition == RecyclerView.NO_POSITION) return@setOnClickListener
                 if (isFromMiniPopup) {
                     onOpenFullChatInterface.onItemClick()
                 } else {
@@ -892,7 +892,7 @@ class PersonalChatAdapter(
             }
 
             itemView.setOnLongClickListener {
-                if (bindingAdapterPosition == RecyclerView.NO_POSITION) return@setOnLongClickListener true
+                if (absoluteAdapterPosition == RecyclerView.NO_POSITION) return@setOnLongClickListener true
                 if (isFromMiniPopup) {
                     onOpenFullChatInterface.onItemClick()
                     true
@@ -904,7 +904,7 @@ class PersonalChatAdapter(
             }
 
             itemView.setOnClickListener {
-                if (bindingAdapterPosition == RecyclerView.NO_POSITION) return@setOnClickListener
+                if (absoluteAdapterPosition == RecyclerView.NO_POSITION) return@setOnClickListener
                 if (isFromMiniPopup) {
                     onOpenFullChatInterface.onItemClick()
                 } else {
@@ -1308,7 +1308,7 @@ class PersonalChatAdapter(
             }
 
             binding.rvToImages.setOnLongClickListener {
-                if (bindingAdapterPosition == RecyclerView.NO_POSITION) return@setOnLongClickListener true
+                if (absoluteAdapterPosition == RecyclerView.NO_POSITION) return@setOnLongClickListener true
                 if (isFromMiniPopup) {
                     onOpenFullChatInterface.onItemClick()
                     true
@@ -1320,7 +1320,7 @@ class PersonalChatAdapter(
             }
 
             binding.rvToImages.setOnClickListener {
-                if (bindingAdapterPosition == RecyclerView.NO_POSITION) return@setOnClickListener
+                if (absoluteAdapterPosition == RecyclerView.NO_POSITION) return@setOnClickListener
                 if (isFromMiniPopup) {
                     onOpenFullChatInterface.onItemClick()
                 } else {
@@ -1337,7 +1337,7 @@ class PersonalChatAdapter(
             }
 
             binding.rvFromImages.setOnLongClickListener {
-                if (bindingAdapterPosition == RecyclerView.NO_POSITION) return@setOnLongClickListener true
+                if (absoluteAdapterPosition == RecyclerView.NO_POSITION) return@setOnLongClickListener true
                 if (isFromMiniPopup) {
                     onOpenFullChatInterface.onItemClick()
                     true
@@ -1349,7 +1349,7 @@ class PersonalChatAdapter(
             }
 
             binding.rvFromImages.setOnClickListener {
-                if (bindingAdapterPosition == RecyclerView.NO_POSITION) return@setOnClickListener
+                if (absoluteAdapterPosition == RecyclerView.NO_POSITION) return@setOnClickListener
                 if (isFromMiniPopup) {
                     onOpenFullChatInterface.onItemClick()
                 } else {
@@ -1366,7 +1366,7 @@ class PersonalChatAdapter(
             }
 
             binding.rvFromCopyCode.setOnLongClickListener {
-                if (bindingAdapterPosition == RecyclerView.NO_POSITION) return@setOnLongClickListener true
+                if (absoluteAdapterPosition == RecyclerView.NO_POSITION) return@setOnLongClickListener true
                 if (isFromMiniPopup) {
                     onOpenFullChatInterface.onItemClick()
                     true
@@ -1378,7 +1378,7 @@ class PersonalChatAdapter(
             }
 
             binding.rvFromCopyCode.setOnClickListener {
-                if (bindingAdapterPosition == RecyclerView.NO_POSITION) return@setOnClickListener
+                if (absoluteAdapterPosition == RecyclerView.NO_POSITION) return@setOnClickListener
                 if (isFromMiniPopup) {
                     onOpenFullChatInterface.onItemClick()
                 } else {
@@ -1393,7 +1393,7 @@ class PersonalChatAdapter(
             }
 
             binding.rvToCopyCode.setOnLongClickListener {
-                if (bindingAdapterPosition == RecyclerView.NO_POSITION) return@setOnLongClickListener true
+                if (absoluteAdapterPosition == RecyclerView.NO_POSITION) return@setOnLongClickListener true
                 if (isFromMiniPopup) {
                     onOpenFullChatInterface.onItemClick()
                     true
@@ -1405,7 +1405,7 @@ class PersonalChatAdapter(
             }
 
             binding.rvToCopyCode.setOnClickListener {
-                if (bindingAdapterPosition == RecyclerView.NO_POSITION) return@setOnClickListener
+                if (absoluteAdapterPosition == RecyclerView.NO_POSITION) return@setOnClickListener
                 if (isFromMiniPopup) {
                     onOpenFullChatInterface.onItemClick()
                 } else {
@@ -1420,7 +1420,7 @@ class PersonalChatAdapter(
             }
 
             binding.llTranslateMessage.setOnLongClickListener {
-                if (bindingAdapterPosition == RecyclerView.NO_POSITION) return@setOnLongClickListener true
+                if (absoluteAdapterPosition == RecyclerView.NO_POSITION) return@setOnLongClickListener true
                 if (isFromMiniPopup) {
                     onOpenFullChatInterface.onItemClick()
                     true
@@ -1432,7 +1432,7 @@ class PersonalChatAdapter(
             }
 
             binding.llTranslateMessage.setOnClickListener {
-                if (bindingAdapterPosition == RecyclerView.NO_POSITION) return@setOnClickListener
+                if (absoluteAdapterPosition == RecyclerView.NO_POSITION) return@setOnClickListener
                 if (isFromMiniPopup) {
                     onOpenFullChatInterface.onItemClick()
                 } else {
@@ -1441,14 +1441,14 @@ class PersonalChatAdapter(
                     } else {
                         onClickPreviewImageInterface.onItemTranslateClick(
                             item,
-                            position = bindingAdapterPosition
+                            position = absoluteAdapterPosition
                         )
                     }
                 }
             }
 
             binding.llToTranslateMessage.setOnLongClickListener {
-                if (bindingAdapterPosition == RecyclerView.NO_POSITION) return@setOnLongClickListener true
+                if (absoluteAdapterPosition == RecyclerView.NO_POSITION) return@setOnLongClickListener true
                 if (isFromMiniPopup) {
                     onOpenFullChatInterface.onItemClick()
                     true
@@ -1460,7 +1460,7 @@ class PersonalChatAdapter(
             }
 
             binding.llToTranslateMessage.setOnClickListener {
-                if (bindingAdapterPosition == RecyclerView.NO_POSITION) return@setOnClickListener
+                if (absoluteAdapterPosition == RecyclerView.NO_POSITION) return@setOnClickListener
                 if (isFromMiniPopup) {
                     onOpenFullChatInterface.onItemClick()
                 } else {
@@ -1469,14 +1469,14 @@ class PersonalChatAdapter(
                     } else {
                         onClickPreviewImageInterface.onItemTranslateClick(
                             item,
-                            position = bindingAdapterPosition
+                            position = absoluteAdapterPosition
                         )
                     }
                 }
             }
 
             binding.txtFromMessage.setOnLongClickListener {
-                if (bindingAdapterPosition == RecyclerView.NO_POSITION) return@setOnLongClickListener true
+                if (absoluteAdapterPosition == RecyclerView.NO_POSITION) return@setOnLongClickListener true
                 if (isFromMiniPopup) {
                     onOpenFullChatInterface.onItemClick()
                     true
@@ -1488,7 +1488,7 @@ class PersonalChatAdapter(
             }
 
             binding.txtFromMessage.setOnClickListener {
-                if (bindingAdapterPosition == RecyclerView.NO_POSITION) return@setOnClickListener
+                if (absoluteAdapterPosition == RecyclerView.NO_POSITION) return@setOnClickListener
                 if (isFromMiniPopup) {
                     onOpenFullChatInterface.onItemClick()
                 } else {
@@ -1515,7 +1515,7 @@ class PersonalChatAdapter(
             }
 
             binding.txtToMessage.setOnLongClickListener {
-                if (bindingAdapterPosition == RecyclerView.NO_POSITION) return@setOnLongClickListener true
+                if (absoluteAdapterPosition == RecyclerView.NO_POSITION) return@setOnLongClickListener true
                 if (isFromMiniPopup) {
                     onOpenFullChatInterface.onItemClick()
                     true
@@ -1527,7 +1527,7 @@ class PersonalChatAdapter(
             }
 
             binding.txtToMessage.setOnClickListener {
-                if (bindingAdapterPosition == RecyclerView.NO_POSITION) return@setOnClickListener
+                if (absoluteAdapterPosition == RecyclerView.NO_POSITION) return@setOnClickListener
                 if (isFromMiniPopup) {
                     onOpenFullChatInterface.onItemClick()
                 } else {
@@ -1554,7 +1554,7 @@ class PersonalChatAdapter(
             }
 
             itemView.setOnLongClickListener {
-                if (bindingAdapterPosition == RecyclerView.NO_POSITION) return@setOnLongClickListener true
+                if (absoluteAdapterPosition == RecyclerView.NO_POSITION) return@setOnLongClickListener true
                 if (isFromMiniPopup) {
                     onOpenFullChatInterface.onItemClick()
                     true
@@ -1566,7 +1566,7 @@ class PersonalChatAdapter(
             }
 
             itemView.setOnClickListener {
-                if (bindingAdapterPosition == RecyclerView.NO_POSITION) return@setOnClickListener
+                if (absoluteAdapterPosition == RecyclerView.NO_POSITION) return@setOnClickListener
                 if (isFromMiniPopup) {
                     onOpenFullChatInterface.onItemClick()
                 } else {
@@ -1970,7 +1970,7 @@ class PersonalChatAdapter(
             }
 
             binding.rvToImages.setOnLongClickListener {
-                if (bindingAdapterPosition == RecyclerView.NO_POSITION) return@setOnLongClickListener true
+                if (absoluteAdapterPosition == RecyclerView.NO_POSITION) return@setOnLongClickListener true
                 if (isFromMiniPopup) {
                     onOpenFullChatInterface.onItemClick()
                     true
@@ -1982,7 +1982,7 @@ class PersonalChatAdapter(
             }
 
             binding.rvToImages.setOnClickListener {
-                if (bindingAdapterPosition == RecyclerView.NO_POSITION) return@setOnClickListener
+                if (absoluteAdapterPosition == RecyclerView.NO_POSITION) return@setOnClickListener
                 if (isFromMiniPopup) {
                     onOpenFullChatInterface.onItemClick()
                 } else {
@@ -1999,7 +1999,7 @@ class PersonalChatAdapter(
             }
 
             binding.rvFromImages.setOnLongClickListener {
-                if (bindingAdapterPosition == RecyclerView.NO_POSITION) return@setOnLongClickListener true
+                if (absoluteAdapterPosition == RecyclerView.NO_POSITION) return@setOnLongClickListener true
                 if (isFromMiniPopup) {
                     onOpenFullChatInterface.onItemClick()
                     true
@@ -2011,7 +2011,7 @@ class PersonalChatAdapter(
             }
 
             binding.rvFromImages.setOnClickListener {
-                if (bindingAdapterPosition == RecyclerView.NO_POSITION) return@setOnClickListener
+                if (absoluteAdapterPosition == RecyclerView.NO_POSITION) return@setOnClickListener
                 if (isFromMiniPopup) {
                     onOpenFullChatInterface.onItemClick()
                 } else {
@@ -2028,7 +2028,7 @@ class PersonalChatAdapter(
             }
 
             binding.rvFromCopyCode.setOnLongClickListener {
-                if (bindingAdapterPosition == RecyclerView.NO_POSITION) return@setOnLongClickListener true
+                if (absoluteAdapterPosition == RecyclerView.NO_POSITION) return@setOnLongClickListener true
                 if (isFromMiniPopup) {
                     onOpenFullChatInterface.onItemClick()
                     true
@@ -2040,7 +2040,7 @@ class PersonalChatAdapter(
             }
 
             binding.rvFromCopyCode.setOnClickListener {
-                if (bindingAdapterPosition == RecyclerView.NO_POSITION) return@setOnClickListener
+                if (absoluteAdapterPosition == RecyclerView.NO_POSITION) return@setOnClickListener
                 if (isFromMiniPopup) {
                     onOpenFullChatInterface.onItemClick()
                 } else {
@@ -2055,7 +2055,7 @@ class PersonalChatAdapter(
             }
 
             binding.rvToCopyCode.setOnLongClickListener {
-                if (bindingAdapterPosition == RecyclerView.NO_POSITION) return@setOnLongClickListener true
+                if (absoluteAdapterPosition == RecyclerView.NO_POSITION) return@setOnLongClickListener true
                 if (isFromMiniPopup) {
                     onOpenFullChatInterface.onItemClick()
                     true
@@ -2067,7 +2067,7 @@ class PersonalChatAdapter(
             }
 
             binding.rvToCopyCode.setOnClickListener {
-                if (bindingAdapterPosition == RecyclerView.NO_POSITION) return@setOnClickListener
+                if (absoluteAdapterPosition == RecyclerView.NO_POSITION) return@setOnClickListener
                 if (isFromMiniPopup) {
                     onOpenFullChatInterface.onItemClick()
                 } else {
@@ -2082,7 +2082,7 @@ class PersonalChatAdapter(
             }
 
             binding.llTranslateMessage.setOnLongClickListener {
-                if (bindingAdapterPosition == RecyclerView.NO_POSITION) return@setOnLongClickListener true
+                if (absoluteAdapterPosition == RecyclerView.NO_POSITION) return@setOnLongClickListener true
                 if (isFromMiniPopup) {
                     onOpenFullChatInterface.onItemClick()
                     true
@@ -2094,7 +2094,7 @@ class PersonalChatAdapter(
             }
 
             binding.llTranslateMessage.setOnClickListener {
-                if (bindingAdapterPosition == RecyclerView.NO_POSITION) return@setOnClickListener
+                if (absoluteAdapterPosition == RecyclerView.NO_POSITION) return@setOnClickListener
                 if (isFromMiniPopup) {
                     onOpenFullChatInterface.onItemClick()
                 } else {
@@ -2103,14 +2103,14 @@ class PersonalChatAdapter(
                     } else {
                         onClickPreviewImageInterface.onItemTranslateClick(
                             item,
-                            position = bindingAdapterPosition
+                            position = absoluteAdapterPosition
                         )
                     }
                 }
             }
 
             binding.llToTranslateMessage.setOnLongClickListener {
-                if (bindingAdapterPosition == RecyclerView.NO_POSITION) return@setOnLongClickListener true
+                if (absoluteAdapterPosition == RecyclerView.NO_POSITION) return@setOnLongClickListener true
                 if (isFromMiniPopup) {
                     onOpenFullChatInterface.onItemClick()
                     true
@@ -2122,7 +2122,7 @@ class PersonalChatAdapter(
             }
 
             binding.llToTranslateMessage.setOnClickListener {
-                if (bindingAdapterPosition == RecyclerView.NO_POSITION) return@setOnClickListener
+                if (absoluteAdapterPosition == RecyclerView.NO_POSITION) return@setOnClickListener
                 if (isFromMiniPopup) {
                     onOpenFullChatInterface.onItemClick()
                 } else {
@@ -2131,14 +2131,14 @@ class PersonalChatAdapter(
                     } else {
                         onClickPreviewImageInterface.onItemTranslateClick(
                             item,
-                            position = bindingAdapterPosition
+                            position = absoluteAdapterPosition
                         )
                     }
                 }
             }
 
             binding.txtFromMessage.setOnLongClickListener {
-                if (bindingAdapterPosition == RecyclerView.NO_POSITION) return@setOnLongClickListener true
+                if (absoluteAdapterPosition == RecyclerView.NO_POSITION) return@setOnLongClickListener true
                 if (isFromMiniPopup) {
                     onOpenFullChatInterface.onItemClick()
                     true
@@ -2150,7 +2150,7 @@ class PersonalChatAdapter(
             }
 
             binding.txtFromMessage.setOnClickListener {
-                if (bindingAdapterPosition == RecyclerView.NO_POSITION) return@setOnClickListener
+                if (absoluteAdapterPosition == RecyclerView.NO_POSITION) return@setOnClickListener
                 if (isFromMiniPopup) {
                     onOpenFullChatInterface.onItemClick()
                 } else {
@@ -2177,7 +2177,7 @@ class PersonalChatAdapter(
             }
 
             binding.txtToMessage.setOnLongClickListener {
-                if (bindingAdapterPosition == RecyclerView.NO_POSITION) return@setOnLongClickListener true
+                if (absoluteAdapterPosition == RecyclerView.NO_POSITION) return@setOnLongClickListener true
                 if (isFromMiniPopup) {
                     onOpenFullChatInterface.onItemClick()
                     true
@@ -2189,7 +2189,7 @@ class PersonalChatAdapter(
             }
 
             binding.txtToMessage.setOnClickListener {
-                if (bindingAdapterPosition == RecyclerView.NO_POSITION) return@setOnClickListener
+                if (absoluteAdapterPosition == RecyclerView.NO_POSITION) return@setOnClickListener
                 if (isFromMiniPopup) {
                     onOpenFullChatInterface.onItemClick()
                 } else {
@@ -2216,7 +2216,7 @@ class PersonalChatAdapter(
             }
 
             itemView.setOnLongClickListener {
-                if (bindingAdapterPosition == RecyclerView.NO_POSITION) return@setOnLongClickListener true
+                if (absoluteAdapterPosition == RecyclerView.NO_POSITION) return@setOnLongClickListener true
                 if (isFromMiniPopup) {
                     onOpenFullChatInterface.onItemClick()
                     true
@@ -2228,7 +2228,7 @@ class PersonalChatAdapter(
             }
 
             itemView.setOnClickListener {
-                if (bindingAdapterPosition == RecyclerView.NO_POSITION) return@setOnClickListener
+                if (absoluteAdapterPosition == RecyclerView.NO_POSITION) return@setOnClickListener
                 if (isFromMiniPopup) {
                     onOpenFullChatInterface.onItemClick()
                 } else {
@@ -2633,7 +2633,7 @@ class PersonalChatAdapter(
             }
 
             binding.rvToImages.setOnLongClickListener {
-                if (bindingAdapterPosition == RecyclerView.NO_POSITION) return@setOnLongClickListener true
+                if (absoluteAdapterPosition == RecyclerView.NO_POSITION) return@setOnLongClickListener true
                 if (isFromMiniPopup) {
                     onOpenFullChatInterface.onItemClick()
                     true
@@ -2645,7 +2645,7 @@ class PersonalChatAdapter(
             }
 
             binding.rvToImages.setOnClickListener {
-                if (bindingAdapterPosition == RecyclerView.NO_POSITION) return@setOnClickListener
+                if (absoluteAdapterPosition == RecyclerView.NO_POSITION) return@setOnClickListener
                 if (isFromMiniPopup) {
                     onOpenFullChatInterface.onItemClick()
                 } else {
@@ -2662,7 +2662,7 @@ class PersonalChatAdapter(
             }
 
             binding.rvFromImages.setOnLongClickListener {
-                if (bindingAdapterPosition == RecyclerView.NO_POSITION) return@setOnLongClickListener true
+                if (absoluteAdapterPosition == RecyclerView.NO_POSITION) return@setOnLongClickListener true
                 if (isFromMiniPopup) {
                     onOpenFullChatInterface.onItemClick()
                     true
@@ -2674,7 +2674,7 @@ class PersonalChatAdapter(
             }
 
             binding.rvFromImages.setOnClickListener {
-                if (bindingAdapterPosition == RecyclerView.NO_POSITION) return@setOnClickListener
+                if (absoluteAdapterPosition == RecyclerView.NO_POSITION) return@setOnClickListener
                 if (isFromMiniPopup) {
                     onOpenFullChatInterface.onItemClick()
                 } else {
@@ -2691,7 +2691,7 @@ class PersonalChatAdapter(
             }
 
             binding.rvFromCopyCode.setOnLongClickListener {
-                if (bindingAdapterPosition == RecyclerView.NO_POSITION) return@setOnLongClickListener true
+                if (absoluteAdapterPosition == RecyclerView.NO_POSITION) return@setOnLongClickListener true
                 if (isFromMiniPopup) {
                     onOpenFullChatInterface.onItemClick()
                     true
@@ -2703,7 +2703,7 @@ class PersonalChatAdapter(
             }
 
             binding.rvFromCopyCode.setOnClickListener {
-                if (bindingAdapterPosition == RecyclerView.NO_POSITION) return@setOnClickListener
+                if (absoluteAdapterPosition == RecyclerView.NO_POSITION) return@setOnClickListener
                 if (isFromMiniPopup) {
                     onOpenFullChatInterface.onItemClick()
                 } else {
@@ -2718,7 +2718,7 @@ class PersonalChatAdapter(
             }
 
             binding.rvToCopyCode.setOnLongClickListener {
-                if (bindingAdapterPosition == RecyclerView.NO_POSITION) return@setOnLongClickListener true
+                if (absoluteAdapterPosition == RecyclerView.NO_POSITION) return@setOnLongClickListener true
                 if (isFromMiniPopup) {
                     onOpenFullChatInterface.onItemClick()
                     true
@@ -2730,7 +2730,7 @@ class PersonalChatAdapter(
             }
 
             binding.rvToCopyCode.setOnClickListener {
-                if (bindingAdapterPosition == RecyclerView.NO_POSITION) return@setOnClickListener
+                if (absoluteAdapterPosition == RecyclerView.NO_POSITION) return@setOnClickListener
                 if (isFromMiniPopup) {
                     onOpenFullChatInterface.onItemClick()
                 } else {
@@ -2745,7 +2745,7 @@ class PersonalChatAdapter(
             }
 
             binding.llTranslateMessage.setOnLongClickListener {
-                if (bindingAdapterPosition == RecyclerView.NO_POSITION) return@setOnLongClickListener true
+                if (absoluteAdapterPosition == RecyclerView.NO_POSITION) return@setOnLongClickListener true
                 if (isFromMiniPopup) {
                     onOpenFullChatInterface.onItemClick()
                     true
@@ -2757,7 +2757,7 @@ class PersonalChatAdapter(
             }
 
             binding.llTranslateMessage.setOnClickListener {
-                if (bindingAdapterPosition == RecyclerView.NO_POSITION) return@setOnClickListener
+                if (absoluteAdapterPosition == RecyclerView.NO_POSITION) return@setOnClickListener
                 if (isFromMiniPopup) {
                     onOpenFullChatInterface.onItemClick()
                 } else {
@@ -2766,14 +2766,14 @@ class PersonalChatAdapter(
                     } else {
                         onClickPreviewImageInterface.onItemTranslateClick(
                             item,
-                            position = bindingAdapterPosition
+                            position = absoluteAdapterPosition
                         )
                     }
                 }
             }
 
             binding.llToTranslateMessage.setOnLongClickListener {
-                if (bindingAdapterPosition == RecyclerView.NO_POSITION) return@setOnLongClickListener true
+                if (absoluteAdapterPosition == RecyclerView.NO_POSITION) return@setOnLongClickListener true
                 if (isFromMiniPopup) {
                     onOpenFullChatInterface.onItemClick()
                     true
@@ -2785,7 +2785,7 @@ class PersonalChatAdapter(
             }
 
             binding.llToTranslateMessage.setOnClickListener {
-                if (bindingAdapterPosition == RecyclerView.NO_POSITION) return@setOnClickListener
+                if (absoluteAdapterPosition == RecyclerView.NO_POSITION) return@setOnClickListener
                 if (isFromMiniPopup) {
                     onOpenFullChatInterface.onItemClick()
                 } else {
@@ -2794,14 +2794,14 @@ class PersonalChatAdapter(
                     } else {
                         onClickPreviewImageInterface.onItemTranslateClick(
                             item,
-                            position = bindingAdapterPosition
+                            position = absoluteAdapterPosition
                         )
                     }
                 }
             }
 
             binding.txtFromMessage.setOnLongClickListener {
-                if (bindingAdapterPosition == RecyclerView.NO_POSITION) return@setOnLongClickListener true
+                if (absoluteAdapterPosition == RecyclerView.NO_POSITION) return@setOnLongClickListener true
                 if (isFromMiniPopup) {
                     onOpenFullChatInterface.onItemClick()
                     true
@@ -2813,7 +2813,7 @@ class PersonalChatAdapter(
             }
 
             binding.txtFromMessage.setOnClickListener {
-                if (bindingAdapterPosition == RecyclerView.NO_POSITION) return@setOnClickListener
+                if (absoluteAdapterPosition == RecyclerView.NO_POSITION) return@setOnClickListener
                 if (isFromMiniPopup) {
                     onOpenFullChatInterface.onItemClick()
                 } else {
@@ -2840,7 +2840,7 @@ class PersonalChatAdapter(
             }
 
             binding.txtToMessage.setOnLongClickListener {
-                if (bindingAdapterPosition == RecyclerView.NO_POSITION) return@setOnLongClickListener true
+                if (absoluteAdapterPosition == RecyclerView.NO_POSITION) return@setOnLongClickListener true
                 if (isFromMiniPopup) {
                     onOpenFullChatInterface.onItemClick()
                     true
@@ -2852,7 +2852,7 @@ class PersonalChatAdapter(
             }
 
             binding.txtToMessage.setOnClickListener {
-                if (bindingAdapterPosition == RecyclerView.NO_POSITION) return@setOnClickListener
+                if (absoluteAdapterPosition == RecyclerView.NO_POSITION) return@setOnClickListener
                 if (isFromMiniPopup) {
                     onOpenFullChatInterface.onItemClick()
                 } else {
@@ -2879,7 +2879,7 @@ class PersonalChatAdapter(
             }
 
             itemView.setOnLongClickListener {
-                if (bindingAdapterPosition == RecyclerView.NO_POSITION) return@setOnLongClickListener true
+                if (absoluteAdapterPosition == RecyclerView.NO_POSITION) return@setOnLongClickListener true
                 if (isFromMiniPopup) {
                     onOpenFullChatInterface.onItemClick()
                     true
@@ -2891,7 +2891,7 @@ class PersonalChatAdapter(
             }
 
             itemView.setOnClickListener {
-                if (bindingAdapterPosition == RecyclerView.NO_POSITION) return@setOnClickListener
+                if (absoluteAdapterPosition == RecyclerView.NO_POSITION) return@setOnClickListener
                 if (isFromMiniPopup) {
                     onOpenFullChatInterface.onItemClick()
                 } else {
@@ -3311,7 +3311,7 @@ class PersonalChatAdapter(
             }
 
             binding.rvToImages.setOnLongClickListener {
-                if (bindingAdapterPosition == RecyclerView.NO_POSITION) return@setOnLongClickListener true
+                if (absoluteAdapterPosition == RecyclerView.NO_POSITION) return@setOnLongClickListener true
                 if (isFromMiniPopup) {
                     onOpenFullChatInterface.onItemClick()
                     true
@@ -3323,7 +3323,7 @@ class PersonalChatAdapter(
             }
 
             binding.rvToImages.setOnClickListener {
-                if (bindingAdapterPosition == RecyclerView.NO_POSITION) return@setOnClickListener
+                if (absoluteAdapterPosition == RecyclerView.NO_POSITION) return@setOnClickListener
                 if (isFromMiniPopup) {
                     onOpenFullChatInterface.onItemClick()
                 } else {
@@ -3340,7 +3340,7 @@ class PersonalChatAdapter(
             }
 
             binding.rvFromImages.setOnLongClickListener {
-                if (bindingAdapterPosition == RecyclerView.NO_POSITION) return@setOnLongClickListener true
+                if (absoluteAdapterPosition == RecyclerView.NO_POSITION) return@setOnLongClickListener true
                 if (isFromMiniPopup) {
                     onOpenFullChatInterface.onItemClick()
                     true
@@ -3352,7 +3352,7 @@ class PersonalChatAdapter(
             }
 
             binding.rvFromImages.setOnClickListener {
-                if (bindingAdapterPosition == RecyclerView.NO_POSITION) return@setOnClickListener
+                if (absoluteAdapterPosition == RecyclerView.NO_POSITION) return@setOnClickListener
                 if (isFromMiniPopup) {
                     onOpenFullChatInterface.onItemClick()
                 } else {
@@ -3369,7 +3369,7 @@ class PersonalChatAdapter(
             }
 
             binding.rvFromCopyCode.setOnLongClickListener {
-                if (bindingAdapterPosition == RecyclerView.NO_POSITION) return@setOnLongClickListener true
+                if (absoluteAdapterPosition == RecyclerView.NO_POSITION) return@setOnLongClickListener true
                 if (isFromMiniPopup) {
                     onOpenFullChatInterface.onItemClick()
                     true
@@ -3381,7 +3381,7 @@ class PersonalChatAdapter(
             }
 
             binding.rvFromCopyCode.setOnClickListener {
-                if (bindingAdapterPosition == RecyclerView.NO_POSITION) return@setOnClickListener
+                if (absoluteAdapterPosition == RecyclerView.NO_POSITION) return@setOnClickListener
                 if (isFromMiniPopup) {
                     onOpenFullChatInterface.onItemClick()
                 } else {
@@ -3396,7 +3396,7 @@ class PersonalChatAdapter(
             }
 
             binding.rvToCopyCode.setOnLongClickListener {
-                if (bindingAdapterPosition == RecyclerView.NO_POSITION) return@setOnLongClickListener true
+                if (absoluteAdapterPosition == RecyclerView.NO_POSITION) return@setOnLongClickListener true
                 if (isFromMiniPopup) {
                     onOpenFullChatInterface.onItemClick()
                     true
@@ -3408,7 +3408,7 @@ class PersonalChatAdapter(
             }
 
             binding.rvToCopyCode.setOnClickListener {
-                if (bindingAdapterPosition == RecyclerView.NO_POSITION) return@setOnClickListener
+                if (absoluteAdapterPosition == RecyclerView.NO_POSITION) return@setOnClickListener
                 if (isFromMiniPopup) {
                     onOpenFullChatInterface.onItemClick()
                 } else {
@@ -3423,7 +3423,7 @@ class PersonalChatAdapter(
             }
 
             binding.llTranslateMessage.setOnLongClickListener {
-                if (bindingAdapterPosition == RecyclerView.NO_POSITION) return@setOnLongClickListener true
+                if (absoluteAdapterPosition == RecyclerView.NO_POSITION) return@setOnLongClickListener true
                 if (isFromMiniPopup) {
                     onOpenFullChatInterface.onItemClick()
                     true
@@ -3435,7 +3435,7 @@ class PersonalChatAdapter(
             }
 
             binding.llTranslateMessage.setOnClickListener {
-                if (bindingAdapterPosition == RecyclerView.NO_POSITION) return@setOnClickListener
+                if (absoluteAdapterPosition == RecyclerView.NO_POSITION) return@setOnClickListener
                 if (isFromMiniPopup) {
                     onOpenFullChatInterface.onItemClick()
                 } else {
@@ -3444,14 +3444,14 @@ class PersonalChatAdapter(
                     } else {
                         onClickPreviewImageInterface.onItemTranslateClick(
                             item,
-                            position = bindingAdapterPosition
+                            position = absoluteAdapterPosition
                         )
                     }
                 }
             }
 
             binding.llToTranslateMessage.setOnLongClickListener {
-                if (bindingAdapterPosition == RecyclerView.NO_POSITION) return@setOnLongClickListener true
+                if (absoluteAdapterPosition == RecyclerView.NO_POSITION) return@setOnLongClickListener true
                 if (isFromMiniPopup) {
                     onOpenFullChatInterface.onItemClick()
                     true
@@ -3463,7 +3463,7 @@ class PersonalChatAdapter(
             }
 
             binding.llToTranslateMessage.setOnClickListener {
-                if (bindingAdapterPosition == RecyclerView.NO_POSITION) return@setOnClickListener
+                if (absoluteAdapterPosition == RecyclerView.NO_POSITION) return@setOnClickListener
                 if (isFromMiniPopup) {
                     onOpenFullChatInterface.onItemClick()
                 } else {
@@ -3472,14 +3472,14 @@ class PersonalChatAdapter(
                     } else {
                         onClickPreviewImageInterface.onItemTranslateClick(
                             item,
-                            position = bindingAdapterPosition
+                            position = absoluteAdapterPosition
                         )
                     }
                 }
             }
 
             binding.txtFromMessage.setOnLongClickListener {
-                if (bindingAdapterPosition == RecyclerView.NO_POSITION) return@setOnLongClickListener true
+                if (absoluteAdapterPosition == RecyclerView.NO_POSITION) return@setOnLongClickListener true
                 if (isFromMiniPopup) {
                     onOpenFullChatInterface.onItemClick()
                     true
@@ -3491,7 +3491,7 @@ class PersonalChatAdapter(
             }
 
             binding.txtFromMessage.setOnClickListener {
-                if (bindingAdapterPosition == RecyclerView.NO_POSITION) return@setOnClickListener
+                if (absoluteAdapterPosition == RecyclerView.NO_POSITION) return@setOnClickListener
                 if (isFromMiniPopup) {
                     onOpenFullChatInterface.onItemClick()
                 } else {
@@ -3518,7 +3518,7 @@ class PersonalChatAdapter(
             }
 
             binding.txtToMessage.setOnLongClickListener {
-                if (bindingAdapterPosition == RecyclerView.NO_POSITION) return@setOnLongClickListener true
+                if (absoluteAdapterPosition == RecyclerView.NO_POSITION) return@setOnLongClickListener true
                 if (isFromMiniPopup) {
                     onOpenFullChatInterface.onItemClick()
                     true
@@ -3530,7 +3530,7 @@ class PersonalChatAdapter(
             }
 
             binding.txtToMessage.setOnClickListener {
-                if (bindingAdapterPosition == RecyclerView.NO_POSITION) return@setOnClickListener
+                if (absoluteAdapterPosition == RecyclerView.NO_POSITION) return@setOnClickListener
                 if (isFromMiniPopup) {
                     onOpenFullChatInterface.onItemClick()
                 } else {
@@ -3557,7 +3557,7 @@ class PersonalChatAdapter(
             }
 
             itemView.setOnLongClickListener {
-                if (bindingAdapterPosition == RecyclerView.NO_POSITION) return@setOnLongClickListener true
+                if (absoluteAdapterPosition == RecyclerView.NO_POSITION) return@setOnLongClickListener true
                 if (isFromMiniPopup) {
                     onOpenFullChatInterface.onItemClick()
                     true
@@ -3569,7 +3569,7 @@ class PersonalChatAdapter(
             }
 
             itemView.setOnClickListener {
-                if (bindingAdapterPosition == RecyclerView.NO_POSITION) return@setOnClickListener
+                if (absoluteAdapterPosition == RecyclerView.NO_POSITION) return@setOnClickListener
                 if (isFromMiniPopup) {
                     onOpenFullChatInterface.onItemClick()
                 } else {
@@ -3989,7 +3989,7 @@ class PersonalChatAdapter(
             }
 
             binding.rvToImages.setOnLongClickListener {
-                if (bindingAdapterPosition == RecyclerView.NO_POSITION) return@setOnLongClickListener true
+                if (absoluteAdapterPosition == RecyclerView.NO_POSITION) return@setOnLongClickListener true
                 if (isFromMiniPopup) {
                     onOpenFullChatInterface.onItemClick()
                     true
@@ -4001,7 +4001,7 @@ class PersonalChatAdapter(
             }
 
             binding.rvToImages.setOnClickListener {
-                if (bindingAdapterPosition == RecyclerView.NO_POSITION) return@setOnClickListener
+                if (absoluteAdapterPosition == RecyclerView.NO_POSITION) return@setOnClickListener
                 if (isFromMiniPopup) {
                     onOpenFullChatInterface.onItemClick()
                 } else {
@@ -4018,7 +4018,7 @@ class PersonalChatAdapter(
             }
 
             binding.rvFromImages.setOnLongClickListener {
-                if (bindingAdapterPosition == RecyclerView.NO_POSITION) return@setOnLongClickListener true
+                if (absoluteAdapterPosition == RecyclerView.NO_POSITION) return@setOnLongClickListener true
                 if (isFromMiniPopup) {
                     onOpenFullChatInterface.onItemClick()
                     true
@@ -4030,7 +4030,7 @@ class PersonalChatAdapter(
             }
 
             binding.rvFromImages.setOnClickListener {
-                if (bindingAdapterPosition == RecyclerView.NO_POSITION) return@setOnClickListener
+                if (absoluteAdapterPosition == RecyclerView.NO_POSITION) return@setOnClickListener
                 if (isFromMiniPopup) {
                     onOpenFullChatInterface.onItemClick()
                 } else {
@@ -4047,7 +4047,7 @@ class PersonalChatAdapter(
             }
 
             binding.rvFromCopyCode.setOnLongClickListener {
-                if (bindingAdapterPosition == RecyclerView.NO_POSITION) return@setOnLongClickListener true
+                if (absoluteAdapterPosition == RecyclerView.NO_POSITION) return@setOnLongClickListener true
                 if (isFromMiniPopup) {
                     onOpenFullChatInterface.onItemClick()
                     true
@@ -4059,7 +4059,7 @@ class PersonalChatAdapter(
             }
 
             binding.rvFromCopyCode.setOnClickListener {
-                if (bindingAdapterPosition == RecyclerView.NO_POSITION) return@setOnClickListener
+                if (absoluteAdapterPosition == RecyclerView.NO_POSITION) return@setOnClickListener
                 if (isFromMiniPopup) {
                     onOpenFullChatInterface.onItemClick()
                 } else {
@@ -4074,7 +4074,7 @@ class PersonalChatAdapter(
             }
 
             binding.rvToCopyCode.setOnLongClickListener {
-                if (bindingAdapterPosition == RecyclerView.NO_POSITION) return@setOnLongClickListener true
+                if (absoluteAdapterPosition == RecyclerView.NO_POSITION) return@setOnLongClickListener true
                 if (isFromMiniPopup) {
                     onOpenFullChatInterface.onItemClick()
                     true
@@ -4086,7 +4086,7 @@ class PersonalChatAdapter(
             }
 
             binding.rvToCopyCode.setOnClickListener {
-                if (bindingAdapterPosition == RecyclerView.NO_POSITION) return@setOnClickListener
+                if (absoluteAdapterPosition == RecyclerView.NO_POSITION) return@setOnClickListener
                 if (isFromMiniPopup) {
                     onOpenFullChatInterface.onItemClick()
                 } else {
@@ -4101,7 +4101,7 @@ class PersonalChatAdapter(
             }
 
             binding.llTranslateMessage.setOnLongClickListener {
-                if (bindingAdapterPosition == RecyclerView.NO_POSITION) return@setOnLongClickListener true
+                if (absoluteAdapterPosition == RecyclerView.NO_POSITION) return@setOnLongClickListener true
                 if (isFromMiniPopup) {
                     onOpenFullChatInterface.onItemClick()
                     true
@@ -4113,7 +4113,7 @@ class PersonalChatAdapter(
             }
 
             binding.llTranslateMessage.setOnClickListener {
-                if (bindingAdapterPosition == RecyclerView.NO_POSITION) return@setOnClickListener
+                if (absoluteAdapterPosition == RecyclerView.NO_POSITION) return@setOnClickListener
                 if (isFromMiniPopup) {
                     onOpenFullChatInterface.onItemClick()
                 } else {
@@ -4122,14 +4122,14 @@ class PersonalChatAdapter(
                     } else {
                         onClickPreviewImageInterface.onItemTranslateClick(
                             item,
-                            position = bindingAdapterPosition
+                            position = absoluteAdapterPosition
                         )
                     }
                 }
             }
 
             binding.llToTranslateMessage.setOnLongClickListener {
-                if (bindingAdapterPosition == RecyclerView.NO_POSITION) return@setOnLongClickListener true
+                if (absoluteAdapterPosition == RecyclerView.NO_POSITION) return@setOnLongClickListener true
                 if (isFromMiniPopup) {
                     onOpenFullChatInterface.onItemClick()
                     true
@@ -4141,7 +4141,7 @@ class PersonalChatAdapter(
             }
 
             binding.llToTranslateMessage.setOnClickListener {
-                if (bindingAdapterPosition == RecyclerView.NO_POSITION) return@setOnClickListener
+                if (absoluteAdapterPosition == RecyclerView.NO_POSITION) return@setOnClickListener
                 if (isFromMiniPopup) {
                     onOpenFullChatInterface.onItemClick()
                 } else {
@@ -4150,14 +4150,14 @@ class PersonalChatAdapter(
                     } else {
                         onClickPreviewImageInterface.onItemTranslateClick(
                             item,
-                            position = bindingAdapterPosition
+                            position = absoluteAdapterPosition
                         )
                     }
                 }
             }
 
             binding.txtFromMessage.setOnLongClickListener {
-                if (bindingAdapterPosition == RecyclerView.NO_POSITION) return@setOnLongClickListener true
+                if (absoluteAdapterPosition == RecyclerView.NO_POSITION) return@setOnLongClickListener true
                 if (isFromMiniPopup) {
                     onOpenFullChatInterface.onItemClick()
                     true
@@ -4169,7 +4169,7 @@ class PersonalChatAdapter(
             }
 
             binding.txtFromMessage.setOnClickListener {
-                if (bindingAdapterPosition == RecyclerView.NO_POSITION) return@setOnClickListener
+                if (absoluteAdapterPosition == RecyclerView.NO_POSITION) return@setOnClickListener
                 if (isFromMiniPopup) {
                     onOpenFullChatInterface.onItemClick()
                 } else {
@@ -4196,7 +4196,7 @@ class PersonalChatAdapter(
             }
 
             binding.txtToMessage.setOnLongClickListener {
-                if (bindingAdapterPosition == RecyclerView.NO_POSITION) return@setOnLongClickListener true
+                if (absoluteAdapterPosition == RecyclerView.NO_POSITION) return@setOnLongClickListener true
                 if (isFromMiniPopup) {
                     onOpenFullChatInterface.onItemClick()
                     true
@@ -4208,7 +4208,7 @@ class PersonalChatAdapter(
             }
 
             binding.txtToMessage.setOnClickListener {
-                if (bindingAdapterPosition == RecyclerView.NO_POSITION) return@setOnClickListener
+                if (absoluteAdapterPosition == RecyclerView.NO_POSITION) return@setOnClickListener
                 if (isFromMiniPopup) {
                     onOpenFullChatInterface.onItemClick()
                 } else {
@@ -4235,7 +4235,7 @@ class PersonalChatAdapter(
             }
 
             itemView.setOnLongClickListener {
-                if (bindingAdapterPosition == RecyclerView.NO_POSITION) return@setOnLongClickListener true
+                if (absoluteAdapterPosition == RecyclerView.NO_POSITION) return@setOnLongClickListener true
                 if (isFromMiniPopup) {
                     onOpenFullChatInterface.onItemClick()
                     true
@@ -4247,7 +4247,7 @@ class PersonalChatAdapter(
             }
 
             itemView.setOnClickListener {
-                if (bindingAdapterPosition == RecyclerView.NO_POSITION) return@setOnClickListener
+                if (absoluteAdapterPosition == RecyclerView.NO_POSITION) return@setOnClickListener
                 if (isFromMiniPopup) {
                     onOpenFullChatInterface.onItemClick()
                 } else {
@@ -4667,7 +4667,7 @@ class PersonalChatAdapter(
             }
 
             binding.rvToImages.setOnLongClickListener {
-                if (bindingAdapterPosition == RecyclerView.NO_POSITION) return@setOnLongClickListener true
+                if (absoluteAdapterPosition == RecyclerView.NO_POSITION) return@setOnLongClickListener true
                 if (isFromMiniPopup) {
                     onOpenFullChatInterface.onItemClick()
                     true
@@ -4679,7 +4679,7 @@ class PersonalChatAdapter(
             }
 
             binding.rvToImages.setOnClickListener {
-                if (bindingAdapterPosition == RecyclerView.NO_POSITION) return@setOnClickListener
+                if (absoluteAdapterPosition == RecyclerView.NO_POSITION) return@setOnClickListener
                 if (isFromMiniPopup) {
                     onOpenFullChatInterface.onItemClick()
                 } else {
@@ -4696,7 +4696,7 @@ class PersonalChatAdapter(
             }
 
             binding.rvFromImages.setOnLongClickListener {
-                if (bindingAdapterPosition == RecyclerView.NO_POSITION) return@setOnLongClickListener true
+                if (absoluteAdapterPosition == RecyclerView.NO_POSITION) return@setOnLongClickListener true
                 if (isFromMiniPopup) {
                     onOpenFullChatInterface.onItemClick()
                     true
@@ -4708,7 +4708,7 @@ class PersonalChatAdapter(
             }
 
             binding.rvFromImages.setOnClickListener {
-                if (bindingAdapterPosition == RecyclerView.NO_POSITION) return@setOnClickListener
+                if (absoluteAdapterPosition == RecyclerView.NO_POSITION) return@setOnClickListener
                 if (isFromMiniPopup) {
                     onOpenFullChatInterface.onItemClick()
                 } else {
@@ -4725,7 +4725,7 @@ class PersonalChatAdapter(
             }
 
             binding.rvFromCopyCode.setOnLongClickListener {
-                if (bindingAdapterPosition == RecyclerView.NO_POSITION) return@setOnLongClickListener true
+                if (absoluteAdapterPosition == RecyclerView.NO_POSITION) return@setOnLongClickListener true
                 if (isFromMiniPopup) {
                     onOpenFullChatInterface.onItemClick()
                     true
@@ -4737,7 +4737,7 @@ class PersonalChatAdapter(
             }
 
             binding.rvFromCopyCode.setOnClickListener {
-                if (bindingAdapterPosition == RecyclerView.NO_POSITION) return@setOnClickListener
+                if (absoluteAdapterPosition == RecyclerView.NO_POSITION) return@setOnClickListener
                 if (isFromMiniPopup) {
                     onOpenFullChatInterface.onItemClick()
                 } else {
@@ -4752,7 +4752,7 @@ class PersonalChatAdapter(
             }
 
             binding.rvToCopyCode.setOnLongClickListener {
-                if (bindingAdapterPosition == RecyclerView.NO_POSITION) return@setOnLongClickListener true
+                if (absoluteAdapterPosition == RecyclerView.NO_POSITION) return@setOnLongClickListener true
                 if (isFromMiniPopup) {
                     onOpenFullChatInterface.onItemClick()
                     true
@@ -4764,7 +4764,7 @@ class PersonalChatAdapter(
             }
 
             binding.rvToCopyCode.setOnClickListener {
-                if (bindingAdapterPosition == RecyclerView.NO_POSITION) return@setOnClickListener
+                if (absoluteAdapterPosition == RecyclerView.NO_POSITION) return@setOnClickListener
                 if (isFromMiniPopup) {
                     onOpenFullChatInterface.onItemClick()
                 } else {
@@ -4779,7 +4779,7 @@ class PersonalChatAdapter(
             }
 
             binding.llTranslateMessage.setOnLongClickListener {
-                if (bindingAdapterPosition == RecyclerView.NO_POSITION) return@setOnLongClickListener true
+                if (absoluteAdapterPosition == RecyclerView.NO_POSITION) return@setOnLongClickListener true
                 if (isFromMiniPopup) {
                     onOpenFullChatInterface.onItemClick()
                     true
@@ -4791,7 +4791,7 @@ class PersonalChatAdapter(
             }
 
             binding.llTranslateMessage.setOnClickListener {
-                if (bindingAdapterPosition == RecyclerView.NO_POSITION) return@setOnClickListener
+                if (absoluteAdapterPosition == RecyclerView.NO_POSITION) return@setOnClickListener
                 if (isFromMiniPopup) {
                     onOpenFullChatInterface.onItemClick()
                 } else {
@@ -4800,14 +4800,14 @@ class PersonalChatAdapter(
                     } else {
                         onClickPreviewImageInterface.onItemTranslateClick(
                             item,
-                            position = bindingAdapterPosition
+                            position = absoluteAdapterPosition
                         )
                     }
                 }
             }
 
             binding.llToTranslateMessage.setOnLongClickListener {
-                if (bindingAdapterPosition == RecyclerView.NO_POSITION) return@setOnLongClickListener true
+                if (absoluteAdapterPosition == RecyclerView.NO_POSITION) return@setOnLongClickListener true
                 if (isFromMiniPopup) {
                     onOpenFullChatInterface.onItemClick()
                     true
@@ -4819,7 +4819,7 @@ class PersonalChatAdapter(
             }
 
             binding.llToTranslateMessage.setOnClickListener {
-                if (bindingAdapterPosition == RecyclerView.NO_POSITION) return@setOnClickListener
+                if (absoluteAdapterPosition == RecyclerView.NO_POSITION) return@setOnClickListener
                 if (isFromMiniPopup) {
                     onOpenFullChatInterface.onItemClick()
                 } else {
@@ -4828,14 +4828,14 @@ class PersonalChatAdapter(
                     } else {
                         onClickPreviewImageInterface.onItemTranslateClick(
                             item,
-                            position = bindingAdapterPosition
+                            position = absoluteAdapterPosition
                         )
                     }
                 }
             }
 
             binding.txtFromMessage.setOnLongClickListener {
-                if (bindingAdapterPosition == RecyclerView.NO_POSITION) return@setOnLongClickListener true
+                if (absoluteAdapterPosition == RecyclerView.NO_POSITION) return@setOnLongClickListener true
                 if (isFromMiniPopup) {
                     onOpenFullChatInterface.onItemClick()
                     true
@@ -4847,7 +4847,7 @@ class PersonalChatAdapter(
             }
 
             binding.txtFromMessage.setOnClickListener {
-                if (bindingAdapterPosition == RecyclerView.NO_POSITION) return@setOnClickListener
+                if (absoluteAdapterPosition == RecyclerView.NO_POSITION) return@setOnClickListener
                 if (isFromMiniPopup) {
                     onOpenFullChatInterface.onItemClick()
                 } else {
@@ -4874,7 +4874,7 @@ class PersonalChatAdapter(
             }
 
             binding.txtToMessage.setOnLongClickListener {
-                if (bindingAdapterPosition == RecyclerView.NO_POSITION) return@setOnLongClickListener true
+                if (absoluteAdapterPosition == RecyclerView.NO_POSITION) return@setOnLongClickListener true
                 if (isFromMiniPopup) {
                     onOpenFullChatInterface.onItemClick()
                     true
@@ -4886,7 +4886,7 @@ class PersonalChatAdapter(
             }
 
             binding.txtToMessage.setOnClickListener {
-                if (bindingAdapterPosition == RecyclerView.NO_POSITION) return@setOnClickListener
+                if (absoluteAdapterPosition == RecyclerView.NO_POSITION) return@setOnClickListener
                 if (isFromMiniPopup) {
                     onOpenFullChatInterface.onItemClick()
                 } else {
@@ -4913,7 +4913,7 @@ class PersonalChatAdapter(
             }
 
             itemView.setOnLongClickListener {
-                if (bindingAdapterPosition == RecyclerView.NO_POSITION) return@setOnLongClickListener true
+                if (absoluteAdapterPosition == RecyclerView.NO_POSITION) return@setOnLongClickListener true
                 if (isFromMiniPopup) {
                     onOpenFullChatInterface.onItemClick()
                     true
@@ -4925,7 +4925,7 @@ class PersonalChatAdapter(
             }
 
             itemView.setOnClickListener {
-                if (bindingAdapterPosition == RecyclerView.NO_POSITION) return@setOnClickListener
+                if (absoluteAdapterPosition == RecyclerView.NO_POSITION) return@setOnClickListener
                 if (isFromMiniPopup) {
                     onOpenFullChatInterface.onItemClick()
                 } else {
@@ -5367,7 +5367,7 @@ class PersonalChatAdapter(
             }
 
             binding.rvToImages.setOnLongClickListener {
-                if (bindingAdapterPosition == RecyclerView.NO_POSITION) return@setOnLongClickListener true
+                if (absoluteAdapterPosition == RecyclerView.NO_POSITION) return@setOnLongClickListener true
                 if (isFromMiniPopup) {
                     onOpenFullChatInterface.onItemClick()
                     true
@@ -5379,7 +5379,7 @@ class PersonalChatAdapter(
             }
 
             binding.rvToImages.setOnClickListener {
-                if (bindingAdapterPosition == RecyclerView.NO_POSITION) return@setOnClickListener
+                if (absoluteAdapterPosition == RecyclerView.NO_POSITION) return@setOnClickListener
                 if (isFromMiniPopup) {
                     onOpenFullChatInterface.onItemClick()
                 } else {
@@ -5396,7 +5396,7 @@ class PersonalChatAdapter(
             }
 
             binding.rvFromImages.setOnLongClickListener {
-                if (bindingAdapterPosition == RecyclerView.NO_POSITION) return@setOnLongClickListener true
+                if (absoluteAdapterPosition == RecyclerView.NO_POSITION) return@setOnLongClickListener true
                 if (isFromMiniPopup) {
                     onOpenFullChatInterface.onItemClick()
                     true
@@ -5408,7 +5408,7 @@ class PersonalChatAdapter(
             }
 
             binding.rvFromImages.setOnClickListener {
-                if (bindingAdapterPosition == RecyclerView.NO_POSITION) return@setOnClickListener
+                if (absoluteAdapterPosition == RecyclerView.NO_POSITION) return@setOnClickListener
                 if (isFromMiniPopup) {
                     onOpenFullChatInterface.onItemClick()
                 } else {
@@ -5425,7 +5425,7 @@ class PersonalChatAdapter(
             }
 
             binding.rvFromCopyCode.setOnLongClickListener {
-                if (bindingAdapterPosition == RecyclerView.NO_POSITION) return@setOnLongClickListener true
+                if (absoluteAdapterPosition == RecyclerView.NO_POSITION) return@setOnLongClickListener true
                 if (isFromMiniPopup) {
                     onOpenFullChatInterface.onItemClick()
                     true
@@ -5437,7 +5437,7 @@ class PersonalChatAdapter(
             }
 
             binding.rvFromCopyCode.setOnClickListener {
-                if (bindingAdapterPosition == RecyclerView.NO_POSITION) return@setOnClickListener
+                if (absoluteAdapterPosition == RecyclerView.NO_POSITION) return@setOnClickListener
                 if (isFromMiniPopup) {
                     onOpenFullChatInterface.onItemClick()
                 } else {
@@ -5452,7 +5452,7 @@ class PersonalChatAdapter(
             }
 
             binding.rvToCopyCode.setOnLongClickListener {
-                if (bindingAdapterPosition == RecyclerView.NO_POSITION) return@setOnLongClickListener true
+                if (absoluteAdapterPosition == RecyclerView.NO_POSITION) return@setOnLongClickListener true
                 if (isFromMiniPopup) {
                     onOpenFullChatInterface.onItemClick()
                     true
@@ -5464,7 +5464,7 @@ class PersonalChatAdapter(
             }
 
             binding.rvToCopyCode.setOnClickListener {
-                if (bindingAdapterPosition == RecyclerView.NO_POSITION) return@setOnClickListener
+                if (absoluteAdapterPosition == RecyclerView.NO_POSITION) return@setOnClickListener
                 if (isFromMiniPopup) {
                     onOpenFullChatInterface.onItemClick()
                 } else {
@@ -5479,7 +5479,7 @@ class PersonalChatAdapter(
             }
 
             binding.llTranslateMessage.setOnLongClickListener {
-                if (bindingAdapterPosition == RecyclerView.NO_POSITION) return@setOnLongClickListener true
+                if (absoluteAdapterPosition == RecyclerView.NO_POSITION) return@setOnLongClickListener true
                 if (isFromMiniPopup) {
                     onOpenFullChatInterface.onItemClick()
                     true
@@ -5491,7 +5491,7 @@ class PersonalChatAdapter(
             }
 
             binding.llTranslateMessage.setOnClickListener {
-                if (bindingAdapterPosition == RecyclerView.NO_POSITION) return@setOnClickListener
+                if (absoluteAdapterPosition == RecyclerView.NO_POSITION) return@setOnClickListener
                 if (isFromMiniPopup) {
                     onOpenFullChatInterface.onItemClick()
                 } else {
@@ -5500,14 +5500,14 @@ class PersonalChatAdapter(
                     } else {
                         onClickPreviewImageInterface.onItemTranslateClick(
                             item,
-                            position = bindingAdapterPosition
+                            position = absoluteAdapterPosition
                         )
                     }
                 }
             }
 
             binding.llToTranslateMessage.setOnLongClickListener {
-                if (bindingAdapterPosition == RecyclerView.NO_POSITION) return@setOnLongClickListener true
+                if (absoluteAdapterPosition == RecyclerView.NO_POSITION) return@setOnLongClickListener true
                 if (isFromMiniPopup) {
                     onOpenFullChatInterface.onItemClick()
                     true
@@ -5519,7 +5519,7 @@ class PersonalChatAdapter(
             }
 
             binding.llToTranslateMessage.setOnClickListener {
-                if (bindingAdapterPosition == RecyclerView.NO_POSITION) return@setOnClickListener
+                if (absoluteAdapterPosition == RecyclerView.NO_POSITION) return@setOnClickListener
                 if (isFromMiniPopup) {
                     onOpenFullChatInterface.onItemClick()
                 } else {
@@ -5528,14 +5528,14 @@ class PersonalChatAdapter(
                     } else {
                         onClickPreviewImageInterface.onItemTranslateClick(
                             item,
-                            position = bindingAdapterPosition
+                            position = absoluteAdapterPosition
                         )
                     }
                 }
             }
 
             binding.txtFromMessage.setOnLongClickListener {
-                if (bindingAdapterPosition == RecyclerView.NO_POSITION) return@setOnLongClickListener true
+                if (absoluteAdapterPosition == RecyclerView.NO_POSITION) return@setOnLongClickListener true
                 if (isFromMiniPopup) {
                     onOpenFullChatInterface.onItemClick()
                     true
@@ -5547,7 +5547,7 @@ class PersonalChatAdapter(
             }
 
             binding.txtFromMessage.setOnClickListener {
-                if (bindingAdapterPosition == RecyclerView.NO_POSITION) return@setOnClickListener
+                if (absoluteAdapterPosition == RecyclerView.NO_POSITION) return@setOnClickListener
                 if (isFromMiniPopup) {
                     onOpenFullChatInterface.onItemClick()
                 } else {
@@ -5574,7 +5574,7 @@ class PersonalChatAdapter(
             }
 
             binding.txtToMessage.setOnLongClickListener {
-                if (bindingAdapterPosition == RecyclerView.NO_POSITION) return@setOnLongClickListener true
+                if (absoluteAdapterPosition == RecyclerView.NO_POSITION) return@setOnLongClickListener true
                 if (isFromMiniPopup) {
                     onOpenFullChatInterface.onItemClick()
                     true
@@ -5586,7 +5586,7 @@ class PersonalChatAdapter(
             }
 
             binding.txtToMessage.setOnClickListener {
-                if (bindingAdapterPosition == RecyclerView.NO_POSITION) return@setOnClickListener
+                if (absoluteAdapterPosition == RecyclerView.NO_POSITION) return@setOnClickListener
                 if (isFromMiniPopup) {
                     onOpenFullChatInterface.onItemClick()
                 } else {
@@ -5613,7 +5613,7 @@ class PersonalChatAdapter(
             }
 
             itemView.setOnLongClickListener {
-                if (bindingAdapterPosition == RecyclerView.NO_POSITION) return@setOnLongClickListener true
+                if (absoluteAdapterPosition == RecyclerView.NO_POSITION) return@setOnLongClickListener true
                 if (isFromMiniPopup) {
                     onOpenFullChatInterface.onItemClick()
                     true
@@ -5625,7 +5625,7 @@ class PersonalChatAdapter(
             }
 
             itemView.setOnClickListener {
-                if (bindingAdapterPosition == RecyclerView.NO_POSITION) return@setOnClickListener
+                if (absoluteAdapterPosition == RecyclerView.NO_POSITION) return@setOnClickListener
                 if (isFromMiniPopup) {
                     onOpenFullChatInterface.onItemClick()
                 } else {
@@ -5877,110 +5877,116 @@ class PersonalChatAdapter(
         isFromMe: Boolean = false,
         anchorView: View
     ): SpannableString {
+
+        if (inputText.isEmpty()) return SpannableString("")
+
         val spannable = SpannableString(inputText)
 
-        // Regex patterns
-        val phoneRegex = "(\\+91[\\s-]?)?[7-9][0-9]{4}[\\s-]?[0-9]{5}".toRegex()
-        val numberRegex = "\\b\\d+\\b".toRegex()
-        val dateRegex =
-            "\\b\\d{1,2}[/-]\\d{1,2}[/-]\\d{2,4}\\b|\\b\\d{1,2}\\s+(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\\s+\\d{2,4}\\b"
-                .toRegex(RegexOption.IGNORE_CASE)
-        val customDateRegex = "\\b\\d{2}-[A-Za-z]{3}-\\d{2}\\s\\d{2}:\\d{2}\\b".toRegex()
-        val linkRegex = Patterns.WEB_URL.toRegex()
-        val rsRegex = "(?i)(Rs\\.?\\s?\\d{1,10}|₹\\s?\\d{1,10})(?=\\b|\\s|$|[^\\w.])".toRegex()
+        try {
+            val phoneRegex = "(\\+91[\\s-]?)?[7-9][0-9]{4}[\\s-]?[0-9]{5}".toRegex()
+            val numberRegex = "\\b\\d+\\b".toRegex()
+            val dateRegex =
+                "\\b\\d{1,2}[/-]\\d{1,2}[/-]\\d{2,4}\\b|\\b\\d{1,2}\\s+(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\\s+\\d{2,4}\\b"
+                    .toRegex(RegexOption.IGNORE_CASE)
+            val customDateRegex = "\\b\\d{2}-[A-Za-z]{3}-\\d{2}\\s\\d{2}:\\d{2}\\b".toRegex()
+            val linkRegex = Patterns.WEB_URL.toRegex()
+            val rsRegex = "(?i)(Rs\\.?\\s?\\d{1,10}|₹\\s?\\d{1,10})(?=\\b|\\s|$|[^\\w.])".toRegex()
 
-        val allRegex =
-            listOf(phoneRegex, rsRegex, dateRegex, customDateRegex, linkRegex, numberRegex)
+            val allRegex = listOf(phoneRegex, rsRegex, dateRegex, customDateRegex, linkRegex, numberRegex)
 
-        val matchedRanges = mutableSetOf<IntRange>()
+            val matchedRanges = mutableListOf<IntRange>()
 
-        allRegex.forEach { regex ->
-            regex.findAll(inputText).forEach { match ->
-                val start = match.range.first
-                val end = match.range.last + 1
-                val currentRange = start..<end
+            for (regex in allRegex) {
+                val matches = regex.findAll(inputText)
 
-                if (matchedRanges.none { it.overlaps(currentRange) }) {
-                    matchedRanges.add(currentRange)
+                for (match in matches) {
+                    val start = match.range.first
+                    val end = match.range.last + 1
 
-                    val colorRes = if (isFromMe) R.color.black else R.color.app_theme_color
-                    val color = ContextCompat.getColor(context, colorRes)
-                    val matchedText = match.value
+                    // ✅ HARD SAFETY CHECK (prevents crash)
+                    if (start < 0 || end > inputText.length || start >= end) continue
 
-                    // Set clickable span
-                    val clickableSpan = object : ClickableSpan() {
-                        override fun onClick(widget: View) {
-                            try {
-                                if (isFromMiniPopup) {
-                                    onOpenFullChatInterface.onItemClick()
-                                } else {
-                                    when {
-                                        linkRegex.containsMatchIn(matchedText) -> {
-                                            showContactPopup(
-                                                anchorView,
-                                                isFromMe,
-                                                "LINK",
-                                                matchedText
-                                            )
-                                        }
+                    val currentRange = start until end
 
-                                        phoneRegex.containsMatchIn(matchedText) ||
-                                                numberRegex.containsMatchIn(matchedText) -> {
-                                            showContactPopup(
-                                                anchorView,
-                                                isFromMe,
-                                                "NUMBER",
-                                                matchedText
-                                            )
+                    if (matchedRanges.none { it.first < end && start < it.last }) {
+                        matchedRanges.add(currentRange)
+
+                        val colorRes = if (isFromMe) R.color.black else R.color.app_theme_color
+                        val color = ContextCompat.getColor(context, colorRes)
+                        val matchedText = match.value
+
+                        val clickableSpan = object : ClickableSpan() {
+                            override fun onClick(widget: View) {
+                                try {
+                                    if (isFromMiniPopup) {
+                                        onOpenFullChatInterface.onItemClick()
+                                    } else {
+                                        when {
+                                            linkRegex.matches(matchedText) -> {
+                                                showContactPopup(anchorView, isFromMe, "LINK", matchedText)
+                                            }
+
+                                            phoneRegex.matches(matchedText) ||
+                                                    numberRegex.matches(matchedText) -> {
+                                                showContactPopup(anchorView, isFromMe, "NUMBER", matchedText)
+                                            }
                                         }
                                     }
+                                } catch (e: Exception) {
+                                    e.printStackTrace()
+                                    Toast.makeText(
+                                        context,
+                                        context.getString(R.string.something_went_wrong),
+                                        Toast.LENGTH_SHORT
+                                    ).show()
                                 }
-                            } catch (e: Exception) {
-                                e.printStackTrace()
-                                Toast.makeText(
-                                    context,
-                                    context.getString(R.string.something_went_wrong),
-                                    Toast.LENGTH_SHORT
-                                ).show()
+                            }
+
+                            override fun updateDrawState(ds: TextPaint) {
+                                ds.isUnderlineText = true
+                                ds.color = color
                             }
                         }
 
-                        override fun updateDrawState(ds: TextPaint) {
-                            super.updateDrawState(ds)
-                            ds.isUnderlineText = true
-                            ds.color = color
-                        }
+                        spannable.setSpan(
+                            clickableSpan,
+                            start,
+                            end,
+                            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+                        )
                     }
+                }
+            }
+
+            // ✅ SEARCH HIGHLIGHT (safe)
+            if (searchQuery.isNotBlank()) {
+                val searchRegex = Regex(Regex.escape(searchQuery), RegexOption.IGNORE_CASE)
+
+                for (match in searchRegex.findAll(inputText)) {
+                    val start = match.range.first
+                    val end = match.range.last + 1
+
+                    if (start < 0 || end > inputText.length || start >= end) continue
 
                     spannable.setSpan(
-                        clickableSpan,
+                        BackgroundColorSpan(ContextCompat.getColor(context, R.color.app_theme_color)),
+                        start,
+                        end,
+                        Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+                    )
+
+                    spannable.setSpan(
+                        ForegroundColorSpan(ContextCompat.getColor(context, R.color.white)),
                         start,
                         end,
                         Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
                     )
                 }
             }
-        }
 
-        if (searchQuery.isNotBlank()) {
-            val searchRegex = Regex(Regex.escape(searchQuery), RegexOption.IGNORE_CASE)
-            searchRegex.findAll(inputText).forEach { match ->
-                val start = match.range.first
-                val end = match.range.last + 1
-
-                spannable.setSpan(
-                    BackgroundColorSpan(ContextCompat.getColor(context, R.color.app_theme_color)),
-                    start,
-                    end,
-                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
-                )
-                spannable.setSpan(
-                    ForegroundColorSpan(ContextCompat.getColor(context, R.color.white)),
-                    start,
-                    end,
-                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
-                )
-            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+            return SpannableString(inputText) // fallback safe
         }
 
         return spannable
@@ -6238,10 +6244,6 @@ class PersonalChatAdapter(
     private fun isPhoneNumber(address: String?): Boolean {
         if (address.isNullOrBlank()) return false
         return PhoneNumberUtils.isGlobalPhoneNumber(address)
-    }
-
-    private fun IntRange.overlaps(other: IntRange): Boolean {
-        return this.first <= other.last && other.first <= this.last
     }
 
     private fun formatTimestamp(timeMillis: Long): String {

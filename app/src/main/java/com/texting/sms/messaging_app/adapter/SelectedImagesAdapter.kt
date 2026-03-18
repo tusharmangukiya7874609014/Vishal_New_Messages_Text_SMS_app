@@ -28,14 +28,14 @@ class SelectedImagesAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         with(holder) {
-            with(imageUriList[position]) {
+            with(imageUriList[absoluteAdapterPosition]) {
                 Glide.with(context).load(this.toString().toUri()).into(binding.ivSelectedImages)
             }
 
             binding.ivRemoveImage.setOnClickListener {
-                if (bindingAdapterPosition != RecyclerView.NO_POSITION && bindingAdapterPosition < imageUriList.size) {
-                    removeImageInterface.onRemoveImage(imageUriList[bindingAdapterPosition])
-                    removeItemAt(bindingAdapterPosition)
+                if (absoluteAdapterPosition != RecyclerView.NO_POSITION && absoluteAdapterPosition < imageUriList.size) {
+                    removeImageInterface.onRemoveImage(imageUriList[absoluteAdapterPosition])
+                    removeItemAt(absoluteAdapterPosition)
                 }
             }
         }

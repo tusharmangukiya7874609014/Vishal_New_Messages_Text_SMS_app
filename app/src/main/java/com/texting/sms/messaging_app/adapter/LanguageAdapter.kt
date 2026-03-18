@@ -31,21 +31,21 @@ class LanguageAdapter(
         with(holder) {
             binding.executePendingBindings()
 
-            if (rowIndex == languageList[position].languageCode) {
-                languageList[position].isLanguageSelected = true
-                lastSelectedPosition = position
+            if (rowIndex == languageList[absoluteAdapterPosition].languageCode) {
+                languageList[absoluteAdapterPosition].isLanguageSelected = true
+                lastSelectedPosition = absoluteAdapterPosition
             } else {
-                languageList[position].isLanguageSelected = false
+                languageList[absoluteAdapterPosition].isLanguageSelected = false
             }
 
-            binding.item = languageList[position]
+            binding.item = languageList[absoluteAdapterPosition]
 
             itemView.setOnClickListener {
-                if (bindingAdapterPosition != RecyclerView.NO_POSITION && bindingAdapterPosition < languageList.size) {
-                    rowIndex = languageList[bindingAdapterPosition].languageCode.toString()
+                if (absoluteAdapterPosition != RecyclerView.NO_POSITION && absoluteAdapterPosition < languageList.size) {
+                    rowIndex = languageList[absoluteAdapterPosition].languageCode.toString()
 
                     languageInterface.onItemClick(
-                        languageList[bindingAdapterPosition], bindingAdapterPosition
+                        languageList[absoluteAdapterPosition], absoluteAdapterPosition
                     )
                 }
             }
@@ -58,7 +58,7 @@ class LanguageAdapter(
         payloads: MutableList<Any>
     ) {
         if (payloads.isNotEmpty()) {
-            holder.binding.item = languageList[position]
+            holder.binding.item = languageList[holder.absoluteAdapterPosition]
         } else {
             onBindViewHolder(holder, position)
         }

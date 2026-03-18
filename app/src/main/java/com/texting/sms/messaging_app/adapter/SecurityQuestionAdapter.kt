@@ -31,19 +31,19 @@ class SecurityQuestionAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         with(holder) {
-            with(questionList[position]) {
+            with(questionList[absoluteAdapterPosition]) {
                 binding.txtQuestion.text = this.question
             }
 
             binding.root.setOnClickListener {
-                if (bindingAdapterPosition != RecyclerView.NO_POSITION && bindingAdapterPosition < questionList.size) {
-                    rowIndex = bindingAdapterPosition
-                    questionInterface.onItemClick(questionList[bindingAdapterPosition].question.toString())
+                if (absoluteAdapterPosition != RecyclerView.NO_POSITION && absoluteAdapterPosition < questionList.size) {
+                    rowIndex = absoluteAdapterPosition
+                    questionInterface.onItemClick(questionList[absoluteAdapterPosition].question.toString())
                     notifyDataSetChanged()
                 }
             }
 
-            if (rowIndex == bindingAdapterPosition) {
+            if (rowIndex == absoluteAdapterPosition) {
                 binding.txtQuestion.setTextColor(
                     ContextCompat.getColor(
                         context,

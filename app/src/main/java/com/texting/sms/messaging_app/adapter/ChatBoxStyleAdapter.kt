@@ -38,22 +38,22 @@ class ChatBoxStyleAdapter(
         with(holder) {
             binding.executePendingBindings()
 
-            if (selectedPosition == bindingAdapterPosition) {
-                chatBoxStyleList[position].isChatBoxSelected = true
-                lastSelectedPosition = position
+            if (selectedPosition == absoluteAdapterPosition) {
+                chatBoxStyleList[absoluteAdapterPosition].isChatBoxSelected = true
+                lastSelectedPosition = absoluteAdapterPosition
             } else {
                 chatBoxStyleList[position].isChatBoxSelected = false
             }
 
-            binding.item = chatBoxStyleList[position]
+            binding.item = chatBoxStyleList[absoluteAdapterPosition]
 
             itemView.setOnClickListener {
-                if (bindingAdapterPosition != RecyclerView.NO_POSITION && bindingAdapterPosition < chatBoxStyleList.size) {
-                    selectedPosition = bindingAdapterPosition
+                if (absoluteAdapterPosition != RecyclerView.NO_POSITION && absoluteAdapterPosition < chatBoxStyleList.size) {
+                    selectedPosition = absoluteAdapterPosition
 
                     onChatBoxClickInterface.onSelectChatBoxClick(
-                        bindingAdapterPosition,
-                        chatBoxStyleList[bindingAdapterPosition]
+                        absoluteAdapterPosition,
+                        chatBoxStyleList[absoluteAdapterPosition]
                     )
                 }
             }
@@ -66,7 +66,7 @@ class ChatBoxStyleAdapter(
         payloads: MutableList<Any>
     ) {
         if (payloads.isNotEmpty()) {
-            holder.binding.item = chatBoxStyleList[position]
+            holder.binding.item = chatBoxStyleList[holder.absoluteAdapterPosition]
         } else {
             onBindViewHolder(holder, position)
         }

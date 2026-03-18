@@ -22,13 +22,13 @@ class BlockedListAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         with(holder) {
-            with(blockedList[position]) {
+            with(blockedList[absoluteAdapterPosition]) {
                 binding.txtContactNumber.text = this
             }
 
             itemView.setOnClickListener {
-                if (bindingAdapterPosition != RecyclerView.NO_POSITION && bindingAdapterPosition < blockedList.size) {
-                    unblockUserInterface.onItemClick(blockedList[bindingAdapterPosition])
+                if (absoluteAdapterPosition != RecyclerView.NO_POSITION && absoluteAdapterPosition < blockedList.size) {
+                    unblockUserInterface.onItemClick(blockedList[absoluteAdapterPosition])
                     notifyDataSetChanged()
                 }
             }

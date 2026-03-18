@@ -31,21 +31,21 @@ class ScheduledMessageAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         with(holder) {
             binding.apply {
-                item = scheduledMessageList[position]
+                item = scheduledMessageList[absoluteAdapterPosition]
                 executePendingBindings()
             }
 
-            if (scheduledMessageList[position].imageURIs.isNotEmpty()) {
+            if (scheduledMessageList[absoluteAdapterPosition].imageURIs.isNotEmpty()) {
                 val selectedImageUris: MutableList<Uri> =
-                    scheduledMessageList[position].imageURIs.split(",").map { it.toUri() }
+                    scheduledMessageList[absoluteAdapterPosition].imageURIs.split(",").map { it.toUri() }
                         .toMutableList()
 
                 binding.rvSelectedImages.layoutManager =
                     LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
                 val chatHistoryImageAdapter =
                     ChatHistoryImageAdapter(selectedImageUris, context) { _ ->
-                        if (bindingAdapterPosition != RecyclerView.NO_POSITION && bindingAdapterPosition < scheduledMessageList.size) {
-                            onScheduledClickInterface.onItemClick(scheduledMessageList[bindingAdapterPosition])
+                        if (absoluteAdapterPosition != RecyclerView.NO_POSITION && absoluteAdapterPosition < scheduledMessageList.size) {
+                            onScheduledClickInterface.onItemClick(scheduledMessageList[absoluteAdapterPosition])
                         }
                     }
                 binding.rvSelectedImages.adapter = chatHistoryImageAdapter
@@ -55,8 +55,8 @@ class ScheduledMessageAdapter(
             }
 
             binding.rvMainContentView.setOnClickListener {
-                if (bindingAdapterPosition != RecyclerView.NO_POSITION && bindingAdapterPosition < scheduledMessageList.size) {
-                    onScheduledClickInterface.onItemClick(scheduledMessageList[bindingAdapterPosition])
+                if (absoluteAdapterPosition != RecyclerView.NO_POSITION && absoluteAdapterPosition < scheduledMessageList.size) {
+                    onScheduledClickInterface.onItemClick(scheduledMessageList[absoluteAdapterPosition])
                 }
             }
         }

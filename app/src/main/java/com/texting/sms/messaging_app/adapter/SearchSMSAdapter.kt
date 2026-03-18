@@ -24,18 +24,18 @@ class SearchSMSAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         with(holder) {
-            with(messageFilterList[position]) {
-                binding.item = messageFilterList[position]
+            with(messageFilterList[absoluteAdapterPosition]) {
+                binding.item = messageFilterList[absoluteAdapterPosition]
                 binding.executePendingBindings()
 
                 val finalCountMatches = "$matchCount Messages"
                 binding.txtLastMessage.text = finalCountMatches
 
                 itemView.setOnClickListener {
-                    if (bindingAdapterPosition != RecyclerView.NO_POSITION && bindingAdapterPosition < messageFilterList.size) {
-                        val currentMessage = messageFilterList.getOrNull(bindingAdapterPosition)
+                    if (absoluteAdapterPosition != RecyclerView.NO_POSITION && absoluteAdapterPosition < messageFilterList.size) {
+                        val currentMessage = messageFilterList.getOrNull(absoluteAdapterPosition)
                         if (currentMessage != null) {
-                            onSearchResultClickInterface.onItemClick(messageFilterList[bindingAdapterPosition])
+                            onSearchResultClickInterface.onItemClick(messageFilterList[absoluteAdapterPosition])
                         }
                     }
                 }
@@ -54,7 +54,7 @@ class SearchSMSAdapter(
             with(holder) {
                 if (payload == "payload_update") {
                     val finalCountMatches =
-                        "${messageFilterList[position].matchCount} Messages"
+                        "${messageFilterList[absoluteAdapterPosition].matchCount} Messages"
                     binding.txtLastMessage.text = finalCountMatches
                 }
             }

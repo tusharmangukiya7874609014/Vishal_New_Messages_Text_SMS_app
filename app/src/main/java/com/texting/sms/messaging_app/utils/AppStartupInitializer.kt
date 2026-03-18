@@ -1,10 +1,10 @@
 package com.texting.sms.messaging_app.utils
 
 import android.content.Context
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import androidx.startup.Initializer
-import com.texting.sms.messaging_app.database.Const
-import com.texting.sms.messaging_app.database.SharedPreferencesHelper
 import com.google.android.libraries.ads.mobile.sdk.MobileAds
 import com.google.android.libraries.ads.mobile.sdk.initialization.InitializationConfig
 import com.google.firebase.FirebaseApp
@@ -13,6 +13,8 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.perf.FirebasePerformance
+import com.texting.sms.messaging_app.database.Const
+import com.texting.sms.messaging_app.database.SharedPreferencesHelper
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -143,11 +145,23 @@ class AppStartupInitializer : Initializer<Unit> {
                 context, Const.IS_ADS_ENABLED, false
             )
         ) {
-            MobileAds.initialize(
-                context,
-                InitializationConfig.Builder("ca-app-pub-3940256099942544~3347511713").build()
-            ) {
+            initializeAdsSafely(context) { }
+        }
+    }
 
+    private fun initializeAdsSafely(context: Context, onComplete: (() -> Unit)? = null) {
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                MobileAds.initialize(
+                    context,
+                    InitializationConfig.Builder("ca-app-pub-3940256099942544~3347511713").build()
+                ) {
+                    Handler(Looper.getMainLooper()).post {
+                        onComplete?.invoke()
+                    }
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
             }
         }
     }

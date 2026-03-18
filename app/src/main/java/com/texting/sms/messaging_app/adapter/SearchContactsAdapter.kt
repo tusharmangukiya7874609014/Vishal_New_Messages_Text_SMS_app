@@ -29,13 +29,13 @@ class SearchContactsAdapter(
             binding.executePendingBindings()
 
             itemView.setOnClickListener {
-                if (bindingAdapterPosition != RecyclerView.NO_POSITION && bindingAdapterPosition < messageFilterList.size) {
-                    onChartUserInterface.chatUserClick(messageFilterList[bindingAdapterPosition])
+                if (absoluteAdapterPosition != RecyclerView.NO_POSITION && absoluteAdapterPosition < messageFilterList.size) {
+                    onChartUserInterface.chatUserClick(messageFilterList[absoluteAdapterPosition])
                 }
             }
 
             binding.searchQuery = searchQuery
-            binding.item = messageFilterList[position]
+            binding.item = messageFilterList[absoluteAdapterPosition]
         }
     }
 

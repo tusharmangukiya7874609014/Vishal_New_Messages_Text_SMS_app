@@ -19,7 +19,6 @@
     <uses-permission android:name="android.permission.RECEIVE_WAP_PUSH" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
-    <uses-permission android:name="android.permission.READ_CONTACTS" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.USE_FULL_SCREEN_INTENT" />
     <uses-permission android:name="android.permission.READ_CELL_BROADCASTS" />
@@ -35,6 +34,7 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
     <uses-permission android:name="android.permission.ACTION_MANAGE_OVERLAY_PERMISSION" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_PHONE_CALL" />
     <uses-permission android:name="android.permission.MANAGE_OWN_CALLS" />
 
     <application
@@ -54,7 +54,7 @@
         <activity
             android:name=".activity.AdsAppOpenActivity"
             android:exported="false"
-            android:theme="@style/Theme.AppOpenAdsTheme"/>
+            android:theme="@style/Theme.AppOpenAdsTheme" />
         <activity
             android:name=".activity.AfterCallBackActivity"
             android:clearTaskOnLaunch="true"
@@ -212,8 +212,8 @@
         </activity>
         <activity
             android:name=".activity.CustomLunchActivity"
-            android:label="@string/app_name"
-            android:exported="true">
+            android:exported="true"
+            android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -270,6 +270,7 @@
             android:exported="true"
             android:permission="android.permission.BROADCAST_WAP_PUSH">
             <intent-filter>
+                <action android:name="android.provider.Telephony.WAP_PUSH_RECEIVED"/>
                 <action android:name="android.provider.Telephony.WAP_PUSH_DELIVER" />
 
                 <data android:mimeType="application/vnd.wap.mms-message" />
@@ -286,7 +287,8 @@
 
         <service
             android:name=".services.CallOverlayService"
-            android:exported="false" />
+            android:exported="false"
+            android:foregroundServiceType="phoneCall" />
         <service
             android:name=".services.OverlayPermissionMonitorService"
             android:exported="false" />

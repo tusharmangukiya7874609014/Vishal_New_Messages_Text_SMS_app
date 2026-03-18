@@ -28,7 +28,7 @@ class ChatHistoryImageAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         with(holder) {
             binding.ivRemoveImage.visibility = View.GONE
-            with(imageUriList[position]) {
+            with(imageUriList[absoluteAdapterPosition]) {
                 Glide.with(context).load(this.toString().toUri())
                     .into(binding.ivSelectedImages)
 

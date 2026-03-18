@@ -6,7 +6,6 @@ import android.content.Context
 import android.net.Uri
 import android.provider.ContactsContract
 import android.util.Log
-import com.texting.sms.messaging_app.activity.HomeActivity.SmsPart
 import com.texting.sms.messaging_app.database.SharedPreferencesHelper
 import com.texting.sms.messaging_app.model.ChatUser
 import com.texting.sms.messaging_app.utils.MessageWidgetProvider
@@ -18,6 +17,7 @@ import androidx.core.net.toUri
 import com.texting.sms.messaging_app.R
 import kotlin.collections.iterator
 import kotlin.collections.toMutableList
+import kotlin.math.abs
 
 object MessageRepository {
     private var allSMSResponse: MutableList<ChatUser> = mutableListOf()
@@ -82,6 +82,15 @@ object MessageRepository {
         }
     }
 
+    data class SmsPart(
+        val address: String,
+        val body: String,
+        val date: Long,
+        val isRead: Boolean,
+        val simSlot: Int,
+        val type: Int
+    )
+
     private fun getAllSmsThreads(context: Context, limit: Int = -1): List<ChatUser> {
         val smsThreads = mutableListOf<ChatUser>()
         val contentResolver = context.contentResolver
@@ -100,20 +109,31 @@ object MessageRepository {
             mutableMapOf<Long, MutableList<SmsPart>>()
         val unreadCounter = mutableMapOf<Long, Int>()
 
-        cursor?.use {
-            while (it.moveToNext()) {
-                val threadId = it.getLong(it.getColumnIndexOrThrow("thread_id"))
-                val address = it.getString(it.getColumnIndexOrThrow("address"))
+        if (cursor == null || cursor.count == 0) return emptyList()
 
-                val body = it.getString(it.getColumnIndexOrThrow("body"))
+        cursor.use {
+            while (it.moveToNext()) {
+                val threadIdIndex = it.getColumnIndex("thread_id")
+                if (threadIdIndex == -1) continue
+
+                val threadId = it.getLong(threadIdIndex)
+
+                val address = it.getColumnIndex("address").let { idx ->
+                    if (idx != -1) it.getString(idx) ?: "" else ""
+                }
+
+                val body = it.getColumnIndex("body").let { idx ->
+                    if (idx != -1) it.getString(idx) ?: "" else ""
+                }
+
                 val date = it.getLong(it.getColumnIndexOrThrow("date"))
                 val isRead = it.getInt(it.getColumnIndexOrThrow("read")) == 1
-                val simSlot = try {
-                    it.getInt(it.getColumnIndexOrThrow("sub_id"))
-                } catch (_: Exception) {
-                    -1
+                val simSlot = it.getColumnIndex("sub_id").let { index ->
+                    if (index != -1) it.getInt(index) else -1
                 }
-                val type = it.getInt(it.getColumnIndexOrThrow("type"))
+
+                val typeIndex = it.getColumnIndex("type")
+                val type = if (typeIndex != -1) it.getInt(typeIndex) else 1
 
                 if (!isRead) {
                     unreadCounter[threadId] = unreadCounter.getOrDefault(threadId, 0) + 1
@@ -129,21 +149,28 @@ object MessageRepository {
 
             var latestMergedMessage: String
             var latestTimestamp = 0L
+
             val buffer = StringBuilder()
             var prevTime: Long? = null
 
             for (sms in sortedMessages) {
-                if (prevTime == null || (prevTime - sms.date) <= 100) {
+                if (prevTime == null || abs(prevTime - sms.date) <= 100) {
                     if (buffer.isEmpty()) latestTimestamp = sms.date
-                    buffer.insert(0, sms.body)
+                    if (sms.body.isNotEmpty()) {
+                        buffer.insert(0, sms.body)
+                    }
                     prevTime = sms.date
                 } else {
                     break
                 }
             }
 
+            if (sortedMessages.isEmpty()) continue
+
             val latestMessage = sortedMessages.first()
-            latestMergedMessage = buffer.toString()
+
+            latestMergedMessage = if (buffer.isNotEmpty()) buffer.toString() else "..."
+
             val previewText = if (latestMessage.type == 2) {
                 context.resources.getString(R.string.you, latestMergedMessage)
             } else {

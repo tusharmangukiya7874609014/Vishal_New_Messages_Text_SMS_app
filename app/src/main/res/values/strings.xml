@@ -612,4 +612,5 @@
     <string name="slide_the_toggle_switch_to_enable_and_activate_the_feature">Slide the toggle switch to enable and activate the feature.</string>
     <string name="this_app_requires_access_to_your_phone_state_to_detect_when_a_call_ends_so_it_can_provide_the_after_call_messaging_screen_no_call_logs_are_stored_or_shared">This app requires access to your phone state to detect when a call ends so it can provide the After-Call messaging screen. No call logs are stored or shared.</string>
     <string name="privacy_policy">Privacy Policy</string>
+    <string name="no_contacts_app_found_on_this_device">No Contacts app found on this device</string>
 </resources>

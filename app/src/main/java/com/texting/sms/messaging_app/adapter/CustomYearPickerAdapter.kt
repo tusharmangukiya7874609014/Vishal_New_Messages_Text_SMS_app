@@ -30,12 +30,12 @@ class CustomYearPickerAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         with(holder) {
-            with(yearList[position]) {
+            with(yearList[absoluteAdapterPosition]) {
                 val year = this.toString()
                 binding.txtMonthName.text = year
             }
 
-            if (selectedYear == yearList[bindingAdapterPosition]) {
+            if (selectedYear == yearList[absoluteAdapterPosition]) {
                 binding.rvMonthContent.background =
                     ContextCompat.getDrawable(context, R.drawable.bg_theme_oval)
                 binding.txtMonthName.setTextColor(ContextCompat.getColor(context, R.color.white))
@@ -45,9 +45,9 @@ class CustomYearPickerAdapter(
             }
 
             binding.rvMonthContent.setOnClickListener {
-                if (bindingAdapterPosition != RecyclerView.NO_POSITION && bindingAdapterPosition < yearList.size) {
-                    selectedYear = yearList[bindingAdapterPosition]
-                    yearInterface.onSelectedYearClick(yearList[bindingAdapterPosition])
+                if (absoluteAdapterPosition != RecyclerView.NO_POSITION && absoluteAdapterPosition < yearList.size) {
+                    selectedYear = yearList[absoluteAdapterPosition]
+                    yearInterface.onSelectedYearClick(yearList[absoluteAdapterPosition])
                     notifyDataSetChanged()
                 }
             }

@@ -43,27 +43,27 @@ class AllConversationAdapter(
                 executePendingBindings()
             }
 
-            val threadId = messageFilterList[position].threadId.toString()
-            messageFilterList[position].isMessageSelected =
+            val threadId = messageFilterList[absoluteAdapterPosition].threadId.toString()
+            messageFilterList[absoluteAdapterPosition].isMessageSelected =
                 selectedThreadIDList.contains(threadId)
 
-            binding.item = messageFilterList[position]
+            binding.item = messageFilterList[absoluteAdapterPosition]
 
             itemView.setOnClickListener {
-                if (bindingAdapterPosition == RecyclerView.NO_POSITION || bindingAdapterPosition >= messageFilterList.size) return@setOnClickListener
+                if (absoluteAdapterPosition == RecyclerView.NO_POSITION || absoluteAdapterPosition >= messageFilterList.size) return@setOnClickListener
 
-                val threadId = messageFilterList[bindingAdapterPosition].threadId.toString()
+                val threadId = messageFilterList[absoluteAdapterPosition].threadId.toString()
 
                 if (isMultiSelectionEnableFromPage) {
                     if (selectedThreadIDList.contains(threadId)) {
                         selectedThreadIDList.remove(threadId)
-                        messageFilterList[bindingAdapterPosition].isMessageSelected = false
+                        messageFilterList[absoluteAdapterPosition].isMessageSelected = false
                     } else {
                         selectedThreadIDList.add(threadId)
-                        messageFilterList[bindingAdapterPosition].isMessageSelected = true
+                        messageFilterList[absoluteAdapterPosition].isMessageSelected = true
                     }
 
-                    binding.item = messageFilterList[bindingAdapterPosition]
+                    binding.item = messageFilterList[absoluteAdapterPosition]
                     SharedPreferencesHelper.saveArrayList(
                         context, Const.PRIVATE_MESSAGE_IDS, selectedThreadIDList
                     )
@@ -71,12 +71,12 @@ class AllConversationAdapter(
                         selectedThreadIDList.size
                     )
                 } else {
-                    onChartUserInterface.chatUserClick(messageFilterList[bindingAdapterPosition])
+                    onChartUserInterface.chatUserClick(messageFilterList[absoluteAdapterPosition])
                 }
             }
 
             binding.rvCopyCode.setOnClickListener {
-                if (bindingAdapterPosition == RecyclerView.NO_POSITION || bindingAdapterPosition >= messageFilterList.size) return@setOnClickListener
+                if (absoluteAdapterPosition == RecyclerView.NO_POSITION || absoluteAdapterPosition >= messageFilterList.size) return@setOnClickListener
 
                 val detectedOtp = binding.rvCopyCode.tag as? String ?: return@setOnClickListener
 
@@ -90,11 +90,11 @@ class AllConversationAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int, payloads: MutableList<Any>) {
         if (payloads.isNotEmpty()) {
             val payload = payloads[0]
-            if (position >= messageFilterList.size) return
+            if (holder.absoluteAdapterPosition >= messageFilterList.size) return
             with(holder) {
                 if (payload == "partialClear") {
-                    messageFilterList[position].isMessageSelected = false
-                    binding.item = messageFilterList[position]
+                    messageFilterList[absoluteAdapterPosition].isMessageSelected = false
+                    binding.item = messageFilterList[absoluteAdapterPosition]
                 }
             }
         } else {
@@ -115,9 +115,7 @@ class AllConversationAdapter(
     fun clearAndUpdateView() {
         selectedThreadIDList.clear()
         isLongClicked = false
-        for (i in 0..messageFilterList.size) {
-            notifyItemChanged(i, "partialClear")
-        }
+        notifyItemRangeChanged(0, messageFilterList.size, "partialClear")
     }
 
     private fun copyToClipboard(context: Context, code: String) {

@@ -39,6 +39,7 @@ import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.viewModels
 import androidx.browser.customtabs.CustomTabColorSchemeParams
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.app.ActivityCompat
@@ -48,7 +49,6 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.GridLayoutManager
@@ -107,6 +107,7 @@ import java.util.Calendar
 import java.util.Date
 import java.util.Locale
 import kotlin.collections.iterator
+import kotlin.math.abs
 import kotlin.math.min
 
 class HomeActivity : BaseActivity(), OnMessageFilterInterface, OnChatUserInterface, MonthInterface,
@@ -155,7 +156,7 @@ class HomeActivity : BaseActivity(), OnMessageFilterInterface, OnChatUserInterfa
     private var backPressCount = 0
     private var isMultiSelectionEnable = false
     private var isLastProfileColorToChange = false
-    private lateinit var contactsViewModel: ContactsViewModel
+    private val contactsViewModel: ContactsViewModel by viewModels()
     private lateinit var smsDefaultLauncher: ActivityResultLauncher<Intent>
     private var isFirstTimeAskPermissions = true
 
@@ -308,8 +309,6 @@ class HomeActivity : BaseActivity(), OnMessageFilterInterface, OnChatUserInterfa
             val getAdsPageResponse =
                 retrievedAdsJson.optJSONObject("activities")?.optJSONObject("HomeActivity")
                     ?: return@launch
-
-            Log.e("ABCD","Ads :- $getAdsPageResponse")
 
             val isCurrentPageAdsEnabled = getAdsPageResponse.optBoolean("isAdsShowing")
 
@@ -1228,7 +1227,6 @@ class HomeActivity : BaseActivity(), OnMessageFilterInterface, OnChatUserInterfa
 
     private fun initView() {
         /**  Preload the contact number list and store into cache list  **/
-        contactsViewModel = ViewModelProvider(this)[ContactsViewModel::class.java]
         contactsViewModel.loadContactsNumbers(this)
 
         WorkScheduler.initFirstSchedule(this)
@@ -1373,20 +1371,31 @@ class HomeActivity : BaseActivity(), OnMessageFilterInterface, OnChatUserInterfa
             mutableMapOf<Long, MutableList<SmsPart>>()
         val unreadCounter = mutableMapOf<Long, Int>()
 
-        cursor?.use {
-            while (it.moveToNext()) {
-                val threadId = it.getLong(it.getColumnIndexOrThrow("thread_id"))
-                val address = it.getString(it.getColumnIndexOrThrow("address"))
+        if (cursor == null || cursor.count == 0) return emptyList()
 
-                val body = it.getString(it.getColumnIndexOrThrow("body"))
+        cursor.use {
+            while (it.moveToNext()) {
+                val threadIdIndex = it.getColumnIndex("thread_id")
+                if (threadIdIndex == -1) continue
+
+                val threadId = it.getLong(threadIdIndex)
+
+                val address = it.getColumnIndex("address").let { idx ->
+                    if (idx != -1) it.getString(idx) ?: "" else ""
+                }
+
+                val body = it.getColumnIndex("body").let { idx ->
+                    if (idx != -1) it.getString(idx) ?: "" else ""
+                }
+
                 val date = it.getLong(it.getColumnIndexOrThrow("date"))
                 val isRead = it.getInt(it.getColumnIndexOrThrow("read")) == 1
-                val simSlot = try {
-                    it.getInt(it.getColumnIndexOrThrow("sub_id"))
-                } catch (_: Exception) {
-                    -1
+                val simSlot = it.getColumnIndex("sub_id").let { index ->
+                    if (index != -1) it.getInt(index) else -1
                 }
-                val type = it.getInt(it.getColumnIndexOrThrow("type"))
+
+                val typeIndex = it.getColumnIndex("type")
+                val type = if (typeIndex != -1) it.getInt(typeIndex) else 1
 
                 if (!isRead) {
                     unreadCounter[threadId] = unreadCounter.getOrDefault(threadId, 0) + 1
@@ -1402,21 +1411,28 @@ class HomeActivity : BaseActivity(), OnMessageFilterInterface, OnChatUserInterfa
 
             var latestMergedMessage: String
             var latestTimestamp = 0L
+
             val buffer = StringBuilder()
             var prevTime: Long? = null
 
             for (sms in sortedMessages) {
-                if (prevTime == null || (prevTime - sms.date) <= 100) {
+                if (prevTime == null || abs(prevTime - sms.date) <= 100) {
                     if (buffer.isEmpty()) latestTimestamp = sms.date
-                    buffer.insert(0, sms.body)
+                    if (sms.body.isNotEmpty()) {
+                        buffer.insert(0, sms.body)
+                    }
                     prevTime = sms.date
                 } else {
                     break
                 }
             }
 
+            if (sortedMessages.isEmpty()) continue
+
             val latestMessage = sortedMessages.first()
-            latestMergedMessage = buffer.toString()
+
+            latestMergedMessage = if (buffer.isNotEmpty()) buffer.toString() else "..."
+
             val previewText = if (latestMessage.type == 2) {
                 getString(R.string.you, latestMergedMessage)
             } else {

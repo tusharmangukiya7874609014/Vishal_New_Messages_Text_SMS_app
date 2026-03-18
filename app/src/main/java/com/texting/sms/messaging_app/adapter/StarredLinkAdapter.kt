@@ -45,7 +45,7 @@ class StarredLinkAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         with(holder) {
-            with(starredLinkMessages[position]) {
+            with(starredLinkMessages[absoluteAdapterPosition]) {
                 if (contactName != null) {
                     binding.txtLastMessage.text = contactName
                 } else {
@@ -56,7 +56,7 @@ class StarredLinkAdapter(
                 binding.txtMessageTitle.text = link
 
                 itemView.setOnClickListener {
-                    if (bindingAdapterPosition != RecyclerView.NO_POSITION && bindingAdapterPosition < starredLinkMessages.size) {
+                    if (absoluteAdapterPosition != RecyclerView.NO_POSITION && absoluteAdapterPosition < starredLinkMessages.size) {
                         showContactPopup(it, this)
                     }
                 }

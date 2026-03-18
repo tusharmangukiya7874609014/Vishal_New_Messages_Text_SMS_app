@@ -79,7 +79,7 @@ class SelectRecipientsAdapter(
                 binding.executePendingBindings()
 
                 binding.root.setOnClickListener {
-                    if (bindingAdapterPosition != RecyclerView.NO_POSITION) {
+                    if (absoluteAdapterPosition != RecyclerView.NO_POSITION) {
                         if (selectedMobileList.contains(phoneNumbers)) {
                             selectedMobileList.remove(phoneNumbers)
                             contactInfo.firstContact.isSelectedProfile = false
@@ -123,7 +123,7 @@ class SelectRecipientsAdapter(
                 binding.item = contactInfo
 
                 binding.root.setOnClickListener {
-                    if (bindingAdapterPosition != RecyclerView.NO_POSITION) {
+                    if (absoluteAdapterPosition != RecyclerView.NO_POSITION) {
                         if (selectedMobileList.contains(phoneNumbers)) {
                             selectedMobileList.remove(phoneNumbers.toString())
                             contactInfo.isSelectedProfile = false

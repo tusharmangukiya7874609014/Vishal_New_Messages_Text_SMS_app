@@ -24,12 +24,12 @@ class TopContactsAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         with(holder) {
-            binding.item = topMessageList[position]
+            binding.item = topMessageList[absoluteAdapterPosition]
             binding.executePendingBindings()
 
             itemView.setOnClickListener {
-                if (bindingAdapterPosition != RecyclerView.NO_POSITION && bindingAdapterPosition < topMessageList.size) {
-                    onChartUserInterface.chatUserClick(topMessageList[bindingAdapterPosition])
+                if (absoluteAdapterPosition != RecyclerView.NO_POSITION && absoluteAdapterPosition < topMessageList.size) {
+                    onChartUserInterface.chatUserClick(topMessageList[absoluteAdapterPosition])
                 }
             }
         }

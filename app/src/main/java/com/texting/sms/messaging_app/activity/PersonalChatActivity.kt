@@ -1749,7 +1749,6 @@ class PersonalChatActivity : AppCompatActivity(), RemoveImageInterface,
             override fun handleOnBackPressed() {
                 if (binding.iClipBoardView.root.isVisible) {
                     binding.iClipBoardView.root.fadeOut()
-                    isEnabled = false
                     return
                 }
 
@@ -2370,11 +2369,14 @@ class PersonalChatActivity : AppCompatActivity(), RemoveImageInterface,
 
     private fun openContactEditorFromThreadId(context: Context, threadId: Long) {
         val address = getAddressFromThreadId(context, threadId)
-        if (address != null) {
+
+        val intent = if (address != null) {
             val contactId = getContactIdFromPhoneNumber(context, address)
-            val intent = if (contactId != null) {
+
+            if (contactId != null) {
                 val uri = ContentUris.withAppendedId(
-                    ContactsContract.Contacts.CONTENT_URI, contactId.toLong()
+                    ContactsContract.Contacts.CONTENT_URI,
+                    contactId.toLong()
                 )
                 Intent(Intent.ACTION_EDIT).apply {
                     setDataAndType(uri, ContactsContract.Contacts.CONTENT_ITEM_TYPE)
@@ -2387,19 +2389,31 @@ class PersonalChatActivity : AppCompatActivity(), RemoveImageInterface,
                     putExtra("finishActivityOnSaveCompleted", true)
                 }
             }
-            editContactLauncher.launch(intent)
         } else {
             val contactId = getContactIdFromPhoneNumber(context, contactNumber)
+
             if (contactId != null) {
                 val uri = ContentUris.withAppendedId(
-                    ContactsContract.Contacts.CONTENT_URI, contactId.toLong()
+                    ContactsContract.Contacts.CONTENT_URI,
+                    contactId.toLong()
                 )
-                val intent = Intent(Intent.ACTION_EDIT).apply {
+                Intent(Intent.ACTION_EDIT).apply {
                     setDataAndType(uri, ContactsContract.Contacts.CONTENT_ITEM_TYPE)
                     putExtra("finishActivityOnSaveCompleted", true)
                 }
-                editContactLauncher.launch(intent)
             } else {
+                showToast(getString(R.string.address_not_found_from_threadid))
+                return
+            }
+        }
+
+        if (intent.resolveActivity(context.packageManager) != null) {
+            editContactLauncher.launch(intent)
+        } else {
+            try {
+                startActivity(intent)
+            } catch (e: Exception) {
+                e.printStackTrace()
                 showToast(resources.getString(R.string.address_not_found_from_threadid))
             }
         }

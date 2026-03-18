@@ -88,10 +88,10 @@ class ChatUserAdapter(
             }
 
             itemView.setOnLongClickListener {
-                if (bindingAdapterPosition == RecyclerView.NO_POSITION || bindingAdapterPosition >= messageFilterList.size) return@setOnLongClickListener true
+                if (absoluteAdapterPosition == RecyclerView.NO_POSITION || absoluteAdapterPosition >= messageFilterList.size) return@setOnLongClickListener true
 
                 if (!isMultiSelectionEnableFromPage) {
-                    messageFilterList[position].apply {
+                    messageFilterList[absoluteAdapterPosition].apply {
                         showContactPopup(
                             itemView,
                             threadId, contactName.toString(), address
@@ -101,38 +101,38 @@ class ChatUserAdapter(
                 true
             }
 
-            val threadId = messageFilterList[position].threadId.toString()
-            messageFilterList[position].isMessageSelected =
+            val threadId = messageFilterList[absoluteAdapterPosition].threadId.toString()
+            messageFilterList[absoluteAdapterPosition].isMessageSelected =
                 selectedThreadIDList.contains(threadId)
 
-            binding.item = messageFilterList[position]
+            binding.item = messageFilterList[absoluteAdapterPosition]
 
             itemView.setOnClickListener {
-                if (bindingAdapterPosition == RecyclerView.NO_POSITION || bindingAdapterPosition >= messageFilterList.size) return@setOnClickListener
+                if (absoluteAdapterPosition == RecyclerView.NO_POSITION || absoluteAdapterPosition >= messageFilterList.size) return@setOnClickListener
 
-                val threadId = messageFilterList[bindingAdapterPosition].threadId.toString()
+                val threadId = messageFilterList[absoluteAdapterPosition].threadId.toString()
 
                 if (isMultiSelectionEnableFromPage) {
                     if (selectedThreadIDList.contains(threadId)) {
                         selectedThreadIDList.remove(threadId)
-                        messageFilterList[bindingAdapterPosition].isMessageSelected = false
+                        messageFilterList[absoluteAdapterPosition].isMessageSelected = false
                     } else {
                         selectedThreadIDList.add(threadId)
-                        messageFilterList[bindingAdapterPosition].isMessageSelected = true
+                        messageFilterList[absoluteAdapterPosition].isMessageSelected = true
                     }
 
-                    binding.item = messageFilterList[bindingAdapterPosition]
+                    binding.item = messageFilterList[absoluteAdapterPosition]
                     SharedPreferencesHelper.saveArrayList(
                         context, Const.SELECTED_MESSAGE_IDS, selectedThreadIDList
                     )
                     (context as HomeActivity).updateSelectedCount(selectedThreadIDList.size)
                 } else {
-                    onChartUserInterface.chatUserClick(messageFilterList[bindingAdapterPosition])
+                    onChartUserInterface.chatUserClick(messageFilterList[absoluteAdapterPosition])
                 }
             }
 
             binding.rvCopyCode.setOnClickListener {
-                if (bindingAdapterPosition == RecyclerView.NO_POSITION || bindingAdapterPosition >= messageFilterList.size) return@setOnClickListener
+                if (absoluteAdapterPosition == RecyclerView.NO_POSITION || absoluteAdapterPosition >= messageFilterList.size) return@setOnClickListener
 
                 val detectedOtp = binding.rvCopyCode.tag as? String ?: return@setOnClickListener
 
@@ -146,48 +146,48 @@ class ChatUserAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int, payloads: MutableList<Any>) {
         if (payloads.isNotEmpty()) {
             val payload = payloads[0]
-            if (position >= messageFilterList.size) return
+            if (holder.absoluteAdapterPosition >= messageFilterList.size) return
             with(holder) {
                 when (payload) {
                     "partialClear" -> {
                         binding.isMultiSelectionOptionsEnable = false
-                        messageFilterList[position].isMessageSelected = false
-                        binding.item = messageFilterList[position]
+                        messageFilterList[absoluteAdapterPosition].isMessageSelected = false
+                        binding.item = messageFilterList[absoluteAdapterPosition]
                     }
 
                     "partialBlocked" -> {
-                        if (isAddressBlocked(context, messageFilterList[position].address)) {
+                        if (isAddressBlocked(context, messageFilterList[absoluteAdapterPosition].address)) {
                             SharedPreferencesHelper.addToBlockList(
-                                context, messageFilterList[position].address
+                                context, messageFilterList[absoluteAdapterPosition].address
                             )
                         } else {
                             SharedPreferencesHelper.removeFromBlockList(
-                                context, messageFilterList[position].address
+                                context, messageFilterList[absoluteAdapterPosition].address
                             )
                         }
-                        messageFilterList[position].isMessageSelected = false
-                        binding.item = messageFilterList[position]
+                        messageFilterList[absoluteAdapterPosition].isMessageSelected = false
+                        binding.item = messageFilterList[absoluteAdapterPosition]
                     }
 
                     "partialMarkAsRead" -> {
-                        if (isAddressBlocked(context, messageFilterList[position].address)) {
+                        if (isAddressBlocked(context, messageFilterList[absoluteAdapterPosition].address)) {
                             SharedPreferencesHelper.addToBlockList(
-                                context, messageFilterList[position].address
+                                context, messageFilterList[absoluteAdapterPosition].address
                             )
                         } else {
                             SharedPreferencesHelper.removeFromBlockList(
-                                context, messageFilterList[position].address
+                                context, messageFilterList[absoluteAdapterPosition].address
                             )
                         }
-                        messageFilterList[position].isMessageSelected = false
-                        binding.item = messageFilterList[position]
+                        messageFilterList[absoluteAdapterPosition].isMessageSelected = false
+                        binding.item = messageFilterList[absoluteAdapterPosition]
                     }
 
                     "partialSavedContacts" -> {
-                        val address = messageFilterList[position].address
+                        val address = messageFilterList[absoluteAdapterPosition].address
                         val updateName = ContactNameCache.extractName(context, address)
                         ContactNameCache.putName(address, updateName)
-                        binding.item = messageFilterList[position]
+                        binding.item = messageFilterList[absoluteAdapterPosition]
                     }
 
                     "partialUpdateOfAllItem" -> {
@@ -195,21 +195,21 @@ class ChatUserAdapter(
                     }
 
                     "partialUpdateProfile" -> {
-                        if (isAddressBlocked(context, messageFilterList[position].address)) {
+                        if (isAddressBlocked(context, messageFilterList[absoluteAdapterPosition].address)) {
                             SharedPreferencesHelper.addToBlockList(
-                                context, messageFilterList[position].address
+                                context, messageFilterList[absoluteAdapterPosition].address
                             )
                         } else {
                             SharedPreferencesHelper.removeFromBlockList(
-                                context, messageFilterList[position].address
+                                context, messageFilterList[absoluteAdapterPosition].address
                             )
                         }
-                        messageFilterList[position].isMessageSelected = false
-                        binding.item = messageFilterList[position]
+                        messageFilterList[absoluteAdapterPosition].isMessageSelected = false
+                        binding.item = messageFilterList[absoluteAdapterPosition]
                     }
 
                     else -> {
-                        super.onBindViewHolder(holder, position, payloads)
+                        super.onBindViewHolder(holder, absoluteAdapterPosition, payloads)
                     }
                 }
             }

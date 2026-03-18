@@ -24,14 +24,14 @@ class ForwardRecipientsAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         with(holder) {
-            binding.item = selectedContactsList[bindingAdapterPosition]
+            binding.item = selectedContactsList[absoluteAdapterPosition]
             binding.executePendingBindings()
 
             binding.ivRemoveImage.setOnClickListener {
-                if (bindingAdapterPosition != RecyclerView.NO_POSITION && bindingAdapterPosition < selectedContactsList.size) {
+                if (absoluteAdapterPosition != RecyclerView.NO_POSITION && absoluteAdapterPosition < selectedContactsList.size) {
                     onRemoveForwardRecipients.onItemRemoved(
-                        selectedContactsList[bindingAdapterPosition],
-                        bindingAdapterPosition
+                        selectedContactsList[absoluteAdapterPosition],
+                        absoluteAdapterPosition
                     )
                 }
             }

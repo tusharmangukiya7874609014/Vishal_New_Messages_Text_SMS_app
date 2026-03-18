@@ -27,13 +27,13 @@ class ClipboardListAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         with(holder) {
-            with(clipBoardMessageList[position]) {
+            with(clipBoardMessageList[absoluteAdapterPosition]) {
                 binding.txtClipBoard.text = this
             }
 
             itemView.setOnClickListener {
-                if (bindingAdapterPosition != RecyclerView.NO_POSITION && bindingAdapterPosition < clipBoardMessageList.size) {
-                    onClipboardClickInterface.onItemClick(clipBoardMessageList[bindingAdapterPosition])
+                if (absoluteAdapterPosition != RecyclerView.NO_POSITION && absoluteAdapterPosition < clipBoardMessageList.size) {
+                    onClipboardClickInterface.onItemClick(clipBoardMessageList[absoluteAdapterPosition])
                 }
             }
         }

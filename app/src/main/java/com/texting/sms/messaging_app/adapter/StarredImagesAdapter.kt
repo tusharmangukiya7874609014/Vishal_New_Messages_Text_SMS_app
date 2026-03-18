@@ -48,7 +48,7 @@ class StarredImagesAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         with(holder) {
-            with(starredImages.elementAt(position)) {
+            with(starredImages.elementAt(absoluteAdapterPosition)) {
                 val regex = Regex("^\\d+")
                 val messageIdForImage = regex.find(this)?.value ?: ""
 
@@ -56,7 +56,7 @@ class StarredImagesAdapter(
                 Glide.with(context).load(photoUri.toUri()).into(binding.ivSelectedImages)
 
                 itemView.setOnClickListener {
-                    if (bindingAdapterPosition != RecyclerView.NO_POSITION && bindingAdapterPosition < starredImages.size) {
+                    if (absoluteAdapterPosition != RecyclerView.NO_POSITION && absoluteAdapterPosition < starredImages.size) {
                         showContactPopup(it, messageIdForImage)
                     }
                 }

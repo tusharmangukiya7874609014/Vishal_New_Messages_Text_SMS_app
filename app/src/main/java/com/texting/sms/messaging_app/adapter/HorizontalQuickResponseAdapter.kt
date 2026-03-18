@@ -27,14 +27,14 @@ class HorizontalQuickResponseAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         with(holder) {
-            with(quickResponseMessageList[position]) {
+            with(quickResponseMessageList[absoluteAdapterPosition]) {
                 binding.txtQuickMessage.text = message
             }
 
             itemView.setOnClickListener {
-                if (bindingAdapterPosition != RecyclerView.NO_POSITION && bindingAdapterPosition < quickResponseMessageList.size) {
+                if (absoluteAdapterPosition != RecyclerView.NO_POSITION && absoluteAdapterPosition < quickResponseMessageList.size) {
                     onQuickMessageInterface.onQuickMessageItemClick(
-                        quickResponseMessageList[bindingAdapterPosition]
+                        quickResponseMessageList[absoluteAdapterPosition]
                     )
                 }
             }

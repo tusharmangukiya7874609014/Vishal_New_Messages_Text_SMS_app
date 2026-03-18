@@ -27,24 +27,24 @@ class QuickResponseAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         with(holder) {
-            with(quickResponseMessageList[position]) {
+            with(quickResponseMessageList[absoluteAdapterPosition]) {
                 binding.txtQuickMessage.text = message
             }
 
             binding.ivEditView.setOnClickListener {
-                if (bindingAdapterPosition != RecyclerView.NO_POSITION && bindingAdapterPosition < quickResponseMessageList.size) {
+                if (absoluteAdapterPosition != RecyclerView.NO_POSITION && absoluteAdapterPosition < quickResponseMessageList.size) {
                     onQuickMessageInterface.onQuickMessageEditClick(
-                        quickResponseMessageList[position],
-                        bindingAdapterPosition
+                        quickResponseMessageList[absoluteAdapterPosition],
+                        absoluteAdapterPosition
                     )
                 }
             }
 
             binding.ivDeleteView.setOnClickListener {
-                if (bindingAdapterPosition != RecyclerView.NO_POSITION && bindingAdapterPosition < quickResponseMessageList.size && bindingAdapterPosition > 9) {
+                if (absoluteAdapterPosition != RecyclerView.NO_POSITION && absoluteAdapterPosition < quickResponseMessageList.size && absoluteAdapterPosition > 9) {
                     onQuickMessageInterface.onQuickMessageDeleteClick(
-                        quickResponseMessageList[position],
-                        bindingAdapterPosition
+                        quickResponseMessageList[absoluteAdapterPosition],
+                        absoluteAdapterPosition
                     )
                 } else {
                     Toast.makeText(

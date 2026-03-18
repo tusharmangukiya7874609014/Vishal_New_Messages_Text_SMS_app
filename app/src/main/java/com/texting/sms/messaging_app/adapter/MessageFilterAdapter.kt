@@ -36,7 +36,7 @@ class MessageFilterAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         with(holder) {
-            with(messageFilterList[position]) {
+            with(messageFilterList[absoluteAdapterPosition]) {
                 binding.ivFilterIcon.setBackgroundDrawable(
                     ContextCompat.getDrawable(
                         context,
@@ -44,7 +44,7 @@ class MessageFilterAdapter(
                     )
                 )
 
-                when (bindingAdapterPosition) {
+                when (absoluteAdapterPosition) {
                     0 -> {
                         if (allMessagesCount != 0) {
                             val finalCount =
@@ -72,7 +72,7 @@ class MessageFilterAdapter(
             }
 
             val params = holder.itemView.layoutParams as ViewGroup.MarginLayoutParams
-            if (bindingAdapterPosition == messageFilterList.size - 1) {
+            if (absoluteAdapterPosition == messageFilterList.size - 1) {
                 params.marginEnd = 0
             } else {
                 params.marginEnd = context.resources.getDimensionPixelSize(R.dimen._8sdp)
@@ -80,14 +80,14 @@ class MessageFilterAdapter(
             holder.itemView.layoutParams = params
 
             itemView.setOnClickListener {
-                if (bindingAdapterPosition != RecyclerView.NO_POSITION && bindingAdapterPosition < messageFilterList.size) {
-                    rowIndex = bindingAdapterPosition
-                    onMessageFilterInterface.onFilterClick(messageFilterList[bindingAdapterPosition])
+                if (absoluteAdapterPosition != RecyclerView.NO_POSITION && absoluteAdapterPosition < messageFilterList.size) {
+                    rowIndex = absoluteAdapterPosition
+                    onMessageFilterInterface.onFilterClick(messageFilterList[absoluteAdapterPosition])
                     notifyDataSetChanged()
                 }
             }
 
-            if (rowIndex == bindingAdapterPosition) {
+            if (rowIndex == absoluteAdapterPosition) {
                 binding.rvMainContentView.setBorder(
                     ContextCompat.getColor(
                         context, R.color.app_theme_color

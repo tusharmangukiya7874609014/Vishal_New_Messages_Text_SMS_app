@@ -33,11 +33,11 @@ class CustomMonthPickerAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         with(holder) {
-            with(monthList[position]) {
+            with(monthList[absoluteAdapterPosition]) {
                 binding.txtMonthName.text = monthSort
             }
 
-            if (selectedMonth == monthList[bindingAdapterPosition].monthSort) {
+            if (selectedMonth == monthList[absoluteAdapterPosition].monthSort) {
                 binding.rvMonthContent.background =
                     ContextCompat.getDrawable(context, R.drawable.bg_theme_oval)
                 binding.txtMonthName.setTextColor(ContextCompat.getColor(context, R.color.white))
@@ -47,9 +47,9 @@ class CustomMonthPickerAdapter(
             }
 
             binding.rvMonthContent.setOnClickListener {
-                if (bindingAdapterPosition != RecyclerView.NO_POSITION && bindingAdapterPosition < monthList.size) {
-                    selectedMonth = monthList[bindingAdapterPosition].monthSort
-                    monthInterface.onSelectedMonthClick(monthList[bindingAdapterPosition])
+                if (absoluteAdapterPosition != RecyclerView.NO_POSITION && absoluteAdapterPosition < monthList.size) {
+                    selectedMonth = monthList[absoluteAdapterPosition].monthSort
+                    monthInterface.onSelectedMonthClick(monthList[absoluteAdapterPosition])
                     notifyDataSetChanged()
                 }
             }

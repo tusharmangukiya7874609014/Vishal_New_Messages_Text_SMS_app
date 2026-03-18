@@ -1,4 +1,4 @@
-package com.chat.sms_text.messages
+package com.texting.sms.messaging_app
 
 import org.junit.Test
 

@@ -43,22 +43,22 @@ class ChatWallpaperAdapter(
         with(holder) {
             binding.executePendingBindings()
 
-            if (selectedPosition == bindingAdapterPosition) {
-                chatWallpaperList[position].isWallpaperSelected = true
-                lastSelectedPosition = position
+            if (selectedPosition == absoluteAdapterPosition) {
+                chatWallpaperList[absoluteAdapterPosition].isWallpaperSelected = true
+                lastSelectedPosition = absoluteAdapterPosition
             } else {
-                chatWallpaperList[position].isWallpaperSelected = false
+                chatWallpaperList[absoluteAdapterPosition].isWallpaperSelected = false
             }
 
-            binding.item = chatWallpaperList[position]
+            binding.item = chatWallpaperList[absoluteAdapterPosition]
 
             itemView.setOnClickListener {
-                if (bindingAdapterPosition != RecyclerView.NO_POSITION && bindingAdapterPosition < chatWallpaperList.size) {
-                    selectedPosition = bindingAdapterPosition
+                if (absoluteAdapterPosition != RecyclerView.NO_POSITION && absoluteAdapterPosition < chatWallpaperList.size) {
+                    selectedPosition = absoluteAdapterPosition
 
                     onChatWallpaperClickInterface.onChatWallpaperClick(
-                        bindingAdapterPosition,
-                        chatWallpaperList[bindingAdapterPosition]
+                        absoluteAdapterPosition,
+                        chatWallpaperList[absoluteAdapterPosition]
                     )
                 }
             }
@@ -71,7 +71,7 @@ class ChatWallpaperAdapter(
         payloads: MutableList<Any>
     ) {
         if (payloads.isNotEmpty()) {
-            holder.binding.item = chatWallpaperList[position]
+            holder.binding.item = chatWallpaperList[holder.absoluteAdapterPosition]
         } else {
             onBindViewHolder(holder, position)
         }

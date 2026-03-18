@@ -31,19 +31,19 @@ class AllTranslateLanguageAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         with(holder) {
-            with(languageList[position]) {
+            with(languageList[absoluteAdapterPosition]) {
                 binding.txtLanguage.text = language
             }
 
             itemView.setOnClickListener {
-                rowIndex = bindingAdapterPosition
-                if (bindingAdapterPosition != RecyclerView.NO_POSITION && bindingAdapterPosition < languageList.size) {
-                    selectLanguageInterface.onItemClick(languageList[bindingAdapterPosition])
+                rowIndex = absoluteAdapterPosition
+                if (absoluteAdapterPosition != RecyclerView.NO_POSITION && absoluteAdapterPosition < languageList.size) {
+                    selectLanguageInterface.onItemClick(languageList[absoluteAdapterPosition])
                     notifyDataSetChanged()
                 }
             }
 
-            if (rowIndex == bindingAdapterPosition) {
+            if (rowIndex == absoluteAdapterPosition) {
                 binding.txtLanguage.setTextColor(
                     ContextCompat.getColor(
                         context, R.color.app_theme_color

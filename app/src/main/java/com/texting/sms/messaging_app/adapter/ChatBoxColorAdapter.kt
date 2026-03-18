@@ -38,22 +38,22 @@ class ChatBoxColorAdapter(
         with(holder) {
             binding.executePendingBindings()
 
-            if (selectedPosition == bindingAdapterPosition) {
-                chatBoxColorList[position].isChatBoxColorSelected = true
-                lastSelectedPosition = position
+            if (selectedPosition == absoluteAdapterPosition) {
+                chatBoxColorList[absoluteAdapterPosition].isChatBoxColorSelected = true
+                lastSelectedPosition = absoluteAdapterPosition
             } else {
-                chatBoxColorList[position].isChatBoxColorSelected = false
+                chatBoxColorList[absoluteAdapterPosition].isChatBoxColorSelected = false
             }
 
-            binding.item = chatBoxColorList[position]
+            binding.item = chatBoxColorList[absoluteAdapterPosition]
 
             itemView.setOnClickListener {
-                if (bindingAdapterPosition != RecyclerView.NO_POSITION && bindingAdapterPosition < chatBoxColorList.size) {
-                    selectedPosition = bindingAdapterPosition
+                if (absoluteAdapterPosition != RecyclerView.NO_POSITION && absoluteAdapterPosition < chatBoxColorList.size) {
+                    selectedPosition = absoluteAdapterPosition
 
                     onChatBoxColorClickInterface.onSelectChatBoxColorClick(
-                        bindingAdapterPosition,
-                        chatBoxColorList[bindingAdapterPosition]
+                        absoluteAdapterPosition,
+                        chatBoxColorList[absoluteAdapterPosition]
                     )
                 }
             }
@@ -66,7 +66,7 @@ class ChatBoxColorAdapter(
         payloads: MutableList<Any>
     ) {
         if (payloads.isNotEmpty()) {
-            holder.binding.item = chatBoxColorList[position]
+            holder.binding.item = chatBoxColorList[holder.absoluteAdapterPosition]
         } else {
             onBindViewHolder(holder, position)
         }

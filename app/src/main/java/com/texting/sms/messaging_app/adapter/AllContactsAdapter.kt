@@ -4,11 +4,11 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.l4digital.fastscroll.FastScroller
 import com.texting.sms.messaging_app.databinding.ItemContactBinding
 import com.texting.sms.messaging_app.databinding.ItemHeaderWithFirstContactBinding
 import com.texting.sms.messaging_app.listener.OnClickContactInterface
 import com.texting.sms.messaging_app.model.ContactModel
-import com.l4digital.fastscroll.FastScroller
 
 class AllContactsAdapter(
     private var callHistoryList: MutableList<ContactModel>,
@@ -100,7 +100,7 @@ class AllContactsAdapter(
             binding.executePendingBindings()
 
             binding.root.setOnClickListener {
-                if (bindingAdapterPosition != RecyclerView.NO_POSITION) {
+                if (absoluteAdapterPosition != RecyclerView.NO_POSITION) {
                     onContactInterface.onItemClick(contactInfo.firstContact)
                 }
             }
@@ -115,7 +115,7 @@ class AllContactsAdapter(
             binding.executePendingBindings()
 
             binding.root.setOnClickListener {
-                if (bindingAdapterPosition != RecyclerView.NO_POSITION) {
+                if (absoluteAdapterPosition != RecyclerView.NO_POSITION) {
                     onContactInterface.onItemClick(contactInfo)
                 }
             }

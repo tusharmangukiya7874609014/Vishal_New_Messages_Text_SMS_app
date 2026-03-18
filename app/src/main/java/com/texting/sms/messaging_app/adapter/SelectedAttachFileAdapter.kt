@@ -24,15 +24,15 @@ class SelectedAttachFileAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         with(holder) {
-            with(attachFileList[position]) {
+            with(attachFileList[absoluteAdapterPosition]) {
                 binding.txtFileName.text = fileName
                 binding.txtFileSize.text = fileSize
             }
 
             binding.ivRemoveImage.setOnClickListener {
-                if (bindingAdapterPosition != RecyclerView.NO_POSITION && bindingAdapterPosition < attachFileList.size) {
-                    removeFileInterface.onItemClick(attachFileList[bindingAdapterPosition])
-                    removeItemAt(bindingAdapterPosition)
+                if (absoluteAdapterPosition != RecyclerView.NO_POSITION && absoluteAdapterPosition < attachFileList.size) {
+                    removeFileInterface.onItemClick(attachFileList[absoluteAdapterPosition])
+                    removeItemAt(absoluteAdapterPosition)
                 }
             }
         }

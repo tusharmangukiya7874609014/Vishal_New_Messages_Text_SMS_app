@@ -28,7 +28,7 @@ class ImagePreviewAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         with(holder) {
-            with(mmsImagePreviewList[position]) {
+            with(mmsImagePreviewList[absoluteAdapterPosition]) {
                 Glide.with(context)
                     .load(this)
                     .into(binding.ivSelectedImage)

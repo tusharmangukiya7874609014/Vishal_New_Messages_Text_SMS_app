@@ -56,7 +56,7 @@ class StarredPlainMessageAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         with(holder) {
-            with(starredMessages[position]) {
+            with(starredMessages[absoluteAdapterPosition]) {
                 if (contactName != null) {
                     binding.txtMessageTitle.text = contactName
                 } else {
@@ -115,7 +115,7 @@ class StarredPlainMessageAdapter(
                 }
 
                 itemView.setOnClickListener {
-                    if (bindingAdapterPosition != RecyclerView.NO_POSITION && bindingAdapterPosition < starredMessages.size) {
+                    if (absoluteAdapterPosition != RecyclerView.NO_POSITION && absoluteAdapterPosition < starredMessages.size) {
                         showContactPopup(it, this)
                     }
                 }
