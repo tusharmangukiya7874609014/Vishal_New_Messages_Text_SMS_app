@@ -15,6 +15,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.texting.sms.messaging_app.R
+import com.texting.sms.messaging_app.adapter.LanguageAdapter
 import com.texting.sms.messaging_app.ads.BannerAdHelper
 import com.texting.sms.messaging_app.ads.BannerType
 import com.texting.sms.messaging_app.ads.NativeAdHelper
@@ -25,7 +26,6 @@ import com.texting.sms.messaging_app.listener.LanguageInterface
 import com.texting.sms.messaging_app.model.AppLanguage
 import com.texting.sms.messaging_app.services.CallOverlayService
 import com.texting.sms.messaging_app.utils.LocaleHelper.setLocale
-import com.texting.sms.messaging_app.adapter.LanguageAdapter
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -200,6 +200,12 @@ class LanguageActivity : BaseActivity(), LanguageInterface {
     }
 
     private fun initView() {
+        SharedPreferencesHelper.saveBoolean(
+            this@LanguageActivity,
+            Const.IS_ADS_CONFIG_READY,
+            false
+        )
+
         listOfLanguage()
     }
 

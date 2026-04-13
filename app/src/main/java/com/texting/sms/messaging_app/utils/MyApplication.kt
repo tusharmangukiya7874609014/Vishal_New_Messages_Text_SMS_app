@@ -72,7 +72,7 @@ class MyApplication : Application(), Application.ActivityLifecycleCallbacks,
             try {
                 MobileAds.initialize(
                     this@MyApplication,
-                    InitializationConfig.Builder("ca-app-pub-3940256099942544~3347511713").build()
+                    InitializationConfig.Builder("ca-app-pub-5550085346779978~8891033445").build()
                 ) {
                     isAdsInitialized = true
 

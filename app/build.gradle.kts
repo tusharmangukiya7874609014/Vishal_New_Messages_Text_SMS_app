@@ -19,8 +19,8 @@ android {
         applicationId = "com.texting.sms.messaging_app"
         minSdk = 26
         targetSdk = 36
-        versionCode = 3
-        versionName = "1.3"
+        versionCode = 5
+        versionName = "1.5"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         resConfigs(
@@ -60,7 +60,7 @@ android {
 
     buildTypes {
         release {
-            isDebuggable = true
+            isDebuggable = false
             isMinifyEnabled = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),

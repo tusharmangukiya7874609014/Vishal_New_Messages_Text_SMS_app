@@ -154,7 +154,7 @@ class AppStartupInitializer : Initializer<Unit> {
             try {
                 MobileAds.initialize(
                     context,
-                    InitializationConfig.Builder("ca-app-pub-3940256099942544~3347511713").build()
+                    InitializationConfig.Builder("ca-app-pub-5550085346779978~8891033445").build()
                 ) {
                     Handler(Looper.getMainLooper()).post {
                         onComplete?.invoke()
