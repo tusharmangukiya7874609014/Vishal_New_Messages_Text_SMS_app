@@ -12,7 +12,7 @@
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cvHorizontalView"
-            android:layout_width="@dimen/_160sdp"
+            android:layout_width="@dimen/_50sdp"
             android:layout_height="wrap_content"
             app:cardBackgroundColor="@color/white"
             app:cardCornerRadius="@dimen/_7sdp"
@@ -27,7 +27,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/app_theme_color"
-                    android:padding="@dimen/_10sdp">
+                    android:padding="@dimen/_8sdp">
 
                     <RelativeLayout
                         android:id="@+id/cvProfileView"
@@ -46,34 +46,6 @@
 
                     </RelativeLayout>
 
-                    <TextView
-                        android:id="@+id/txtContactName"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/_7sdp"
-                        android:layout_toEndOf="@+id/cvProfileView"
-                        android:ellipsize="end"
-                        android:fontFamily="@font/semi_bold_sans"
-                        android:maxLines="1"
-                        android:text="@string/private_number"
-                        android:textColor="@color/white"
-                        android:textSize="@dimen/_11ssp" />
-
-                    <TextView
-                        android:id="@+id/txtContactNumber"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/txtContactName"
-                        android:layout_marginHorizontal="@dimen/_7sdp"
-                        android:layout_marginTop="@dimen/_3sdp"
-                        android:layout_toEndOf="@+id/cvProfileView"
-                        android:fontFamily="@font/medium_sans"
-                        android:maxLines="1"
-                        android:text="@string/_00_10"
-                        android:textAlignment="center"
-                        android:textColor="@color/white"
-                        android:textSize="@dimen/_10ssp" />
-
                 </RelativeLayout>
 
                 <LinearLayout
@@ -81,14 +53,15 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:baselineAligned="false"
-                    android:orientation="horizontal"
-                    android:padding="@dimen/_10sdp">
+                    android:orientation="vertical"
+                    android:padding="@dimen/_5sdp">
 
                     <RelativeLayout
                         android:id="@+id/rvViewMessages"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
                         android:layout_marginTop="1dp"
+                        android:layout_marginVertical="@dimen/_10sdp"
                         android:layout_weight="1">
 
                         <androidx.appcompat.widget.AppCompatImageView
@@ -103,8 +76,9 @@
 
                     <RelativeLayout
                         android:id="@+id/rvSendMessage"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_marginBottom="@dimen/_10sdp"
                         android:layout_weight="1">
 
                         <androidx.appcompat.widget.AppCompatImageView
@@ -112,14 +86,16 @@
                             android:layout_width="@dimen/_17sdp"
                             android:layout_height="@dimen/_17sdp"
                             android:layout_centerInParent="true"
+                            android:padding="1dp"
                             android:src="@drawable/ic_message_call" />
 
                     </RelativeLayout>
 
                     <RelativeLayout
                         android:id="@+id/rvOtherSettings"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_marginBottom="@dimen/_10sdp"
                         android:layout_weight="1">
 
                         <androidx.appcompat.widget.AppCompatImageView

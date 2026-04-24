@@ -25,12 +25,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
-                android:fontFamily="@font/medium_sans"
+                android:fontFamily="@font/semi_bold_sans"
                 android:maxLength="20"
                 android:text="@string/message_sim"
-                android:textStyle="bold"
                 android:textColor="@color/app_theme_color"
-                android:textSize="@dimen/_15ssp" />
+                android:textSize="@dimen/_14ssp" />
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/ivCloseDialog"
@@ -94,7 +93,7 @@
                         android:fontFamily="@font/medium_sans"
                         android:maxLines="1"
                         android:textColor="?attr/titleTextColor"
-                        android:textSize="@dimen/_12ssp"
+                        android:textSize="@dimen/features_title_size"
                         tools:text="Vodafone IN" />
 
                     <TextView
@@ -104,10 +103,10 @@
                         android:layout_below="@+id/txtSIMOneBrand"
                         android:layout_marginTop="3dp"
                         android:ellipsize="end"
-                        android:fontFamily="@font/light_sans"
+                        android:fontFamily="@font/regular_sans"
                         android:maxLines="2"
                         android:textColor="?attr/subTextColor"
-                        android:textSize="@dimen/_10ssp"
+                        android:textSize="@dimen/features_sub_title_size"
                         tools:text="Number :- 7862821545" />
 
                 </RelativeLayout>
@@ -179,7 +178,7 @@
                         android:fontFamily="@font/medium_sans"
                         android:maxLines="1"
                         android:textColor="?attr/titleTextColor"
-                        android:textSize="@dimen/_12ssp"
+                        android:textSize="@dimen/features_title_size"
                         tools:text="Vodafone IN" />
 
                     <TextView
@@ -189,10 +188,10 @@
                         android:layout_below="@+id/txtSIMTwoBrand"
                         android:layout_marginTop="3dp"
                         android:ellipsize="end"
-                        android:fontFamily="@font/light_sans"
+                        android:fontFamily="@font/regular_sans"
                         android:maxLines="2"
                         android:textColor="?attr/subTextColor"
-                        android:textSize="@dimen/_10ssp"
+                        android:textSize="@dimen/features_sub_title_size"
                         tools:text="Number :- 7862821545" />
 
                 </RelativeLayout>

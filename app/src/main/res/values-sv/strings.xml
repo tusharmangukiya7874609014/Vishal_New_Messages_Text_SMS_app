@@ -1,5 +1,4 @@
 <resources>
-    <string name="app_name">Meddelanden: Text SMS</string>
     <string name="sms_messages">SMS-meddelanden</string>
     <string name="set_as_a_default_app">Ange som standardapp</string>
     <string name="this_app_needs_to_be_set_as_your_default_sms_app_to_send_receive_and_manage_your_text_messages_without_setting_it_as_default_you_might_miss_important_messages_or_notifications_you_can_always_change_this_later_in_your_phone_settings">Den här appen måste anges som din standardapp för SMS för att kunna skicka, ta emot och hantera dina textmeddelanden. Utan att sätta den som standard kan du missa viktiga meddelanden eller aviseringar. Du kan alltid ändra detta senare i telefonens inställningar.</string>
@@ -14,7 +13,6 @@
     <string name="enable">Aktivera</string>
     <string name="messages">Meddelanden</string>
     <string name="search_here">Sök här…</string>
-    <string name="message_text_sms">Meddelande: SMS</string>
     <string name="archived">Arkiverade</string>
     <string name="backup_amp_restore"><![CDATA[Säkerhetskopiera & Återställ]]></string>
     <string name="scheduled">Schemalagd</string>
@@ -173,7 +171,6 @@
     <string name="sim_1_slot_set_as_default">SIM 1-slot inställd som standard</string>
     <string name="sim_2_already_set_as_default">SIM 2 är redan inställt som standard</string>
     <string name="sim_2_slot_set_as_default">SIM 2-slot inställd som standard</string>
-    <string name="code_copy">Kod kopierad: %1$s</string>
     <string name="backups">Säkerhetskopior</string>
     <string name="download_sms_messages_backups">/Download/sms/messages/Backups</string>
     <string name="backup_history">Säkerhetskopieringshistorik</string>
@@ -535,7 +532,6 @@
     <string name="are_you_sure_you_would_you_like_to_delete_this_message">Är du säker på att du vill ta bort detta meddelande?</string>
     <string name="pin">Fäst</string>
     <string name="unpin">Ta bort fästning</string>
-    <string name="first_select_message_atleast_one_or_more">Välj först ett eller flera meddelanden</string>
     <string name="remove_from_private_chats">Ta bort från privata chattar</string>
     <string name="view_full_chat_to_unlock_all_options">Visa hela chatten för att låsa upp alla alternativ</string>
     <string name="no_app_found_to_share_content">Ingen app hittades för att dela innehåll</string>
@@ -569,7 +565,6 @@
     <string name="we_need_this_permission_to_give_you_better_user_experience">Vi behöver denna behörighet för att ge dig en bättre användarupplevelse</string>
     <string name="allow_permission">Tillåt behörighet</string>
     <string name="turn_on_message_notifications">Slå på meddelandeaviseringar</string>
-    <string name="never_miss_an_important_message">Missa aldrig ett viktigt meddelande 💬</string>
     <string name="allow_app_to_read_phone_state">Tillåt appen att läsa telefonstatus</string>
     <string name="quick_messaging_access_after_call">Snabb åtkomst till meddelanden efter samtal</string>
     <string name="enable_our_quick_action_feature_in_3_steps">Aktivera vår snabbåtgärdsfunktion i 3 steg</string>
@@ -608,6 +603,20 @@
     <string name="step_3_permission">Steg 3 :</string>
     <string name="swipe_the_toggle_to_turn_on">Svep reglaget för att slå på.</string>
     <string name="slide_the_toggle_switch_to_enable_and_activate_the_feature">Skjut reglaget för att aktivera funktionen.</string>
-    <string name="this_app_requires_access_to_your_phone_state_to_detect_when_a_call_ends_so_it_can_provide_the_after_call_messaging_screen_no_call_logs_are_stored_or_shared">Denna app kräver åtkomst till telefonstatus för att upptäcka när ett samtal avslutas så att den kan visa meddelandeskärmen efter samtal. Inga samtalsloggar lagras eller delas.</string>
     <string name="privacy_policy">Integritetspolicy</string>
+    <string name="code_copy">Kopiera OTP : %1$s</string>
+    <string name="no_contacts_app_found_on_this_device">Ingen kontaktapp hittades på den här enheten</string>
+    <string name="spam_amp_block"><![CDATA[Skräppost och blockerade]]></string>
+    <string name="allow">Tillåt</string>
+    <string name="this_permission_is_required_to_after_call_features_please_allow_this_permission">Denna behörighet krävs för funktioner efter samtal. Vänligen tillåt den.</string>
+    <string name="please_wait_while_the_ad_loads">Vänta medan annonsen laddas…</string>
+    <string name="you_re_offline_turn_on_your_internet_connection_to_access_all_messages_features">Du är offline.\nSlå på internetanslutningen för att få tillgång till alla meddelandefunktioner.</string>
+    <string name="message_text_sms">Meddelanden</string>
+    <string name="app_name">Meddelanden</string>
+    <string name="you_can_quickly_send_a_message_right_after_a_call">Du kan snabbt skicka ett meddelande direkt efter ett samtal</string>
+    <string name="turn_on_notifications_to_receive_message_alerts">Slå på aviseringar för att få meddelandevarningar.</string>
+    <string name="first_select_message_at_least_one_or_more">Välj först ett eller flera meddelanden</string>
+    <string name="we_do_not_store_track_or_share_your_call_or_message_data">Vi lagrar eller delar inte dina samtals- eller meddelandedata.</string>
+    <string name="outgoing_call">Utgående samtal</string>
+    <string name="enable_required_features_to_use_messaging_your_data_stays_private_and_secure_on_your_device">Aktivera nödvändiga funktioner för att använda meddelanden. Dina data förblir privata och säkra på din enhet.</string>
 </resources>

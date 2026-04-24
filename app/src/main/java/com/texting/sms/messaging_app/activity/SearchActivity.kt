@@ -10,6 +10,7 @@ import android.view.View
 import androidx.core.net.toUri
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -21,16 +22,21 @@ import com.texting.sms.messaging_app.adapter.SearchSMSAdapter
 import com.texting.sms.messaging_app.adapter.TopContactsAdapter
 import com.texting.sms.messaging_app.ads.BannerAdHelper
 import com.texting.sms.messaging_app.ads.BannerType
+import com.texting.sms.messaging_app.ads.InterstitialAdHelper
+import com.texting.sms.messaging_app.ads.InterstitialAdHelper.loadAd
 import com.texting.sms.messaging_app.ads.NativeAdHelper
 import com.texting.sms.messaging_app.database.Const
 import com.texting.sms.messaging_app.database.SharedPreferencesHelper
 import com.texting.sms.messaging_app.databinding.ActivitySearchBinding
+import com.texting.sms.messaging_app.listener.NetworkAvailableListener
 import com.texting.sms.messaging_app.listener.OnChatUserInterface
 import com.texting.sms.messaging_app.listener.OnSearchResultClickInterface
 import com.texting.sms.messaging_app.model.ChatMatchResult
 import com.texting.sms.messaging_app.model.ChatUser
 import com.texting.sms.messaging_app.model.SMSMessage
+import com.texting.sms.messaging_app.utils.NetworkConnectionUtil
 import com.texting.sms.messaging_app.utils.getDrawableFromAttr
+import com.vanniktech.ui.hideKeyboard
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -39,7 +45,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kotlin.math.abs
 
-class SearchActivity : BaseActivity(), OnChatUserInterface, OnSearchResultClickInterface {
+class SearchActivity : BaseActivity(), OnChatUserInterface, OnSearchResultClickInterface, NetworkAvailableListener {
     private lateinit var binding: ActivitySearchBinding
     private lateinit var rvTopContactsAdapter: TopContactsAdapter
     private lateinit var rvSearchContactsAdapter: SearchContactsAdapter
@@ -49,15 +55,28 @@ class SearchActivity : BaseActivity(), OnChatUserInterface, OnSearchResultClickI
     private var searchQuery: String = ""
     private var searchJob: Job? = null
 
+    private lateinit var networkUtil: NetworkConnectionUtil
+
+    override fun onStart() {
+        super.onStart()
+        networkUtil.register()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        networkUtil.unregister()
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        networkUtil = NetworkConnectionUtil(this)
+        networkUtil.setListener(this)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_search)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        runAdsCampion()
         initView()
         initClickListener()
     }
@@ -181,10 +200,14 @@ class SearchActivity : BaseActivity(), OnChatUserInterface, OnSearchResultClickI
                 if (isFinishing || isDestroyed) return@withContext
 
                 if (isCurrentPageNativeAdsEnabled && !isCurrentPageBannerAdsEnabled) {
+                    if (binding.nativeAdContainer.isVisible) return@withContext
+
                     runNativeAds(
                         nativeAdsType = nativeAdsType, nativeAdsId = currentPageNativeAdsId
                     )
                 } else if (isCurrentPageBannerAdsEnabled && !isCurrentPageNativeAdsEnabled) {
+                    if (binding.bannerAdContainer.root.isVisible) return@withContext
+
                     runBannerAds(
                         bannerAdsId = currentPageBannerAdsID, bannerAdsType = bannerAdsType
                     )
@@ -549,5 +572,30 @@ class SearchActivity : BaseActivity(), OnChatUserInterface, OnSearchResultClickI
             finishAffinity()
         }
         super.onResume()
+    }
+
+    override fun onPause() {
+        hideKeyboard()
+        super.onPause()
+    }
+
+    override fun onNetworkAvailable() {
+        runOnUiThread {
+            val sharePreference = getSharedPreferences("${packageName}_preferences", MODE_PRIVATE)
+
+            val purposeConsents = sharePreference.getString("IABTCF_PurposeConsents", "")
+            if (!purposeConsents.isNullOrEmpty()) {
+                val purposeOneString = purposeConsents.first().toString()
+                val hasConsentForPurposeOne = purposeOneString == "1"
+
+                if (hasConsentForPurposeOne) runAdsCampion()
+            } else {
+                runAdsCampion()
+            }
+        }
+    }
+
+    override fun onNetworkLost() {
+
     }
 }

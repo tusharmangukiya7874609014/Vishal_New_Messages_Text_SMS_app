@@ -47,10 +47,10 @@
                 android:layout_below="@+id/ivSecurity"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="@dimen/_20sdp"
-                android:fontFamily="@font/semi_bold_sans"
+                android:fontFamily="@font/bold_sans"
                 android:text="@string/change_security_question"
                 android:textColor="?attr/titleTextColor"
-                android:textSize="@dimen/_15ssp" />
+                android:textSize="@dimen/_14ssp" />
 
             <TextView
                 android:id="@+id/txtSubTitle"
@@ -61,7 +61,7 @@
                 android:layout_marginTop="@dimen/_3sdp"
                 android:fontFamily="@font/regular_sans"
                 android:text="@string/use_in_case_of_forget_password"
-                android:textColor="?attr/subTextColor"
+                android:textColor="?attr/subHeadingColor"
                 android:textSize="@dimen/_11ssp" />
 
             <RelativeLayout
@@ -82,7 +82,7 @@
                     android:layout_centerVertical="true"
                     android:layout_toStartOf="@+id/ivDropAero"
                     android:ellipsize="end"
-                    android:fontFamily="@font/regular_sans"
+                    android:fontFamily="@font/medium_sans"
                     android:maxLines="2"
                     android:text="@string/what_was_your_childhood_nickname"
                     android:textColor="?attr/titleTextColor"
@@ -141,12 +141,12 @@
                     android:layout_marginHorizontal="@dimen/_10sdp"
                     android:autofillHints="no"
                     android:background="@null"
-                    android:fontFamily="@font/regular_sans"
+                    android:fontFamily="@font/medium_sans"
                     android:hint="@string/type_here"
                     android:inputType="text"
                     android:maxLines="1"
-                    android:textColorHint="?attr/subTextColor"
-                    android:textSize="@dimen/_11ssp" />
+                    android:textColorHint="?attr/subHeadingColor"
+                    android:textSize="@dimen/features_title_size" />
 
             </RelativeLayout>
         </RelativeLayout>
@@ -164,7 +164,7 @@
             android:text="@string/submit"
             android:textAllCaps="false"
             android:textColor="@color/white"
-            android:textSize="@dimen/_13ssp"
+            android:textSize="@dimen/_12ssp"
             android:textStyle="bold" />
 
     </RelativeLayout>

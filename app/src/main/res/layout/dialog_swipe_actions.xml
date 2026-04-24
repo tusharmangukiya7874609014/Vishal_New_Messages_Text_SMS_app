@@ -9,14 +9,15 @@
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/_15sdp"
+        android:layout_margin="@dimen/_10sdp"
+        app:cardBackgroundColor="@android:color/transparent"
         app:cardCornerRadius="@dimen/_8sdp"
         app:cardElevation="0dp">
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="?attr/itemBackground"
+            android:background="?attr/itemBackgroundColor"
             android:padding="@dimen/_10sdp">
 
             <TextView
@@ -42,11 +43,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="@dimen/_30sdp"
                     android:buttonTint="@color/app_theme_color"
-                    android:fontFamily="@font/regular_sans"
+                    android:fontFamily="@font/medium_sans"
                     android:paddingHorizontal="@dimen/_5sdp"
                     android:text="@string/none"
                     android:textColor="?attr/titleTextColor"
-                    android:textSize="@dimen/_12ssp"
+                    android:textSize="@dimen/features_title_size"
                     android:theme="@style/RadioButton" />
 
                 <RadioButton
@@ -54,11 +55,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="@dimen/_30sdp"
                     android:buttonTint="@color/app_theme_color"
-                    android:fontFamily="@font/regular_sans"
+                    android:fontFamily="@font/medium_sans"
                     android:paddingHorizontal="@dimen/_5sdp"
                     android:text="@string/archive"
                     android:textColor="?attr/titleTextColor"
-                    android:textSize="@dimen/_12ssp"
+                    android:textSize="@dimen/features_title_size"
                     android:theme="@style/RadioButton" />
 
                 <RadioButton
@@ -66,11 +67,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="@dimen/_30sdp"
                     android:buttonTint="@color/app_theme_color"
-                    android:fontFamily="@font/regular_sans"
+                    android:fontFamily="@font/medium_sans"
                     android:paddingHorizontal="@dimen/_5sdp"
                     android:text="@string/delete"
                     android:textColor="?attr/titleTextColor"
-                    android:textSize="@dimen/_12ssp"
+                    android:textSize="@dimen/features_title_size"
                     android:theme="@style/RadioButton" />
 
                 <RadioButton
@@ -78,11 +79,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="@dimen/_30sdp"
                     android:buttonTint="@color/app_theme_color"
-                    android:fontFamily="@font/regular_sans"
+                    android:fontFamily="@font/medium_sans"
                     android:paddingHorizontal="@dimen/_5sdp"
                     android:text="@string/call"
                     android:textColor="?attr/titleTextColor"
-                    android:textSize="@dimen/_12ssp"
+                    android:textSize="@dimen/features_title_size"
                     android:theme="@style/RadioButton" />
 
                 <RadioButton
@@ -90,11 +91,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="@dimen/_30sdp"
                     android:buttonTint="@color/app_theme_color"
-                    android:fontFamily="@font/regular_sans"
+                    android:fontFamily="@font/medium_sans"
                     android:paddingHorizontal="@dimen/_5sdp"
                     android:text="@string/mark_read"
                     android:textColor="?attr/titleTextColor"
-                    android:textSize="@dimen/_12ssp"
+                    android:textSize="@dimen/features_title_size"
                     android:theme="@style/RadioButton" />
 
                 <RadioButton
@@ -102,11 +103,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="@dimen/_30sdp"
                     android:buttonTint="@color/app_theme_color"
-                    android:fontFamily="@font/regular_sans"
+                    android:fontFamily="@font/medium_sans"
                     android:paddingHorizontal="@dimen/_5sdp"
                     android:text="@string/mark_unread"
                     android:textColor="?attr/titleTextColor"
-                    android:textSize="@dimen/_12ssp"
+                    android:textSize="@dimen/features_title_size"
                     android:theme="@style/RadioButton" />
 
                 <RadioButton
@@ -114,11 +115,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="@dimen/_30sdp"
                     android:buttonTint="@color/app_theme_color"
-                    android:fontFamily="@font/regular_sans"
+                    android:fontFamily="@font/medium_sans"
                     android:paddingHorizontal="@dimen/_5sdp"
                     android:text="@string/add_to_private_chat"
                     android:textColor="?attr/titleTextColor"
-                    android:textSize="@dimen/_12ssp"
+                    android:textSize="@dimen/features_title_size"
                     android:theme="@style/RadioButton" />
 
             </RadioGroup>

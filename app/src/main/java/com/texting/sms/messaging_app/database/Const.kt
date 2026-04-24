@@ -82,4 +82,5 @@ object Const {
     const val IS_CHANGE_SECURITY_QUESTION = "isChangeSecurityQuestion"
     const val IS_MODIFY_SECURITY_QUESTION = "isModifySecurityQuestions"
     const val ENABLE_AFTER_CALL_SCREEN = "enableAfterCallScreen"
+    const val APP_OPEN_ADS_MINUTE_COUNTER = "appOpenAdsMinuteCount"
 }

@@ -151,7 +151,7 @@
                     android:fontFamily="@font/semi_bold_sans"
                     android:text="@string/forward_to"
                     android:textColor="@color/app_theme_color"
-                    android:textSize="@dimen/_12ssp" />
+                    android:textSize="@dimen/main_title_size" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rvForwardRecipients"

@@ -7,6 +7,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.provider.Settings
+import android.util.Log
 import com.texting.sms.messaging_app.database.ScheduledSMSDatabaseHelper
 import com.texting.sms.messaging_app.model.ScheduledSms
 import kotlinx.coroutines.CoroutineScope
@@ -17,6 +18,7 @@ import androidx.core.net.toUri
 class BootReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
         if (intent.action == Intent.ACTION_BOOT_COMPLETED) {
+            Log.d("ABCD"," BootReceiver Call ")
             CoroutineScope(Dispatchers.IO).launch {
                 val dbHelper = ScheduledSMSDatabaseHelper(context)
                 val scheduledList = dbHelper.getAllSms()

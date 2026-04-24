@@ -5,6 +5,9 @@
 
     <data>
 
+        <variable
+            name="userContactAddress"
+            type="String" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -21,7 +24,7 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <androidx.cardview.widget.CardView
-                android:id="@+id/cvProfileView"
+                android:id="@+id/cvMessageUserProfile"
                 android:layout_width="@dimen/_18sdp"
                 android:layout_height="@dimen/_18sdp"
                 android:layout_marginTop="@dimen/_1sdp"
@@ -33,18 +36,22 @@
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    tools:background="@drawable/bg_profile_ios_background">
 
                     <androidx.appcompat.widget.AppCompatImageView
-                        android:id="@+id/ivOriginalProfile"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_centerInParent="true"
                         android:scaleType="centerCrop"
-                        android:visibility="gone" />
+                        android:visibility="gone"
+                        app:cardViewOfProfile="@{cvMessageUserProfile}"
+                        app:firstChar="@{txtSpecialChar}"
+                        app:ivBlockedProfile="@{ivBlockMessageUser}"
+                        app:userContactAddress="@{userContactAddress}" />
 
                     <androidx.appcompat.widget.AppCompatImageView
-                        android:id="@+id/ivBlockProfile"
+                        android:id="@+id/ivBlockMessageUser"
                         android:layout_width="@dimen/_11sdp"
                         android:layout_height="@dimen/_11sdp"
                         android:layout_centerInParent="true"
@@ -52,12 +59,15 @@
                         android:src="@drawable/ic_block"
                         android:visibility="gone" />
 
-                    <androidx.appcompat.widget.AppCompatImageView
-                        android:id="@+id/ivDefaultProfile"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                    <TextView
+                        android:id="@+id/txtSpecialChar"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_centerInParent="true"
-                        android:src="@drawable/ic_dark_profile_popup" />
+                        android:fontFamily="@font/bold_sans"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/_10ssp"
+                        tools:text="A" />
 
                 </RelativeLayout>
 
@@ -110,7 +120,7 @@
                         android:fontFamily="@font/medium_sans"
                         android:maxWidth="240dp"
                         android:textColor="?attr/titleTextColor"
-                        android:textSize="@dimen/_11ssp"
+                        android:textSize="@dimen/features_title_size"
                         tools:text="Hello, I am doing good,thanks. Are you busy for a call right now? 📞" />
 
                     <LinearLayout
@@ -316,7 +326,7 @@
                         android:fontFamily="@font/medium_sans"
                         android:maxWidth="240dp"
                         android:textColor="?attr/titleTextColor"
-                        android:textSize="@dimen/_11ssp"
+                        android:textSize="@dimen/features_title_size"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         tools:text="This is a test message that should wrap inside the bubble." />

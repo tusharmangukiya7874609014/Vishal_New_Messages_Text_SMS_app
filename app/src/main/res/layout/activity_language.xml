@@ -24,7 +24,7 @@
             android:fontFamily="@font/semi_bold_sans"
             android:text="@string/select_preferred_language"
             android:textColor="?attr/titleTextColor"
-            android:textSize="@dimen/_13ssp" />
+            android:textSize="@dimen/_12ssp" />
 
         <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/animationOfAdd"

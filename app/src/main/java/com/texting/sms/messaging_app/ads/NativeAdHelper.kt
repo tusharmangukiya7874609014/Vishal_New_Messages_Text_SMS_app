@@ -12,9 +12,6 @@ import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.appcompat.widget.AppCompatButton
 import androidx.appcompat.widget.AppCompatImageView
-import com.texting.sms.messaging_app.R
-import com.texting.sms.messaging_app.database.Const
-import com.texting.sms.messaging_app.database.SharedPreferencesHelper
 import com.facebook.shimmer.ShimmerFrameLayout
 import com.google.android.libraries.ads.mobile.sdk.common.FullScreenContentError
 import com.google.android.libraries.ads.mobile.sdk.common.LoadAdError
@@ -25,6 +22,9 @@ import com.google.android.libraries.ads.mobile.sdk.nativead.NativeAdLoader
 import com.google.android.libraries.ads.mobile.sdk.nativead.NativeAdLoaderCallback
 import com.google.android.libraries.ads.mobile.sdk.nativead.NativeAdRequest
 import com.google.android.libraries.ads.mobile.sdk.nativead.NativeAdView
+import com.texting.sms.messaging_app.R
+import com.texting.sms.messaging_app.database.Const
+import com.texting.sms.messaging_app.database.SharedPreferencesHelper
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -85,6 +85,7 @@ object NativeAdHelper {
                 val callback = object : NativeAdLoaderCallback {
                     override fun onNativeAdLoaded(nativeAd: NativeAd) {
                         Log.d("NativeAd", "Native ad loaded.")
+
                         isLoading = false
                         currentNativeAd = nativeAd
 
@@ -93,8 +94,7 @@ object NativeAdHelper {
                             shimmer?.visibility = View.GONE
                         }
 
-                        CoroutineScope(Dispatchers.Main).launch {
-                            destroyNativeAd()
+                        it.runOnUiThread {
                             setEventCallback(nativeAd)
                             displayNativeAd(nativeAd, adsView)
                             currentNativeAd = nativeAd
@@ -112,7 +112,9 @@ object NativeAdHelper {
                     }
                 }
 
-                NativeAdLoader.load(adRequest, callback)
+                AdsManager.runWhenReady(activity) {
+                    NativeAdLoader.load(adRequest, callback)
+                }
             }
         }
     }
@@ -205,14 +207,8 @@ object NativeAdHelper {
 
     fun Context.fixedFontContext(): Context {
         val config = Configuration(resources.configuration)
-        config.fontScale = 1.05f
+        config.fontScale = 1.02f
         val fixedContext = createConfigurationContext(config)
         return ContextThemeWrapper(fixedContext, R.style.Theme_CustomTheme)
-    }
-
-    private fun destroyNativeAd() {
-        currentNativeAd?.destroy()
-        currentNativeAd = null
-        isLoading = false
     }
 }

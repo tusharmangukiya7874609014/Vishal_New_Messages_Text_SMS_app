@@ -1,6 +1,4 @@
 <resources>
-    <string name="app_name">Beskeder: SMS-tekst</string>
-    <string name="app_permission_name" translatable="false">#Messages</string>
     <string name="sms_messages">SMS-beskeder</string>
     <string name="set_as_a_default_app">Indstil som standardapp</string>
     <string name="this_app_needs_to_be_set_as_your_default_sms_app_to_send_receive_and_manage_your_text_messages_without_setting_it_as_default_you_might_miss_important_messages_or_notifications_you_can_always_change_this_later_in_your_phone_settings">Denne app skal indstilles som din standard SMS-app for at sende, modtage og administrere dine tekstbeskeder. Uden at indstille den som standard, risikerer du at gå glip af vigtige beskeder eller notifikationer. Du kan altid ændre dette senere i dine telefonindstillinger.</string>
@@ -15,7 +13,6 @@
     <string name="enable">Aktivér</string>
     <string name="messages">Beskeder</string>
     <string name="search_here">Søg her…</string>
-    <string name="message_text_sms">Besked: Tekst-SMS</string>
     <string name="archived">Arkiveret</string>
     <string name="backup_amp_restore"><![CDATA[Sikkerhedskopi & Gendan]]></string>
     <string name="scheduled">Planlagt</string>
@@ -174,7 +171,6 @@
     <string name="sim_1_slot_set_as_default">SIM 1-slot er indstillet som standard</string>
     <string name="sim_2_already_set_as_default">SIM 2 er allerede indstillet som standard</string>
     <string name="sim_2_slot_set_as_default">SIM 2-slot er indstillet som standard</string>
-    <string name="code_copy">Kode kopieret: %1$s</string>
     <string name="backups">Sikkerhedskopier</string>
     <string name="download_sms_messages_backups">/Download/sms/messages/Sikkerhedskopier</string>
     <string name="backup_history">Backup-historik</string>
@@ -536,7 +532,6 @@
     <string name="are_you_sure_you_would_you_like_to_delete_this_message">Er du sikker på, at du vil slette denne besked?</string>
     <string name="pin">Fastgør</string>
     <string name="unpin">Frigør</string>
-    <string name="first_select_message_atleast_one_or_more">Vælg først en eller flere beskeder</string>
     <string name="remove_from_private_chats">Fjern fra private chats</string>
     <string name="view_full_chat_to_unlock_all_options">Se hele chatten for at låse op for alle muligheder</string>
     <string name="no_app_found_to_share_content">Ingen app fundet til at dele indhold</string>
@@ -570,7 +565,6 @@
     <string name="we_need_this_permission_to_give_you_better_user_experience">Vi har brug for denne tilladelse for at give dig en bedre brugeroplevelse</string>
     <string name="allow_permission">Tillad adgang</string>
     <string name="turn_on_message_notifications">Slå beskednotifikationer til</string>
-    <string name="never_miss_an_important_message">Gå aldrig glip af en vigtig besked 💬</string>
     <string name="allow_app_to_read_phone_state">Tillad appen at læse telefonstatus</string>
     <string name="quick_messaging_access_after_call">Hurtig beskedadgang efter opkald</string>
     <string name="enable_our_quick_action_feature_in_3_steps">Aktivér vores hurtighandlingsfunktion i 3 trin</string>
@@ -609,6 +603,20 @@
     <string name="step_3_permission">Trin 3 :</string>
     <string name="swipe_the_toggle_to_turn_on">Skub kontakten for at slå til.</string>
     <string name="slide_the_toggle_switch_to_enable_and_activate_the_feature">Skub kontakten for at aktivere funktionen.</string>
-    <string name="this_app_requires_access_to_your_phone_state_to_detect_when_a_call_ends_so_it_can_provide_the_after_call_messaging_screen_no_call_logs_are_stored_or_shared">Denne app kræver adgang til telefonstatus for at registrere, når et opkald afsluttes, så den kan vise beskedskærmen efter opkald. Ingen opkaldslogger gemmes eller deles.</string>
     <string name="privacy_policy">Privatlivspolitik</string>
+    <string name="code_copy">Kopiér OTP : %1$s</string>
+    <string name="no_contacts_app_found_on_this_device">Ingen kontaktapp fundet på denne enhed</string>
+    <string name="spam_amp_block"><![CDATA[Spam og blokeret]]></string>
+    <string name="allow">Tillad</string>
+    <string name="this_permission_is_required_to_after_call_features_please_allow_this_permission">Denne tilladelse er nødvendig for funktioner efter opkald. Tillad venligst denne tilladelse.</string>
+    <string name="please_wait_while_the_ad_loads">Vent venligst, mens annoncen indlæses…</string>
+    <string name="you_re_offline_turn_on_your_internet_connection_to_access_all_messages_features">Du er offline.\nTænd for din internetforbindelse for at få adgang til alle beskedfunktioner.</string>
+    <string name="message_text_sms">Beskeder</string>
+    <string name="app_name">Beskeder</string>
+    <string name="you_can_quickly_send_a_message_right_after_a_call">Du kan hurtigt sende en besked lige efter et opkald</string>
+    <string name="turn_on_notifications_to_receive_message_alerts">Slå notifikationer til for at modtage beskedadvarsler.</string>
+    <string name="first_select_message_at_least_one_or_more">Vælg først en eller flere beskeder</string>
+    <string name="we_do_not_store_track_or_share_your_call_or_message_data">Vi gemmer eller deler ikke dine opkalds- eller beskeddata.</string>
+    <string name="outgoing_call">Udgående opkald</string>
+    <string name="enable_required_features_to_use_messaging_your_data_stays_private_and_secure_on_your_device">Aktivér nødvendige funktioner for at bruge beskeder. Dine data forbliver private og sikre på din enhed.</string>
 </resources>

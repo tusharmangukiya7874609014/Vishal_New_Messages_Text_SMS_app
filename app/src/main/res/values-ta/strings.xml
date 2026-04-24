@@ -1,5 +1,4 @@
 <resources>
-    <string name="app_name">செய்திகள்: உரை SMS</string>
     <string name="sms_messages">எஸ்எம்எஸ் செய்திகள்</string>
     <string name="set_as_a_default_app">இயல்புநிலை எஸ்எம்எஸ் செயலியாக அமைக்கவும்</string>
     <string name="this_app_needs_to_be_set_as_your_default_sms_app_to_send_receive_and_manage_your_text_messages_without_setting_it_as_default_you_might_miss_important_messages_or_notifications_you_can_always_change_this_later_in_your_phone_settings">உங்கள் உரை செய்திகள் அனுப்ப, பெற மற்றும் நிர்வகிக்க இந்த செயலியை இயல்புநிலை எஸ்எம்எஸ் செயலியாக அமைக்க வேண்டும். இதை இயல்புநிலையாக அமைக்காவிட்டால், முக்கியமான செய்திகள் அல்லது அறிவிப்புகளை தவறவிடலாம். இதை பிறகு உங்கள் கைப்பேசி அமைப்புகளில் மாற்றலாம்.</string>
@@ -14,7 +13,6 @@
     <string name="enable">இயக்கு</string>
     <string name="messages">செய்திகள்</string>
     <string name="search_here">இங்கு தேடுங்கள்…</string>
-    <string name="message_text_sms">செய்தி : உரை எஸ்எம்எஸ்</string>
     <string name="archived">காப்பகப்படுத்தப்பட்டது</string>
     <string name="backup_amp_restore"><![CDATA[காப்புப்பிரதி & மீட்டெடுக்கவும்]]></string>
     <string name="scheduled">திட்டமிடப்பட்டது</string>
@@ -173,7 +171,6 @@
     <string name="sim_1_slot_set_as_default">சிம் 1 ஸ்லாட் இயல்புநிலையாக அமைக்கப்பட்டது</string>
     <string name="sim_2_already_set_as_default">சிம் 2 ஏற்கனவே இயல்புநிலை என அமைக்கப்பட்டுள்ளது</string>
     <string name="sim_2_slot_set_as_default">சிம் 2 ஸ்லாட் இயல்புநிலையாக அமைக்கப்பட்டது</string>
-    <string name="code_copy">கோடு நகல் : %1$s</string>
     <string name="backups">காப்புப்பிரதிகள்</string>
     <string name="download_sms_messages_backups">/Download/sms/messages/Backups</string>
     <string name="backup_history">காப்புப்பிரதி வரலாறு</string>
@@ -535,7 +532,6 @@
     <string name="are_you_sure_you_would_you_like_to_delete_this_message">இந்த செய்தியை நீங்கள் அழிக்க விரும்புகிறீர்களா?</string>
     <string name="pin">பின்னனியில் நசுக்க</string>
     <string name="unpin">நசுக்கத்தை அகற்று</string>
-    <string name="first_select_message_atleast_one_or_more">முதல் ஒன்றையோ அதற்கு மேற்பட்ட செய்திகளைத் தேர்ந்தெடு</string>
     <string name="remove_from_private_chats">தனியார் சாட்டிலிருந்து நீக்கு</string>
     <string name="view_full_chat_to_unlock_all_options">அனைத்து விருப்பங்களையும் திறக்க முழு சாட்டைப் பார்க</string>
     <string name="no_app_found_to_share_content">பகிர்வதற்கான செயலி இல்லை</string>
@@ -569,7 +565,6 @@
     <string name="we_need_this_permission_to_give_you_better_user_experience">சிறந்த பயன்பாட்டு அனுபவத்திற்காக இந்த அனுமதி தேவை</string>
     <string name="allow_permission">அனுமதி வழங்கு</string>
     <string name="turn_on_message_notifications">செய்தி அறிவிப்புகளை இயக்கு</string>
-    <string name="never_miss_an_important_message">முக்கிய செய்தியை தவறவிடாதீர்கள் 💬</string>
     <string name="allow_app_to_read_phone_state">பயன்பாட்டிற்கு தொலைபேசி நிலையை அணுக அனுமதி வழங்கு</string>
     <string name="quick_messaging_access_after_call">அழைப்புக்குப் பிறகு விரைவு செய்தி அணுகல்</string>
     <string name="enable_our_quick_action_feature_in_3_steps">எங்கள் விரைவு செயல்பாட்டை 3 படிகளில் இயக்கு</string>
@@ -608,6 +603,20 @@
     <string name="step_3_permission">படி 3 :</string>
     <string name="swipe_the_toggle_to_turn_on">இயக்க ஸ்விட்சை ஸ்வைப் செய்யவும்.</string>
     <string name="slide_the_toggle_switch_to_enable_and_activate_the_feature">அம்சத்தை இயக்க மற்றும் செயல்படுத்த ஸ்விட்சை நகர்த்தவும்.</string>
-    <string name="this_app_requires_access_to_your_phone_state_to_detect_when_a_call_ends_so_it_can_provide_the_after_call_messaging_screen_no_call_logs_are_stored_or_shared">அழைப்பு முடிவை கண்டறிந்து அழைப்புக்குப் பிந்தைய செய்தி திரையை வழங்க இந்த பயன்பாட்டிற்கு தொலைபேசி நிலை அணுகல் தேவை. எந்த அழைப்பு பதிவுகளும் சேமிக்கப்படவோ பகிரப்படவோ செய்யப்படாது.</string>
     <string name="privacy_policy">தனியுரிமைக் கொள்கை</string>
+    <string name="code_copy">OTP நகலெடுக்கவும் : %1$s</string>
+    <string name="no_contacts_app_found_on_this_device">இந்த சாதனத்தில் தொடர்புகள் செயலி கிடைக்கவில்லை</string>
+    <string name="spam_amp_block"><![CDATA[ஸ்பாம் மற்றும் தடுக்கப்பட்டவை]]></string>
+    <string name="allow">அனுமதி</string>
+    <string name="this_permission_is_required_to_after_call_features_please_allow_this_permission">இந்த அனுமதி அழைப்புக்குப் பிந்தைய அம்சங்களுக்கு தேவையானது. தயவுசெய்து அனுமதி அளிக்கவும்.</string>
+    <string name="please_wait_while_the_ad_loads">விளம்பரம் ஏற்றப்படுகிறது, தயவுசெய்து காத்திருக்கவும்…</string>
+    <string name="you_re_offline_turn_on_your_internet_connection_to_access_all_messages_features">நீங்கள் ஆஃப்லைனில் உள்ளீர்கள்.\nஅனைத்து செய்தி அம்சங்களையும் பயன்படுத்த இணையத்தை இயக்கவும்.</string>
+    <string name="message_text_sms">செய்திகள்</string>
+    <string name="app_name">செய்திகள்</string>
+    <string name="you_can_quickly_send_a_message_right_after_a_call">அழைப்புக்குப் பிறகு உடனே ஒரு செய்தியை விரைவாக அனுப்பலாம்</string>
+    <string name="turn_on_notifications_to_receive_message_alerts">செய்தி அறிவிப்புகளை பெற அறிவிப்புகளை இயக்கவும்.</string>
+    <string name="first_select_message_at_least_one_or_more">முதலில் ஒரு அல்லது அதற்கு மேற்பட்ட செய்திகளைத் தேர்ந்தெடுக்கவும்</string>
+    <string name="we_do_not_store_track_or_share_your_call_or_message_data">உங்கள் அழைப்பு அல்லது செய்தி தரவை நாங்கள் சேமிக்கவோ பகிரவோ செய்யமாட்டோம்.</string>
+    <string name="outgoing_call">வெளியேறும் அழைப்பு</string>
+    <string name="enable_required_features_to_use_messaging_your_data_stays_private_and_secure_on_your_device">செய்திகளை பயன்படுத்த தேவையான அம்சங்களை இயக்கவும். உங்கள் தரவு உங்கள் சாதனத்தில் தனிப்பட்டதாகவும் பாதுகாப்பாகவும் இருக்கும்.</string>
 </resources>

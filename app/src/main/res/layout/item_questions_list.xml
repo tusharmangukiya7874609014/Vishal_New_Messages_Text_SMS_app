@@ -17,10 +17,10 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginHorizontal="@dimen/_10sdp"
-            android:fontFamily="@font/regular_sans"
+            android:fontFamily="@font/medium_sans"
             android:text="@string/english"
             android:textColor="?attr/titleTextColor"
-            android:textSize="@dimen/_11ssp" />
+            android:textSize="@dimen/features_title_size" />
 
     </RelativeLayout>
 </layout>

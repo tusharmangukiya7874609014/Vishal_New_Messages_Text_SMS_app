@@ -146,59 +146,8 @@ class StarredLinkAdapter(
             else -> screenHeight / 2 - popupHeight / 2
         }
 
-        if (isAddressBlocked(context, messageDetails.address.toString())) {
-            topViewBinding.cvProfileView.setCardBackgroundColor(context.getColor(R.color.blocked_user_profile))
-            topViewBinding.txtUserName.setTextColor(context.getColor(R.color.blocked_user_profile))
-            topViewBinding.ivOriginalProfile.visibility = View.GONE
-            topViewBinding.ivDefaultProfile.visibility = View.GONE
-            topViewBinding.ivBlockProfile.visibility = View.VISIBLE
-        } else {
-            if (messageDetails.photoUri != null && !messageDetails.photoUri.contentEquals("null")) {
-                Glide.with(context)
-                    .load(messageDetails.photoUri.toUri())
-                    .into(topViewBinding.ivOriginalProfile)
-                topViewBinding.ivDefaultProfile.visibility = View.GONE
-                topViewBinding.ivBlockProfile.visibility = View.GONE
-                topViewBinding.ivOriginalProfile.visibility = View.VISIBLE
-            } else {
-                topViewBinding.ivOriginalProfile.visibility = View.GONE
-                topViewBinding.ivBlockProfile.visibility = View.GONE
-                topViewBinding.ivDefaultProfile.visibility = View.VISIBLE
-                topViewBinding.cvProfileView.setCardBackgroundColor(
-                    ColorStateList.valueOf(
-                        context.getColorFromAttr(R.attr.itemBackgroundColor)
-                    )
-                )
-            }
-            topViewBinding.txtUserName.setTextColor(context.getColorFromAttr(R.attr.titleTextColor))
-        }
-
-        if (isAddressBlocked(context, messageDetails.address.toString())) {
-            bottomViewBinding.cvProfileView.setCardBackgroundColor(context.getColor(R.color.blocked_user_profile))
-            bottomViewBinding.txtUserName.setTextColor(context.getColor(R.color.blocked_user_profile))
-            bottomViewBinding.ivOriginalProfile.visibility = View.GONE
-            bottomViewBinding.ivDefaultProfile.visibility = View.GONE
-            bottomViewBinding.ivBlockProfile.visibility = View.VISIBLE
-        } else {
-            if (messageDetails.photoUri != null && !messageDetails.photoUri.contentEquals("null")) {
-                Glide.with(context)
-                    .load(messageDetails.photoUri.toUri())
-                    .into(bottomViewBinding.ivOriginalProfile)
-                bottomViewBinding.ivDefaultProfile.visibility = View.GONE
-                bottomViewBinding.ivBlockProfile.visibility = View.GONE
-                bottomViewBinding.ivOriginalProfile.visibility = View.VISIBLE
-            } else {
-                bottomViewBinding.ivOriginalProfile.visibility = View.GONE
-                bottomViewBinding.ivBlockProfile.visibility = View.GONE
-                bottomViewBinding.ivDefaultProfile.visibility = View.VISIBLE
-                bottomViewBinding.cvProfileView.setCardBackgroundColor(
-                    ColorStateList.valueOf(
-                        context.getColorFromAttr(R.attr.itemBackgroundColor)
-                    )
-                )
-            }
-            bottomViewBinding.txtUserName.setTextColor(context.getColorFromAttr(R.attr.titleTextColor))
-        }
+        topViewBinding.userContactAddress = messageDetails.address
+        bottomViewBinding.userContactAddress = messageDetails.address
 
         topViewBinding.txtUserName.text =
             if (messageDetails.contactName?.isNotEmpty() == true) messageDetails.contactName else messageDetails.address

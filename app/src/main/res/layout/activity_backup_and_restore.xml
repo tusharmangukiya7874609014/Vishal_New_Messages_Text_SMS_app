@@ -85,7 +85,7 @@
                         android:fontFamily="@font/medium_sans"
                         android:text="@string/last_backup"
                         android:textColor="?attr/titleTextColor"
-                        android:textSize="@dimen/_11ssp" />
+                        android:textSize="@dimen/features_title_size" />
 
                     <TextView
                         android:id="@+id/txtLastBackup"
@@ -94,10 +94,10 @@
                         android:layout_gravity="center_vertical"
                         android:layout_marginStart="@dimen/_5sdp"
                         android:layout_marginTop="@dimen/_1sdp"
-                        android:fontFamily="@font/light_sans"
+                        android:fontFamily="@font/regular_sans"
                         android:text="@string/never"
                         android:textColor="?attr/subHeadingColor"
-                        android:textSize="@dimen/_10ssp" />
+                        android:textSize="@dimen/features_sub_title_size" />
 
                 </LinearLayout>
 
@@ -140,7 +140,7 @@
                         android:fontFamily="@font/medium_sans"
                         android:text="@string/restore"
                         android:textColor="?attr/titleTextColor"
-                        android:textSize="@dimen/_11ssp" />
+                        android:textSize="@dimen/features_title_size" />
 
                     <TextView
                         android:id="@+id/txtDelaySendingMessage"
@@ -149,10 +149,10 @@
                         android:layout_gravity="center_vertical"
                         android:layout_marginStart="@dimen/_5sdp"
                         android:layout_marginTop="@dimen/_1sdp"
-                        android:fontFamily="@font/light_sans"
+                        android:fontFamily="@font/regular_sans"
                         android:text="@string/select_a_backup"
                         android:textColor="?attr/subHeadingColor"
-                        android:textSize="@dimen/_10ssp" />
+                        android:textSize="@dimen/features_sub_title_size" />
 
                 </LinearLayout>
 
@@ -196,7 +196,7 @@
                         android:fontFamily="@font/medium_sans"
                         android:text="@string/backing_up_messages"
                         android:textColor="?attr/titleTextColor"
-                        android:textSize="@dimen/_11ssp" />
+                        android:textSize="@dimen/features_title_size" />
 
                     <TextView
                         android:id="@+id/txtBackUpProcess"
@@ -205,10 +205,10 @@
                         android:layout_gravity="center_vertical"
                         android:layout_marginStart="@dimen/_5sdp"
                         android:layout_marginTop="@dimen/_1sdp"
-                        android:fontFamily="@font/light_sans"
+                        android:fontFamily="@font/regular_sans"
                         android:text="@string/finished"
                         android:textColor="?attr/subHeadingColor"
-                        android:textSize="@dimen/_10ssp" />
+                        android:textSize="@dimen/features_sub_title_size" />
 
                     <ProgressBar
                         android:id="@+id/progressBar"

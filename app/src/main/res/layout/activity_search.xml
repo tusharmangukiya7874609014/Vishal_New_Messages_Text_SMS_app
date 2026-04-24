@@ -92,7 +92,7 @@
                     android:fontFamily="@font/semi_bold_sans"
                     android:text="@string/top_contacts"
                     android:textColor="@color/app_theme_color"
-                    android:textSize="@dimen/_13ssp"
+                    android:textSize="@dimen/main_title_size"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -152,7 +152,7 @@
                         android:fontFamily="@font/semi_bold_sans"
                         android:text="@string/results_in_messages"
                         android:textColor="@color/app_theme_color"
-                        android:textSize="@dimen/_13ssp"
+                        android:textSize="@dimen/main_title_size"
                         android:visibility="gone"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/rvSearchViewInContacts"

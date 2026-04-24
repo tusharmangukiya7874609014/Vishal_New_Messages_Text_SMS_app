@@ -66,22 +66,43 @@
                 android:maxLines="1"
                 android:text="@string/private_number"
                 android:textColor="@color/white"
-                android:textSize="@dimen/_13ssp" />
+                android:textSize="@dimen/main_title_size" />
+
+            <TextView
+                android:id="@+id/txtCalledType"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/txtContactName"
+                android:layout_marginHorizontal="@dimen/_12sdp"
+                android:layout_marginTop="@dimen/_2sdp"
+                android:layout_toEndOf="@+id/cvProfileView"
+                android:fontFamily="@font/medium_sans"
+                android:maxLines="1"
+                android:text="@string/outgoing_call"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_10ssp" />
 
             <TextView
                 android:id="@+id/txtCallDuration"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/txtContactName"
+                android:layout_below="@+id/txtCalledType"
                 android:layout_marginHorizontal="@dimen/_12sdp"
-                android:layout_marginTop="@dimen/_3sdp"
+                android:layout_marginTop="@dimen/_2sdp"
                 android:layout_toEndOf="@+id/cvProfileView"
                 android:fontFamily="@font/medium_sans"
                 android:maxLines="1"
                 android:text="@string/_00_10"
                 android:textAlignment="center"
                 android:textColor="@color/white"
-                android:textSize="@dimen/_11ssp" />
+                android:textSize="@dimen/_10ssp" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="@dimen/_38sdp"
+                android:layout_height="@dimen/_38sdp"
+                android:layout_alignParentEnd="true"
+                android:src="@drawable/ic_message_fab" />
 
         </RelativeLayout>
 
@@ -111,8 +132,8 @@
 
                     <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/ivNotes"
-                        android:layout_width="@dimen/_22sdp"
-                        android:layout_height="@dimen/_22sdp"
+                        android:layout_width="@dimen/_20sdp"
+                        android:layout_height="@dimen/_20sdp"
                         android:layout_centerInParent="true"
                         android:padding="1dp"
                         android:src="@drawable/ic_view_messages"
@@ -129,8 +150,8 @@
 
                     <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/ivMessage"
-                        android:layout_width="@dimen/_22sdp"
-                        android:layout_height="@dimen/_22sdp"
+                        android:layout_width="@dimen/_20sdp"
+                        android:layout_height="@dimen/_20sdp"
                         android:layout_centerInParent="true"
                         android:padding="1.5dp"
                         android:src="@drawable/ic_message_call"
@@ -146,8 +167,8 @@
 
                     <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/ivOtherSettings"
-                        android:layout_width="@dimen/_22sdp"
-                        android:layout_height="@dimen/_22sdp"
+                        android:layout_width="@dimen/_20sdp"
+                        android:layout_height="@dimen/_20sdp"
                         android:layout_centerInParent="true"
                         android:layout_gravity="center"
                         android:src="@drawable/ic_settings_call"

@@ -36,7 +36,7 @@
                     android:paddingHorizontal="@dimen/_5sdp"
                     android:text="@string/can_t_talk_now_i_ll_call_you_back_soon"
                     android:textColor="?attr/titleTextColor"
-                    android:textSize="@dimen/_11ssp"
+                    android:textSize="@dimen/features_title_size"
                     android:theme="@style/RadioButton" />
 
                 <RadioButton
@@ -48,7 +48,7 @@
                     android:paddingHorizontal="@dimen/_5sdp"
                     android:text="@string/sorry_i_missed_your_call_what_s_up"
                     android:textColor="?attr/titleTextColor"
-                    android:textSize="@dimen/_11ssp"
+                    android:textSize="@dimen/features_title_size"
                     android:theme="@style/RadioButton" />
 
                 <RadioButton
@@ -60,7 +60,7 @@
                     android:paddingHorizontal="@dimen/_5sdp"
                     android:text="@string/busy_at_the_moment_will_reply_shortly"
                     android:textColor="?attr/titleTextColor"
-                    android:textSize="@dimen/_11ssp"
+                    android:textSize="@dimen/features_title_size"
                     android:theme="@style/RadioButton" />
 
                 <RadioButton
@@ -72,7 +72,7 @@
                     android:paddingHorizontal="@dimen/_5sdp"
                     android:text="@string/call_ended_let_me_know_if_it_s_urgent"
                     android:textColor="?attr/titleTextColor"
-                    android:textSize="@dimen/_11ssp"
+                    android:textSize="@dimen/features_title_size"
                     android:theme="@style/RadioButton" />
 
                 <RadioButton
@@ -84,7 +84,7 @@
                     android:paddingHorizontal="@dimen/_5sdp"
                     android:text="@string/can_t_talk_right_now_text_me_instead"
                     android:textColor="?attr/titleTextColor"
-                    android:textSize="@dimen/_11ssp"
+                    android:textSize="@dimen/features_title_size"
                     android:theme="@style/RadioButton" />
 
             </RadioGroup>
@@ -106,7 +106,7 @@
                     android:autofillHints="name"
                     android:background="@null"
                     android:ellipsize="end"
-                    android:fontFamily="@font/regular_sans"
+                    android:fontFamily="@font/medium_sans"
                     android:hint="@string/write_personal_message"
                     android:inputType="none"
                     android:maxLines="5"

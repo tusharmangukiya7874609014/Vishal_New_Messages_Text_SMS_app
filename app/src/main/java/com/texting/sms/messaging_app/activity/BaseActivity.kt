@@ -6,12 +6,9 @@ import android.app.Activity
 import android.app.Dialog
 import android.app.role.RoleManager
 import android.content.Context
-import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.content.res.Configuration
 import android.graphics.Color
-import android.net.ConnectivityManager
-import android.net.NetworkCapabilities
 import android.os.Build
 import android.os.Bundle
 import android.provider.Telephony
@@ -24,9 +21,9 @@ import androidx.core.view.WindowCompat
 import androidx.core.view.children
 import androidx.core.view.isNotEmpty
 import androidx.core.view.isVisible
+import com.google.firebase.analytics.FirebaseAnalytics
 import com.texting.sms.messaging_app.database.SharedPreferencesHelper
 import com.texting.sms.messaging_app.utils.LocaleHelper
-import com.texting.sms.messaging_app.utils.RootChecker
 
 abstract class BaseActivity : AppCompatActivity() {
     private lateinit var dialog: Dialog
@@ -76,26 +73,7 @@ abstract class BaseActivity : AppCompatActivity() {
 
     override fun onResume() {
         enableImmersiveModeWithTransparentStatusBar(this)
-        if (RootChecker.isDeviceRooted()) {
-            startActivity(Intent(this, RootDeviceFoundActivity::class.java))
-            finishAffinity()
-        }
         super.onResume()
-    }
-
-    fun isInternetAvailable(context: Context): Boolean {
-        val connectivityManager =
-            context.getSystemService(CONNECTIVITY_SERVICE) as ConnectivityManager
-
-        val network = connectivityManager.activeNetwork ?: return false
-        val activeNetwork = connectivityManager.getNetworkCapabilities(network) ?: return false
-
-        return when {
-            activeNetwork.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> true
-            activeNetwork.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> true
-            activeNetwork.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET) -> true
-            else -> false
-        }
     }
 
     /**
@@ -168,5 +146,15 @@ abstract class BaseActivity : AppCompatActivity() {
                     }
                 })
         }
+    }
+
+    fun firebaseLogEvent(
+        context: Context, eventName: String, paramValue: String
+    ) {
+        val bundle = Bundle().apply {
+            putString("page_name", paramValue)
+        }
+
+        FirebaseAnalytics.getInstance(context).logEvent(eventName, bundle)
     }
 }

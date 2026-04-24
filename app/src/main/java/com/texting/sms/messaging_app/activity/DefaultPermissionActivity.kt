@@ -6,8 +6,10 @@ import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
 import android.provider.Telephony
+import android.util.Log
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.databinding.DataBindingUtil
@@ -45,10 +47,17 @@ class DefaultPermissionActivity : BaseActivity() {
 
     private fun initView() {
         if (Settings.canDrawOverlays(this)) {
-            val cmdIntent = Intent(this, CallOverlayService::class.java).apply {
-                putExtra("CALL_STATE", "100000")
+            if (!CallOverlayService.isRunning) {
+                val serviceIntent = Intent(this, CallOverlayService::class.java).apply {
+                    putExtra("CALL_STATE", "10000")
+                }
+
+                try {
+                    ContextCompat.startForegroundService(this, serviceIntent)
+                } catch (e: Exception) {
+                    Log.d("ABCD","Overlay Service :- ${e.localizedMessage}")
+                }
             }
-            startService(cmdIntent)
         }
 
         prepareIntentLauncher()

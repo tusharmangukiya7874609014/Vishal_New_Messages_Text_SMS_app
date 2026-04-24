@@ -1,5 +1,4 @@
 <resources>
-    <string name="app_name">Mga Mensahe: Text SMS</string>
     <string name="sms_messages">Mga SMS na Mensahe</string>
     <string name="set_as_a_default_app">Itakda Bilang Default na App</string>
     <string name="this_app_needs_to_be_set_as_your_default_sms_app_to_send_receive_and_manage_your_text_messages_without_setting_it_as_default_you_might_miss_important_messages_or_notifications_you_can_always_change_this_later_in_your_phone_settings">Kailangang itakda ang app na ito bilang iyong default na SMS app upang makapagpadala, makatanggap, at pamahalaan ang iyong mga mensahe. Kung hindi ito maitatakda bilang default, maaari kang makaligta sa mga mahalagang mensahe o notipikasyon. Maaari mo itong baguhin anumang oras sa mga setting ng iyong telepono.</string>
@@ -14,7 +13,6 @@
     <string name="enable">Paganahin</string>
     <string name="messages">Mga Mensahe</string>
     <string name="search_here">Maghanap Dito…</string>
-    <string name="message_text_sms">Mensahe: Text SMS</string>
     <string name="archived">Na-archive</string>
     <string name="backup_amp_restore"><![CDATA[Backup at Ibalik]]></string>
     <string name="scheduled">Naka-iskedyul</string>
@@ -173,7 +171,6 @@
     <string name="sim_1_slot_set_as_default">SIM 1 slot ay naka-set bilang default</string>
     <string name="sim_2_already_set_as_default">SIM 2 ay naka-set na bilang default</string>
     <string name="sim_2_slot_set_as_default">SIM 2 slot ay naka-set bilang default</string>
-    <string name="code_copy">Kinopyang Code: %1$s</string>
     <string name="backups">Mga Backup</string>
     <string name="download_sms_messages_backups">/Download/sms/messages/Backups</string>
     <string name="backup_history">Kasaysayan ng Backup</string>
@@ -535,7 +532,6 @@
     <string name="are_you_sure_you_would_you_like_to_delete_this_message">Sigurado ka bang gusto mong tanggalin ang mensaheng ito?</string>
     <string name="pin">I-pin</string>
     <string name="unpin">Alisin ang Pin</string>
-    <string name="first_select_message_atleast_one_or_more">Unang pumili ng isa o higit pang mensahe</string>
     <string name="remove_from_private_chats">Alisin mula sa Pribadong Chat</string>
     <string name="view_full_chat_to_unlock_all_options">Tingnan ang buong chat upang ma-unlock ang lahat ng opsyon</string>
     <string name="no_app_found_to_share_content">Walang app na nakita para mag-share ng content</string>
@@ -569,7 +565,6 @@
     <string name="we_need_this_permission_to_give_you_better_user_experience">Kailangan namin ang pahintulot na ito para mabigyan ka ng mas magandang karanasan</string>
     <string name="allow_permission">Payagan ang Pahintulot</string>
     <string name="turn_on_message_notifications">I-on ang mga notification ng mensahe</string>
-    <string name="never_miss_an_important_message">Huwag palampasin ang mahalagang mensahe 💬</string>
     <string name="allow_app_to_read_phone_state">Payagan ang app na basahin ang estado ng telepono</string>
     <string name="quick_messaging_access_after_call">Mabilis na pag-access sa mensahe pagkatapos ng tawag</string>
     <string name="enable_our_quick_action_feature_in_3_steps">I-enable ang aming quick action feature sa 3 hakbang</string>
@@ -608,6 +603,20 @@
     <string name="step_3_permission">Hakbang 3 :</string>
     <string name="swipe_the_toggle_to_turn_on">I-swipe ang toggle upang i-on.</string>
     <string name="slide_the_toggle_switch_to_enable_and_activate_the_feature">I-slide ang toggle switch upang i-enable at i-activate ang feature.</string>
-    <string name="this_app_requires_access_to_your_phone_state_to_detect_when_a_call_ends_so_it_can_provide_the_after_call_messaging_screen_no_call_logs_are_stored_or_shared">Kailangan ng app na ito ang access sa estado ng telepono upang matukoy kung kailan natapos ang tawag at maipakita ang After-Call messaging screen. Walang call logs na iniimbak o ibinabahagi.</string>
     <string name="privacy_policy">Patakaran sa Privacy</string>
+    <string name="code_copy">Kopyahin ang OTP : %1$s</string>
+    <string name="no_contacts_app_found_on_this_device">Walang Contacts app na natagpuan sa device na ito</string>
+    <string name="spam_amp_block"><![CDATA[Spam at naka-block]]></string>
+    <string name="allow">Payagan</string>
+    <string name="this_permission_is_required_to_after_call_features_please_allow_this_permission">Kailangan ang pahintulot na ito para sa mga feature pagkatapos ng tawag. Mangyaring payagan ito.</string>
+    <string name="please_wait_while_the_ad_loads">Mangyaring maghintay habang naglo-load ang ad…</string>
+    <string name="you_re_offline_turn_on_your_internet_connection_to_access_all_messages_features">Offline ka.\nI-on ang internet connection para ma-access ang lahat ng feature ng mensahe.</string>
+    <string name="message_text_sms">Mga Mensahe</string>
+    <string name="app_name">Mga Mensahe</string>
+    <string name="you_can_quickly_send_a_message_right_after_a_call">Maaari kang magpadala agad ng mensahe pagkatapos ng tawag</string>
+    <string name="turn_on_notifications_to_receive_message_alerts">I-on ang notifications para makatanggap ng alerts ng mensahe.</string>
+    <string name="first_select_message_at_least_one_or_more">Pumili muna ng isa o higit pang mensahe</string>
+    <string name="we_do_not_store_track_or_share_your_call_or_message_data">Hindi namin iniimbak o ibinabahagi ang iyong data ng tawag o mensahe.</string>
+    <string name="outgoing_call">Papalabas na tawag</string>
+    <string name="enable_required_features_to_use_messaging_your_data_stays_private_and_secure_on_your_device">I-enable ang kinakailangang feature para magamit ang mensahe. Mananatiling pribado at ligtas ang iyong data sa iyong device.</string>
 </resources>

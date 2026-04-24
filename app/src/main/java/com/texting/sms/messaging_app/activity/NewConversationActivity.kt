@@ -22,6 +22,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import androidx.core.text.isDigitsOnly
+import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -34,10 +35,12 @@ import com.texting.sms.messaging_app.ads.NativeAdHelper
 import com.texting.sms.messaging_app.database.Const
 import com.texting.sms.messaging_app.database.SharedPreferencesHelper
 import com.texting.sms.messaging_app.databinding.ActivityNewConversationBinding
+import com.texting.sms.messaging_app.listener.NetworkAvailableListener
 import com.texting.sms.messaging_app.listener.OnClickContactInterface
 import com.texting.sms.messaging_app.model.ContactModel
 import com.texting.sms.messaging_app.utils.ContactNumberCache
 import com.texting.sms.messaging_app.utils.LocaleHelper
+import com.texting.sms.messaging_app.utils.NetworkConnectionUtil
 import com.vanniktech.ui.hideKeyboard
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -46,12 +49,24 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class NewConversationActivity : AppCompatActivity(), OnClickContactInterface {
+class NewConversationActivity : AppCompatActivity(), OnClickContactInterface, NetworkAvailableListener {
     private lateinit var binding: ActivityNewConversationBinding
     private lateinit var rvAllContactListAdapter: AllContactsAdapter
     private var allContactsList: MutableList<ContactModel> = mutableListOf()
     private var isScheduledMessage = false
     private var searchContactsJob: Job? = null
+
+    private lateinit var networkUtil: NetworkConnectionUtil
+
+    override fun onStart() {
+        super.onStart()
+        networkUtil.register()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        networkUtil.unregister()
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         val currentNightMode = resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
@@ -60,8 +75,9 @@ class NewConversationActivity : AppCompatActivity(), OnClickContactInterface {
             window.statusBarColor = Color.WHITE
         }
         super.onCreate(savedInstanceState)
+        networkUtil = NetworkConnectionUtil(this)
+        networkUtil.setListener(this)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_new_conversation)
-        runAdsCampion()
         initView()
         initClickListener()
     }
@@ -146,10 +162,14 @@ class NewConversationActivity : AppCompatActivity(), OnClickContactInterface {
                 if (isFinishing || isDestroyed) return@withContext
 
                 if (isCurrentPageNativeAdsEnabled && !isCurrentPageBannerAdsEnabled) {
+                    if (binding.nativeAdContainer.isVisible) return@withContext
+
                     runNativeAds(
                         nativeAdsType = nativeAdsType, nativeAdsId = currentPageNativeAdsId
                     )
                 } else if (isCurrentPageBannerAdsEnabled && !isCurrentPageNativeAdsEnabled) {
+                    if (binding.bannerAdContainer.root.isVisible) return@withContext
+
                     runBannerAds(
                         bannerAdsId = currentPageBannerAdsID, bannerAdsType = bannerAdsType
                     )
@@ -569,5 +589,25 @@ class NewConversationActivity : AppCompatActivity(), OnClickContactInterface {
         } else {
             Telephony.Sms.getDefaultSmsPackage(context) == context.packageName
         }
+    }
+
+    override fun onNetworkAvailable() {
+        runOnUiThread {
+            val sharePreference = getSharedPreferences("${packageName}_preferences", MODE_PRIVATE)
+
+            val purposeConsents = sharePreference.getString("IABTCF_PurposeConsents", "")
+            if (!purposeConsents.isNullOrEmpty()) {
+                val purposeOneString = purposeConsents.first().toString()
+                val hasConsentForPurposeOne = purposeOneString == "1"
+
+                if (hasConsentForPurposeOne) runAdsCampion()
+            } else {
+                runAdsCampion()
+            }
+        }
+    }
+
+    override fun onNetworkLost() {
+
     }
 }

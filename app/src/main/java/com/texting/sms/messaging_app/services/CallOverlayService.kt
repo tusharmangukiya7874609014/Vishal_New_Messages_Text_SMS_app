@@ -1,6 +1,5 @@
 package com.texting.sms.messaging_app.services
 
-import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
@@ -20,7 +19,6 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.WindowManager
 import android.widget.RelativeLayout
-import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.core.app.NotificationCompat
 import androidx.core.graphics.toColorInt
@@ -43,7 +41,12 @@ class CallOverlayService : Service() {
     private lateinit var layoutParamsView: WindowManager.LayoutParams
     private lateinit var removeParamsView: WindowManager.LayoutParams
     private lateinit var windowManagerView: WindowManager
+
     private var isRinging = false
+    private var isOffhook = false
+    private var callType: String = ""
+
+    private var callDuration: String? = null
 
     companion object {
         @Volatile
@@ -60,28 +63,38 @@ class CallOverlayService : Service() {
     override fun onCreate() {
         super.onCreate()
         isRunning = true
-        createHighPriorityChannel()
+        startForegroundServiceProperly()
     }
 
-    private fun createHighPriorityChannel() {
-        val channel = NotificationChannel(
-            "call_overlay",
-            "Call Notifications",
-            NotificationManager.IMPORTANCE_HIGH
-        ).apply {
-            description = "Shows call ended details"
-            enableLights(true)
-            enableVibration(true)
-        }
+    private fun startForegroundServiceProperly() {
+        val channelId = "call_overlay"
 
+        val channel = NotificationChannel(
+            channelId,
+            "Call Overlay Service",
+            NotificationManager.IMPORTANCE_LOW
+        )
         val manager = getSystemService(NotificationManager::class.java)
         manager.createNotificationChannel(channel)
+
+        val notification = NotificationCompat.Builder(this, channelId)
+            .setContentTitle("After call features")
+            .setSmallIcon(R.drawable.ic_call)
+            .setPriority(NotificationCompat.PRIORITY_LOW)
+            .setOngoing(true)
+            .build()
+
+        startForeground(1001, notification)
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        startForegroundServiceProperly()
+
         when (intent?.getStringExtra("CALL_STATE")) {
             TelephonyManager.EXTRA_STATE_RINGING -> {
                 isRinging = true
+                isOffhook = false
+
                 if (Settings.canDrawOverlays(this)) {
                     showOverlay()
                 }
@@ -89,6 +102,14 @@ class CallOverlayService : Service() {
             }
 
             TelephonyManager.EXTRA_STATE_OFFHOOK -> {
+                isOffhook = true
+
+                callType = if (!isRinging) {
+                    "Outgoing Call"
+                } else {
+                    "Incoming Call"
+                }
+
                 if (!isRinging) {
                     if (Settings.canDrawOverlays(this)) {
                         showOverlay()
@@ -98,12 +119,11 @@ class CallOverlayService : Service() {
             }
 
             TelephonyManager.EXTRA_STATE_IDLE -> {
+                if (isRinging && !isOffhook) {
+                    callType = "Missed Call"
+                }
+
                 isRinging = false
-                val duration = overlayView
-                    ?.findViewById<TextView>(R.id.txtContactNumber)
-                    ?.text
-                    ?.toString()
-                    ?: "00:10"
 
                 if (::timerRunnable.isInitialized) {
                     handler.removeCallbacks(timerRunnable)
@@ -118,18 +138,19 @@ class CallOverlayService : Service() {
                         val afterCallIntent =
                             Intent(this, AfterCallBackActivity::class.java).apply {
                                 addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                                putExtra("Duration", duration)
+                                putExtra("Duration", callDuration)
                                 putExtra("ClickView", 1)
+                                putExtra("CallType", callType)
                             }
                         startActivity(afterCallIntent)
                     } catch (e: Exception) {
-                        Log.e("CallOverlay", "Failed to open AfterCall screen", e)
+                        Log.e("ABCD", "Failed to open AfterCall screen", e)
                     }
                 } else {
                     if (canUseFullScreenIntent()) {
-                        showFullScreenAfterCallNotification(duration)
+                        showFullScreenAfterCallNotification(callDuration.toString())
                     } else {
-                        showNormalHighPriorityNotification(duration)
+                        showNormalHighPriorityNotification(callDuration.toString())
                     }
                 }
             }
@@ -138,11 +159,10 @@ class CallOverlayService : Service() {
     }
 
     private fun showFullScreenAfterCallNotification(duration: String) {
-        createHighPriorityChannel()
-
         val intent = Intent(this, AfterCallBackActivity::class.java).apply {
             putExtra("Duration", duration)
             putExtra("ClickView", 1)
+            putExtra("CallType", callType)
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
         }
 
@@ -173,6 +193,7 @@ class CallOverlayService : Service() {
         val intent = Intent(this, AfterCallBackActivity::class.java).apply {
             putExtra("Duration", duration)
             putExtra("ClickView", 1)
+            putExtra("CallType", callType)
         }
 
         val pendingIntent = PendingIntent.getActivity(
@@ -276,7 +297,7 @@ class CallOverlayService : Service() {
             }
             intent.putExtra(
                 "Duration",
-                overlayView?.findViewById<TextView>(R.id.txtContactNumber)?.text.toString()
+                callDuration
             )
             intent.putExtra("ClickView", 3)
             startActivity(intent)
@@ -288,7 +309,7 @@ class CallOverlayService : Service() {
             }
             intent.putExtra(
                 "Duration",
-                overlayView?.findViewById<TextView>(R.id.txtContactNumber)?.text.toString()
+                callDuration
             )
             intent.putExtra("ClickView", 1)
             startActivity(intent)
@@ -300,7 +321,7 @@ class CallOverlayService : Service() {
             }
             intent.putExtra(
                 "Duration",
-                overlayView?.findViewById<TextView>(R.id.txtContactNumber)?.text.toString()
+                callDuration
             )
             intent.putExtra("ClickView", 2)
             startActivity(intent)
@@ -375,7 +396,6 @@ class CallOverlayService : Service() {
     }
 
     private fun startTimer() {
-        val timerText = overlayView?.findViewById<TextView>(R.id.txtContactNumber)
         seconds = 0
 
         timerRunnable = object : Runnable {
@@ -383,7 +403,7 @@ class CallOverlayService : Service() {
                 seconds++
                 val minutes = seconds / 60
                 val sec = seconds % 60
-                timerText?.text = String.format(Locale.ENGLISH, "%02d:%02d", minutes, sec)
+                callDuration = String.format(Locale.ENGLISH, "%02d:%02d", minutes, sec)
                 handler.postDelayed(this, 1000)
             }
         }

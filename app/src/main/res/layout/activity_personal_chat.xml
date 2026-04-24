@@ -5,6 +5,9 @@
 
     <data>
 
+        <variable
+            name="userContactAddress"
+            type="String" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -191,29 +194,32 @@
                     android:src="?attr/backIcon" />
 
                 <androidx.cardview.widget.CardView
-                    android:id="@+id/cvProfileView"
+                    android:id="@+id/cvMessageUserProfile"
                     android:layout_width="@dimen/_30sdp"
                     android:layout_height="@dimen/_30sdp"
                     android:layout_marginStart="@dimen/_6sdp"
                     android:layout_toEndOf="@+id/ivBack"
-                    app:cardBackgroundColor="?attr/itemBackgroundColor"
                     app:cardCornerRadius="@dimen/_25sdp"
                     app:cardElevation="0dp">
 
                     <RelativeLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent">
+                        android:layout_height="match_parent"
+                        tools:background="@drawable/bg_profile_ios_background">
 
                         <androidx.appcompat.widget.AppCompatImageView
-                            android:id="@+id/ivOriginalProfile"
+                            android:id="@+id/ivOriginalPhotoUri"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_centerInParent="true"
                             android:scaleType="centerCrop"
-                            android:visibility="gone" />
+                            app:cardViewOfProfile="@{cvMessageUserProfile}"
+                            app:firstChar="@{txtSpecialChar}"
+                            app:ivBlockedProfile="@{ivBlockMessageUser}"
+                            app:userContactAddress="@{userContactAddress}" />
 
                         <androidx.appcompat.widget.AppCompatImageView
-                            android:id="@+id/ivBlockProfile"
+                            android:id="@+id/ivBlockMessageUser"
                             android:layout_width="@dimen/_20sdp"
                             android:layout_height="@dimen/_20sdp"
                             android:layout_centerInParent="true"
@@ -221,12 +227,15 @@
                             android:src="@drawable/ic_block"
                             android:visibility="gone" />
 
-                        <androidx.appcompat.widget.AppCompatImageView
-                            android:id="@+id/ivDefaultProfile"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
+                        <TextView
+                            android:id="@+id/txtSpecialChar"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
                             android:layout_centerInParent="true"
-                            android:src="@drawable/ic_dark_profile_popup" />
+                            android:fontFamily="@font/bold_sans"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/_14ssp"
+                            tools:text="A" />
 
                     </RelativeLayout>
 
@@ -241,7 +250,7 @@
                     android:layout_marginStart="@dimen/_8sdp"
                     android:layout_marginEnd="@dimen/_5sdp"
                     android:layout_toStartOf="@+id/ivAddToContacts"
-                    android:layout_toEndOf="@+id/cvProfileView"
+                    android:layout_toEndOf="@+id/cvMessageUserProfile"
                     android:ellipsize="end"
                     android:fontFamily="@font/medium_sans"
                     android:maxLines="1"

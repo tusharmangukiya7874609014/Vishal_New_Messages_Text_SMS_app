@@ -18,12 +18,14 @@ import android.widget.RadioButton
 import androidx.core.net.toUri
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
 import com.texting.sms.messaging_app.R
+import com.texting.sms.messaging_app.adapter.ScheduledMessageAdapter
 import com.texting.sms.messaging_app.ads.BannerAdHelper
 import com.texting.sms.messaging_app.ads.BannerType
 import com.texting.sms.messaging_app.ads.NativeAdHelper
@@ -32,29 +34,44 @@ import com.texting.sms.messaging_app.database.ScheduledSMSDatabaseHelper
 import com.texting.sms.messaging_app.database.SharedPreferencesHelper
 import com.texting.sms.messaging_app.databinding.ActivityScheduledMessageBinding
 import com.texting.sms.messaging_app.databinding.DialogScheduledMessageBinding
+import com.texting.sms.messaging_app.listener.NetworkAvailableListener
 import com.texting.sms.messaging_app.listener.OnScheduledClickInterface
 import com.texting.sms.messaging_app.model.ChatModel
 import com.texting.sms.messaging_app.model.ScheduledSms
-import com.texting.sms.messaging_app.adapter.ScheduledMessageAdapter
+import com.texting.sms.messaging_app.utils.NetworkConnectionUtil
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class ScheduledMessageActivity : BaseActivity(), OnScheduledClickInterface {
+class ScheduledMessageActivity : BaseActivity(), OnScheduledClickInterface,
+    NetworkAvailableListener {
     private lateinit var binding: ActivityScheduledMessageBinding
     private lateinit var rvScheduledMessageListAdapter: ScheduledMessageAdapter
     private var scheduledMessageList: MutableList<ScheduledSms> = mutableListOf()
 
+    private lateinit var networkUtil: NetworkConnectionUtil
+
+    override fun onStart() {
+        super.onStart()
+        networkUtil.register()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        networkUtil.unregister()
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        networkUtil = NetworkConnectionUtil(this)
+        networkUtil.setListener(this)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_scheduled_message)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        runAdsCampion()
         initClickListener()
     }
 
@@ -123,10 +140,14 @@ class ScheduledMessageActivity : BaseActivity(), OnScheduledClickInterface {
                 if (isFinishing || isDestroyed) return@withContext
 
                 if (isCurrentPageNativeAdsEnabled && !isCurrentPageBannerAdsEnabled) {
+                    if (binding.nativeAdContainer.isVisible) return@withContext
+
                     runNativeAds(
                         nativeAdsType = nativeAdsType, nativeAdsId = currentPageNativeAdsId
                     )
                 } else if (isCurrentPageBannerAdsEnabled && !isCurrentPageNativeAdsEnabled) {
+                    if (binding.bannerAdContainer.root.isVisible) return@withContext
+
                     runBannerAds(
                         bannerAdsId = currentPageBannerAdsID, bannerAdsType = bannerAdsType
                     )
@@ -220,7 +241,7 @@ class ScheduledMessageActivity : BaseActivity(), OnScheduledClickInterface {
         dialog.setContentView(dialogScheduledMessageBinding.root)
 
         dialog.window?.let { window ->
-            window.setBackgroundDrawableResource(R.color.transparent)
+            window.setBackgroundDrawableResource(android.R.color.transparent)
             window.addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
             window.setDimAmount(0.6f)
 
@@ -484,5 +505,25 @@ class ScheduledMessageActivity : BaseActivity(), OnScheduledClickInterface {
             initView()
         }
         super.onResume()
+    }
+
+    override fun onNetworkAvailable() {
+        runOnUiThread {
+            val sharePreference = getSharedPreferences("${packageName}_preferences", MODE_PRIVATE)
+
+            val purposeConsents = sharePreference.getString("IABTCF_PurposeConsents", "")
+            if (!purposeConsents.isNullOrEmpty()) {
+                val purposeOneString = purposeConsents.first().toString()
+                val hasConsentForPurposeOne = purposeOneString == "1"
+
+                if (hasConsentForPurposeOne) runAdsCampion()
+            } else {
+                runAdsCampion()
+            }
+        }
+    }
+
+    override fun onNetworkLost() {
+
     }
 }

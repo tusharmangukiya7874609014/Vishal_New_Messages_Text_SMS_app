@@ -7,6 +7,7 @@ import android.view.WindowManager
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.lifecycleScope
 import com.texting.sms.messaging_app.R
@@ -15,25 +16,40 @@ import com.texting.sms.messaging_app.database.Const
 import com.texting.sms.messaging_app.database.SharedPreferencesHelper
 import com.texting.sms.messaging_app.databinding.ActivitySwipeActionsBinding
 import com.texting.sms.messaging_app.databinding.DialogSwipeActionsBinding
+import com.texting.sms.messaging_app.listener.NetworkAvailableListener
+import com.texting.sms.messaging_app.utils.NetworkConnectionUtil
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class SwipeActionsActivity : BaseActivity() {
+class SwipeActionsActivity : BaseActivity(), NetworkAvailableListener {
     private lateinit var binding: ActivitySwipeActionsBinding
     private var leftSwipeAction: SwipeAction = SwipeAction.NONE
     private var rightSwipeAction: SwipeAction = SwipeAction.NONE
 
+    private lateinit var networkUtil: NetworkConnectionUtil
+
+    override fun onStart() {
+        super.onStart()
+        networkUtil.register()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        networkUtil.unregister()
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        networkUtil = NetworkConnectionUtil(this)
+        networkUtil.setListener(this)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_swipe_actions)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        runAdsCampion()
         initView()
         initClickListener()
     }
@@ -85,6 +101,8 @@ class SwipeActionsActivity : BaseActivity() {
                 if (isFinishing || isDestroyed) return@withContext
 
                 if (isCurrentPageNativeAdsEnabled) {
+                    if (binding.nativeAdContainer.isVisible) return@withContext
+
                     runNativeAds(
                         nativeAdsType = nativeAdsType, nativeAdsId = currentPageNativeAdsId
                     )
@@ -212,7 +230,7 @@ class SwipeActionsActivity : BaseActivity() {
         dialog.setContentView(bindingDialog.root)
 
         dialog.window?.apply {
-            setBackgroundDrawableResource(R.color.transparent)
+            setBackgroundDrawableResource(android.R.color.transparent)
             addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
             setDimAmount(0.6f)
             val metrics = resources.displayMetrics
@@ -289,5 +307,25 @@ class SwipeActionsActivity : BaseActivity() {
         }
 
         if (!isFinishing && !isDestroyed) dialog.show()
+    }
+
+    override fun onNetworkAvailable() {
+        runOnUiThread {
+            val sharePreference = getSharedPreferences("${packageName}_preferences", MODE_PRIVATE)
+
+            val purposeConsents = sharePreference.getString("IABTCF_PurposeConsents", "")
+            if (!purposeConsents.isNullOrEmpty()) {
+                val purposeOneString = purposeConsents.first().toString()
+                val hasConsentForPurposeOne = purposeOneString == "1"
+
+                if (hasConsentForPurposeOne) runAdsCampion()
+            } else {
+                runAdsCampion()
+            }
+        }
+    }
+
+    override fun onNetworkLost() {
+
     }
 }

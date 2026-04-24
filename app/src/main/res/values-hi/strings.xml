@@ -1,5 +1,4 @@
 <resources>
-    <string name="app_name">संदेश: टेक्स्ट एसएमएस</string>
     <string name="sms_messages">एसएमएस संदेश</string>
     <string name="set_as_a_default_app">डिफ़ॉल्ट ऐप के रूप में सेट करें</string>
     <string name="this_app_needs_to_be_set_as_your_default_sms_app_to_send_receive_and_manage_your_text_messages_without_setting_it_as_default_you_might_miss_important_messages_or_notifications_you_can_always_change_this_later_in_your_phone_settings">इस ऐप को आपके डिफ़ॉल्ट एसएमएस ऐप के रूप में सेट करना आवश्यक है ताकि आप अपने टेक्स्ट संदेशों को भेज, प्राप्त और प्रबंधित कर सकें। डिफ़ॉल्ट के रूप में सेट किए बिना, आप महत्वपूर्ण संदेश या सूचनाएं मिस कर सकते हैं। आप इसे अपने फ़ोन सेटिंग्स में बाद में कभी भी बदल सकते हैं।</string>
@@ -14,7 +13,6 @@
     <string name="enable">सक्षम करें</string>
     <string name="messages">संदेश</string>
     <string name="search_here">यहाँ खोजें…</string>
-    <string name="message_text_sms">संदेश : टेक्स्ट एसएमएस</string>
     <string name="archived">संग्रहीत</string>
     <string name="backup_amp_restore">बैकअप और पुनर्स्थापना</string>
     <string name="scheduled">अनुसूचित</string>
@@ -173,7 +171,6 @@
     <string name="sim_1_slot_set_as_default">सिम 1 स्लॉट डिफ़ॉल्ट के रूप में सेट</string>
     <string name="sim_2_already_set_as_default">सिम 2 पहले से डिफ़ॉल्ट के रूप में सेट है</string>
     <string name="sim_2_slot_set_as_default">सिम 2 स्लॉट डिफ़ॉल्ट के रूप में सेट</string>
-    <string name="code_copy">कोड कॉपी: %1$s</string>
     <string name="backups">बैकअप</string>
     <string name="download_sms_messages_backups">/Download/sms/messages/Backups</string>
     <string name="backup_history">बैकअप इतिहास</string>
@@ -535,7 +532,6 @@
     <string name="are_you_sure_you_would_you_like_to_delete_this_message">क्या आप वाकई इस संदेश को हटाना चाहते हैं?</string>
     <string name="pin">पिन करें</string>
     <string name="unpin">पिन हटाएँ</string>
-    <string name="first_select_message_atleast_one_or_more">पहले एक या अधिक संदेश चुनें</string>
     <string name="remove_from_private_chats">निजी चैट से हटाएँ</string>
     <string name="view_full_chat_to_unlock_all_options">सभी विकल्पों को अनलॉक करने के लिए पूरी चैट देखें</string>
     <string name="no_app_found_to_share_content">सामग्री साझा करने के लिए कोई ऐप नहीं मिला</string>
@@ -569,7 +565,6 @@
     <string name="we_need_this_permission_to_give_you_better_user_experience">बेहतर उपयोगकर्ता अनुभव देने के लिए हमें इस अनुमति की आवश्यकता है</string>
     <string name="allow_permission">अनुमति दें</string>
     <string name="turn_on_message_notifications">संदेश सूचनाएँ चालू करें</string>
-    <string name="never_miss_an_important_message">कभी भी कोई महत्वपूर्ण संदेश मिस न करें 💬</string>
     <string name="allow_app_to_read_phone_state">ऐप को फोन की स्थिति पढ़ने की अनुमति दें</string>
     <string name="quick_messaging_access_after_call">कॉल के बाद त्वरित संदेश सुविधा</string>
     <string name="enable_our_quick_action_feature_in_3_steps">हमारी त्वरित क्रिया सुविधा को 3 चरणों में सक्षम करें</string>
@@ -608,6 +603,20 @@
     <string name="step_3_permission">चरण 3 :</string>
     <string name="swipe_the_toggle_to_turn_on">चालू करने के लिए टॉगल स्वाइप करें।</string>
     <string name="slide_the_toggle_switch_to_enable_and_activate_the_feature">सुविधा को सक्षम और सक्रिय करने के लिए टॉगल स्विच स्लाइड करें।</string>
-    <string name="this_app_requires_access_to_your_phone_state_to_detect_when_a_call_ends_so_it_can_provide_the_after_call_messaging_screen_no_call_logs_are_stored_or_shared">यह ऐप कॉल समाप्त होने का पता लगाने के लिए आपके फोन की स्थिति तक पहुंच की आवश्यकता रखता है ताकि कॉल के बाद संदेश स्क्रीन दिखा सके। कोई कॉल लॉग संग्रहीत या साझा नहीं किए जाते।</string>
     <string name="privacy_policy">गोपनीयता नीति</string>
+    <string name="code_copy">OTP कॉपी करें : %1$s</string>
+    <string name="no_contacts_app_found_on_this_device">इस डिवाइस पर कोई कॉन्टैक्ट्स ऐप नहीं मिला</string>
+    <string name="spam_amp_block"><![CDATA[स्पैम और ब्लॉक किए गए]]></string>
+    <string name="allow">अनुमति दें</string>
+    <string name="this_permission_is_required_to_after_call_features_please_allow_this_permission">यह अनुमति कॉल के बाद की सुविधाओं के लिए आवश्यक है। कृपया इसे अनुमति दें।</string>
+    <string name="please_wait_while_the_ad_loads">कृपया प्रतीक्षा करें, विज्ञापन लोड हो रहा है…</string>
+    <string name="you_re_offline_turn_on_your_internet_connection_to_access_all_messages_features">आप ऑफ़लाइन हैं।\nसभी मैसेज सुविधाओं का उपयोग करने के लिए इंटरनेट चालू करें।</string>
+    <string name="message_text_sms">संदेश</string>
+    <string name="app_name">संदेश</string>
+    <string name="you_can_quickly_send_a_message_right_after_a_call">आप कॉल के तुरंत बाद जल्दी से संदेश भेज सकते हैं</string>
+    <string name="turn_on_notifications_to_receive_message_alerts">संदेश अलर्ट प्राप्त करने के लिए सूचनाएं चालू करें।</string>
+    <string name="first_select_message_at_least_one_or_more">पहले एक या अधिक संदेश चुनें</string>
+    <string name="we_do_not_store_track_or_share_your_call_or_message_data">हम आपके कॉल या संदेश डेटा को संग्रहीत या साझा नहीं करते हैं।</string>
+    <string name="outgoing_call">आउटगोइंग कॉल</string>
+    <string name="enable_required_features_to_use_messaging_your_data_stays_private_and_secure_on_your_device">मैसेजिंग उपयोग करने के लिए आवश्यक सुविधाएं सक्षम करें। आपका डेटा आपके डिवाइस पर निजी और सुरक्षित रहता है।</string>
 </resources>

@@ -86,7 +86,7 @@ class QuickResponseActivity : BaseActivity(), OnQuickMessageInterface {
         val deleteQuickMessageDialogBinding: DialogDeleteConversationBinding =
             DialogDeleteConversationBinding.inflate(LayoutInflater.from(this))
         dialog.setContentView(deleteQuickMessageDialogBinding.root)
-        dialog.window?.setBackgroundDrawableResource(R.color.transparent)
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
         dialog.setCancelable(true)
 
         deleteQuickMessageDialogBinding.txtStatement.text =
@@ -124,7 +124,7 @@ class QuickResponseActivity : BaseActivity(), OnQuickMessageInterface {
         val quickMessageEditOrAddDialogBinding: DialogEditQuickMessageBinding =
             DialogEditQuickMessageBinding.inflate(LayoutInflater.from(this))
         dialog.setContentView(quickMessageEditOrAddDialogBinding.root)
-        dialog.window?.setBackgroundDrawableResource(R.color.transparent)
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
 
         if (performActions.contentEquals("EditQuickMessage") && message.isNotEmpty()) {
             quickMessageEditOrAddDialogBinding.txtTitle.text =

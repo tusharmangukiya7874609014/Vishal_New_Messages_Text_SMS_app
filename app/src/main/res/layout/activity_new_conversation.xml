@@ -230,7 +230,7 @@
                     android:fontFamily="@font/medium_sans"
                     android:maxLines="2"
                     android:textColor="?attr/titleTextColor"
-                    android:textSize="@dimen/_11ssp"
+                    android:textSize="@dimen/features_title_size"
                     tools:text="Send to 78974" />
 
                 <TextView
@@ -238,11 +238,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/txtContactName"
-                    android:layout_marginTop="2dp"
-                    android:fontFamily="@font/light_sans"
+                    android:layout_marginTop="1dp"
+                    android:fontFamily="@font/regular_sans"
                     android:maxLines="1"
                     android:textColor="?attr/subTextColor"
-                    android:textSize="@dimen/_10ssp"
+                    android:textSize="@dimen/features_sub_title_size"
                     tools:text="78974" />
 
             </RelativeLayout>

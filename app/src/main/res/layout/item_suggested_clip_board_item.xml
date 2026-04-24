@@ -18,15 +18,15 @@
             android:fontFamily="@font/regular_sans"
             android:padding="@dimen/_5sdp"
             android:textColor="?attr/titleTextColor"
-            android:textSize="@dimen/_11ssp"
+            android:textSize="@dimen/_10ssp"
             tools:text="Sometimes, when things are falling apart, they may actually be falling into place." />
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:layout_marginVertical="@dimen/_3sdp"
+            android:layout_height="0.6dp"
             android:layout_marginHorizontal="@dimen/_5sdp"
-            android:background="#E0E0E0" />
+            android:layout_marginVertical="@dimen/_3sdp"
+            android:background="?attr/stroke_color" />
 
     </LinearLayout>
 </layout>

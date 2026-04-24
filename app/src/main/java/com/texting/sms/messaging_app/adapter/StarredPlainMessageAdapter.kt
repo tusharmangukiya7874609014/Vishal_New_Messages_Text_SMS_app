@@ -15,15 +15,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.PopupWindow
-import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toDrawable
 import androidx.core.graphics.toColorInt
 import androidx.core.net.toUri
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.texting.sms.messaging_app.R
-import com.texting.sms.messaging_app.database.Const
-import com.texting.sms.messaging_app.database.SharedPreferencesHelper
 import com.texting.sms.messaging_app.databinding.ItemMessageFeaturesBottomViewPopupBinding
 import com.texting.sms.messaging_app.databinding.ItemMessageFeaturesTopViewPopupBinding
 import com.texting.sms.messaging_app.databinding.ItemStarredPlainMessageBinding
@@ -68,49 +65,9 @@ class StarredPlainMessageAdapter(
                 binding.txtDate.text = formattedTime
 
                 if (isAddressBlocked(context, address.toString())) {
-                    binding.cvProfileView.setCardBackgroundColor(context.getColor(R.color.blocked_user_profile))
                     binding.txtMessageTitle.setTextColor(context.getColor(R.color.blocked_user_profile))
-                    binding.ivOriginalProfile.visibility = View.GONE
-                    binding.ivDefaultProfile.visibility = View.GONE
-                    binding.ivBlockProfile.visibility = View.VISIBLE
                 } else {
-                    if (photoUri != null && !photoUri.contentEquals("null")) {
-                        Glide.with(context)
-                            .load(photoUri.toUri())
-                            .into(binding.ivOriginalProfile)
-                        binding.ivDefaultProfile.visibility = View.GONE
-                        binding.ivBlockProfile.visibility = View.GONE
-                        binding.ivOriginalProfile.visibility = View.VISIBLE
-                    } else {
-                        if (SharedPreferencesHelper.getBoolean(
-                                context,
-                                Const.IS_CHANGE_PROFILE_COLOR,
-                                false
-                            )
-                        ) {
-                            binding.ivDefaultProfile.setImageDrawable(
-                                ContextCompat.getDrawable(
-                                    context,
-                                    R.drawable.ic_profile
-                                )
-                            )
-                        } else {
-                            binding.ivDefaultProfile.setImageDrawable(
-                                ContextCompat.getDrawable(
-                                    context,
-                                    R.drawable.ic_dark_profile_popup
-                                )
-                            )
-                        }
-                        binding.ivOriginalProfile.visibility = View.GONE
-                        binding.ivBlockProfile.visibility = View.GONE
-                        binding.cvProfileView.setCardBackgroundColor(
-                            ColorStateList.valueOf(
-                                context.getColorFromAttr(R.attr.itemBackgroundColor)
-                            )
-                        )
-                        binding.ivDefaultProfile.visibility = View.VISIBLE
-                    }
+                    binding.userContactAddress = address
                     binding.txtMessageTitle.setTextColor(context.getColorFromAttr(R.attr.titleTextColor))
                 }
 
@@ -242,59 +199,8 @@ class StarredPlainMessageAdapter(
             else -> screenHeight / 2 - popupHeight / 2
         }
 
-        if (isAddressBlocked(context, messageDetails.address.toString())) {
-            topViewBinding.cvProfileView.setCardBackgroundColor(context.getColor(R.color.blocked_user_profile))
-            topViewBinding.txtUserName.setTextColor(context.getColor(R.color.blocked_user_profile))
-            topViewBinding.ivOriginalProfile.visibility = View.GONE
-            topViewBinding.ivDefaultProfile.visibility = View.GONE
-            topViewBinding.ivBlockProfile.visibility = View.VISIBLE
-        } else {
-            if (messageDetails.photoUri != null && !messageDetails.photoUri.contentEquals("null")) {
-                Glide.with(context)
-                    .load(messageDetails.photoUri.toUri())
-                    .into(topViewBinding.ivOriginalProfile)
-                topViewBinding.ivDefaultProfile.visibility = View.GONE
-                topViewBinding.ivBlockProfile.visibility = View.GONE
-                topViewBinding.ivOriginalProfile.visibility = View.VISIBLE
-            } else {
-                topViewBinding.ivOriginalProfile.visibility = View.GONE
-                topViewBinding.ivBlockProfile.visibility = View.GONE
-                topViewBinding.ivDefaultProfile.visibility = View.VISIBLE
-                topViewBinding.cvProfileView.setCardBackgroundColor(
-                    ColorStateList.valueOf(
-                        context.getColorFromAttr(R.attr.itemBackgroundColor)
-                    )
-                )
-            }
-            topViewBinding.txtUserName.setTextColor(context.getColorFromAttr(R.attr.titleTextColor))
-        }
-
-        if (isAddressBlocked(context, messageDetails.address.toString())) {
-            bottomViewBinding.cvProfileView.setCardBackgroundColor(context.getColor(R.color.blocked_user_profile))
-            bottomViewBinding.txtUserName.setTextColor(context.getColor(R.color.blocked_user_profile))
-            bottomViewBinding.ivOriginalProfile.visibility = View.GONE
-            bottomViewBinding.ivDefaultProfile.visibility = View.GONE
-            bottomViewBinding.ivBlockProfile.visibility = View.VISIBLE
-        } else {
-            if (messageDetails.photoUri != null && !messageDetails.photoUri.contentEquals("null")) {
-                Glide.with(context)
-                    .load(messageDetails.photoUri.toUri())
-                    .into(bottomViewBinding.ivOriginalProfile)
-                bottomViewBinding.ivDefaultProfile.visibility = View.GONE
-                bottomViewBinding.ivBlockProfile.visibility = View.GONE
-                bottomViewBinding.ivOriginalProfile.visibility = View.VISIBLE
-            } else {
-                bottomViewBinding.ivOriginalProfile.visibility = View.GONE
-                bottomViewBinding.ivBlockProfile.visibility = View.GONE
-                bottomViewBinding.ivDefaultProfile.visibility = View.VISIBLE
-                bottomViewBinding.cvProfileView.setCardBackgroundColor(
-                    ColorStateList.valueOf(
-                        context.getColorFromAttr(R.attr.itemBackgroundColor)
-                    )
-                )
-            }
-            bottomViewBinding.txtUserName.setTextColor(context.getColorFromAttr(R.attr.titleTextColor))
-        }
+        topViewBinding.userContactAddress = messageDetails.address
+        bottomViewBinding.userContactAddress = messageDetails.address
 
         topViewBinding.txtUserName.text =
             if (messageDetails.contactName?.isNotEmpty() == true) messageDetails.contactName else messageDetails.address

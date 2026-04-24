@@ -17,7 +17,7 @@
         android:padding="@dimen/_5sdp">
 
         <androidx.cardview.widget.CardView
-            android:id="@+id/cvProfileView"
+            android:id="@+id/cvMessageUserProfile"
             android:layout_width="@dimen/_38sdp"
             android:layout_height="@dimen/_38sdp"
             android:layout_gravity="center_horizontal"
@@ -26,27 +26,39 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                tools:background="@drawable/bg_profile_ios_background">
 
                 <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/ivOriginalProfile"
+                    android:id="@+id/ivOriginalPhotoUri"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_centerInParent="true"
                     android:scaleType="centerCrop"
-                    app:blockedProfile="@{ivBlockProfile}"
+                    app:blockedProfile="@{ivBlockMessageUser}"
                     app:messageTitle="@{txtTopContactsName}"
-                    app:profileCard="@{cvProfileView}"
-                    app:profileMessage="@{item.address}" />
+                    app:profileCard="@{cvMessageUserProfile}"
+                    app:profileMessage="@{item.address}"
+                    app:specialChar="@{txtSpecialChar}" />
 
                 <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/ivBlockProfile"
+                    android:id="@+id/ivBlockMessageUser"
                     android:layout_width="@dimen/_20sdp"
                     android:layout_height="@dimen/_20sdp"
                     android:layout_centerInParent="true"
                     android:scaleType="centerCrop"
                     android:src="@drawable/ic_block"
                     android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/txtSpecialChar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:fontFamily="@font/bold_sans"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/_14ssp"
+                    tools:text="A" />
 
             </RelativeLayout>
 
@@ -59,11 +71,11 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="@dimen/_3sdp"
             android:ellipsize="end"
-            app:contactName="@{item.address}"
             android:fontFamily="@font/medium_sans"
             android:maxLines="1"
             android:textColor="?attr/titleTextColor"
-            android:textSize="@dimen/_10ssp"
+            android:textSize="@dimen/features_sub_title_size"
+            app:contactName="@{item.address}"
             tools:text="Skyline" />
 
     </LinearLayout>

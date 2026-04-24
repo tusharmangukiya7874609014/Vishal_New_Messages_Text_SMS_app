@@ -79,7 +79,7 @@
                     android:fontFamily="@font/medium_sans"
                     android:text="@string/blocked_number"
                     android:textColor="?attr/titleTextColor"
-                    android:textSize="@dimen/_11ssp" />
+                    android:textSize="@dimen/features_title_size" />
 
             </LinearLayout>
 
@@ -114,7 +114,7 @@
                     android:fontFamily="@font/medium_sans"
                     android:text="@string/blocked_messages"
                     android:textColor="?attr/titleTextColor"
-                    android:textSize="@dimen/_11ssp" />
+                    android:textSize="@dimen/features_title_size" />
 
             </LinearLayout>
 

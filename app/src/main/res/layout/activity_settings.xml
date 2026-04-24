@@ -62,7 +62,7 @@
                     android:fontFamily="@font/semi_bold_sans"
                     android:text="@string/appearance"
                     android:textColor="@color/app_theme_color"
-                    android:textSize="@dimen/_12ssp" />
+                    android:textSize="@dimen/main_title_size" />
 
                 <LinearLayout
                     android:id="@+id/rvAppTheme"
@@ -96,7 +96,7 @@
                         android:fontFamily="@font/medium_sans"
                         android:text="@string/app_theme"
                         android:textColor="?attr/titleTextColor"
-                        android:textSize="@dimen/_11ssp" />
+                        android:textSize="@dimen/features_title_size" />
 
                 </LinearLayout>
 
@@ -132,7 +132,7 @@
                         android:fontFamily="@font/medium_sans"
                         android:text="@string/font_size"
                         android:textColor="?attr/titleTextColor"
-                        android:textSize="@dimen/_11ssp" />
+                        android:textSize="@dimen/features_title_size" />
 
                 </LinearLayout>
 
@@ -218,7 +218,7 @@
                         android:fontFamily="@font/medium_sans"
                         android:text="@string/appearance"
                         android:textColor="?attr/titleTextColor"
-                        android:textSize="@dimen/_11ssp" />
+                        android:textSize="@dimen/features_title_size" />
 
                 </LinearLayout>
 
@@ -254,7 +254,7 @@
                         android:fontFamily="@font/medium_sans"
                         android:text="@string/chat_wallpaper"
                         android:textColor="?attr/titleTextColor"
-                        android:textSize="@dimen/_11ssp" />
+                        android:textSize="@dimen/features_title_size" />
 
                 </LinearLayout>
 
@@ -387,7 +387,7 @@
                             android:fontFamily="@font/medium_sans"
                             android:text="@string/change_profile_color"
                             android:textColor="?attr/titleTextColor"
-                            android:textSize="@dimen/_11ssp" />
+                            android:textSize="@dimen/features_title_size" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -395,10 +395,10 @@
                             android:layout_gravity="center_vertical"
                             android:layout_marginStart="@dimen/_5sdp"
                             android:layout_marginTop="@dimen/_1sdp"
-                            android:fontFamily="@font/light_sans"
+                            android:fontFamily="@font/regular_sans"
                             android:text="@string/set_your_own_picture_or_let_the_app_use_your_theme_color_as_the_default_background"
                             android:textColor="?attr/subHeadingColor"
-                            android:textSize="@dimen/_10ssp" />
+                            android:textSize="@dimen/features_sub_title_size" />
 
                     </LinearLayout>
 
@@ -427,7 +427,7 @@
                     android:fontFamily="@font/semi_bold_sans"
                     android:text="@string/general"
                     android:textColor="@color/app_theme_color"
-                    android:textSize="@dimen/_12ssp" />
+                    android:textSize="@dimen/main_title_size" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -460,7 +460,7 @@
                         android:fontFamily="@font/medium_sans"
                         android:text="@string/enable_call_screen_after_call"
                         android:textColor="?attr/titleTextColor"
-                        android:textSize="@dimen/_11ssp" />
+                        android:textSize="@dimen/features_title_size" />
 
                     <RelativeLayout
                         android:layout_width="match_parent"
@@ -512,7 +512,7 @@
                         android:fontFamily="@font/medium_sans"
                         android:text="@string/notifications"
                         android:textColor="?attr/titleTextColor"
-                        android:textSize="@dimen/_11ssp" />
+                        android:textSize="@dimen/features_title_size" />
 
                 </LinearLayout>
 
@@ -554,7 +554,7 @@
                             android:fontFamily="@font/medium_sans"
                             android:text="@string/delayed_sending"
                             android:textColor="?attr/titleTextColor"
-                            android:textSize="@dimen/_11ssp" />
+                            android:textSize="@dimen/features_title_size" />
 
                         <TextView
                             android:id="@+id/txtDelaySendingMessage"
@@ -563,10 +563,10 @@
                             android:layout_gravity="center_vertical"
                             android:layout_marginStart="@dimen/_5sdp"
                             android:layout_marginTop="@dimen/_1sdp"
-                            android:fontFamily="@font/light_sans"
+                            android:fontFamily="@font/regular_sans"
                             android:text="@string/no_delay"
                             android:textColor="?attr/subHeadingColor"
-                            android:textSize="@dimen/_10ssp" />
+                            android:textSize="@dimen/features_sub_title_size" />
 
                     </LinearLayout>
 
@@ -610,7 +610,7 @@
                             android:fontFamily="@font/medium_sans"
                             android:text="@string/swipe_actions"
                             android:textColor="?attr/titleTextColor"
-                            android:textSize="@dimen/_11ssp" />
+                            android:textSize="@dimen/features_title_size" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -618,10 +618,10 @@
                             android:layout_gravity="center_vertical"
                             android:layout_marginStart="@dimen/_5sdp"
                             android:layout_marginTop="@dimen/_1sdp"
-                            android:fontFamily="@font/light_sans"
+                            android:fontFamily="@font/regular_sans"
                             android:text="@string/configure_swipe_action_for_conversation"
                             android:textColor="?attr/subHeadingColor"
-                            android:textSize="@dimen/_10ssp" />
+                            android:textSize="@dimen/features_sub_title_size" />
 
                     </LinearLayout>
 
@@ -664,7 +664,7 @@
                             android:fontFamily="@font/medium_sans"
                             android:text="@string/delivery_confirmations"
                             android:textColor="?attr/titleTextColor"
-                            android:textSize="@dimen/_11ssp" />
+                            android:textSize="@dimen/features_title_size" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -672,10 +672,10 @@
                             android:layout_gravity="center_vertical"
                             android:layout_marginStart="@dimen/_5sdp"
                             android:layout_marginTop="@dimen/_2sdp"
-                            android:fontFamily="@font/light_sans"
+                            android:fontFamily="@font/regular_sans"
                             android:text="@string/confirm_that_message_were_sent_successfully"
                             android:textColor="?attr/subHeadingColor"
-                            android:textSize="@dimen/_10ssp" />
+                            android:textSize="@dimen/features_sub_title_size" />
 
                     </LinearLayout>
 
@@ -733,7 +733,7 @@
                             android:fontFamily="@font/medium_sans"
                             android:text="@string/mobile_numbers_only"
                             android:textColor="?attr/titleTextColor"
-                            android:textSize="@dimen/_11ssp" />
+                            android:textSize="@dimen/features_title_size" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -741,10 +741,10 @@
                             android:layout_gravity="center_vertical"
                             android:layout_marginStart="@dimen/_5sdp"
                             android:layout_marginTop="@dimen/_1sdp"
-                            android:fontFamily="@font/light_sans"
+                            android:fontFamily="@font/regular_sans"
                             android:text="@string/when_composing_a_message_only_show_mobile_numbers"
                             android:textColor="?attr/subHeadingColor"
-                            android:textSize="@dimen/_10ssp" />
+                            android:textSize="@dimen/features_sub_title_size" />
 
                     </LinearLayout>
 
@@ -857,7 +857,7 @@
                             android:fontFamily="@font/medium_sans"
                             android:text="@string/sending_long_message_as_mms"
                             android:textColor="?attr/titleTextColor"
-                            android:textSize="@dimen/_11ssp" />
+                            android:textSize="@dimen/features_title_size" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -865,10 +865,10 @@
                             android:layout_gravity="center_vertical"
                             android:layout_marginStart="@dimen/_5sdp"
                             android:layout_marginTop="@dimen/_1sdp"
-                            android:fontFamily="@font/light_sans"
+                            android:fontFamily="@font/regular_sans"
                             android:text="@string/if_your_longer_text_message_are_failing_to_send_or_sending_in_the_wrong_order_you_can_send_them_as_mms_message_instead"
                             android:textColor="?attr/subHeadingColor"
-                            android:textSize="@dimen/_10ssp" />
+                            android:textSize="@dimen/features_sub_title_size" />
 
                     </LinearLayout>
 
@@ -927,7 +927,7 @@
                             android:fontFamily="@font/medium_sans"
                             android:text="@string/sync_message"
                             android:textColor="?attr/titleTextColor"
-                            android:textSize="@dimen/_11ssp" />
+                            android:textSize="@dimen/features_title_size" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -935,10 +935,10 @@
                             android:layout_gravity="center_vertical"
                             android:layout_marginStart="@dimen/_5sdp"
                             android:layout_marginTop="@dimen/_1sdp"
-                            android:fontFamily="@font/light_sans"
+                            android:fontFamily="@font/regular_sans"
                             android:text="@string/re_sync_your_message_with_the_native_android_sms_database"
                             android:textColor="?attr/subHeadingColor"
-                            android:textSize="@dimen/_10ssp" />
+                            android:textSize="@dimen/features_sub_title_size" />
 
                         <com.airbnb.lottie.LottieAnimationView
                             android:id="@+id/syncLoaderAnimation"
@@ -986,7 +986,7 @@
                         android:fontFamily="@font/medium_sans"
                         android:text="@string/change_language"
                         android:textColor="?attr/titleTextColor"
-                        android:textSize="@dimen/_11ssp" />
+                        android:textSize="@dimen/features_title_size" />
 
                     <RelativeLayout
                         android:layout_width="match_parent"
@@ -1000,10 +1000,10 @@
                             android:layout_centerVertical="true"
                             android:layout_gravity="center_vertical"
                             android:layout_marginEnd="@dimen/_5sdp"
-                            android:fontFamily="@font/light_sans"
+                            android:fontFamily="@font/regular_sans"
                             android:text="@string/english"
                             android:textColor="?attr/subHeadingColor"
-                            android:textSize="@dimen/_10ssp" />
+                            android:textSize="@dimen/features_sub_title_size" />
 
                     </RelativeLayout>
 
@@ -1040,7 +1040,7 @@
                         android:fontFamily="@font/medium_sans"
                         android:text="@string/rate_us"
                         android:textColor="?attr/titleTextColor"
-                        android:textSize="@dimen/_11ssp" />
+                        android:textSize="@dimen/features_title_size" />
 
                 </LinearLayout>
 
@@ -1075,7 +1075,7 @@
                         android:fontFamily="@font/medium_sans"
                         android:text="@string/share_app"
                         android:textColor="?attr/titleTextColor"
-                        android:textSize="@dimen/_11ssp" />
+                        android:textSize="@dimen/features_title_size" />
 
                 </LinearLayout>
 

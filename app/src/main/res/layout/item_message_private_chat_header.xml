@@ -35,10 +35,10 @@
                 android:layout_toStartOf="@+id/rvChatOptions"
                 android:layout_toEndOf="@+id/ivRemoveSelection"
                 android:ellipsize="end"
-                android:fontFamily="@font/medium_sans"
+                android:fontFamily="@font/semi_bold_sans"
                 android:maxLines="1"
                 android:textColor="?attr/titleTextColor"
-                android:textSize="@dimen/_14ssp"
+                android:textSize="@dimen/_13ssp"
                 tools:text="3 Selected" />
 
             <LinearLayout
@@ -111,27 +111,27 @@
                     android:id="@+id/txtBlock"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/regular_sans"
+                    android:fontFamily="@font/medium_sans"
                     android:paddingVertical="@dimen/_8sdp"
                     android:paddingStart="@dimen/_10sdp"
                     android:paddingEnd="@dimen/_15sdp"
                     android:text="@string/block"
                     android:textAlignment="viewStart"
                     android:textColor="?attr/titleTextColor"
-                    android:textSize="@dimen/_13ssp" />
+                    android:textSize="@dimen/features_title_size" />
 
                 <TextView
                     android:id="@+id/txtMarkAsRead"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/regular_sans"
+                    android:fontFamily="@font/medium_sans"
                     android:paddingVertical="@dimen/_8sdp"
                     android:paddingStart="@dimen/_10sdp"
                     android:paddingEnd="@dimen/_15sdp"
                     android:text="@string/mark_read"
                     android:textAlignment="viewStart"
                     android:textColor="?attr/titleTextColor"
-                    android:textSize="@dimen/_13ssp" />
+                    android:textSize="@dimen/features_title_size" />
 
             </LinearLayout>
         </androidx.cardview.widget.CardView>

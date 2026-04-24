@@ -72,8 +72,8 @@
                 android:maxLines="1"
                 android:text="@{item.name}"
                 android:textColor="?attr/titleTextColor"
-                android:textSize="@dimen/_11ssp"
-                tools:text="Vishal Saradhara" />
+                android:textSize="@dimen/features_title_size"
+                tools:text="Jennie Widget" />
 
         </RelativeLayout>
 

@@ -86,7 +86,7 @@
                         android:fontFamily="@font/medium_sans"
                         android:text="@string/security"
                         android:textColor="?attr/titleTextColor"
-                        android:textSize="@dimen/_11ssp" />
+                        android:textSize="@dimen/features_title_size" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -94,10 +94,10 @@
                         android:layout_gravity="center_vertical"
                         android:layout_marginStart="@dimen/_5sdp"
                         android:layout_marginTop="@dimen/_1sdp"
-                        android:fontFamily="@font/light_sans"
+                        android:fontFamily="@font/regular_sans"
                         android:text="@string/modify_password"
                         android:textColor="?attr/subHeadingColor"
-                        android:textSize="@dimen/_10ssp" />
+                        android:textSize="@dimen/features_sub_title_size" />
 
                 </LinearLayout>
 
@@ -140,7 +140,7 @@
                         android:fontFamily="@font/medium_sans"
                         android:text="@string/change_security_question"
                         android:textColor="?attr/titleTextColor"
-                        android:textSize="@dimen/_11ssp" />
+                        android:textSize="@dimen/features_title_size" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -148,10 +148,10 @@
                         android:layout_gravity="center_vertical"
                         android:layout_marginStart="@dimen/_5sdp"
                         android:layout_marginTop="@dimen/_1sdp"
-                        android:fontFamily="@font/light_sans"
+                        android:fontFamily="@font/regular_sans"
                         android:text="@string/modify_security_questions"
                         android:textColor="?attr/subHeadingColor"
-                        android:textSize="@dimen/_10ssp" />
+                        android:textSize="@dimen/features_sub_title_size" />
 
                 </LinearLayout>
 
@@ -192,7 +192,7 @@
                         android:fontFamily="@font/medium_sans"
                         android:text="@string/enable_notification"
                         android:textColor="?attr/titleTextColor"
-                        android:textSize="@dimen/_11ssp" />
+                        android:textSize="@dimen/features_title_size" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -200,10 +200,10 @@
                         android:layout_gravity="center_vertical"
                         android:layout_marginStart="@dimen/_5sdp"
                         android:layout_marginTop="@dimen/_1sdp"
-                        android:fontFamily="@font/light_sans"
+                        android:fontFamily="@font/regular_sans"
                         android:text="@string/when_disabling_this_option_messages_from_private_contacts_will_not_pop_up_at_notification"
                         android:textColor="?attr/subHeadingColor"
-                        android:textSize="@dimen/_10ssp" />
+                        android:textSize="@dimen/features_sub_title_size" />
 
                 </LinearLayout>
 
@@ -262,7 +262,7 @@
                         android:fontFamily="@font/medium_sans"
                         android:text="@string/add_contacts"
                         android:textColor="?attr/titleTextColor"
-                        android:textSize="@dimen/_11ssp" />
+                        android:textSize="@dimen/features_title_size" />
 
                     <TextView
                         android:id="@+id/txtOldMessageTiming"
@@ -271,10 +271,10 @@
                         android:layout_gravity="center_vertical"
                         android:layout_marginStart="@dimen/_5sdp"
                         android:layout_marginTop="@dimen/_1sdp"
-                        android:fontFamily="@font/light_sans"
+                        android:fontFamily="@font/regular_sans"
                         android:text="@string/add_contact_to_private_chat"
                         android:textColor="?attr/subHeadingColor"
-                        android:textSize="@dimen/_10ssp" />
+                        android:textSize="@dimen/features_sub_title_size" />
 
                 </LinearLayout>
 

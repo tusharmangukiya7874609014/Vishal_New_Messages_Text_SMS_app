@@ -1,5 +1,4 @@
 <resources>
-    <string name="app_name">Tin nhắn: SMS Văn bản</string>
     <string name="sms_messages">Tin nhắn SMS</string>
     <string name="set_as_a_default_app">Đặt làm ứng dụng mặc định</string>
     <string name="this_app_needs_to_be_set_as_your_default_sms_app_to_send_receive_and_manage_your_text_messages_without_setting_it_as_default_you_might_miss_important_messages_or_notifications_you_can_always_change_this_later_in_your_phone_settings">Ứng dụng này cần được đặt làm ứng dụng SMS mặc định để gửi, nhận và quản lý tin nhắn của bạn. Nếu không đặt làm mặc định, bạn có thể bỏ lỡ những tin nhắn hoặc thông báo quan trọng. Bạn luôn có thể thay đổi điều này trong cài đặt điện thoại.</string>
@@ -14,7 +13,6 @@
     <string name="enable">Bật</string>
     <string name="messages">Tin nhắn</string>
     <string name="search_here">Tìm kiếm ở đây…</string>
-    <string name="message_text_sms">Tin nhắn: SMS văn bản</string>
     <string name="archived">Đã lưu trữ</string>
     <string name="backup_amp_restore"><![CDATA[Sao lưu & Khôi phục]]></string>
     <string name="scheduled">Đã lên lịch</string>
@@ -173,7 +171,6 @@
     <string name="sim_1_slot_set_as_default">Cổng SIM 1 đã được đặt là mặc định</string>
     <string name="sim_2_already_set_as_default">SIM 2 đã được đặt là mặc định</string>
     <string name="sim_2_slot_set_as_default">Cổng SIM 2 đã được đặt là mặc định</string>
-    <string name="code_copy">Mã sao chép : %1$s</string>
     <string name="backups">Sao lưu</string>
     <string name="download_sms_messages_backups">/Tải xuống/sms/messages/Sao lưu</string>
     <string name="backup_history">Lịch sử sao lưu</string>
@@ -535,7 +532,6 @@
     <string name="are_you_sure_you_would_you_like_to_delete_this_message">Bạn có chắc muốn xóa tin nhắn này không?</string>
     <string name="pin">Ghim</string>
     <string name="unpin">Bỏ ghim</string>
-    <string name="first_select_message_atleast_one_or_more">Trước tiên chọn một hoặc nhiều tin nhắn</string>
     <string name="remove_from_private_chats">Xóa khỏi Chat Riêng</string>
     <string name="view_full_chat_to_unlock_all_options">Xem toàn bộ chat để mở khóa tất cả tùy chọn</string>
     <string name="no_app_found_to_share_content">Không tìm thấy ứng dụng để chia sẻ nội dung</string>
@@ -569,7 +565,6 @@
     <string name="we_need_this_permission_to_give_you_better_user_experience">Chúng tôi cần quyền này để mang lại trải nghiệm tốt hơn cho bạn</string>
     <string name="allow_permission">Cho phép quyền</string>
     <string name="turn_on_message_notifications">Bật thông báo tin nhắn</string>
-    <string name="never_miss_an_important_message">Đừng bỏ lỡ tin nhắn quan trọng 💬</string>
     <string name="allow_app_to_read_phone_state">Cho phép ứng dụng đọc trạng thái điện thoại</string>
     <string name="quick_messaging_access_after_call">Truy cập nhắn tin nhanh sau cuộc gọi</string>
     <string name="enable_our_quick_action_feature_in_3_steps">Bật tính năng thao tác nhanh trong 3 bước</string>
@@ -608,6 +603,20 @@
     <string name="step_3_permission">Bước 3 :</string>
     <string name="swipe_the_toggle_to_turn_on">Vuốt công tắc để bật.</string>
     <string name="slide_the_toggle_switch_to_enable_and_activate_the_feature">Trượt công tắc để bật và kích hoạt tính năng.</string>
-    <string name="this_app_requires_access_to_your_phone_state_to_detect_when_a_call_ends_so_it_can_provide_the_after_call_messaging_screen_no_call_logs_are_stored_or_shared">Ứng dụng này cần quyền truy cập trạng thái điện thoại để phát hiện khi cuộc gọi kết thúc và hiển thị màn hình nhắn tin sau cuộc gọi. Không có nhật ký cuộc gọi nào được lưu trữ hoặc chia sẻ.</string>
     <string name="privacy_policy">Chính sách quyền riêng tư</string>
+    <string name="code_copy">Sao chép OTP : %1$s</string>
+    <string name="no_contacts_app_found_on_this_device">Không tìm thấy ứng dụng Danh bạ trên thiết bị này</string>
+    <string name="spam_amp_block"><![CDATA[Thư rác và bị chặn]]></string>
+    <string name="allow">Cho phép</string>
+    <string name="this_permission_is_required_to_after_call_features_please_allow_this_permission">Quyền này cần thiết cho các tính năng sau cuộc gọi. Vui lòng cho phép.</string>
+    <string name="please_wait_while_the_ad_loads">Vui lòng chờ trong khi quảng cáo đang tải…</string>
+    <string name="you_re_offline_turn_on_your_internet_connection_to_access_all_messages_features">Bạn đang ngoại tuyến.\nBật kết nối internet để truy cập tất cả các tính năng nhắn tin.</string>
+    <string name="message_text_sms">Tin nhắn</string>
+    <string name="app_name">Tin nhắn</string>
+    <string name="you_can_quickly_send_a_message_right_after_a_call">Bạn có thể nhanh chóng gửi tin nhắn ngay sau cuộc gọi</string>
+    <string name="turn_on_notifications_to_receive_message_alerts">Bật thông báo để nhận cảnh báo tin nhắn.</string>
+    <string name="first_select_message_at_least_one_or_more">Trước tiên hãy chọn một hoặc nhiều tin nhắn</string>
+    <string name="we_do_not_store_track_or_share_your_call_or_message_data">Chúng tôi không lưu trữ hoặc chia sẻ dữ liệu cuộc gọi hoặc tin nhắn của bạn.</string>
+    <string name="outgoing_call">Cuộc gọi đi</string>
+    <string name="enable_required_features_to_use_messaging_your_data_stays_private_and_secure_on_your_device">Bật các tính năng cần thiết để sử dụng nhắn tin. Dữ liệu của bạn luôn riêng tư và an toàn trên thiết bị.</string>
 </resources>

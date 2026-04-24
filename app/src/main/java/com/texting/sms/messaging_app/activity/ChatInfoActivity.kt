@@ -6,7 +6,6 @@ import android.app.NotificationManager
 import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
-import android.content.res.ColorStateList
 import android.net.Uri
 import android.os.Bundle
 import android.provider.BlockedNumberContract
@@ -17,14 +16,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.WindowManager
 import androidx.activity.OnBackPressedCallback
-import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.lifecycleScope
-import com.bumptech.glide.Glide
 import com.texting.sms.messaging_app.R
 import com.texting.sms.messaging_app.ads.BannerAdHelper
 import com.texting.sms.messaging_app.ads.BannerType
@@ -35,27 +32,41 @@ import com.texting.sms.messaging_app.database.SharedPreferencesHelper
 import com.texting.sms.messaging_app.databinding.ActivityChatInfoBinding
 import com.texting.sms.messaging_app.databinding.DialogBlockNumberBinding
 import com.texting.sms.messaging_app.databinding.DialogDeleteConversationBinding
+import com.texting.sms.messaging_app.listener.NetworkAvailableListener
 import com.texting.sms.messaging_app.model.ContactInfo
-import com.texting.sms.messaging_app.utils.getColorFromAttr
+import com.texting.sms.messaging_app.utils.NetworkConnectionUtil
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class ChatInfoActivity : BaseActivity() {
+class ChatInfoActivity : BaseActivity(), NetworkAvailableListener {
     private lateinit var binding: ActivityChatInfoBinding
     private var contactUserDetails: ContactInfo? = null
     private var threadId = 0L
 
+    private lateinit var networkUtil: NetworkConnectionUtil
+
+    override fun onStart() {
+        super.onStart()
+        networkUtil.register()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        networkUtil.unregister()
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        networkUtil = NetworkConnectionUtil(this)
+        networkUtil.setListener(this)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_chat_info)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        runAdsCampion()
         initView()
         initClickListener()
     }
@@ -127,20 +138,24 @@ class ChatInfoActivity : BaseActivity() {
             withContext(Dispatchers.Main) {
                 if (isFinishing || isDestroyed) return@withContext
 
-                if (isCurrentPageNativeAdsEnabled && !isCurrentPageBannerAdsEnabled) {
-                    runNativeAds(
-                        nativeAdsType = nativeAdsType, nativeAdsId = currentPageNativeAdsId
-                    )
-                } else if (isCurrentPageBannerAdsEnabled && !isCurrentPageNativeAdsEnabled) {
-                    runBannerAds(
-                        bannerAdsId = currentPageBannerAdsID, bannerAdsType = bannerAdsType
-                    )
-                }
-
                 if (isAppInterstitialAdsEnabled) {
                     InterstitialAdHelper.apply {
                         loadAd(this@ChatInfoActivity)
                     }
+                }
+
+                if (isCurrentPageNativeAdsEnabled && !isCurrentPageBannerAdsEnabled) {
+                    if (binding.nativeAdContainer.isVisible) return@withContext
+
+                    runNativeAds(
+                        nativeAdsType = nativeAdsType, nativeAdsId = currentPageNativeAdsId
+                    )
+                } else if (isCurrentPageBannerAdsEnabled && !isCurrentPageNativeAdsEnabled) {
+                    if (binding.bannerAdContainer.root.isVisible) return@withContext
+
+                    runBannerAds(
+                        bannerAdsId = currentPageBannerAdsID, bannerAdsType = bannerAdsType
+                    )
                 }
             }
         }
@@ -312,11 +327,11 @@ class ChatInfoActivity : BaseActivity() {
                 if (adsEnabled && interstitialEnabled) {
                     InterstitialAdHelper.showAd(this@ChatInfoActivity) {
                         isEnabled = false
-                        onBackPressedDispatcher.onBackPressed()
+                        finish()
                     }
                 } else {
                     isEnabled = false
-                    onBackPressedDispatcher.onBackPressed()
+                    finish()
                 }
             }
         })
@@ -413,7 +428,7 @@ class ChatInfoActivity : BaseActivity() {
         dialog.setContentView(deleteConversationDialogBinding.root)
 
         dialog.window?.apply {
-            setBackgroundDrawableResource(R.color.transparent)
+            setBackgroundDrawableResource(android.R.color.transparent)
             addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
             setDimAmount(0.6f)
             val metrics = resources.displayMetrics
@@ -475,65 +490,71 @@ class ChatInfoActivity : BaseActivity() {
         val dialogBlockOrUnblockBinding: DialogBlockNumberBinding =
             DialogBlockNumberBinding.inflate(LayoutInflater.from(this))
         dialog.setContentView(dialogBlockOrUnblockBinding.root)
-        dialog.window?.setBackgroundDrawableResource(R.color.transparent)
 
-        if (isBlocked) {
-            dialogBlockOrUnblockBinding.rvBlockNumber.visibility = View.GONE
-            dialogBlockOrUnblockBinding.txtStatement.visibility = View.VISIBLE
-            val titleTxt = resources.getString(R.string.block) + " " + phoneNumber + " ?"
-            val subTitleTxt =
-                resources.getString(R.string.are_you_sure_you_want_to_block_this_number)
-            dialogBlockOrUnblockBinding.btnYes.text = resources.getString(R.string.block)
-            dialogBlockOrUnblockBinding.txtStatement.text = subTitleTxt
-            dialogBlockOrUnblockBinding.txtTitle.text = titleTxt
-        } else {
-            dialogBlockOrUnblockBinding.rvBlockNumber.visibility = View.GONE
-            dialogBlockOrUnblockBinding.txtStatement.visibility = View.VISIBLE
-            val titleTxt = resources.getString(R.string.unblock) + " " + phoneNumber + " ?"
-            val subTitleTxt =
-                resources.getString(R.string.are_you_sure_you_want_to_unblock_this_number)
-            dialogBlockOrUnblockBinding.txtTitle.text = titleTxt
-            dialogBlockOrUnblockBinding.txtStatement.text = subTitleTxt
-            dialogBlockOrUnblockBinding.btnYes.text = resources.getString(R.string.unblock)
+        dialog.window?.apply {
+            setBackgroundDrawableResource(android.R.color.transparent)
+            addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
+            setDimAmount(0.6f)
+            val metrics = resources.displayMetrics
+            setLayout((metrics.widthPixels * 0.9f).toInt(), WindowManager.LayoutParams.WRAP_CONTENT)
         }
 
-        dialogBlockOrUnblockBinding.btnCancel.setOnClickListener {
-            dialog.dismiss()
-        }
-
-        dialogBlockOrUnblockBinding.btnYes.setOnClickListener {
+        dialogBlockOrUnblockBinding.apply {
             val contactInfo = getPhoneNumberOrAddressFromThreadId(
                 this@ChatInfoActivity,
                 threadId
             )
+
             if (isBlocked) {
-                if (blockNumber(this, contactInfo.toString())) {
-                    SharedPreferencesHelper.addToBlockList(
-                        this@ChatInfoActivity,
-                        contactUserDetails?.number.toString()
-                    )
-                    updateProfile()
-                    showToast(getString(R.string.contact_has_been_blocked_successfully))
-                    binding.txtBlockOrUnblock.text = resources.getString(R.string.unblock)
-                }
+                rvBlockNumber.visibility = View.GONE
+                txtStatement.visibility = View.VISIBLE
+                val titleTxt = resources.getString(R.string.block) + " " + phoneNumber + " ?"
+                val subTitleTxt =
+                    resources.getString(R.string.are_you_sure_you_want_to_block_this_number)
+                btnYes.text = resources.getString(R.string.block)
+                txtStatement.text = subTitleTxt
+                txtTitle.text = titleTxt
             } else {
-                if (unblockNumber(this, contactInfo.toString())) {
-                    updateProfile()
-                    showToast(getString(R.string.contact_has_been_unblocked_successfully))
-                    binding.txtBlockOrUnblock.text = resources.getString(R.string.block)
+                rvBlockNumber.visibility = View.GONE
+                txtStatement.visibility = View.VISIBLE
+                val titleTxt = resources.getString(R.string.unblock) + " " + phoneNumber + " ?"
+                val subTitleTxt =
+                    resources.getString(R.string.are_you_sure_you_want_to_unblock_this_number)
+                txtTitle.text = titleTxt
+                txtStatement.text = subTitleTxt
+                btnYes.text = resources.getString(R.string.unblock)
+            }
+
+            btnCancel.setOnClickListener {
+                dialog.dismiss()
+            }
+
+            btnYes.setOnClickListener {
+                dialog.dismiss()
+
+                if (isBlocked) {
+                    if (blockNumber(this@ChatInfoActivity, contactInfo.toString())) {
+                        showToast(getString(R.string.contact_has_been_blocked_successfully))
+
+                        SharedPreferencesHelper.addToBlockList(
+                            this@ChatInfoActivity,
+                            contactUserDetails?.number.toString()
+                        )
+                        binding.txtBlockOrUnblock.text = resources.getString(R.string.unblock)
+                        updateProfile()
+                    }
+                } else {
+                    if (unblockNumber(this@ChatInfoActivity, contactInfo.toString())) {
+                        showToast(getString(R.string.contact_has_been_unblocked_successfully))
+
+                        updateProfile()
+                        binding.txtBlockOrUnblock.text = resources.getString(R.string.block)
+                    }
                 }
             }
-            dialog.dismiss()
         }
-        if (!isFinishing && !isDestroyed) {
-            val window = dialog.window
-            val params = window?.attributes
-            val displayMetrics = resources.displayMetrics
-            params?.width = (displayMetrics.widthPixels * 0.9).toInt()
-            params?.height = WindowManager.LayoutParams.WRAP_CONTENT
-            window?.attributes = params
-            dialog.show()
-        }
+
+        if (!isFinishing && !isDestroyed) dialog.show()
     }
 
     private fun getPhoneNumberOrAddressFromThreadId(context: Context, threadId: Long): String? {
@@ -568,83 +589,7 @@ class ChatInfoActivity : BaseActivity() {
 
     private fun updateProfile() {
         val originalNumber = getPhoneNumberOrAddressFromThreadId(this, threadId)
-        if (isAddressBlocked(this, originalNumber.toString())) {
-            binding.cvProfileView.setCardBackgroundColor(getColor(R.color.blocked_user_profile))
-            binding.ivOriginalProfile.visibility = View.GONE
-            binding.ivDefaultProfile.visibility = View.GONE
-            binding.ivBlockProfile.visibility = View.VISIBLE
-        } else {
-            if (contactUserDetails != null) {
-                if (contactUserDetails?.photoUri != null && !contactUserDetails?.photoUri.contentEquals(
-                        "null"
-                    )
-                ) {
-                    binding.ivDefaultProfile.visibility = View.GONE
-                    binding.ivBlockProfile.visibility = View.GONE
-                    binding.ivOriginalProfile.visibility = View.VISIBLE
-                    Glide.with(this).load(contactUserDetails?.photoUri?.toUri())
-                        .into(binding.ivOriginalProfile)
-                } else {
-                    if (SharedPreferencesHelper.getBoolean(
-                            this,
-                            Const.IS_CHANGE_PROFILE_COLOR,
-                            false
-                        )
-                    ) {
-                        binding.ivDefaultProfile.setImageDrawable(
-                            ContextCompat.getDrawable(
-                                this,
-                                R.drawable.ic_profile
-                            )
-                        )
-                    } else {
-                        binding.ivDefaultProfile.setImageDrawable(
-                            ContextCompat.getDrawable(
-                                this,
-                                R.drawable.ic_dark_profile_popup
-                            )
-                        )
-                    }
-                    binding.ivOriginalProfile.visibility = View.GONE
-                    binding.ivBlockProfile.visibility = View.GONE
-                    binding.cvProfileView.setCardBackgroundColor(
-                        ColorStateList.valueOf(
-                            getColorFromAttr(R.attr.itemBackgroundColor)
-                        )
-                    )
-                    binding.ivDefaultProfile.visibility = View.VISIBLE
-                }
-            } else {
-                if (SharedPreferencesHelper.getBoolean(
-                        this,
-                        Const.IS_CHANGE_PROFILE_COLOR,
-                        false
-                    )
-                ) {
-                    binding.ivDefaultProfile.setImageDrawable(
-                        ContextCompat.getDrawable(
-                            this,
-                            R.drawable.ic_profile
-                        )
-                    )
-                } else {
-                    binding.ivDefaultProfile.setImageDrawable(
-                        ContextCompat.getDrawable(
-                            this,
-                            R.drawable.ic_dark_profile_popup
-                        )
-                    )
-                }
-                binding.ivOriginalProfile.visibility = View.GONE
-                binding.ivBlockProfile.visibility = View.GONE
-                binding.cvProfileView.setCardBackgroundColor(
-                    ColorStateList.valueOf(
-                        getColorFromAttr(R.attr.itemBackgroundColor)
-                    )
-                )
-                binding.ivDefaultProfile.visibility = View.VISIBLE
-            }
-        }
+        binding.userContactAddress = originalNumber
     }
 
     private fun blockNumber(context: Context, number: String): Boolean {
@@ -661,8 +606,7 @@ class ChatInfoActivity : BaseActivity() {
                 values
             )
             uri != null
-        } catch (e: Exception) {
-            Log.e("ABCD", "${e.localizedMessage}")
+        } catch (_: Exception) {
             false
         }
     }
@@ -690,5 +634,25 @@ class ChatInfoActivity : BaseActivity() {
             finishAffinity()
         }
         super.onResume()
+    }
+
+    override fun onNetworkAvailable() {
+        runOnUiThread {
+            val sharePreference = getSharedPreferences("${packageName}_preferences", MODE_PRIVATE)
+
+            val purposeConsents = sharePreference.getString("IABTCF_PurposeConsents", "")
+            if (!purposeConsents.isNullOrEmpty()) {
+                val purposeOneString = purposeConsents.first().toString()
+                val hasConsentForPurposeOne = purposeOneString == "1"
+
+                if (hasConsentForPurposeOne) runAdsCampion()
+            } else {
+                runAdsCampion()
+            }
+        }
+    }
+
+    override fun onNetworkLost() {
+
     }
 }

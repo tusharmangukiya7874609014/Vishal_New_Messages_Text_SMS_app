@@ -55,7 +55,7 @@
                 android:layout_marginTop="@dimen/_3sdp"
                 android:text="@string/help_us_improve_our_tool_to_best_suit_your_needs_by_rating_us_here"
                 android:textColor="?attr/subTextColor"
-                android:textSize="@dimen/_11ssp" />
+                android:textSize="@dimen/_10ssp" />
 
             <RatingBar
                 android:id="@+id/ratingBar"

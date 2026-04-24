@@ -21,16 +21,17 @@
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:layout_width="wrap_content"
-                android:layout_height="@dimen/_200sdp"
+                android:layout_height="@dimen/_160sdp"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginHorizontal="@dimen/_12sdp"
                 android:layout_marginTop="@dimen/_42sdp"
+                android:padding="@dimen/_6sdp"
                 android:src="?attr/phonePermissions" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_34sdp"
-                android:layout_marginTop="@dimen/_20sdp"
+                android:layout_marginTop="@dimen/_12sdp"
                 android:background="?attr/itemBackgroundColor">
 
                 <TextView
@@ -40,7 +41,7 @@
                     android:fontFamily="@font/semi_bold_sans"
                     android:text="@string/app_name"
                     android:textColor="@color/app_theme_color"
-                    android:textSize="@dimen/_13ssp" />
+                    android:textSize="@dimen/_14ssp" />
 
             </RelativeLayout>
 
@@ -48,20 +49,20 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginHorizontal="@dimen/_15sdp"
+                android:layout_marginHorizontal="@dimen/_12sdp"
                 android:layout_marginTop="@dimen/_8sdp"
-                android:fontFamily="@font/regular_sans"
+                android:fontFamily="@font/semi_bold_sans"
                 android:text="@string/we_need_this_permission_to_give_you_better_user_experience"
                 android:textAlignment="center"
-                android:textColor="?attr/subTextColor"
-                android:textSize="@dimen/_11ssp" />
+                android:textColor="?attr/subHeadingColor"
+                android:textSize="@dimen/_10ssp" />
 
             <LinearLayout
                 android:id="@+id/llPermissionContent"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/_12sdp"
-                android:layout_marginTop="@dimen/_25sdp"
+                android:layout_marginTop="@dimen/_12sdp"
                 android:orientation="vertical"
                 android:visibility="visible">
 
@@ -92,19 +93,19 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
                             android:fontFamily="@font/medium_sans"
-                            android:text="@string/turn_on_message_notifications"
+                            android:text="@string/notifications"
                             android:textColor="?attr/titleTextColor"
-                            android:textSize="@dimen/_11ssp" />
+                            android:textSize="@dimen/features_title_size" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
                             android:layout_marginTop="@dimen/_1sdp"
-                            android:fontFamily="@font/light_sans"
-                            android:text="@string/never_miss_an_important_message"
+                            android:fontFamily="@font/regular_sans"
+                            android:text="@string/turn_on_notifications_to_receive_message_alerts"
                             android:textColor="?attr/subHeadingColor"
-                            android:textSize="@dimen/_10ssp" />
+                            android:textSize="@dimen/features_sub_title_size" />
 
                     </LinearLayout>
 
@@ -113,11 +114,11 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginVertical="@dimen/_8sdp"
+                    android:layout_marginVertical="@dimen/_6sdp"
                     android:background="?attr/itemBackground"
                     android:orientation="horizontal"
                     android:padding="@dimen/_8sdp"
-                    tools:visibility="gone">
+                    tools:visibility="visible">
 
                     <androidx.appcompat.widget.AppCompatImageView
                         android:layout_width="@dimen/_18sdp"
@@ -142,33 +143,75 @@
                             android:fontFamily="@font/medium_sans"
                             android:text="@string/allow_app_to_read_phone_state"
                             android:textColor="?attr/titleTextColor"
-                            android:textSize="@dimen/_11ssp" />
+                            android:textSize="@dimen/features_title_size" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
                             android:layout_marginTop="@dimen/_1sdp"
-                            android:fontFamily="@font/light_sans"
-                            android:text="@string/this_app_requires_access_to_your_phone_state_to_detect_when_a_call_ends_so_it_can_provide_the_after_call_messaging_screen_no_call_logs_are_stored_or_shared"
+                            android:fontFamily="@font/regular_sans"
+                            android:text="@string/you_can_quickly_send_a_message_right_after_a_call"
                             android:textColor="?attr/subHeadingColor"
-                            android:textSize="@dimen/_10ssp" />
+                            android:textSize="@dimen/features_sub_title_size" />
 
                     </LinearLayout>
 
                 </LinearLayout>
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:background="@drawable/bg_theme_rounded_button_10dp"
+                    android:backgroundTint="#260A84FF"
+                    android:fontFamily="@font/regular_sans"
+                    android:paddingHorizontal="@dimen/_8sdp"
+                    android:paddingVertical="@dimen/_3sdp"
+                    android:text="@string/we_do_not_store_track_or_share_your_call_or_message_data"
+                    android:textColor="@color/app_theme_color"
+                    android:textSize="@dimen/features_sub_title_size" />
+
             </LinearLayout>
 
         </LinearLayout>
 
+        <RelativeLayout
+            android:id="@+id/rvPrivacyPolicy"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/shimmerAllowPermission">
+
+            <CheckBox
+                android:id="@+id/checkPrivacyPolicy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:checked="true"
+                app:buttonTint="@color/app_theme_color" />
+
+            <TextView
+                android:id="@+id/txtPrivacyPolicy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toEndOf="@+id/checkPrivacyPolicy"
+                android:fontFamily="@font/medium_sans"
+                android:textAllCaps="false"
+                android:textColor="?attr/titleTextColor"
+                android:textSize="@dimen/_11ssp"
+                tools:text="I agree to the Privacy policy of App" />
+
+        </RelativeLayout>
+
         <com.facebook.shimmer.ShimmerFrameLayout
+            android:id="@+id/shimmerAllowPermission"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_38sdp"
-            android:layout_alignParentBottom="true"
-            android:layout_marginHorizontal="@dimen/_45sdp"
-            android:layout_marginTop="@dimen/_5sdp"
-            android:layout_marginBottom="@dimen/_25sdp"
+            android:layout_above="@+id/rvAdsView"
+            android:layout_marginHorizontal="@dimen/_12sdp"
+            android:layout_marginBottom="@dimen/_10sdp"
             app:shimmer_auto_start="true"
             app:shimmer_base_alpha="0.8"
             app:shimmer_direction="left_to_right"
@@ -189,9 +232,34 @@
                 android:text="@string/allow_permission"
                 android:textAllCaps="false"
                 android:textColor="@color/white"
-                android:textSize="@dimen/_13ssp" />
+                android:textSize="@dimen/_12ssp" />
 
         </com.facebook.shimmer.ShimmerFrameLayout>
+
+        <RelativeLayout
+            android:id="@+id/rvAdsView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true">
+
+            <FrameLayout
+                android:id="@+id/nativeAdContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_3sdp"
+                android:visibility="gone" />
+
+            <include
+                android:id="@+id/banner_ad_container"
+                layout="@layout/banner_ad_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_3sdp"
+                android:visibility="gone" />
+
+        </RelativeLayout>
 
     </RelativeLayout>
 </layout>

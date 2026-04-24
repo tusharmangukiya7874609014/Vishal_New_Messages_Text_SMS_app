@@ -13,14 +13,14 @@ android {
         }
     }
     namespace = "com.texting.sms.messaging_app"
-    compileSdk = 36
+    compileSdk = 37
 
     defaultConfig {
         applicationId = "com.texting.sms.messaging_app"
         minSdk = 26
         targetSdk = 36
-        versionCode = 5
-        versionName = "1.5"
+        versionCode = 6
+        versionName = "1.6"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         resConfigs(
@@ -62,6 +62,7 @@ android {
         release {
             isDebuggable = false
             isMinifyEnabled = true
+            isShrinkResources = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
@@ -126,4 +127,5 @@ dependencies {
     implementation(libs.fastscroll)
     implementation(libs.androidx.work.runtime.ktx)
     implementation(libs.androidx.startup.runtime)
+    implementation(libs.user.messaging.platform)
 }

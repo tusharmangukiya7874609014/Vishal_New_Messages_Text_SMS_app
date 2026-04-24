@@ -80,16 +80,18 @@
     <attr name="viewInChatPopup" format="reference" />
     <attr name="copyPopup" format="reference" />
     <attr name="strokeView" format="color" />
-    <attr name="multiSelection" format="reference"/>
-    <attr name="pinPopup" format="reference"/>
-    <attr name="unPinPopup" format="reference"/>
-    <attr name="markAsReadPopup" format="reference"/>
-    <attr name="addToPrivateChatPopup" format="reference"/>
-    <attr name="blockPopup" format="reference"/>
-    <attr name="deletePopup" format="reference"/>
-    <attr name="removeToPrivateChatPopup" format="reference"/>
-    <attr name="dialogBoxColor" format="color"/>
-    <attr name="addQuickResponse" format="reference"/>
-    <attr name="defaultPermission" format="reference"/>
-    <attr name="displayOverlayPermission" format="reference"/>
+    <attr name="multiSelection" format="reference" />
+    <attr name="pinPopup" format="reference" />
+    <attr name="unPinPopup" format="reference" />
+    <attr name="markAsReadPopup" format="reference" />
+    <attr name="addToPrivateChatPopup" format="reference" />
+    <attr name="blockPopup" format="reference" />
+    <attr name="deletePopup" format="reference" />
+    <attr name="removeToPrivateChatPopup" format="reference" />
+    <attr name="dialogBoxColor" format="color" />
+    <attr name="addQuickResponse" format="reference" />
+    <attr name="defaultPermission" format="reference" />
+    <attr name="displayOverlayPermission" format="reference" />
+    <attr name="message_title_color" format="color" />
+    <attr name="message_sub_title_color" format="color" />
 </resources>

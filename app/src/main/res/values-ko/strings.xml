@@ -1,5 +1,4 @@
 <resources>
-    <string name="app_name">메시지: 문자 SMS</string>
     <string name="sms_messages">SMS 메시지</string>
     <string name="set_as_a_default_app">기본 SMS 앱으로 설정</string>
     <string name="this_app_needs_to_be_set_as_your_default_sms_app_to_send_receive_and_manage_your_text_messages_without_setting_it_as_default_you_might_miss_important_messages_or_notifications_you_can_always_change_this_later_in_your_phone_settings">이 앱을 기본 SMS 앱으로 설정해야 문자 메시지를 보내고, 받고, 관리할 수 있습니다. 기본 앱으로 설정하지 않으면 중요한 메시지나 알림을 놓칠 수 있습니다. 나중에 휴대전화 설정에서 언제든지 변경할 수 있습니다.</string>
@@ -14,7 +13,6 @@
     <string name="enable">활성화</string>
     <string name="messages">메시지</string>
     <string name="search_here">여기에서 검색…</string>
-    <string name="message_text_sms">메시지 : 문자 SMS</string>
     <string name="archived">보관됨</string>
     <string name="backup_amp_restore"><![CDATA[백업 및 복원]]></string>
     <string name="scheduled">예약됨</string>
@@ -173,7 +171,6 @@
     <string name="sim_1_slot_set_as_default">SIM 1 슬롯이 기본으로 설정됨</string>
     <string name="sim_2_already_set_as_default">SIM 2가 이미 기본으로 설정됨</string>
     <string name="sim_2_slot_set_as_default">SIM 2 슬롯이 기본으로 설정됨</string>
-    <string name="code_copy">코드 복사: %1$s</string>
     <string name="backups">백업</string>
     <string name="download_sms_messages_backups">/Download/sms/messages/Backups</string>
     <string name="backup_history">백업 기록</string>
@@ -535,7 +532,6 @@
     <string name="are_you_sure_you_would_you_like_to_delete_this_message">이 메시지를 삭제하시겠습니까?</string>
     <string name="pin">고정</string>
     <string name="unpin">고정 해제</string>
-    <string name="first_select_message_atleast_one_or_more">먼저 하나 이상의 메시지를 선택하세요</string>
     <string name="remove_from_private_chats">비공개 채팅에서 제거</string>
     <string name="view_full_chat_to_unlock_all_options">모든 옵션을 사용하려면 전체 채팅 보기</string>
     <string name="no_app_found_to_share_content">콘텐츠를 공유할 앱을 찾을 수 없습니다</string>
@@ -569,7 +565,6 @@
     <string name="we_need_this_permission_to_give_you_better_user_experience">더 나은 사용자 경험을 위해 이 권한이 필요합니다</string>
     <string name="allow_permission">권한 허용</string>
     <string name="turn_on_message_notifications">메시지 알림 켜기</string>
-    <string name="never_miss_an_important_message">중요한 메시지를 놓치지 마세요 💬</string>
     <string name="allow_app_to_read_phone_state">앱이 휴대전화 상태를 읽도록 허용</string>
     <string name="quick_messaging_access_after_call">통화 후 빠른 메시지 접근</string>
     <string name="enable_our_quick_action_feature_in_3_steps">3단계로 빠른 실행 기능을 활성화하세요</string>
@@ -608,6 +603,20 @@
     <string name="step_3_permission">3단계 :</string>
     <string name="swipe_the_toggle_to_turn_on">토글을 밀어 켜세요.</string>
     <string name="slide_the_toggle_switch_to_enable_and_activate_the_feature">토글 스위치를 밀어 기능을 활성화하세요.</string>
-    <string name="this_app_requires_access_to_your_phone_state_to_detect_when_a_call_ends_so_it_can_provide_the_after_call_messaging_screen_no_call_logs_are_stored_or_shared">이 앱은 통화 종료를 감지하여 통화 후 메시지 화면을 제공하기 위해 휴대전화 상태 접근 권한이 필요합니다. 통화 기록은 저장되거나 공유되지 않습니다.</string>
     <string name="privacy_policy">개인정보 처리방침</string>
+    <string name="code_copy">OTP 복사 : %1$s</string>
+    <string name="no_contacts_app_found_on_this_device">이 기기에 연락처 앱이 없습니다</string>
+    <string name="spam_amp_block"><![CDATA[스팸 및 차단됨]]></string>
+    <string name="allow">허용</string>
+    <string name="this_permission_is_required_to_after_call_features_please_allow_this_permission">이 권한은 통화 후 기능에 필요합니다. 허용해 주세요.</string>
+    <string name="please_wait_while_the_ad_loads">광고를 불러오는 중입니다. 잠시만 기다려 주세요…</string>
+    <string name="you_re_offline_turn_on_your_internet_connection_to_access_all_messages_features">오프라인 상태입니다.\n모든 메시지 기능을 사용하려면 인터넷을 켜세요.</string>
+    <string name="message_text_sms">메시지</string>
+    <string name="app_name">메시지</string>
+    <string name="you_can_quickly_send_a_message_right_after_a_call">통화 직후 빠르게 메시지를 보낼 수 있습니다</string>
+    <string name="turn_on_notifications_to_receive_message_alerts">메시지 알림을 받으려면 알림을 켜세요.</string>
+    <string name="first_select_message_at_least_one_or_more">먼저 하나 이상의 메시지를 선택하세요</string>
+    <string name="we_do_not_store_track_or_share_your_call_or_message_data">통화 또는 메시지 데이터를 저장하거나 공유하지 않습니다.</string>
+    <string name="outgoing_call">발신 통화</string>
+    <string name="enable_required_features_to_use_messaging_your_data_stays_private_and_secure_on_your_device">메시지를 사용하려면 필요한 기능을 활성화하세요. 데이터는 기기에서 안전하게 보호됩니다.</string>
 </resources>

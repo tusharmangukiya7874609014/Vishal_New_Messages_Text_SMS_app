@@ -34,20 +34,10 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.texting.sms.messaging_app.R
 import com.texting.sms.messaging_app.activity.PersonalChatActivity
 import com.texting.sms.messaging_app.database.Const
 import com.texting.sms.messaging_app.database.SharedPreferencesHelper
-import com.texting.sms.messaging_app.listener.OnClickPreviewImageInterface
-import com.texting.sms.messaging_app.listener.OnOpenFullChatInterface
-import com.texting.sms.messaging_app.listener.OnSelectedMessageFeatureClick
-import com.texting.sms.messaging_app.model.ChatModel
-import com.texting.sms.messaging_app.utils.StarCategory
-import com.texting.sms.messaging_app.utils.getColorFromAttr
-import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
-import androidx.core.net.toUri
-import com.texting.sms.messaging_app.R
 import com.texting.sms.messaging_app.databinding.ItemChatBubbleEightBinding
 import com.texting.sms.messaging_app.databinding.ItemChatBubbleFiveBinding
 import com.texting.sms.messaging_app.databinding.ItemChatBubbleFourBinding
@@ -59,7 +49,16 @@ import com.texting.sms.messaging_app.databinding.ItemChatBubbleTwoBinding
 import com.texting.sms.messaging_app.databinding.ItemMessageFeaturesBottomViewPopupBinding
 import com.texting.sms.messaging_app.databinding.ItemMessageFeaturesTopViewPopupBinding
 import com.texting.sms.messaging_app.databinding.ItemMessageTimeHeaderBinding
+import com.texting.sms.messaging_app.listener.OnClickPreviewImageInterface
+import com.texting.sms.messaging_app.listener.OnOpenFullChatInterface
+import com.texting.sms.messaging_app.listener.OnSelectedMessageFeatureClick
+import com.texting.sms.messaging_app.model.ChatModel
+import com.texting.sms.messaging_app.utils.StarCategory
+import com.texting.sms.messaging_app.utils.getColorFromAttr
+import java.text.SimpleDateFormat
 import java.util.Calendar
+import java.util.Date
+import java.util.Locale
 
 class PersonalChatAdapter(
     private var context: Context,
@@ -78,8 +77,7 @@ class PersonalChatAdapter(
     private var translateMessage = ""
     private var searchQuery = ""
     private var isLongClicked = false
-    private var isAddressBlocked = false
-    private var profileUri : String? = null
+    private var contactAddress: String? = null
 
     init {
         setHasStableIds(true)
@@ -261,7 +259,7 @@ class PersonalChatAdapter(
                                 holder.updateChatBoxColor()
                             } else if (holder is MessageViewOneHolder && payloads.contains("partialClear")) {
                                 holder.clearSelectionView()
-                            } else if(holder is MessageViewOneHolder && payloads.contains("partialUpdateProfile")){
+                            } else if (holder is MessageViewOneHolder && payloads.contains("partialUpdateProfile")) {
                                 holder.updateProfileSection(item)
                             } else {
                                 if (holder is MessageViewOneHolder && payloads.contains("highlight_of_view")) {
@@ -278,7 +276,7 @@ class PersonalChatAdapter(
                                 holder.updateChatBoxColor()
                             } else if (holder is MessageViewTwoHolder && payloads.contains("partialClear")) {
                                 holder.clearSelectionView()
-                            } else if(holder is MessageViewTwoHolder && payloads.contains("partialUpdateProfile")){
+                            } else if (holder is MessageViewTwoHolder && payloads.contains("partialUpdateProfile")) {
                                 holder.updateProfileSection(item)
                             } else {
                                 if (holder is MessageViewTwoHolder && payloads.contains("highlight_of_view")) {
@@ -295,7 +293,7 @@ class PersonalChatAdapter(
                                 holder.updateChatBoxColor()
                             } else if (holder is MessageViewThreeHolder && payloads.contains("partialClear")) {
                                 holder.clearSelectionView()
-                            } else if(holder is MessageViewThreeHolder && payloads.contains("partialUpdateProfile")){
+                            } else if (holder is MessageViewThreeHolder && payloads.contains("partialUpdateProfile")) {
                                 holder.updateProfileSection(item)
                             } else {
                                 if (holder is MessageViewThreeHolder && payloads.contains("highlight_of_view")) {
@@ -312,7 +310,7 @@ class PersonalChatAdapter(
                                 holder.updateChatBoxColor()
                             } else if (holder is MessageViewFourHolder && payloads.contains("partialClear")) {
                                 holder.clearSelectionView()
-                            } else if(holder is MessageViewFourHolder && payloads.contains("partialUpdateProfile")){
+                            } else if (holder is MessageViewFourHolder && payloads.contains("partialUpdateProfile")) {
                                 holder.updateProfileSection(item)
                             } else {
                                 if (holder is MessageViewFourHolder && payloads.contains("highlight_of_view")) {
@@ -329,7 +327,7 @@ class PersonalChatAdapter(
                                 holder.updateChatBoxColor()
                             } else if (holder is MessageViewFiveHolder && payloads.contains("partialClear")) {
                                 holder.clearSelectionView()
-                            } else if(holder is MessageViewFiveHolder && payloads.contains("partialUpdateProfile")){
+                            } else if (holder is MessageViewFiveHolder && payloads.contains("partialUpdateProfile")) {
                                 holder.updateProfileSection(item)
                             } else {
                                 if (holder is MessageViewFiveHolder && payloads.contains("highlight_of_view")) {
@@ -346,9 +344,9 @@ class PersonalChatAdapter(
                                 holder.updateChatBoxColor()
                             } else if (holder is MessageViewSixHolder && payloads.contains("partialClear")) {
                                 holder.clearSelectionView()
-                            } else if(holder is MessageViewSixHolder && payloads.contains("partialUpdateProfile")){
+                            } else if (holder is MessageViewSixHolder && payloads.contains("partialUpdateProfile")) {
                                 holder.updateProfileSection(item)
-                            }else {
+                            } else {
                                 if (holder is MessageViewSixHolder && payloads.contains("highlight_of_view")) {
                                     holder.highlightOfSelectionView(item)
                                 }
@@ -363,7 +361,7 @@ class PersonalChatAdapter(
                                 holder.updateChatBoxColor()
                             } else if (holder is MessageViewSevenHolder && payloads.contains("partialClear")) {
                                 holder.clearSelectionView()
-                            } else if(holder is MessageViewSevenHolder && payloads.contains("partialUpdateProfile")){
+                            } else if (holder is MessageViewSevenHolder && payloads.contains("partialUpdateProfile")) {
                                 holder.updateProfileSection(item)
                             } else {
                                 if (holder is MessageViewSevenHolder && payloads.contains("highlight_of_view")) {
@@ -380,7 +378,7 @@ class PersonalChatAdapter(
                                 holder.updateChatBoxColor()
                             } else if (holder is MessageViewEightHolder && payloads.contains("partialClear")) {
                                 holder.clearSelectionView()
-                            } else if(holder is MessageViewEightHolder && payloads.contains("partialUpdateProfile")){
+                            } else if (holder is MessageViewEightHolder && payloads.contains("partialUpdateProfile")) {
                                 holder.updateProfileSection(item)
                             } else {
                                 if (holder is MessageViewEightHolder && payloads.contains("highlight_of_view")) {
@@ -438,7 +436,7 @@ class PersonalChatAdapter(
                 }
 
                 binding.rvFromImages.visibility = View.GONE
-                binding.cvProfileView.visibility = View.GONE
+                binding.cvMessageUserProfile.visibility = View.GONE
 
                 if (item.message.isNotEmpty() && !item.message.startsWith("[Image]")) {
                     val detectedOtpFromMessage = extractOtpFromText(item.message)
@@ -478,7 +476,7 @@ class PersonalChatAdapter(
                 }
 
                 binding.rvToImages.visibility = View.GONE
-                binding.cvProfileView.visibility = View.VISIBLE
+                binding.cvMessageUserProfile.visibility = View.VISIBLE
 
                 if (item.message.isNotEmpty() && !item.message.startsWith("[Image]")) {
                     val detectedOtpFromMessage = extractOtpFromText(item.message)
@@ -502,41 +500,12 @@ class PersonalChatAdapter(
                     binding.rvFromMessage.visibility = View.VISIBLE
                     val messageTime = formatTimeFromTimestamp(item.timestamp)
                     binding.txtFromMessageTime.text = messageTime
-                    if (isAddressBlocked) {
-                        binding.cvProfileView.setCardBackgroundColor(ContextCompat.getColor(context,R.color.blocked_user_profile))
-                        binding.ivOriginalProfile.visibility = View.GONE
-                        binding.ivDefaultProfile.visibility = View.GONE
-                        binding.ivBlockProfile.visibility = View.VISIBLE
-                    } else {
-                        if (!profileUri.contentEquals(
-                                "null"
-                            ) && profileUri != null
-                        ) {
-                            binding.ivDefaultProfile.visibility = View.GONE
-                            binding.ivBlockProfile.visibility = View.GONE
-                            binding.ivOriginalProfile.visibility = View.VISIBLE
-                            Glide.with(context).load(profileUri?.toUri())
-                                .into(binding.ivOriginalProfile)
-                        } else {
-                            if (SharedPreferencesHelper.getBoolean(context, Const.IS_CHANGE_PROFILE_COLOR, false)) {
-                                binding.ivDefaultProfile.setImageDrawable(ContextCompat.getDrawable(context,R.drawable.ic_profile))
-                            } else {
-                                binding.ivDefaultProfile.setImageDrawable(ContextCompat.getDrawable(context,R.drawable.ic_dark_profile_popup))
-                            }
-                            binding.ivOriginalProfile.visibility = View.GONE
-                            binding.ivBlockProfile.visibility = View.GONE
-                            binding.cvProfileView.setCardBackgroundColor(
-                                ColorStateList.valueOf(
-                                    context.getColorFromAttr(R.attr.itemBackgroundColor)
-                                )
-                            )
-                            binding.ivDefaultProfile.visibility = View.VISIBLE
-                        }
-                    }
+
+                    binding.userContactAddress = contactAddress
                 } else {
                     binding.rvToMessage.visibility = View.GONE
                     binding.rvFromMessage.visibility = View.GONE
-                    binding.cvProfileView.visibility = View.GONE
+                    binding.cvMessageUserProfile.visibility = View.GONE
                 }
             }
 
@@ -557,10 +526,12 @@ class PersonalChatAdapter(
 
             if (item.isTimeVisible) {
                 if (item.isFromMe) {
-                    if (binding.rvToMessageColor.isVisible) binding.txtToMessageTime.visibility = View.VISIBLE else binding.txtToMessageTime.visibility = View.GONE
+                    if (binding.rvToMessageColor.isVisible) binding.txtToMessageTime.visibility =
+                        View.VISIBLE else binding.txtToMessageTime.visibility = View.GONE
                     binding.txtFromMessageTime.visibility = View.GONE
                 } else {
-                    if (binding.rvFromMessageColor.isVisible) binding.txtFromMessageTime.visibility = View.VISIBLE else binding.txtFromMessageTime.visibility = View.GONE
+                    if (binding.rvFromMessageColor.isVisible) binding.txtFromMessageTime.visibility =
+                        View.VISIBLE else binding.txtFromMessageTime.visibility = View.GONE
                     binding.txtToMessageTime.visibility = View.GONE
                 }
             } else {
@@ -1012,44 +983,14 @@ class PersonalChatAdapter(
         fun updateProfileSection(item: ChatModel.MessageItem) {
             if (!item.isFromMe) {
                 if (item.message.isNotEmpty() && !item.message.startsWith("[Image]")) {
-                    if (isAddressBlocked) {
-                        binding.cvProfileView.setCardBackgroundColor(ContextCompat.getColor(context,R.color.blocked_user_profile))
-                        binding.ivOriginalProfile.visibility = View.GONE
-                        binding.ivDefaultProfile.visibility = View.GONE
-                        binding.ivBlockProfile.visibility = View.VISIBLE
-                    } else {
-                        if (!profileUri.contentEquals(
-                                "null"
-                            ) && profileUri != null
-                        ) {
-                            binding.ivDefaultProfile.visibility = View.GONE
-                            binding.ivBlockProfile.visibility = View.GONE
-                            binding.ivOriginalProfile.visibility = View.VISIBLE
-                            Glide.with(context).load(profileUri?.toUri())
-                                .into(binding.ivOriginalProfile)
-                        } else {
-                            if (SharedPreferencesHelper.getBoolean(context, Const.IS_CHANGE_PROFILE_COLOR, false)) {
-                                binding.ivDefaultProfile.setImageDrawable(ContextCompat.getDrawable(context,R.drawable.ic_profile))
-                            } else {
-                                binding.ivDefaultProfile.setImageDrawable(ContextCompat.getDrawable(context,R.drawable.ic_dark_profile_popup))
-                            }
-                            binding.ivOriginalProfile.visibility = View.GONE
-                            binding.ivBlockProfile.visibility = View.GONE
-                            binding.cvProfileView.setCardBackgroundColor(
-                                ColorStateList.valueOf(
-                                    context.getColorFromAttr(R.attr.itemBackgroundColor)
-                                )
-                            )
-                            binding.ivDefaultProfile.visibility = View.VISIBLE
-                        }
-                    }
+                    binding.userContactAddress = contactAddress
                 } else {
                     binding.rvToMessage.visibility = View.GONE
                     binding.rvFromMessage.visibility = View.GONE
-                    binding.cvProfileView.visibility = View.GONE
+                    binding.cvMessageUserProfile.visibility = View.GONE
                 }
             } else {
-                binding.cvProfileView.visibility = View.GONE
+                binding.cvMessageUserProfile.visibility = View.GONE
             }
         }
     }
@@ -1084,7 +1025,7 @@ class PersonalChatAdapter(
                     binding.rvToImages.visibility = View.GONE
                 }
                 binding.rvFromImages.visibility = View.GONE
-                binding.cvProfileView.visibility = View.GONE
+                binding.cvMessageUserProfile.visibility = View.GONE
 
                 if (item.message.isNotEmpty() && !item.message.startsWith("[Image]")) {
                     val detectedOtpFromMessage = extractOtpFromText(item.message)
@@ -1124,7 +1065,7 @@ class PersonalChatAdapter(
                 }
 
                 binding.rvToImages.visibility = View.GONE
-                binding.cvProfileView.visibility = View.VISIBLE
+                binding.cvMessageUserProfile.visibility = View.VISIBLE
 
                 if (item.message.isNotEmpty() && !item.message.startsWith("[Image]")) {
                     val detectedOtpFromMessage = extractOtpFromText(item.message)
@@ -1148,41 +1089,12 @@ class PersonalChatAdapter(
                     binding.rvFromMessage.visibility = View.VISIBLE
                     val messageTime = formatTimeFromTimestamp(item.timestamp)
                     binding.txtFromMessageTime.text = messageTime
-                    if (isAddressBlocked) {
-                        binding.cvProfileView.setCardBackgroundColor(ContextCompat.getColor(context,R.color.blocked_user_profile))
-                        binding.ivOriginalProfile.visibility = View.GONE
-                        binding.ivDefaultProfile.visibility = View.GONE
-                        binding.ivBlockProfile.visibility = View.VISIBLE
-                    } else {
-                        if (!profileUri.contentEquals(
-                                "null"
-                            ) && profileUri != null
-                        ) {
-                            binding.ivDefaultProfile.visibility = View.GONE
-                            binding.ivBlockProfile.visibility = View.GONE
-                            binding.ivOriginalProfile.visibility = View.VISIBLE
-                            Glide.with(context).load(profileUri?.toUri())
-                                .into(binding.ivOriginalProfile)
-                        } else {
-                            if (SharedPreferencesHelper.getBoolean(context, Const.IS_CHANGE_PROFILE_COLOR, false)) {
-                                binding.ivDefaultProfile.setImageDrawable(ContextCompat.getDrawable(context,R.drawable.ic_profile))
-                            } else {
-                                binding.ivDefaultProfile.setImageDrawable(ContextCompat.getDrawable(context,R.drawable.ic_dark_profile_popup))
-                            }
-                            binding.ivOriginalProfile.visibility = View.GONE
-                            binding.ivBlockProfile.visibility = View.GONE
-                            binding.cvProfileView.setCardBackgroundColor(
-                                ColorStateList.valueOf(
-                                    context.getColorFromAttr(R.attr.itemBackgroundColor)
-                                )
-                            )
-                            binding.ivDefaultProfile.visibility = View.VISIBLE
-                        }
-                    }
+
+                    binding.userContactAddress = contactAddress
                 } else {
                     binding.rvToMessage.visibility = View.GONE
                     binding.rvFromMessage.visibility = View.GONE
-                    binding.cvProfileView.visibility = View.GONE
+                    binding.cvMessageUserProfile.visibility = View.GONE
                 }
             }
 
@@ -1219,10 +1131,12 @@ class PersonalChatAdapter(
 
             if (item.isTimeVisible) {
                 if (item.isFromMe) {
-                    if (binding.rvToMessageColor.isVisible) binding.txtToMessageTime.visibility = View.VISIBLE else binding.txtToMessageTime.visibility = View.GONE
+                    if (binding.rvToMessageColor.isVisible) binding.txtToMessageTime.visibility =
+                        View.VISIBLE else binding.txtToMessageTime.visibility = View.GONE
                     binding.txtFromMessageTime.visibility = View.GONE
                 } else {
-                    if (binding.rvFromMessageColor.isVisible) binding.txtFromMessageTime.visibility = View.VISIBLE else binding.txtFromMessageTime.visibility = View.GONE
+                    if (binding.rvFromMessageColor.isVisible) binding.txtFromMessageTime.visibility =
+                        View.VISIBLE else binding.txtFromMessageTime.visibility = View.GONE
                     binding.txtToMessageTime.visibility = View.GONE
                 }
             } else {
@@ -1690,44 +1604,14 @@ class PersonalChatAdapter(
         fun updateProfileSection(item: ChatModel.MessageItem) {
             if (!item.isFromMe) {
                 if (item.message.isNotEmpty() && !item.message.startsWith("[Image]")) {
-                    if (isAddressBlocked) {
-                        binding.cvProfileView.setCardBackgroundColor(ContextCompat.getColor(context,R.color.blocked_user_profile))
-                        binding.ivOriginalProfile.visibility = View.GONE
-                        binding.ivDefaultProfile.visibility = View.GONE
-                        binding.ivBlockProfile.visibility = View.VISIBLE
-                    } else {
-                        if (!profileUri.contentEquals(
-                                "null"
-                            ) && profileUri != null
-                        ) {
-                            binding.ivDefaultProfile.visibility = View.GONE
-                            binding.ivBlockProfile.visibility = View.GONE
-                            binding.ivOriginalProfile.visibility = View.VISIBLE
-                            Glide.with(context).load(profileUri?.toUri())
-                                .into(binding.ivOriginalProfile)
-                        } else {
-                            if (SharedPreferencesHelper.getBoolean(context, Const.IS_CHANGE_PROFILE_COLOR, false)) {
-                                binding.ivDefaultProfile.setImageDrawable(ContextCompat.getDrawable(context,R.drawable.ic_profile))
-                            } else {
-                                binding.ivDefaultProfile.setImageDrawable(ContextCompat.getDrawable(context,R.drawable.ic_dark_profile_popup))
-                            }
-                            binding.ivOriginalProfile.visibility = View.GONE
-                            binding.ivBlockProfile.visibility = View.GONE
-                            binding.cvProfileView.setCardBackgroundColor(
-                                ColorStateList.valueOf(
-                                    context.getColorFromAttr(R.attr.itemBackgroundColor)
-                                )
-                            )
-                            binding.ivDefaultProfile.visibility = View.VISIBLE
-                        }
-                    }
+                    binding.userContactAddress = contactAddress
                 } else {
                     binding.rvToMessage.visibility = View.GONE
                     binding.rvFromMessage.visibility = View.GONE
-                    binding.cvProfileView.visibility = View.GONE
+                    binding.cvMessageUserProfile.visibility = View.GONE
                 }
             } else {
-                binding.cvProfileView.visibility = View.GONE
+                binding.cvMessageUserProfile.visibility = View.GONE
             }
         }
     }
@@ -1762,7 +1646,7 @@ class PersonalChatAdapter(
                     binding.rvToImages.visibility = View.GONE
                 }
                 binding.rvFromImages.visibility = View.GONE
-                binding.cvProfileView.visibility = View.GONE
+                binding.cvMessageUserProfile.visibility = View.GONE
 
                 if (item.message.isNotEmpty() && !item.message.startsWith("[Image]")) {
                     val detectedOtpFromMessage = extractOtpFromText(item.message)
@@ -1802,7 +1686,7 @@ class PersonalChatAdapter(
                 }
 
                 binding.rvToImages.visibility = View.GONE
-                binding.cvProfileView.visibility = View.VISIBLE
+                binding.cvMessageUserProfile.visibility = View.VISIBLE
 
                 if (item.message.isNotEmpty() && !item.message.startsWith("[Image]")) {
                     val detectedOtpFromMessage = extractOtpFromText(item.message)
@@ -1826,41 +1710,12 @@ class PersonalChatAdapter(
                     binding.rvFromMessage.visibility = View.VISIBLE
                     val messageTime = formatTimeFromTimestamp(item.timestamp)
                     binding.txtFromMessageTime.text = messageTime
-                    if (isAddressBlocked) {
-                        binding.cvProfileView.setCardBackgroundColor(ContextCompat.getColor(context,R.color.blocked_user_profile))
-                        binding.ivOriginalProfile.visibility = View.GONE
-                        binding.ivDefaultProfile.visibility = View.GONE
-                        binding.ivBlockProfile.visibility = View.VISIBLE
-                    } else {
-                        if (!profileUri.contentEquals(
-                                "null"
-                            ) && profileUri != null
-                        ) {
-                            binding.ivDefaultProfile.visibility = View.GONE
-                            binding.ivBlockProfile.visibility = View.GONE
-                            binding.ivOriginalProfile.visibility = View.VISIBLE
-                            Glide.with(context).load(profileUri?.toUri())
-                                .into(binding.ivOriginalProfile)
-                        } else {
-                            if (SharedPreferencesHelper.getBoolean(context, Const.IS_CHANGE_PROFILE_COLOR, false)) {
-                                binding.ivDefaultProfile.setImageDrawable(ContextCompat.getDrawable(context,R.drawable.ic_profile))
-                            } else {
-                                binding.ivDefaultProfile.setImageDrawable(ContextCompat.getDrawable(context,R.drawable.ic_dark_profile_popup))
-                            }
-                            binding.ivOriginalProfile.visibility = View.GONE
-                            binding.ivBlockProfile.visibility = View.GONE
-                            binding.cvProfileView.setCardBackgroundColor(
-                                ColorStateList.valueOf(
-                                    context.getColorFromAttr(R.attr.itemBackgroundColor)
-                                )
-                            )
-                            binding.ivDefaultProfile.visibility = View.VISIBLE
-                        }
-                    }
+
+                    binding.userContactAddress = contactAddress
                 } else {
                     binding.rvToMessage.visibility = View.GONE
                     binding.rvFromMessage.visibility = View.GONE
-                    binding.cvProfileView.visibility = View.GONE
+                    binding.cvMessageUserProfile.visibility = View.GONE
                 }
             }
 
@@ -1881,10 +1736,12 @@ class PersonalChatAdapter(
 
             if (item.isTimeVisible) {
                 if (item.isFromMe) {
-                    if (binding.rvToMessageColor.isVisible) binding.txtToMessageTime.visibility = View.VISIBLE else binding.txtToMessageTime.visibility = View.GONE
+                    if (binding.rvToMessageColor.isVisible) binding.txtToMessageTime.visibility =
+                        View.VISIBLE else binding.txtToMessageTime.visibility = View.GONE
                     binding.txtFromMessageTime.visibility = View.GONE
                 } else {
-                    if (binding.rvFromMessageColor.isVisible) binding.txtFromMessageTime.visibility = View.VISIBLE else binding.txtFromMessageTime.visibility = View.GONE
+                    if (binding.rvFromMessageColor.isVisible) binding.txtFromMessageTime.visibility =
+                        View.VISIBLE else binding.txtFromMessageTime.visibility = View.GONE
                     binding.txtToMessageTime.visibility = View.GONE
                 }
             } else {
@@ -2336,44 +2193,14 @@ class PersonalChatAdapter(
         fun updateProfileSection(item: ChatModel.MessageItem) {
             if (!item.isFromMe) {
                 if (item.message.isNotEmpty() && !item.message.startsWith("[Image]")) {
-                    if (isAddressBlocked) {
-                        binding.cvProfileView.setCardBackgroundColor(ContextCompat.getColor(context,R.color.blocked_user_profile))
-                        binding.ivOriginalProfile.visibility = View.GONE
-                        binding.ivDefaultProfile.visibility = View.GONE
-                        binding.ivBlockProfile.visibility = View.VISIBLE
-                    } else {
-                        if (!profileUri.contentEquals(
-                                "null"
-                            ) && profileUri != null
-                        ) {
-                            binding.ivDefaultProfile.visibility = View.GONE
-                            binding.ivBlockProfile.visibility = View.GONE
-                            binding.ivOriginalProfile.visibility = View.VISIBLE
-                            Glide.with(context).load(profileUri?.toUri())
-                                .into(binding.ivOriginalProfile)
-                        } else {
-                            if (SharedPreferencesHelper.getBoolean(context, Const.IS_CHANGE_PROFILE_COLOR, false)) {
-                                binding.ivDefaultProfile.setImageDrawable(ContextCompat.getDrawable(context,R.drawable.ic_profile))
-                            } else {
-                                binding.ivDefaultProfile.setImageDrawable(ContextCompat.getDrawable(context,R.drawable.ic_dark_profile_popup))
-                            }
-                            binding.ivOriginalProfile.visibility = View.GONE
-                            binding.ivBlockProfile.visibility = View.GONE
-                            binding.cvProfileView.setCardBackgroundColor(
-                                ColorStateList.valueOf(
-                                    context.getColorFromAttr(R.attr.itemBackgroundColor)
-                                )
-                            )
-                            binding.ivDefaultProfile.visibility = View.VISIBLE
-                        }
-                    }
+                    binding.userContactAddress = contactAddress
                 } else {
                     binding.rvToMessage.visibility = View.GONE
                     binding.rvFromMessage.visibility = View.GONE
-                    binding.cvProfileView.visibility = View.GONE
+                    binding.cvMessageUserProfile.visibility = View.GONE
                 }
             } else {
-                binding.cvProfileView.visibility = View.GONE
+                binding.cvMessageUserProfile.visibility = View.GONE
             }
         }
     }
@@ -2408,7 +2235,7 @@ class PersonalChatAdapter(
                     binding.rvToImages.visibility = View.GONE
                 }
                 binding.rvFromImages.visibility = View.GONE
-                binding.cvProfileView.visibility = View.GONE
+                binding.cvMessageUserProfile.visibility = View.GONE
 
                 if (item.message.isNotEmpty() && !item.message.startsWith("[Image]")) {
                     val detectedOtpFromMessage = extractOtpFromText(item.message)
@@ -2449,7 +2276,7 @@ class PersonalChatAdapter(
                 }
 
                 binding.rvToImages.visibility = View.GONE
-                binding.cvProfileView.visibility = View.VISIBLE
+                binding.cvMessageUserProfile.visibility = View.VISIBLE
 
                 if (item.message.isNotEmpty() && !item.message.startsWith("[Image]")) {
                     val detectedOtpFromMessage = extractOtpFromText(item.message)
@@ -2473,41 +2300,11 @@ class PersonalChatAdapter(
                     binding.rvFromMessage.visibility = View.VISIBLE
                     val messageTime = formatTimeFromTimestamp(item.timestamp)
                     binding.txtFromMessageTime.text = messageTime
-                    if (isAddressBlocked) {
-                        binding.cvProfileView.setCardBackgroundColor(ContextCompat.getColor(context,R.color.blocked_user_profile))
-                        binding.ivOriginalProfile.visibility = View.GONE
-                        binding.ivDefaultProfile.visibility = View.GONE
-                        binding.ivBlockProfile.visibility = View.VISIBLE
-                    } else {
-                        if (!profileUri.contentEquals(
-                                "null"
-                            ) && profileUri != null
-                        ) {
-                            binding.ivDefaultProfile.visibility = View.GONE
-                            binding.ivBlockProfile.visibility = View.GONE
-                            binding.ivOriginalProfile.visibility = View.VISIBLE
-                            Glide.with(context).load(profileUri?.toUri())
-                                .into(binding.ivOriginalProfile)
-                        } else {
-                            if (SharedPreferencesHelper.getBoolean(context, Const.IS_CHANGE_PROFILE_COLOR, false)) {
-                                binding.ivDefaultProfile.setImageDrawable(ContextCompat.getDrawable(context,R.drawable.ic_profile))
-                            } else {
-                                binding.ivDefaultProfile.setImageDrawable(ContextCompat.getDrawable(context,R.drawable.ic_dark_profile_popup))
-                            }
-                            binding.ivOriginalProfile.visibility = View.GONE
-                            binding.ivBlockProfile.visibility = View.GONE
-                            binding.cvProfileView.setCardBackgroundColor(
-                                ColorStateList.valueOf(
-                                    context.getColorFromAttr(R.attr.itemBackgroundColor)
-                                )
-                            )
-                            binding.ivDefaultProfile.visibility = View.VISIBLE
-                        }
-                    }
+                    binding.userContactAddress = contactAddress
                 } else {
                     binding.rvToMessage.visibility = View.GONE
                     binding.rvFromMessage.visibility = View.GONE
-                    binding.cvProfileView.visibility = View.GONE
+                    binding.cvMessageUserProfile.visibility = View.GONE
                 }
             }
 
@@ -2544,10 +2341,12 @@ class PersonalChatAdapter(
 
             if (item.isTimeVisible) {
                 if (item.isFromMe) {
-                    if (binding.rvToMessageColor.isVisible) binding.txtToMessageTime.visibility = View.VISIBLE else binding.txtToMessageTime.visibility = View.GONE
+                    if (binding.rvToMessageColor.isVisible) binding.txtToMessageTime.visibility =
+                        View.VISIBLE else binding.txtToMessageTime.visibility = View.GONE
                     binding.txtFromMessageTime.visibility = View.GONE
                 } else {
-                    if (binding.rvFromMessageColor.isVisible) binding.txtFromMessageTime.visibility = View.VISIBLE else binding.txtFromMessageTime.visibility = View.GONE
+                    if (binding.rvFromMessageColor.isVisible) binding.txtFromMessageTime.visibility =
+                        View.VISIBLE else binding.txtFromMessageTime.visibility = View.GONE
                     binding.txtToMessageTime.visibility = View.GONE
                 }
             } else {
@@ -3015,44 +2814,14 @@ class PersonalChatAdapter(
         fun updateProfileSection(item: ChatModel.MessageItem) {
             if (!item.isFromMe) {
                 if (item.message.isNotEmpty() && !item.message.startsWith("[Image]")) {
-                    if (isAddressBlocked) {
-                        binding.cvProfileView.setCardBackgroundColor(ContextCompat.getColor(context,R.color.blocked_user_profile))
-                        binding.ivOriginalProfile.visibility = View.GONE
-                        binding.ivDefaultProfile.visibility = View.GONE
-                        binding.ivBlockProfile.visibility = View.VISIBLE
-                    } else {
-                        if (!profileUri.contentEquals(
-                                "null"
-                            ) && profileUri != null
-                        ) {
-                            binding.ivDefaultProfile.visibility = View.GONE
-                            binding.ivBlockProfile.visibility = View.GONE
-                            binding.ivOriginalProfile.visibility = View.VISIBLE
-                            Glide.with(context).load(profileUri?.toUri())
-                                .into(binding.ivOriginalProfile)
-                        } else {
-                            if (SharedPreferencesHelper.getBoolean(context, Const.IS_CHANGE_PROFILE_COLOR, false)) {
-                                binding.ivDefaultProfile.setImageDrawable(ContextCompat.getDrawable(context,R.drawable.ic_profile))
-                            } else {
-                                binding.ivDefaultProfile.setImageDrawable(ContextCompat.getDrawable(context,R.drawable.ic_dark_profile_popup))
-                            }
-                            binding.ivOriginalProfile.visibility = View.GONE
-                            binding.ivBlockProfile.visibility = View.GONE
-                            binding.cvProfileView.setCardBackgroundColor(
-                                ColorStateList.valueOf(
-                                    context.getColorFromAttr(R.attr.itemBackgroundColor)
-                                )
-                            )
-                            binding.ivDefaultProfile.visibility = View.VISIBLE
-                        }
-                    }
+                    binding.userContactAddress = contactAddress
                 } else {
                     binding.rvToMessage.visibility = View.GONE
                     binding.rvFromMessage.visibility = View.GONE
-                    binding.cvProfileView.visibility = View.GONE
+                    binding.cvMessageUserProfile.visibility = View.GONE
                 }
             } else {
-                binding.cvProfileView.visibility = View.GONE
+                binding.cvMessageUserProfile.visibility = View.GONE
             }
         }
     }
@@ -3087,7 +2856,7 @@ class PersonalChatAdapter(
                     binding.rvToImages.visibility = View.GONE
                 }
                 binding.rvFromImages.visibility = View.GONE
-                binding.cvProfileView.visibility = View.GONE
+                binding.cvMessageUserProfile.visibility = View.GONE
 
                 if (item.message.isNotEmpty() && !item.message.startsWith("[Image]")) {
                     val detectedOtpFromMessage = extractOtpFromText(item.message)
@@ -3127,7 +2896,7 @@ class PersonalChatAdapter(
                 }
 
                 binding.rvToImages.visibility = View.GONE
-                binding.cvProfileView.visibility = View.VISIBLE
+                binding.cvMessageUserProfile.visibility = View.VISIBLE
 
                 if (item.message.isNotEmpty() && !item.message.startsWith("[Image]")) {
                     val detectedOtpFromMessage = extractOtpFromText(item.message)
@@ -3151,41 +2920,12 @@ class PersonalChatAdapter(
                     binding.rvFromMessage.visibility = View.VISIBLE
                     val messageTime = formatTimeFromTimestamp(item.timestamp)
                     binding.txtFromMessageTime.text = messageTime
-                    if (isAddressBlocked) {
-                        binding.cvProfileView.setCardBackgroundColor(ContextCompat.getColor(context,R.color.blocked_user_profile))
-                        binding.ivOriginalProfile.visibility = View.GONE
-                        binding.ivDefaultProfile.visibility = View.GONE
-                        binding.ivBlockProfile.visibility = View.VISIBLE
-                    } else {
-                        if (!profileUri.contentEquals(
-                                "null"
-                            ) && profileUri != null
-                        ) {
-                            binding.ivDefaultProfile.visibility = View.GONE
-                            binding.ivBlockProfile.visibility = View.GONE
-                            binding.ivOriginalProfile.visibility = View.VISIBLE
-                            Glide.with(context).load(profileUri?.toUri())
-                                .into(binding.ivOriginalProfile)
-                        } else {
-                            if (SharedPreferencesHelper.getBoolean(context, Const.IS_CHANGE_PROFILE_COLOR, false)) {
-                                binding.ivDefaultProfile.setImageDrawable(ContextCompat.getDrawable(context,R.drawable.ic_profile))
-                            } else {
-                                binding.ivDefaultProfile.setImageDrawable(ContextCompat.getDrawable(context,R.drawable.ic_dark_profile_popup))
-                            }
-                            binding.ivOriginalProfile.visibility = View.GONE
-                            binding.ivBlockProfile.visibility = View.GONE
-                            binding.cvProfileView.setCardBackgroundColor(
-                                ColorStateList.valueOf(
-                                    context.getColorFromAttr(R.attr.itemBackgroundColor)
-                                )
-                            )
-                            binding.ivDefaultProfile.visibility = View.VISIBLE
-                        }
-                    }
+
+                    binding.userContactAddress = contactAddress
                 } else {
                     binding.rvToMessage.visibility = View.GONE
                     binding.rvFromMessage.visibility = View.GONE
-                    binding.cvProfileView.visibility = View.GONE
+                    binding.cvMessageUserProfile.visibility = View.GONE
                 }
             }
 
@@ -3222,10 +2962,12 @@ class PersonalChatAdapter(
 
             if (item.isTimeVisible) {
                 if (item.isFromMe) {
-                    if (binding.rvToMessageColor.isVisible) binding.txtToMessageTime.visibility = View.VISIBLE else binding.txtToMessageTime.visibility = View.GONE
+                    if (binding.rvToMessageColor.isVisible) binding.txtToMessageTime.visibility =
+                        View.VISIBLE else binding.txtToMessageTime.visibility = View.GONE
                     binding.txtFromMessageTime.visibility = View.GONE
                 } else {
-                    if (binding.rvFromMessageColor.isVisible) binding.txtFromMessageTime.visibility = View.VISIBLE else binding.txtFromMessageTime.visibility = View.GONE
+                    if (binding.rvFromMessageColor.isVisible) binding.txtFromMessageTime.visibility =
+                        View.VISIBLE else binding.txtFromMessageTime.visibility = View.GONE
                     binding.txtToMessageTime.visibility = View.GONE
                 }
             } else {
@@ -3693,44 +3435,14 @@ class PersonalChatAdapter(
         fun updateProfileSection(item: ChatModel.MessageItem) {
             if (!item.isFromMe) {
                 if (item.message.isNotEmpty() && !item.message.startsWith("[Image]")) {
-                    if (isAddressBlocked) {
-                        binding.cvProfileView.setCardBackgroundColor(ContextCompat.getColor(context,R.color.blocked_user_profile))
-                        binding.ivOriginalProfile.visibility = View.GONE
-                        binding.ivDefaultProfile.visibility = View.GONE
-                        binding.ivBlockProfile.visibility = View.VISIBLE
-                    } else {
-                        if (!profileUri.contentEquals(
-                                "null"
-                            ) && profileUri != null
-                        ) {
-                            binding.ivDefaultProfile.visibility = View.GONE
-                            binding.ivBlockProfile.visibility = View.GONE
-                            binding.ivOriginalProfile.visibility = View.VISIBLE
-                            Glide.with(context).load(profileUri?.toUri())
-                                .into(binding.ivOriginalProfile)
-                        } else {
-                            if (SharedPreferencesHelper.getBoolean(context, Const.IS_CHANGE_PROFILE_COLOR, false)) {
-                                binding.ivDefaultProfile.setImageDrawable(ContextCompat.getDrawable(context,R.drawable.ic_profile))
-                            } else {
-                                binding.ivDefaultProfile.setImageDrawable(ContextCompat.getDrawable(context,R.drawable.ic_dark_profile_popup))
-                            }
-                            binding.ivOriginalProfile.visibility = View.GONE
-                            binding.ivBlockProfile.visibility = View.GONE
-                            binding.cvProfileView.setCardBackgroundColor(
-                                ColorStateList.valueOf(
-                                    context.getColorFromAttr(R.attr.itemBackgroundColor)
-                                )
-                            )
-                            binding.ivDefaultProfile.visibility = View.VISIBLE
-                        }
-                    }
+                    binding.userContactAddress = contactAddress
                 } else {
                     binding.rvToMessage.visibility = View.GONE
                     binding.rvFromMessage.visibility = View.GONE
-                    binding.cvProfileView.visibility = View.GONE
+                    binding.cvMessageUserProfile.visibility = View.GONE
                 }
             } else {
-                binding.cvProfileView.visibility = View.GONE
+                binding.cvMessageUserProfile.visibility = View.GONE
             }
         }
     }
@@ -3765,7 +3477,7 @@ class PersonalChatAdapter(
                     binding.rvToImages.visibility = View.GONE
                 }
                 binding.rvFromImages.visibility = View.GONE
-                binding.cvProfileView.visibility = View.GONE
+                binding.cvMessageUserProfile.visibility = View.GONE
 
                 if (item.message.isNotEmpty() && !item.message.startsWith("[Image]")) {
                     val detectedOtpFromMessage = extractOtpFromText(item.message)
@@ -3805,7 +3517,7 @@ class PersonalChatAdapter(
                 }
 
                 binding.rvToImages.visibility = View.GONE
-                binding.cvProfileView.visibility = View.VISIBLE
+                binding.cvMessageUserProfile.visibility = View.VISIBLE
 
                 if (item.message.isNotEmpty() && !item.message.startsWith("[Image]")) {
                     val detectedOtpFromMessage = extractOtpFromText(item.message)
@@ -3829,41 +3541,12 @@ class PersonalChatAdapter(
                     binding.rvFromMessage.visibility = View.VISIBLE
                     val messageTime = formatTimeFromTimestamp(item.timestamp)
                     binding.txtFromMessageTime.text = messageTime
-                    if (isAddressBlocked) {
-                        binding.cvProfileView.setCardBackgroundColor(ContextCompat.getColor(context,R.color.blocked_user_profile))
-                        binding.ivOriginalProfile.visibility = View.GONE
-                        binding.ivDefaultProfile.visibility = View.GONE
-                        binding.ivBlockProfile.visibility = View.VISIBLE
-                    } else {
-                        if (!profileUri.contentEquals(
-                                "null"
-                            ) && profileUri != null
-                        ) {
-                            binding.ivDefaultProfile.visibility = View.GONE
-                            binding.ivBlockProfile.visibility = View.GONE
-                            binding.ivOriginalProfile.visibility = View.VISIBLE
-                            Glide.with(context).load(profileUri?.toUri())
-                                .into(binding.ivOriginalProfile)
-                        } else {
-                            if (SharedPreferencesHelper.getBoolean(context, Const.IS_CHANGE_PROFILE_COLOR, false)) {
-                                binding.ivDefaultProfile.setImageDrawable(ContextCompat.getDrawable(context,R.drawable.ic_profile))
-                            } else {
-                                binding.ivDefaultProfile.setImageDrawable(ContextCompat.getDrawable(context,R.drawable.ic_dark_profile_popup))
-                            }
-                            binding.ivOriginalProfile.visibility = View.GONE
-                            binding.ivBlockProfile.visibility = View.GONE
-                            binding.cvProfileView.setCardBackgroundColor(
-                                ColorStateList.valueOf(
-                                    context.getColorFromAttr(R.attr.itemBackgroundColor)
-                                )
-                            )
-                            binding.ivDefaultProfile.visibility = View.VISIBLE
-                        }
-                    }
+
+                    binding.userContactAddress = contactAddress
                 } else {
                     binding.rvToMessage.visibility = View.GONE
                     binding.rvFromMessage.visibility = View.GONE
-                    binding.cvProfileView.visibility = View.GONE
+                    binding.cvMessageUserProfile.visibility = View.GONE
                 }
             }
 
@@ -3900,10 +3583,12 @@ class PersonalChatAdapter(
 
             if (item.isTimeVisible) {
                 if (item.isFromMe) {
-                    if (binding.rvToMessageColor.isVisible) binding.txtToMessageTime.visibility = View.VISIBLE else binding.txtToMessageTime.visibility = View.GONE
+                    if (binding.rvToMessageColor.isVisible) binding.txtToMessageTime.visibility =
+                        View.VISIBLE else binding.txtToMessageTime.visibility = View.GONE
                     binding.txtFromMessageTime.visibility = View.GONE
                 } else {
-                    if (binding.rvFromMessageColor.isVisible) binding.txtFromMessageTime.visibility = View.VISIBLE else binding.txtFromMessageTime.visibility = View.GONE
+                    if (binding.rvFromMessageColor.isVisible) binding.txtFromMessageTime.visibility =
+                        View.VISIBLE else binding.txtFromMessageTime.visibility = View.GONE
                     binding.txtToMessageTime.visibility = View.GONE
                 }
             } else {
@@ -4371,44 +4056,14 @@ class PersonalChatAdapter(
         fun updateProfileSection(item: ChatModel.MessageItem) {
             if (!item.isFromMe) {
                 if (item.message.isNotEmpty() && !item.message.startsWith("[Image]")) {
-                    if (isAddressBlocked) {
-                        binding.cvProfileView.setCardBackgroundColor(ContextCompat.getColor(context,R.color.blocked_user_profile))
-                        binding.ivOriginalProfile.visibility = View.GONE
-                        binding.ivDefaultProfile.visibility = View.GONE
-                        binding.ivBlockProfile.visibility = View.VISIBLE
-                    } else {
-                        if (!profileUri.contentEquals(
-                                "null"
-                            ) && profileUri != null
-                        ) {
-                            binding.ivDefaultProfile.visibility = View.GONE
-                            binding.ivBlockProfile.visibility = View.GONE
-                            binding.ivOriginalProfile.visibility = View.VISIBLE
-                            Glide.with(context).load(profileUri?.toUri())
-                                .into(binding.ivOriginalProfile)
-                        } else {
-                            if (SharedPreferencesHelper.getBoolean(context, Const.IS_CHANGE_PROFILE_COLOR, false)) {
-                                binding.ivDefaultProfile.setImageDrawable(ContextCompat.getDrawable(context,R.drawable.ic_profile))
-                            } else {
-                                binding.ivDefaultProfile.setImageDrawable(ContextCompat.getDrawable(context,R.drawable.ic_dark_profile_popup))
-                            }
-                            binding.ivOriginalProfile.visibility = View.GONE
-                            binding.ivBlockProfile.visibility = View.GONE
-                            binding.cvProfileView.setCardBackgroundColor(
-                                ColorStateList.valueOf(
-                                    context.getColorFromAttr(R.attr.itemBackgroundColor)
-                                )
-                            )
-                            binding.ivDefaultProfile.visibility = View.VISIBLE
-                        }
-                    }
+                    binding.userContactAddress = contactAddress
                 } else {
                     binding.rvToMessage.visibility = View.GONE
                     binding.rvFromMessage.visibility = View.GONE
-                    binding.cvProfileView.visibility = View.GONE
+                    binding.cvMessageUserProfile.visibility = View.GONE
                 }
             } else {
-                binding.cvProfileView.visibility = View.GONE
+                binding.cvMessageUserProfile.visibility = View.GONE
             }
         }
     }
@@ -4443,7 +4098,7 @@ class PersonalChatAdapter(
                     binding.rvToImages.visibility = View.GONE
                 }
                 binding.rvFromImages.visibility = View.GONE
-                binding.cvProfileView.visibility = View.GONE
+                binding.cvMessageUserProfile.visibility = View.GONE
 
                 if (item.message.isNotEmpty() && !item.message.startsWith("[Image]")) {
                     val detectedOtpFromMessage = extractOtpFromText(item.message)
@@ -4483,7 +4138,7 @@ class PersonalChatAdapter(
                 }
 
                 binding.rvToImages.visibility = View.GONE
-                binding.cvProfileView.visibility = View.VISIBLE
+                binding.cvMessageUserProfile.visibility = View.VISIBLE
 
                 if (item.message.isNotEmpty() && !item.message.startsWith("[Image]")) {
                     val detectedOtpFromMessage = extractOtpFromText(item.message)
@@ -4507,41 +4162,11 @@ class PersonalChatAdapter(
                     binding.rvFromMessage.visibility = View.VISIBLE
                     val messageTime = formatTimeFromTimestamp(item.timestamp)
                     binding.txtFromMessageTime.text = messageTime
-                    if (isAddressBlocked) {
-                        binding.cvProfileView.setCardBackgroundColor(ContextCompat.getColor(context,R.color.blocked_user_profile))
-                        binding.ivOriginalProfile.visibility = View.GONE
-                        binding.ivDefaultProfile.visibility = View.GONE
-                        binding.ivBlockProfile.visibility = View.VISIBLE
-                    } else {
-                        if (!profileUri.contentEquals(
-                                "null"
-                            ) && profileUri != null
-                        ) {
-                            binding.ivDefaultProfile.visibility = View.GONE
-                            binding.ivBlockProfile.visibility = View.GONE
-                            binding.ivOriginalProfile.visibility = View.VISIBLE
-                            Glide.with(context).load(profileUri?.toUri())
-                                .into(binding.ivOriginalProfile)
-                        } else {
-                            if (SharedPreferencesHelper.getBoolean(context, Const.IS_CHANGE_PROFILE_COLOR, false)) {
-                                binding.ivDefaultProfile.setImageDrawable(ContextCompat.getDrawable(context,R.drawable.ic_profile))
-                            } else {
-                                binding.ivDefaultProfile.setImageDrawable(ContextCompat.getDrawable(context,R.drawable.ic_dark_profile_popup))
-                            }
-                            binding.ivOriginalProfile.visibility = View.GONE
-                            binding.ivBlockProfile.visibility = View.GONE
-                            binding.cvProfileView.setCardBackgroundColor(
-                                ColorStateList.valueOf(
-                                    context.getColorFromAttr(R.attr.itemBackgroundColor)
-                                )
-                            )
-                            binding.ivDefaultProfile.visibility = View.VISIBLE
-                        }
-                    }
+                    binding.userContactAddress = contactAddress
                 } else {
                     binding.rvToMessage.visibility = View.GONE
                     binding.rvFromMessage.visibility = View.GONE
-                    binding.cvProfileView.visibility = View.GONE
+                    binding.cvMessageUserProfile.visibility = View.GONE
                 }
             }
 
@@ -4578,10 +4203,12 @@ class PersonalChatAdapter(
 
             if (item.isTimeVisible) {
                 if (item.isFromMe) {
-                    if (binding.rvToMessageColor.isVisible) binding.txtToMessageTime.visibility = View.VISIBLE else binding.txtToMessageTime.visibility = View.GONE
+                    if (binding.rvToMessageColor.isVisible) binding.txtToMessageTime.visibility =
+                        View.VISIBLE else binding.txtToMessageTime.visibility = View.GONE
                     binding.txtFromMessageTime.visibility = View.GONE
                 } else {
-                    if (binding.rvFromMessageColor.isVisible) binding.txtFromMessageTime.visibility = View.VISIBLE else binding.txtFromMessageTime.visibility = View.GONE
+                    if (binding.rvFromMessageColor.isVisible) binding.txtFromMessageTime.visibility =
+                        View.VISIBLE else binding.txtFromMessageTime.visibility = View.GONE
                     binding.txtToMessageTime.visibility = View.GONE
                 }
             } else {
@@ -5049,44 +4676,14 @@ class PersonalChatAdapter(
         fun updateProfileSection(item: ChatModel.MessageItem) {
             if (!item.isFromMe) {
                 if (item.message.isNotEmpty() && !item.message.startsWith("[Image]")) {
-                    if (isAddressBlocked) {
-                        binding.cvProfileView.setCardBackgroundColor(ContextCompat.getColor(context,R.color.blocked_user_profile))
-                        binding.ivOriginalProfile.visibility = View.GONE
-                        binding.ivDefaultProfile.visibility = View.GONE
-                        binding.ivBlockProfile.visibility = View.VISIBLE
-                    } else {
-                        if (!profileUri.contentEquals(
-                                "null"
-                            ) && profileUri != null
-                        ) {
-                            binding.ivDefaultProfile.visibility = View.GONE
-                            binding.ivBlockProfile.visibility = View.GONE
-                            binding.ivOriginalProfile.visibility = View.VISIBLE
-                            Glide.with(context).load(profileUri?.toUri())
-                                .into(binding.ivOriginalProfile)
-                        } else {
-                            if (SharedPreferencesHelper.getBoolean(context, Const.IS_CHANGE_PROFILE_COLOR, false)) {
-                                binding.ivDefaultProfile.setImageDrawable(ContextCompat.getDrawable(context,R.drawable.ic_profile))
-                            } else {
-                                binding.ivDefaultProfile.setImageDrawable(ContextCompat.getDrawable(context,R.drawable.ic_dark_profile_popup))
-                            }
-                            binding.ivOriginalProfile.visibility = View.GONE
-                            binding.ivBlockProfile.visibility = View.GONE
-                            binding.cvProfileView.setCardBackgroundColor(
-                                ColorStateList.valueOf(
-                                    context.getColorFromAttr(R.attr.itemBackgroundColor)
-                                )
-                            )
-                            binding.ivDefaultProfile.visibility = View.VISIBLE
-                        }
-                    }
+                    binding.userContactAddress = contactAddress
                 } else {
                     binding.rvToMessage.visibility = View.GONE
                     binding.rvFromMessage.visibility = View.GONE
-                    binding.cvProfileView.visibility = View.GONE
+                    binding.cvMessageUserProfile.visibility = View.GONE
                 }
             } else {
-                binding.cvProfileView.visibility = View.GONE
+                binding.cvMessageUserProfile.visibility = View.GONE
             }
         }
     }
@@ -5121,7 +4718,7 @@ class PersonalChatAdapter(
                     binding.rvToImages.visibility = View.GONE
                 }
                 binding.rvFromImages.visibility = View.GONE
-                binding.cvProfileView.visibility = View.GONE
+                binding.cvMessageUserProfile.visibility = View.GONE
 
                 if (item.message.isNotEmpty() && !item.message.startsWith("[Image]")) {
                     val detectedOtpFromMessage = extractOtpFromText(item.message)
@@ -5161,7 +4758,7 @@ class PersonalChatAdapter(
                 }
 
                 binding.rvToImages.visibility = View.GONE
-                binding.cvProfileView.visibility = View.VISIBLE
+                binding.cvMessageUserProfile.visibility = View.VISIBLE
 
                 if (item.message.isNotEmpty() && !item.message.startsWith("[Image]")) {
                     val detectedOtpFromMessage = extractOtpFromText(item.message)
@@ -5185,61 +4782,11 @@ class PersonalChatAdapter(
                     binding.rvFromMessage.visibility = View.VISIBLE
                     val messageTime = formatTimeFromTimestamp(item.timestamp)
                     binding.txtFromMessageTime.text = messageTime
-                    if (isAddressBlocked) {
-                        binding.cvProfileView.setCardBackgroundColor(
-                            ContextCompat.getColor(
-                                context,
-                                R.color.blocked_user_profile
-                            )
-                        )
-                        binding.ivOriginalProfile.visibility = View.GONE
-                        binding.ivDefaultProfile.visibility = View.GONE
-                        binding.ivBlockProfile.visibility = View.VISIBLE
-                    } else {
-                        if (!profileUri.contentEquals(
-                                "null"
-                            ) && profileUri != null
-                        ) {
-                            binding.ivDefaultProfile.visibility = View.GONE
-                            binding.ivBlockProfile.visibility = View.GONE
-                            binding.ivOriginalProfile.visibility = View.VISIBLE
-                            Glide.with(context).load(profileUri?.toUri())
-                                .into(binding.ivOriginalProfile)
-                        } else {
-                            if (SharedPreferencesHelper.getBoolean(
-                                    context,
-                                    Const.IS_CHANGE_PROFILE_COLOR,
-                                    false
-                                )
-                            ) {
-                                binding.ivDefaultProfile.setImageDrawable(
-                                    ContextCompat.getDrawable(
-                                        context,
-                                        R.drawable.ic_profile
-                                    )
-                                )
-                            } else {
-                                binding.ivDefaultProfile.setImageDrawable(
-                                    ContextCompat.getDrawable(
-                                        context,
-                                        R.drawable.ic_dark_profile_popup
-                                    )
-                                )
-                            }
-                            binding.ivOriginalProfile.visibility = View.GONE
-                            binding.ivBlockProfile.visibility = View.GONE
-                            binding.cvProfileView.setCardBackgroundColor(
-                                ColorStateList.valueOf(
-                                    context.getColorFromAttr(R.attr.itemBackgroundColor)
-                                )
-                            )
-                            binding.ivDefaultProfile.visibility = View.VISIBLE
-                        }
-                    }
+                    binding.userContactAddress = contactAddress
                 } else {
                     binding.rvToMessage.visibility = View.GONE
                     binding.rvFromMessage.visibility = View.GONE
-                    binding.cvProfileView.visibility = View.GONE
+                    binding.cvMessageUserProfile.visibility = View.GONE
                 }
             }
 
@@ -5749,64 +5296,14 @@ class PersonalChatAdapter(
         fun updateProfileSection(item: ChatModel.MessageItem) {
             if (!item.isFromMe) {
                 if (item.message.isNotEmpty() && !item.message.startsWith("[Image]")) {
-                    if (isAddressBlocked) {
-                        binding.cvProfileView.setCardBackgroundColor(
-                            ContextCompat.getColor(
-                                context,
-                                R.color.blocked_user_profile
-                            )
-                        )
-                        binding.ivOriginalProfile.visibility = View.GONE
-                        binding.ivDefaultProfile.visibility = View.GONE
-                        binding.ivBlockProfile.visibility = View.VISIBLE
-                    } else {
-                        if (!profileUri.contentEquals(
-                                "null"
-                            ) && profileUri != null
-                        ) {
-                            binding.ivDefaultProfile.visibility = View.GONE
-                            binding.ivBlockProfile.visibility = View.GONE
-                            binding.ivOriginalProfile.visibility = View.VISIBLE
-                            Glide.with(context).load(profileUri?.toUri())
-                                .into(binding.ivOriginalProfile)
-                        } else {
-                            if (SharedPreferencesHelper.getBoolean(
-                                    context,
-                                    Const.IS_CHANGE_PROFILE_COLOR,
-                                    false
-                                )
-                            ) {
-                                binding.ivDefaultProfile.setImageDrawable(
-                                    ContextCompat.getDrawable(
-                                        context,
-                                        R.drawable.ic_profile
-                                    )
-                                )
-                            } else {
-                                binding.ivDefaultProfile.setImageDrawable(
-                                    ContextCompat.getDrawable(
-                                        context,
-                                        R.drawable.ic_dark_profile_popup
-                                    )
-                                )
-                            }
-                            binding.ivOriginalProfile.visibility = View.GONE
-                            binding.ivBlockProfile.visibility = View.GONE
-                            binding.cvProfileView.setCardBackgroundColor(
-                                ColorStateList.valueOf(
-                                    context.getColorFromAttr(R.attr.itemBackgroundColor)
-                                )
-                            )
-                            binding.ivDefaultProfile.visibility = View.VISIBLE
-                        }
-                    }
+                    binding.userContactAddress = contactAddress
                 } else {
                     binding.rvToMessage.visibility = View.GONE
                     binding.rvFromMessage.visibility = View.GONE
-                    binding.cvProfileView.visibility = View.GONE
+                    binding.cvMessageUserProfile.visibility = View.GONE
                 }
             } else {
-                binding.cvProfileView.visibility = View.GONE
+                binding.cvMessageUserProfile.visibility = View.GONE
             }
         }
     }
@@ -5892,7 +5389,8 @@ class PersonalChatAdapter(
             val linkRegex = Patterns.WEB_URL.toRegex()
             val rsRegex = "(?i)(Rs\\.?\\s?\\d{1,10}|₹\\s?\\d{1,10})(?=\\b|\\s|$|[^\\w.])".toRegex()
 
-            val allRegex = listOf(phoneRegex, rsRegex, dateRegex, customDateRegex, linkRegex, numberRegex)
+            val allRegex =
+                listOf(phoneRegex, rsRegex, dateRegex, customDateRegex, linkRegex, numberRegex)
 
             val matchedRanges = mutableListOf<IntRange>()
 
@@ -5923,12 +5421,22 @@ class PersonalChatAdapter(
                                     } else {
                                         when {
                                             linkRegex.matches(matchedText) -> {
-                                                showContactPopup(anchorView, isFromMe, "LINK", matchedText)
+                                                showContactPopup(
+                                                    anchorView,
+                                                    isFromMe,
+                                                    "LINK",
+                                                    matchedText
+                                                )
                                             }
 
                                             phoneRegex.matches(matchedText) ||
                                                     numberRegex.matches(matchedText) -> {
-                                                showContactPopup(anchorView, isFromMe, "NUMBER", matchedText)
+                                                showContactPopup(
+                                                    anchorView,
+                                                    isFromMe,
+                                                    "NUMBER",
+                                                    matchedText
+                                                )
                                             }
                                         }
                                     }
@@ -5969,7 +5477,12 @@ class PersonalChatAdapter(
                     if (start < 0 || end > inputText.length || start >= end) continue
 
                     spannable.setSpan(
-                        BackgroundColorSpan(ContextCompat.getColor(context, R.color.app_theme_color)),
+                        BackgroundColorSpan(
+                            ContextCompat.getColor(
+                                context,
+                                R.color.app_theme_color
+                            )
+                        ),
                         start,
                         end,
                         Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
@@ -6068,6 +5581,9 @@ class PersonalChatAdapter(
             anchorY >= popupHeight -> anchorY - popupHeight
             else -> screenHeight / 2 - popupHeight / 2
         }
+
+        topViewBinding.userContactAddress = contactAddress ?: linkOrNumber
+        bottomViewBinding.userContactAddress = contactAddress ?: linkOrNumber
 
         topViewBinding.rvViewInChat.visibility = View.GONE
         bottomViewBinding.rvViewInChat.visibility = View.GONE
@@ -6397,9 +5913,9 @@ class PersonalChatAdapter(
         }
     }
 
-    fun updateProfileView(isAddressBlockFrom: Boolean,photoUri : String){
-        isAddressBlocked = isAddressBlockFrom
-        profileUri = photoUri
+    fun updateProfileView(profileAddress: String) {
+        contactAddress = profileAddress
+
         for (i in chatList.indices) {
             notifyItemChanged(i, "partialUpdateProfile")
         }

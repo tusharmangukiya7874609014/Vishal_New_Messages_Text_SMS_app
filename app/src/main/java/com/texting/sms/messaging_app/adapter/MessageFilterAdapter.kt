@@ -25,6 +25,10 @@ class MessageFilterAdapter(
     private var unReadCount = 0
     private var allMessagesCount = 0
 
+    init {
+        setHasStableIds(true)
+    }
+
     class ViewHolder(val binding: ItemMessageFilterBinding) :
         RecyclerView.ViewHolder(binding.root)
 

@@ -1,5 +1,4 @@
 <resources>
-    <string name="app_name">短信：文本短信</string>
     <string name="sms_messages">短信信息</string>
     <string name="set_as_a_default_app">设为默认应用</string>
     <string name="this_app_needs_to_be_set_as_your_default_sms_app_to_send_receive_and_manage_your_text_messages_without_setting_it_as_default_you_might_miss_important_messages_or_notifications_you_can_always_change_this_later_in_your_phone_settings">此应用需设为您的默认短信应用，以便发送、接收和管理您的短信。否则，您可能会错过重要信息或通知。您随时可以在手机设置中更改此项。</string>
@@ -14,7 +13,6 @@
     <string name="enable">启用</string>
     <string name="messages">信息</string>
     <string name="search_here">在此搜索…</string>
-    <string name="message_text_sms">信息：文本短信</string>
     <string name="archived">已归档</string>
     <string name="backup_amp_restore"><![CDATA[备份与恢复]]></string>
     <string name="scheduled">已计划</string>
@@ -173,7 +171,6 @@
     <string name="sim_1_slot_set_as_default">SIM 1 插槽已设为默认</string>
     <string name="sim_2_already_set_as_default">SIM 2 已设为默认</string>
     <string name="sim_2_slot_set_as_default">SIM 2 插槽已设为默认</string>
-    <string name="code_copy">复制代码：%1$s</string>
     <string name="backups">备份</string>
     <string name="download_sms_messages_backups">/Download/sms/messages/Backups</string>
     <string name="backup_history">备份记录</string>
@@ -535,7 +532,6 @@
     <string name="are_you_sure_you_would_you_like_to_delete_this_message">您确定要删除此消息吗?</string>
     <string name="pin">置顶</string>
     <string name="unpin">取消置顶</string>
-    <string name="first_select_message_atleast_one_or_more">请先选择一条或多条消息</string>
     <string name="remove_from_private_chats">从私人聊天中移除</string>
     <string name="view_full_chat_to_unlock_all_options">查看完整聊天以解锁所有选项</string>
     <string name="no_app_found_to_share_content">未找到可分享内容的应用</string>
@@ -569,7 +565,6 @@
     <string name="we_need_this_permission_to_give_you_better_user_experience">我们需要此权限以提供更好的用户体验</string>
     <string name="allow_permission">允许权限</string>
     <string name="turn_on_message_notifications">开启消息通知</string>
-    <string name="never_miss_an_important_message">不错过任何重要消息 💬</string>
     <string name="allow_app_to_read_phone_state">允许应用读取手机状态</string>
     <string name="quick_messaging_access_after_call">通话后快速发送消息</string>
     <string name="enable_our_quick_action_feature_in_3_steps">通过 3 个步骤启用快速操作功能</string>
@@ -608,6 +603,20 @@
     <string name="step_3_permission">步骤 3：</string>
     <string name="swipe_the_toggle_to_turn_on">滑动开关以开启。</string>
     <string name="slide_the_toggle_switch_to_enable_and_activate_the_feature">滑动开关以启用并激活该功能。</string>
-    <string name="this_app_requires_access_to_your_phone_state_to_detect_when_a_call_ends_so_it_can_provide_the_after_call_messaging_screen_no_call_logs_are_stored_or_shared">此应用需要访问您的手机状态，以便在通话结束时检测并提供通话后消息界面。不会存储或共享任何通话记录。</string>
     <string name="privacy_policy">隐私政策</string>
+    <string name="code_copy">复制 OTP ：%1$s</string>
+    <string name="no_contacts_app_found_on_this_device">此设备上未找到联系人应用</string>
+    <string name="spam_amp_block"><![CDATA[垃圾信息和已拦截]]></string>
+    <string name="allow">允许</string>
+    <string name="this_permission_is_required_to_after_call_features_please_allow_this_permission">此权限是通话后功能所必需的，请允许。</string>
+    <string name="please_wait_while_the_ad_loads">请稍候，广告正在加载…</string>
+    <string name="you_re_offline_turn_on_your_internet_connection_to_access_all_messages_features">您当前处于离线状态。\n请开启网络以使用所有消息功能。</string>
+    <string name="message_text_sms">消息</string>
+    <string name="app_name">消息</string>
+    <string name="you_can_quickly_send_a_message_right_after_a_call">您可以在通话后立即快速发送消息</string>
+    <string name="turn_on_notifications_to_receive_message_alerts">开启通知以接收消息提醒。</string>
+    <string name="first_select_message_at_least_one_or_more">请先选择一条或多条消息</string>
+    <string name="we_do_not_store_track_or_share_your_call_or_message_data">我们不会存储或分享您的通话或消息数据。</string>
+    <string name="outgoing_call">拨出电话</string>
+    <string name="enable_required_features_to_use_messaging_your_data_stays_private_and_secure_on_your_device">启用所需功能以使用消息服务。您的数据始终在设备上保持私密和安全。</string>
 </resources>

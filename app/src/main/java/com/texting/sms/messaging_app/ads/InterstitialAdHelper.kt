@@ -7,15 +7,15 @@ import android.os.Handler
 import android.os.Looper
 import android.util.Log
 import android.view.LayoutInflater
-import com.texting.sms.messaging_app.database.Const
-import com.texting.sms.messaging_app.database.SharedPreferencesHelper
-import com.texting.sms.messaging_app.databinding.CommonAdsLoadingDialogBinding
 import com.google.android.libraries.ads.mobile.sdk.common.AdLoadCallback
 import com.google.android.libraries.ads.mobile.sdk.common.AdRequest
 import com.google.android.libraries.ads.mobile.sdk.common.FullScreenContentError
 import com.google.android.libraries.ads.mobile.sdk.common.LoadAdError
 import com.google.android.libraries.ads.mobile.sdk.interstitial.InterstitialAd
 import com.google.android.libraries.ads.mobile.sdk.interstitial.InterstitialAdEventCallback
+import com.texting.sms.messaging_app.database.Const
+import com.texting.sms.messaging_app.database.SharedPreferencesHelper
+import com.texting.sms.messaging_app.databinding.CommonAdsLoadingDialogBinding
 
 object InterstitialAdHelper {
     private var interstitialAd: InterstitialAd? = null
@@ -23,7 +23,7 @@ object InterstitialAdHelper {
     private var isAdLoading = false
 
     /** Load Interstitial Ad */
-    fun loadAd(context: Context) {
+    fun loadAd(context: Activity) {
         loadingDialog = Dialog(context)
 
         if (isAdLoading || interstitialAd != null) {
@@ -32,28 +32,30 @@ object InterstitialAdHelper {
 
         isAdLoading = true
 
-        InterstitialAd.load(
-            AdRequest.Builder(
-                SharedPreferencesHelper.getString(
-                    context,
-                    Const.INTERSTITIAL_ID,
-                    Const.STRING_DEFAULT_VALUE
-                )
-            ).build(),
-            object : AdLoadCallback<InterstitialAd> {
-                override fun onAdLoaded(ad: InterstitialAd) {
-                    loadingDialog.dismiss()
-                    interstitialAd = ad
-                    isAdLoading = false
-                }
+        AdsManager.runWhenReady(context) {
+            InterstitialAd.load(
+                AdRequest.Builder(
+                    SharedPreferencesHelper.getString(
+                        context,
+                        Const.INTERSTITIAL_ID,
+                        Const.STRING_DEFAULT_VALUE
+                    )
+                ).build(),
+                object : AdLoadCallback<InterstitialAd> {
+                    override fun onAdLoaded(ad: InterstitialAd) {
+                        loadingDialog.dismiss()
+                        interstitialAd = ad
+                        isAdLoading = false
+                    }
 
-                override fun onAdFailedToLoad(adError: LoadAdError) {
-                    interstitialAd = null
-                    isAdLoading = false
-                    loadingDialog.dismiss()
-                }
-            },
-        )
+                    override fun onAdFailedToLoad(adError: LoadAdError) {
+                        interstitialAd = null
+                        isAdLoading = false
+                        loadingDialog.dismiss()
+                    }
+                },
+            )
+        }
     }
 
     /** Show Interstitial Ad */

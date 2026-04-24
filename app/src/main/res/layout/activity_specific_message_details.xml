@@ -107,7 +107,7 @@
                 android:fontFamily="@font/semi_bold_sans"
                 android:text="@string/general"
                 android:textColor="@color/app_theme_color"
-                android:textSize="@dimen/_12ssp" />
+                android:textSize="@dimen/main_title_size" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -129,7 +129,7 @@
                         android:fontFamily="@font/medium_sans"
                         android:text="@string/name"
                         android:textColor="?attr/titleTextColor"
-                        android:textSize="@dimen/_11ssp" />
+                        android:textSize="@dimen/features_title_size" />
 
                     <TextView
                         android:layout_width="15dp"
@@ -145,7 +145,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/regular_sans"
                         android:textColor="?attr/subTextColor"
-                        android:textSize="@dimen/_11ssp"
+                        android:textSize="@dimen/features_title_size"
                         tools:text="Arwin Info pro" />
 
                 </LinearLayout>
@@ -162,7 +162,7 @@
                         android:fontFamily="@font/medium_sans"
                         android:text="@string/address"
                         android:textColor="?attr/titleTextColor"
-                        android:textSize="@dimen/_11ssp" />
+                        android:textSize="@dimen/features_title_size" />
 
                     <TextView
                         android:layout_width="15dp"
@@ -178,7 +178,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/regular_sans"
                         android:textColor="?attr/subTextColor"
-                        android:textSize="@dimen/_11ssp"
+                        android:textSize="@dimen/features_title_size"
                         tools:text="AD-ARWINF-P" />
 
                 </LinearLayout>
@@ -195,7 +195,7 @@
                         android:fontFamily="@font/medium_sans"
                         android:text="@string/type"
                         android:textColor="?attr/titleTextColor"
-                        android:textSize="@dimen/_11ssp" />
+                        android:textSize="@dimen/features_title_size" />
 
                     <TextView
                         android:layout_width="15dp"
@@ -211,7 +211,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/regular_sans"
                         android:textColor="?attr/subTextColor"
-                        android:textSize="@dimen/_11ssp"
+                        android:textSize="@dimen/features_title_size"
                         tools:text="Outbox (Pending)" />
 
                 </LinearLayout>
@@ -224,7 +224,7 @@
                 android:fontFamily="@font/semi_bold_sans"
                 android:text="@string/status"
                 android:textColor="@color/app_theme_color"
-                android:textSize="@dimen/_12ssp" />
+                android:textSize="@dimen/main_title_size" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -247,7 +247,7 @@
                         android:fontFamily="@font/medium_sans"
                         android:text="@string/received"
                         android:textColor="?attr/titleTextColor"
-                        android:textSize="@dimen/_11ssp" />
+                        android:textSize="@dimen/features_title_size" />
 
                     <TextView
                         android:layout_width="15dp"
@@ -263,7 +263,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/regular_sans"
                         android:textColor="?attr/subTextColor"
-                        android:textSize="@dimen/_11ssp"
+                        android:textSize="@dimen/features_title_size"
                         tools:text="Aug 28,2025 3:23:17 pm" />
 
                 </LinearLayout>

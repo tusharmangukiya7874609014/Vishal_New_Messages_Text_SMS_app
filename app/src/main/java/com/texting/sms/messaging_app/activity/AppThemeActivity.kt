@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.lifecycleScope
 import com.texting.sms.messaging_app.R
@@ -16,19 +17,35 @@ import com.texting.sms.messaging_app.databinding.ActivityAppThemeBinding
 import com.texting.sms.messaging_app.ads.NativeAdHelper
 import com.texting.sms.messaging_app.database.Const
 import com.texting.sms.messaging_app.database.SharedPreferencesHelper
+import com.texting.sms.messaging_app.listener.NetworkAvailableListener
 import com.texting.sms.messaging_app.model.AppTheme
+import com.texting.sms.messaging_app.utils.NetworkConnectionUtil
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class AppThemeActivity : BaseActivity() {
+class AppThemeActivity : BaseActivity(), NetworkAvailableListener {
     private lateinit var binding: ActivityAppThemeBinding
     private lateinit var originalTheme: AppTheme
     private var clickCount = 0
 
+    private lateinit var networkUtil: NetworkConnectionUtil
+
+    override fun onStart() {
+        super.onStart()
+        networkUtil.register()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        networkUtil.unregister()
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        networkUtil = NetworkConnectionUtil(this)
+        networkUtil.setListener(this)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_app_theme)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
@@ -36,7 +53,6 @@ class AppThemeActivity : BaseActivity() {
             insets
         }
         clickCount = SharedPreferencesHelper.getInt(this, "COUNT_CLICK", 0)
-        runAdsCampion()
         initView()
         initClickListener()
     }
@@ -88,6 +104,8 @@ class AppThemeActivity : BaseActivity() {
                 if (isFinishing || isDestroyed) return@withContext
 
                 if (isCurrentPageNativeAdsEnabled) {
+                    if (binding.nativeAdContainer.isVisible) return@withContext
+
                     runNativeAds(
                         nativeAdsType = nativeAdsType, nativeAdsId = currentPageNativeAdsId
                     )
@@ -220,5 +238,25 @@ class AppThemeActivity : BaseActivity() {
             delegate.localNightMode = AppCompatDelegate.MODE_NIGHT_YES
             SharedPreferencesHelper.saveTheme(this, AppTheme.DARK)
         }
+    }
+
+    override fun onNetworkAvailable() {
+        runOnUiThread {
+            val sharePreference = getSharedPreferences("${packageName}_preferences", MODE_PRIVATE)
+
+            val purposeConsents = sharePreference.getString("IABTCF_PurposeConsents", "")
+            if (!purposeConsents.isNullOrEmpty()) {
+                val purposeOneString = purposeConsents.first().toString()
+                val hasConsentForPurposeOne = purposeOneString == "1"
+
+                if (hasConsentForPurposeOne) runAdsCampion()
+            } else {
+                runAdsCampion()
+            }
+        }
+    }
+
+    override fun onNetworkLost() {
+
     }
 }

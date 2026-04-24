@@ -15,13 +15,60 @@
         tools:context=".activity.CustomLunchActivity">
 
         <androidx.appcompat.widget.AppCompatImageView
-            android:layout_width="@dimen/_100sdp"
-            android:layout_height="@dimen/_100sdp"
+            android:id="@+id/ivLogo"
+            android:layout_width="@dimen/_75sdp"
+            android:layout_height="@dimen/_75sdp"
             android:src="@drawable/ic_app_logo"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_8sdp"
+            android:fontFamily="@font/semi_bold_sans"
+            android:text="@string/messages"
+            android:textColor="?attr/titleTextColor"
+            android:textSize="@dimen/_17ssp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ivLogo" />
+
+        <TextView
+            android:id="@+id/txtPleaseWaitAds"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="@dimen/_8sdp"
+            android:layout_marginBottom="@dimen/_5sdp"
+            android:fontFamily="@font/medium_sans"
+            android:text="@string/please_wait_while_the_ad_loads"
+            android:textAlignment="center"
+            android:textColor="?attr/subHeadingColor"
+            android:textSize="@dimen/_10ssp"
+            android:visibility="invisible"
+            tools:visibility="visible"
+            app:layout_constraintBottom_toTopOf="@+id/paginationProgress"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <ProgressBar
+            android:id="@+id/paginationProgress"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="15dp"
+            android:layout_marginVertical="@dimen/_35sdp"
+            android:layout_marginHorizontal="@dimen/_50sdp"
+            android:indeterminate="true"
+            android:indeterminateTint="@color/app_theme_color"
+            android:progressDrawable="@android:drawable/progress_horizontal"
+            android:progressTint="@color/app_theme_color"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:visibility="visible" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

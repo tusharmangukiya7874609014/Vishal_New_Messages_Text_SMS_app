@@ -79,7 +79,7 @@
                     android:fontFamily="@font/medium_sans"
                     android:text="@string/light_theme"
                     android:textColor="?attr/titleTextColor"
-                    android:textSize="@dimen/_11ssp" />
+                    android:textSize="@dimen/features_title_size" />
 
                 <RelativeLayout
                     android:id="@+id/rvLightThemeCheck"
@@ -131,7 +131,7 @@
                     android:fontFamily="@font/medium_sans"
                     android:text="@string/dark_theme"
                     android:textColor="?attr/titleTextColor"
-                    android:textSize="@dimen/_11ssp" />
+                    android:textSize="@dimen/features_title_size" />
 
                 <RelativeLayout
                     android:id="@+id/rvDarkThemeCheck"

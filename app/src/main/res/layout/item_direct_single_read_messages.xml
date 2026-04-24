@@ -57,11 +57,11 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="@dimen/_7sdp"
-                            android:layout_marginTop="@dimen/_3sdp"
+                            android:layout_marginTop="@dimen/_2sdp"
                             android:fontFamily="@font/regular_sans"
                             android:maxLines="1"
-                            android:textColor="?attr/subTextColor"
-                            android:textSize="@dimen/_10ssp"
+                            android:textColor="?attr/subHeadingColor"
+                            android:textSize="@dimen/features_sub_title_size"
                             tools:text="+91 78628 21545" />
 
                     </LinearLayout>
@@ -94,6 +94,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="10dp"
                     android:layout_below="@+id/rvProfileView"
+                    android:layout_marginTop="@dimen/_5sdp"
                     android:layout_marginBottom="@dimen/_5sdp"
                     android:indeterminate="true"
                     android:indeterminateTint="@color/app_theme_color"
@@ -174,7 +175,7 @@
                             android:maxLines="1"
                             android:text="@string/pin"
                             android:textColor="?attr/titleTextColor"
-                            android:textSize="@dimen/_11ssp" />
+                            android:textSize="@dimen/features_title_size" />
 
                         <androidx.appcompat.widget.AppCompatImageView
                             android:id="@+id/ivPinUnpin"
@@ -208,7 +209,7 @@
                             android:maxLines="1"
                             android:text="@string/mark_read"
                             android:textColor="?attr/titleTextColor"
-                            android:textSize="@dimen/_11ssp" />
+                            android:textSize="@dimen/features_title_size" />
 
                         <androidx.appcompat.widget.AppCompatImageView
                             android:id="@+id/ivMarkAsRead"
@@ -244,7 +245,7 @@
                             android:layout_toStartOf="@+id/ivPrivateChats"
                             android:layout_marginEnd="5dp"
                             android:textColor="?attr/titleTextColor"
-                            android:textSize="@dimen/_11ssp" />
+                            android:textSize="@dimen/features_title_size" />
 
                         <androidx.appcompat.widget.AppCompatImageView
                             android:id="@+id/ivPrivateChats"
@@ -312,7 +313,7 @@
                             android:maxLines="1"
                             android:text="@string/block"
                             android:textColor="?attr/titleTextColor"
-                            android:textSize="@dimen/_11ssp" />
+                            android:textSize="@dimen/features_title_size" />
 
                         <androidx.appcompat.widget.AppCompatImageView
                             android:id="@+id/ivBlockUnblock"
@@ -346,7 +347,7 @@
                             android:maxLines="1"
                             android:text="@string/delete_conversation"
                             android:textColor="@color/blocked_user_profile"
-                            android:textSize="@dimen/_11ssp" />
+                            android:textSize="@dimen/features_title_size" />
 
                         <androidx.appcompat.widget.AppCompatImageView
                             android:id="@+id/ivDelete"

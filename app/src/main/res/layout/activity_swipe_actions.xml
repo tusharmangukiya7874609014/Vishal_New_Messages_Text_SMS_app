@@ -71,7 +71,7 @@
                     android:text="@string/change"
                     android:textAlignment="viewEnd"
                     android:textColor="@color/app_theme_color"
-                    android:textSize="@dimen/_12ssp" />
+                    android:textSize="@dimen/features_title_size" />
 
                 <TextView
                     android:id="@+id/txtRightSideSelected"
@@ -80,10 +80,10 @@
                     android:layout_below="@+id/txtChangeRightSide"
                     android:layout_centerVertical="true"
                     android:layout_marginTop="@dimen/_1sdp"
-                    android:fontFamily="@font/light_sans"
+                    android:fontFamily="@font/regular_sans"
                     android:text="@string/delete"
                     android:textColor="?attr/subHeadingColor"
-                    android:textSize="@dimen/_10ssp" />
+                    android:textSize="@dimen/features_sub_title_size" />
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -156,7 +156,7 @@
                     android:fontFamily="@font/medium_sans"
                     android:text="@string/left_swipe"
                     android:textColor="?attr/titleTextColor"
-                    android:textSize="@dimen/_11ssp" />
+                    android:textSize="@dimen/features_title_size" />
 
                 <TextView
                     android:id="@+id/txtChangeLeftSide"
@@ -167,7 +167,7 @@
                     android:text="@string/change"
                     android:textAlignment="viewEnd"
                     android:textColor="@color/app_theme_color"
-                    android:textSize="@dimen/_12ssp" />
+                    android:textSize="@dimen/features_title_size" />
 
                 <TextView
                     android:id="@+id/txtLeftSideSelected"
@@ -176,10 +176,10 @@
                     android:layout_below="@+id/txtChangeLeftSide"
                     android:layout_centerVertical="true"
                     android:layout_marginTop="@dimen/_1sdp"
-                    android:fontFamily="@font/light_sans"
+                    android:fontFamily="@font/regular_sans"
                     android:text="@string/archive"
                     android:textColor="?attr/subHeadingColor"
-                    android:textSize="@dimen/_10ssp" />
+                    android:textSize="@dimen/features_sub_title_size" />
 
                 <RelativeLayout
                     android:layout_width="match_parent"

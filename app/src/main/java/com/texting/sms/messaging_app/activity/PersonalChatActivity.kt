@@ -29,7 +29,6 @@ import android.os.Bundle
 import android.os.Environment
 import android.os.Handler
 import android.os.Looper
-import android.provider.BlockedNumberContract
 import android.provider.ContactsContract
 import android.provider.MediaStore
 import android.provider.OpenableColumns
@@ -74,6 +73,12 @@ import androidx.recyclerview.widget.SimpleItemAnimator
 import com.ak.KalendarView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
+import com.google.android.material.tabs.TabLayout
+import com.google.android.material.timepicker.MaterialTimePicker
+import com.google.android.material.timepicker.TimeFormat
+import com.google.firebase.analytics.FirebaseAnalytics
 import com.texting.sms.messaging_app.R
 import com.texting.sms.messaging_app.adapter.AllTranslateLanguageAdapter
 import com.texting.sms.messaging_app.adapter.ClipboardListAdapter
@@ -95,6 +100,7 @@ import com.texting.sms.messaging_app.databinding.DialogSelectDatePickerBinding
 import com.texting.sms.messaging_app.databinding.DialogSimCardBinding
 import com.texting.sms.messaging_app.databinding.ItemDeliveryConfirmationsBinding
 import com.texting.sms.messaging_app.listener.CallbackHolder
+import com.texting.sms.messaging_app.listener.NetworkAvailableListener
 import com.texting.sms.messaging_app.listener.NetworkListener
 import com.texting.sms.messaging_app.listener.OnClickPreviewImageInterface
 import com.texting.sms.messaging_app.listener.OnClipboardClickInterface
@@ -116,16 +122,12 @@ import com.texting.sms.messaging_app.receiver.SmsAlarmReceiver
 import com.texting.sms.messaging_app.response.Language
 import com.texting.sms.messaging_app.utils.ContactNameCache
 import com.texting.sms.messaging_app.utils.LocaleHelper
+import com.texting.sms.messaging_app.utils.NetworkConnectionUtil
 import com.texting.sms.messaging_app.utils.StarCategory
 import com.texting.sms.messaging_app.utils.getColorFromAttr
 import com.texting.sms.messaging_app.utils.getDrawableFromAttr
 import com.texting.sms.messaging_app.viewmodel.AllLanguagesViewModel
 import com.texting.sms.messaging_app.viewmodel.MessageTranslateViewModel
-import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.LocationServices
-import com.google.android.material.tabs.TabLayout
-import com.google.android.material.timepicker.MaterialTimePicker
-import com.google.android.material.timepicker.TimeFormat
 import com.vanniktech.emoji.EmojiPopup
 import com.vanniktech.emoji.EmojiTheming
 import com.vanniktech.emoji.search.NoSearchEmoji
@@ -145,7 +147,7 @@ import kotlin.math.abs
 class PersonalChatActivity : AppCompatActivity(), RemoveImageInterface,
     OnClickPreviewImageInterface, SelectLanguageInterface, OnClipboardClickInterface,
     RemoveFileInterface, NetworkListener, OnQuickMessageClickInterface,
-    OnSelectedMessageFeatureClick, OnOpenFullChatInterface {
+    OnSelectedMessageFeatureClick, OnOpenFullChatInterface, NetworkAvailableListener {
     private lateinit var binding: ActivityPersonalChatBinding
     private lateinit var rvPersonalChatListAdapter: PersonalChatAdapter
     private lateinit var rvSelectedImagesAdapter: SelectedImagesAdapter
@@ -282,6 +284,8 @@ class PersonalChatActivity : AppCompatActivity(), RemoveImageInterface,
         }
     }
 
+    private lateinit var networkUtil: NetworkConnectionUtil
+
     override fun onCreate(savedInstanceState: Bundle?) {
         val currentNightMode = resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
         if (currentNightMode == Configuration.UI_MODE_NIGHT_NO) {
@@ -289,7 +293,12 @@ class PersonalChatActivity : AppCompatActivity(), RemoveImageInterface,
             window.statusBarColor = Color.WHITE
         }
         super.onCreate(savedInstanceState)
+        networkUtil = NetworkConnectionUtil(this)
+        networkUtil.setListener(this)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_personal_chat)
+        firebaseLogEvent(
+            this@PersonalChatActivity, "PERSONAL_CHAT_PAGE", "SMS_CHATS_VISIBLE"
+        )
         networkReceiver = NetworkReceiver(this)
         scheduledDate = Date()
         locationClient = LocationServices.getFusedLocationProviderClient(this)
@@ -308,7 +317,6 @@ class PersonalChatActivity : AppCompatActivity(), RemoveImageInterface,
         initObserver()
         initClipboard()
         initClickListener()
-        runAdsCampion()
         CallbackHolder.highlightViewListener = object : OnHighlightView {
             override fun onItemClick(messagesId: String) {
                 if (messagesId.startsWith("Images")) {
@@ -348,6 +356,16 @@ class PersonalChatActivity : AppCompatActivity(), RemoveImageInterface,
         }
     }
 
+    fun firebaseLogEvent(
+        context: Context, eventName: String, paramValue: String
+    ) {
+        val bundle = Bundle().apply {
+            putString("page_name", paramValue)
+        }
+
+        FirebaseAnalytics.getInstance(context).logEvent(eventName, bundle)
+    }
+
     private fun extractIdFromLabel(label: String): String {
         return if (label.contains(":")) {
             label.substringAfter(":").trim()
@@ -357,6 +375,7 @@ class PersonalChatActivity : AppCompatActivity(), RemoveImageInterface,
     }
 
     override fun onStart() {
+        networkUtil.register()
         registerNetworkReceiver()
         super.onStart()
     }
@@ -425,15 +444,6 @@ class PersonalChatActivity : AppCompatActivity(), RemoveImageInterface,
                 "adaptive"
             } ?: "adaptive"
 
-            Log.d(
-                "ABCD",
-                "Out isPrivateChatsAdsVisible :- ${getAdsPageResponse.optBoolean("isPrivateChatsAdsVisible")}"
-            )
-            Log.d(
-                "ABCD",
-                "Out isDefaultSMSChatsAdsVisible :- ${getAdsPageResponse.optBoolean("isDefaultSMSChatsAdsVisible")}"
-            )
-
             val isPrivateChatsAdsVisible = getAdsPageResponse.optBoolean("isPrivateChatsAdsVisible")
 
             val isDefaultSMSChatsAdsVisible =
@@ -442,42 +452,47 @@ class PersonalChatActivity : AppCompatActivity(), RemoveImageInterface,
             withContext(Dispatchers.Main) {
                 if (isFinishing || isDestroyed) return@withContext
 
-                Log.d(
-                    "ABCD",
-                    "IN isPrivateChatsAdsVisible:- ${getAdsPageResponse.optBoolean("isPrivateChatsAdsVisible")}"
-                )
-                Log.d(
-                    "ABCD",
-                    "IN isDefaultSMSChatsAdsVisible :- ${getAdsPageResponse.optBoolean("isDefaultSMSChatsAdsVisible")}"
-                )
+                if (isAppInterstitialAdsEnabled) {
+                    InterstitialAdHelper.apply {
+                        loadAd(this@PersonalChatActivity)
+                    }
+                }
 
                 if (binding.rvSenderNotSupport.isVisible && isDefaultSMSChatsAdsVisible) {
+                    firebaseLogEvent(
+                        this@PersonalChatActivity, "PERSONAL_CHAT_PAGE", "DEFAULT_CHATS_VISIBLE"
+                    )
                     if (isCurrentPageNativeAdsEnabled && !isCurrentPageBannerAdsEnabled) {
+                        if (binding.nativeAdContainer.isVisible) return@withContext
+
                         runNativeAds(
                             nativeAdsType = nativeAdsType, nativeAdsId = currentPageNativeAdsId
                         )
                     } else if (isCurrentPageBannerAdsEnabled && !isCurrentPageNativeAdsEnabled) {
+                        if (binding.bannerAdContainer.root.isVisible) return@withContext
+
                         runBannerAds(
                             bannerAdsId = currentPageBannerAdsID, bannerAdsType = bannerAdsType
                         )
                     }
                 } else {
+                    firebaseLogEvent(
+                        this@PersonalChatActivity, "PERSONAL_CHAT_PAGE", "PRIVATE_CHATS_VISIBLE"
+                    )
                     if (isPrivateChatsAdsVisible && !binding.rvSenderNotSupport.isVisible) {
                         if (isCurrentPageNativeAdsEnabled && !isCurrentPageBannerAdsEnabled) {
+                            if (binding.nativeAdContainer.isVisible) return@withContext
+
                             runNativeAds(
                                 nativeAdsType = nativeAdsType, nativeAdsId = currentPageNativeAdsId
                             )
                         } else if (isCurrentPageBannerAdsEnabled && !isCurrentPageNativeAdsEnabled) {
+                            if (binding.bannerAdContainer.root.isVisible) return@withContext
+
                             runBannerAds(
                                 bannerAdsId = currentPageBannerAdsID, bannerAdsType = bannerAdsType
                             )
                         }
-                    }
-                }
-
-                if (isAppInterstitialAdsEnabled) {
-                    InterstitialAdHelper.apply {
-                        loadAd(this@PersonalChatActivity)
                     }
                 }
             }
@@ -622,53 +637,9 @@ class PersonalChatActivity : AppCompatActivity(), RemoveImageInterface,
             binding.txtUserName.text = senderIdOrNumber
         }
 
-        if (isAddressBlocked(this, senderIdOrNumber.toString())) {
-            binding.cvProfileView.setCardBackgroundColor(getColor(R.color.blocked_user_profile))
-            binding.ivOriginalProfile.visibility = View.GONE
-            binding.ivDefaultProfile.visibility = View.GONE
-            binding.ivBlockProfile.visibility = View.VISIBLE
-            rvPersonalChatListAdapter.updateProfileView(true, "")
-        } else {
-            if (!contactUserDetails?.photoUri.contentEquals(
-                    "null"
-                ) && contactUserDetails?.photoUri != null
-            ) {
-                binding.ivDefaultProfile.visibility = View.GONE
-                binding.ivBlockProfile.visibility = View.GONE
-                binding.ivOriginalProfile.visibility = View.VISIBLE
-                Glide.with(this).load(contactUserDetails?.photoUri?.toUri())
-                    .into(binding.ivOriginalProfile)
-                rvPersonalChatListAdapter.updateProfileView(
-                    false, contactUserDetails?.photoUri.toString()
-                )
-            } else {
-                if (SharedPreferencesHelper.getBoolean(
-                        this, Const.IS_CHANGE_PROFILE_COLOR, false
-                    )
-                ) {
-                    binding.ivDefaultProfile.setImageDrawable(
-                        ContextCompat.getDrawable(
-                            this, R.drawable.ic_profile
-                        )
-                    )
-                } else {
-                    binding.ivDefaultProfile.setImageDrawable(
-                        ContextCompat.getDrawable(
-                            this, R.drawable.ic_dark_profile_popup
-                        )
-                    )
-                }
-                binding.ivOriginalProfile.visibility = View.GONE
-                binding.ivBlockProfile.visibility = View.GONE
-                binding.cvProfileView.setCardBackgroundColor(
-                    ColorStateList.valueOf(
-                        getColorFromAttr(R.attr.itemBackgroundColor)
-                    )
-                )
-                binding.ivDefaultProfile.visibility = View.VISIBLE
-                rvPersonalChatListAdapter.updateProfileView(false, "null")
-            }
-        }
+        binding.userContactAddress = senderIdOrNumber
+
+        rvPersonalChatListAdapter.updateProfileView(senderIdOrNumber.toString())
 
         if (intent.hasExtra(Const.FROM_PAGE)) {
             if (intent.getBooleanExtra(Const.FROM_PAGE, false)) {
@@ -1766,7 +1737,7 @@ class PersonalChatActivity : AppCompatActivity(), RemoveImageInterface,
                     }
                 } else {
                     isEnabled = false
-                    onBackPressedDispatcher.onBackPressed()
+                    finish()
                 }
             }
         })
@@ -2472,7 +2443,7 @@ class PersonalChatActivity : AppCompatActivity(), RemoveImageInterface,
         val dialogSIMCardBinding: DialogSimCardBinding =
             DialogSimCardBinding.inflate(LayoutInflater.from(this))
         dialog.setContentView(dialogSIMCardBinding.root)
-        dialog.window?.setBackgroundDrawableResource(R.color.transparent)
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
 
         val (simList, _) = getSimDetails(this)
 
@@ -2720,7 +2691,7 @@ class PersonalChatActivity : AppCompatActivity(), RemoveImageInterface,
         val dialogSelectDatePickerBinding: DialogSelectDatePickerBinding =
             DialogSelectDatePickerBinding.inflate(LayoutInflater.from(this))
         dialog.setContentView(dialogSelectDatePickerBinding.root)
-        dialog.window?.setBackgroundDrawableResource(R.color.transparent)
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
 
         scheduledDate = Date()
         val formatter = SimpleDateFormat("dd MMM yyyy", Locale.ENGLISH)
@@ -3031,7 +3002,7 @@ class PersonalChatActivity : AppCompatActivity(), RemoveImageInterface,
         val dialogConfirmationsBinding: ItemDeliveryConfirmationsBinding =
             ItemDeliveryConfirmationsBinding.inflate(LayoutInflater.from(this))
         dialog.setContentView(dialogConfirmationsBinding.root)
-        dialog.window?.setBackgroundDrawableResource(R.color.transparent)
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
 
         dialogConfirmationsBinding.deliveryAnimation.playAnimation()
 
@@ -3290,7 +3261,7 @@ class PersonalChatActivity : AppCompatActivity(), RemoveImageInterface,
             DialogChooseLanguageTransalateBinding.inflate(LayoutInflater.from(this))
         translateDialog.setContentView(dialogLanguageTranslateBinding.root)
         translateDialog.window?.let { window ->
-            window.setBackgroundDrawableResource(R.color.transparent)
+            window.setBackgroundDrawableResource(android.R.color.transparent)
             window.addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
             window.setDimAmount(0.6f)
 
@@ -3586,14 +3557,6 @@ class PersonalChatActivity : AppCompatActivity(), RemoveImageInterface,
         }
     }
 
-    private fun isAddressBlocked(context: Context?, number: String): Boolean {
-        return try {
-            BlockedNumberContract.isBlocked(context, number)
-        } catch (_: Exception) {
-            false
-        }
-    }
-
     override fun onItemClick(language: Language) {
         selectedLanguageCode = language.code
     }
@@ -3631,6 +3594,7 @@ class PersonalChatActivity : AppCompatActivity(), RemoveImageInterface,
     }
 
     override fun onStop() {
+        networkUtil.unregister()
         unregisterNetworkReceiver()
         super.onStop()
     }
@@ -3737,7 +3701,7 @@ class PersonalChatActivity : AppCompatActivity(), RemoveImageInterface,
         dialog.setContentView(deleteMessageDialogBinding.root)
 
         dialog.window?.let { window ->
-            window.setBackgroundDrawableResource(R.color.transparent)
+            window.setBackgroundDrawableResource(android.R.color.transparent)
             window.addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
             window.setDimAmount(0.6f)
 
@@ -3836,6 +3800,26 @@ class PersonalChatActivity : AppCompatActivity(), RemoveImageInterface,
     }
 
     override fun onItemClick() {
+
+    }
+
+    override fun onNetworkAvailable() {
+        runOnUiThread {
+            val sharePreference = getSharedPreferences("${packageName}_preferences", MODE_PRIVATE)
+
+            val purposeConsents = sharePreference.getString("IABTCF_PurposeConsents", "")
+            if (!purposeConsents.isNullOrEmpty()) {
+                val purposeOneString = purposeConsents.first().toString()
+                val hasConsentForPurposeOne = purposeOneString == "1"
+
+                if (hasConsentForPurposeOne) runAdsCampion()
+            } else {
+                runAdsCampion()
+            }
+        }
+    }
+
+    override fun onNetworkLost() {
 
     }
 }

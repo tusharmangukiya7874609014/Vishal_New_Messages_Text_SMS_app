@@ -1,5 +1,4 @@
 <resources>
-    <string name="app_name">సందేశాలు: టెక్స్ట్ SMS</string>
     <string name="sms_messages">SMS సందేశాలు</string>
     <string name="set_as_a_default_app">డీఫాల్ట్ SMS గా సెట్చేయండి</string>
     <string name="this_app_needs_to_be_set_as_your_default_sms_app_to_send_receive_and_manage_your_text_messages_without_setting_it_as_default_you_might_miss_important_messages_or_notifications_you_can_always_change_this_later_in_your_phone_settings">ఈ యాప్‌ని మీ డీఫాల్ట్ SMS యాప్‌గా సెట్చేయాలి, తద్వారా మీరు సందేశాలు పంపడం, స్వీకరించడం మరియు నిర్వహించడం చేయగలుగుతారు. డీఫాల్ట్‌గా సెట్ చేయకపోతే, ముఖ్యమైన సందేశాలు లేదా నోటిఫికేషన్లు మిస్ కావచ్చు. మీరు తరువాత మీ ఫోన్ సెట్టింగ్‌లలో దీన్ని ఎప్పుడైనా మార్చవచ్చు.</string>
@@ -14,7 +13,6 @@
     <string name="enable">ప్రేరేపించండి</string>
     <string name="messages">సందేశాలు</string>
     <string name="search_here">ఇక్కడ శోధించండి…</string>
-    <string name="message_text_sms">సందేశం : టెక్స్ట్ SMS</string>
     <string name="archived">ఆర్కైవ్ చేయబడినవి</string>
     <string name="backup_amp_restore"><![CDATA[బ్యాకప్ & పునరుద్ధరణ]]></string>
     <string name="scheduled">షెడ్యూల్ చేయబడింది</string>
@@ -173,7 +171,6 @@
     <string name="sim_1_slot_set_as_default">SIM 1 స్లాట్ డీఫాల్ట్‌గా సెట్ చేయబడింది</string>
     <string name="sim_2_already_set_as_default">SIM 2 ఇప్పటికే డీఫాల్ట్‌గా సెట్ చేయబడింది</string>
     <string name="sim_2_slot_set_as_default">SIM 2 స్లాట్ డీఫాల్ట్‌గా సెట్ చేయబడింది</string>
-    <string name="code_copy">కోడ్ కాపీ : %1$s</string>
     <string name="backups">బ్యాకప్స్</string>
     <string name="download_sms_messages_backups">/Download/sms/messages/Backups</string>
     <string name="backup_history">బ్యాకప్ చరిత్ర</string>
@@ -535,7 +532,6 @@
     <string name="are_you_sure_you_would_you_like_to_delete_this_message">ఈ సందేశాన్ని తొలగించాలనుకుంటున్నారా?</string>
     <string name="pin">పిన్ చేయి</string>
     <string name="unpin">పిన్ తొలగించు</string>
-    <string name="first_select_message_atleast_one_or_more">ముందుగా ఒకటి లేదా ఎక్కువ సందేశాలను ఎంచుకోండి</string>
     <string name="remove_from_private_chats">ప్రైవేట్ చాట్స్ నుండి తీసివేయి</string>
     <string name="view_full_chat_to_unlock_all_options">అన్ని ఆప్షన్లను అన్‌లాక్ చేయడానికి పూర్తి చాట్‌ను చూడండి</string>
     <string name="no_app_found_to_share_content">విషయాన్ని పంచుకోవడానికి ఏదైనా యాప్ కనబడలేదు</string>
@@ -569,7 +565,6 @@
     <string name="we_need_this_permission_to_give_you_better_user_experience">మీకొరకు మెరుగైన అనుభవం ఇవ్వడానికి ఈ అనుమతి అవసరం</string>
     <string name="allow_permission">అనుమతి ఇవ్వండి</string>
     <string name="turn_on_message_notifications">సందేశాల నోటిఫికేషన్లు ఆన్ చేయండి</string>
-    <string name="never_miss_an_important_message">ముఖ్యమైన సందేశాన్ని ఎప్పుడూ మిస్ అవ్వకండి 💬</string>
     <string name="allow_app_to_read_phone_state">ఫోన్ స్థితిని చదవడానికి యాప్‌కు అనుమతి ఇవ్వండి</string>
     <string name="quick_messaging_access_after_call">కాల్స్ తర్వాత త్వరిత సందేశ ప్రాప్యత</string>
     <string name="enable_our_quick_action_feature_in_3_steps">మా త్వరిత చర్య ఫీచర్‌ను 3 దశల్లో ప్రారంభించండి</string>
@@ -608,6 +603,20 @@
     <string name="step_3_permission">దశ 3 :</string>
     <string name="swipe_the_toggle_to_turn_on">ఆన్ చేయడానికి టోగుల్‌ను స్వైప్ చేయండి.</string>
     <string name="slide_the_toggle_switch_to_enable_and_activate_the_feature">ఫీచర్‌ను ప్రారంభించడానికి టోగుల్ స్విచ్‌ను స్లైడ్ చేయండి.</string>
-    <string name="this_app_requires_access_to_your_phone_state_to_detect_when_a_call_ends_so_it_can_provide_the_after_call_messaging_screen_no_call_logs_are_stored_or_shared">కాల్స్ ముగిసినప్పుడు గుర్తించడానికి మరియు ఆఫ్టర్-కాల్ మెసేజింగ్ స్క్రీన్‌ను చూపడానికి ఈ యాప్‌కు ఫోన్ స్థితి యాక్సెస్ అవసరం. ఎలాంటి కాల్ లాగ్‌లు నిల్వ చేయబడవు లేదా పంచుకోబడవు.</string>
     <string name="privacy_policy">గోప్యతా విధానం</string>
+    <string name="code_copy">OTP కాపీ చేయండి : %1$s</string>
+    <string name="no_contacts_app_found_on_this_device">ఈ పరికరంలో కాంటాక్ట్స్ యాప్ కనబడలేదు</string>
+    <string name="spam_amp_block"><![CDATA[స్పామ్ మరియు బ్లాక్ చేసినవి]]></string>
+    <string name="allow">అనుమతించు</string>
+    <string name="this_permission_is_required_to_after_call_features_please_allow_this_permission">ఈ అనుమతి కాల్ తర్వాత ఫీచర్ల కోసం అవసరం. దయచేసి అనుమతించండి.</string>
+    <string name="please_wait_while_the_ad_loads">ప్రకటన లోడ్ అవుతోంది, దయచేసి వేచి ఉండండి…</string>
+    <string name="you_re_offline_turn_on_your_internet_connection_to_access_all_messages_features">మీరు ఆఫ్‌లైన్‌లో ఉన్నారు.\nఅన్ని సందేశ ఫీచర్లను ఉపయోగించడానికి ఇంటర్నెట్‌ను ఆన్ చేయండి.</string>
+    <string name="message_text_sms">సందేశాలు</string>
+    <string name="app_name">సందేశాలు</string>
+    <string name="you_can_quickly_send_a_message_right_after_a_call">కాల్ తర్వాత వెంటనే సందేశాన్ని త్వరగా పంపవచ్చు</string>
+    <string name="turn_on_notifications_to_receive_message_alerts">సందేశ అలర్ట్‌లను పొందడానికి నోటిఫికేషన్‌లను ఆన్ చేయండి.</string>
+    <string name="first_select_message_at_least_one_or_more">మొదట ఒకటి లేదా ఎక్కువ సందేశాలను ఎంచుకోండి</string>
+    <string name="we_do_not_store_track_or_share_your_call_or_message_data">మేము మీ కాల్ లేదా సందేశ డేటాను నిల్వ చేయము లేదా పంచుకోము.</string>
+    <string name="outgoing_call">అవుట్‌గోయింగ్ కాల్</string>
+    <string name="enable_required_features_to_use_messaging_your_data_stays_private_and_secure_on_your_device">సందేశాలను ఉపయోగించడానికి అవసరమైన ఫీచర్లను ప్రారంభించండి. మీ డేటా మీ పరికరంలోనే సురక్షితంగా ఉంటుంది.</string>
 </resources>

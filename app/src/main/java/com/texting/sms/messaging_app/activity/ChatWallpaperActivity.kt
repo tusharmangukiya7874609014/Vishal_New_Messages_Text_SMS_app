@@ -16,6 +16,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -32,10 +33,12 @@ import com.texting.sms.messaging_app.ads.NativeAdHelper
 import com.texting.sms.messaging_app.database.Const
 import com.texting.sms.messaging_app.database.SharedPreferencesHelper
 import com.texting.sms.messaging_app.databinding.ActivityChatWallpaperBinding
+import com.texting.sms.messaging_app.listener.NetworkAvailableListener
 import com.texting.sms.messaging_app.listener.OnChatWallpaperClickInterface
 import com.texting.sms.messaging_app.model.ChatBoxColor
 import com.texting.sms.messaging_app.model.ChatBoxStyle
 import com.texting.sms.messaging_app.model.ChatWallpaper
+import com.texting.sms.messaging_app.utils.NetworkConnectionUtil
 import com.texting.sms.messaging_app.utils.getColorFromAttr
 import jp.wasabeef.glide.transformations.BlurTransformation
 import kotlinx.coroutines.Dispatchers
@@ -43,7 +46,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class ChatWallpaperActivity : BaseActivity(), OnChatWallpaperClickInterface {
+class ChatWallpaperActivity : BaseActivity(), OnChatWallpaperClickInterface, NetworkAvailableListener {
     private lateinit var binding: ActivityChatWallpaperBinding
     private lateinit var rvChatWallpaperAdapter: ChatWallpaperAdapter
 
@@ -208,8 +211,22 @@ class ChatWallpaperActivity : BaseActivity(), OnChatWallpaperClickInterface {
     private var chatBoxColorList = mutableListOf<ChatBoxColor>()
     private var wallpaperList = mutableListOf<ChatWallpaper>()
 
+    private lateinit var networkUtil: NetworkConnectionUtil
+
+    override fun onStart() {
+        super.onStart()
+        networkUtil.register()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        networkUtil.unregister()
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        networkUtil = NetworkConnectionUtil(this)
+        networkUtil.setListener(this)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_chat_wallpaper)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
@@ -225,7 +242,6 @@ class ChatWallpaperActivity : BaseActivity(), OnChatWallpaperClickInterface {
                 showToast(getString(R.string.permission_denied))
             }
         }
-        runAdsCampion()
         initView()
         initClickListener()
     }
@@ -297,20 +313,25 @@ class ChatWallpaperActivity : BaseActivity(), OnChatWallpaperClickInterface {
             withContext(Dispatchers.Main) {
                 if (isFinishing || isDestroyed) return@withContext
 
-                if (isCurrentPageNativeAdsEnabled && !isCurrentPageBannerAdsEnabled) {
-                    runNativeAds(
-                        nativeAdsType = nativeAdsType, nativeAdsId = currentPageNativeAdsId
-                    )
-                } else if (isCurrentPageBannerAdsEnabled && !isCurrentPageNativeAdsEnabled) {
-                    runBannerAds(
-                        bannerAdsId = currentPageBannerAdsID, bannerAdsType = bannerAdsType
-                    )
-                }
 
                 if (isAppInterstitialAdsEnabled) {
                     InterstitialAdHelper.apply {
                         loadAd(this@ChatWallpaperActivity)
                     }
+                }
+
+                if (isCurrentPageNativeAdsEnabled && !isCurrentPageBannerAdsEnabled) {
+                    if (binding.nativeAdContainer.isVisible) return@withContext
+
+                    runNativeAds(
+                        nativeAdsType = nativeAdsType, nativeAdsId = currentPageNativeAdsId
+                    )
+                } else if (isCurrentPageBannerAdsEnabled && !isCurrentPageNativeAdsEnabled) {
+                    if (binding.bannerAdContainer.root.isVisible) return@withContext
+
+                    runBannerAds(
+                        bannerAdsId = currentPageBannerAdsID, bannerAdsType = bannerAdsType
+                    )
                 }
             }
         }
@@ -612,11 +633,11 @@ class ChatWallpaperActivity : BaseActivity(), OnChatWallpaperClickInterface {
                 if (adsEnabled && interstitialEnabled) {
                     InterstitialAdHelper.showAd(this@ChatWallpaperActivity) {
                         isEnabled = false
-                        onBackPressedDispatcher.onBackPressed()
+                        finish()
                     }
                 } else {
                     isEnabled = false
-                    onBackPressedDispatcher.onBackPressed()
+                    finish()
                 }
             }
         })
@@ -690,5 +711,25 @@ class ChatWallpaperActivity : BaseActivity(), OnChatWallpaperClickInterface {
         SharedPreferencesHelper.saveInt(this, Const.OTHERS_WALLPAPER_POSITION, position)
 
         rvChatWallpaperAdapter.updateSelectedChatWallpaper(position)
+    }
+
+    override fun onNetworkAvailable() {
+        runOnUiThread {
+            val sharePreference = getSharedPreferences("${packageName}_preferences", MODE_PRIVATE)
+
+            val purposeConsents = sharePreference.getString("IABTCF_PurposeConsents", "")
+            if (!purposeConsents.isNullOrEmpty()) {
+                val purposeOneString = purposeConsents.first().toString()
+                val hasConsentForPurposeOne = purposeOneString == "1"
+
+                if (hasConsentForPurposeOne) runAdsCampion()
+            } else {
+                runAdsCampion()
+            }
+        }
+    }
+
+    override fun onNetworkLost() {
+
     }
 }

@@ -11,14 +11,17 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.provider.Settings
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.WindowManager
 import android.widget.RadioButton
+import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isGone
+import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.lifecycleScope
 import com.texting.sms.messaging_app.R
@@ -32,25 +35,40 @@ import com.texting.sms.messaging_app.databinding.ActivitySettingsBinding
 import com.texting.sms.messaging_app.databinding.DialogDelaySendingMessageBinding
 import com.texting.sms.messaging_app.databinding.DialogFontSizeBinding
 import com.texting.sms.messaging_app.databinding.DialogOldMessageAutomaticallyBinding
+import com.texting.sms.messaging_app.listener.NetworkAvailableListener
 import com.texting.sms.messaging_app.services.CallOverlayService
+import com.texting.sms.messaging_app.utils.NetworkConnectionUtil
 import com.texting.sms.messaging_app.utils.getColorFromAttr
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class SettingsActivity : BaseActivity() {
+class SettingsActivity : BaseActivity(), NetworkAvailableListener {
     private lateinit var binding: ActivitySettingsBinding
+
+    private lateinit var networkUtil: NetworkConnectionUtil
+
+    override fun onStart() {
+        super.onStart()
+        networkUtil.register()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        networkUtil.unregister()
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        networkUtil = NetworkConnectionUtil(this)
+        networkUtil.setListener(this)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_settings)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        runAdsCampion()
         initView()
         initClickListener()
     }
@@ -122,20 +140,24 @@ class SettingsActivity : BaseActivity() {
             withContext(Dispatchers.Main) {
                 if (isFinishing || isDestroyed) return@withContext
 
-                if (isCurrentPageNativeAdsEnabled && !isCurrentPageBannerAdsEnabled) {
-                    runNativeAds(
-                        nativeAdsType = nativeAdsType, nativeAdsId = currentPageNativeAdsId
-                    )
-                } else if (isCurrentPageBannerAdsEnabled && !isCurrentPageNativeAdsEnabled) {
-                    runBannerAds(
-                        bannerAdsId = currentPageBannerAdsID, bannerAdsType = bannerAdsType
-                    )
-                }
-
                 if (isAppInterstitialAdsEnabled) {
                     InterstitialAdHelper.apply {
                         loadAd(this@SettingsActivity)
                     }
+                }
+
+                if (isCurrentPageNativeAdsEnabled && !isCurrentPageBannerAdsEnabled) {
+                    if (binding.nativeAdContainer.isVisible) return@withContext
+
+                    runNativeAds(
+                        nativeAdsType = nativeAdsType, nativeAdsId = currentPageNativeAdsId
+                    )
+                } else if (isCurrentPageBannerAdsEnabled && !isCurrentPageNativeAdsEnabled) {
+                    if (binding.bannerAdContainer.root.isVisible) return@withContext
+
+                    runBannerAds(
+                        bannerAdsId = currentPageBannerAdsID, bannerAdsType = bannerAdsType
+                    )
                 }
             }
         }
@@ -199,10 +221,15 @@ class SettingsActivity : BaseActivity() {
 
             if (isFullScreenNotificationAllowed() || Settings.canDrawOverlays(this)) {
                 if (!CallOverlayService.isRunning) {
-                    val cmdIntent = Intent(this, CallOverlayService::class.java).apply {
-                        putExtra("CALL_STATE", "100000")
+                    val serviceIntent = Intent(this, CallOverlayService::class.java).apply {
+                        putExtra("CALL_STATE", "10000")
                     }
-                    startService(cmdIntent)
+
+                    try {
+                        ContextCompat.startForegroundService(this, serviceIntent)
+                    } catch (e: Exception) {
+                        Log.d("ABCD","Overlay Service :- ${e.localizedMessage}")
+                    }
                 }
             }
         } else {
@@ -345,10 +372,15 @@ class SettingsActivity : BaseActivity() {
 
                 if (isFullScreenNotificationAllowed() || Settings.canDrawOverlays(this)) {
                     if (!CallOverlayService.isRunning) {
-                        val cmdIntent = Intent(this, CallOverlayService::class.java).apply {
-                            putExtra("CALL_STATE", "100000")
+                        val serviceIntent = Intent(this, CallOverlayService::class.java).apply {
+                            putExtra("CALL_STATE", "10000")
                         }
-                        startService(cmdIntent)
+
+                        try {
+                            ContextCompat.startForegroundService(this, serviceIntent)
+                        } catch (e: Exception) {
+                            Log.d("ABCD","Overlay Service :- ${e.localizedMessage}")
+                        }
                     }
                 }
             } else {
@@ -610,7 +642,7 @@ class SettingsActivity : BaseActivity() {
         dialog.setContentView(delaySendingMessageBinding.root)
 
         dialog.window?.let { window ->
-            window.setBackgroundDrawableResource(R.color.transparent)
+            window.setBackgroundDrawableResource(android.R.color.transparent)
             window.addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
             window.setDimAmount(0.6f)
 
@@ -672,7 +704,7 @@ class SettingsActivity : BaseActivity() {
         dialog.setContentView(fontSizeDialogBinding.root)
 
         dialog.window?.let { window ->
-            window.setBackgroundDrawableResource(R.color.transparent)
+            window.setBackgroundDrawableResource(android.R.color.transparent)
             window.addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
             window.setDimAmount(0.6f)
 
@@ -747,7 +779,7 @@ class SettingsActivity : BaseActivity() {
         dialog.setContentView(oldMessageDeleteDialogBinding.root)
 
         dialog.window?.let { window ->
-            window.setBackgroundDrawableResource(R.color.transparent)
+            window.setBackgroundDrawableResource(android.R.color.transparent)
             window.addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
             window.setDimAmount(0.6f)
 
@@ -802,7 +834,7 @@ class SettingsActivity : BaseActivity() {
             type = "text/plain"
             putExtra(
                 Intent.EXTRA_TEXT,
-                "Check out this amazing app: https://play.google.com/store/apps/details?id=$packageName"
+                "Upgrade your messaging experience ✨\n\nSend messages faster with a clean, smooth, and distraction-free app.\n\nTry it now: https://play.google.com/store/apps/details?id=$packageName"
             )
         }
         startActivity(Intent.createChooser(shareIntent, "Share via"))
@@ -835,5 +867,24 @@ class SettingsActivity : BaseActivity() {
         super.onResume()
     }
 
+    override fun onNetworkAvailable() {
+        runOnUiThread {
+            val sharePreference = getSharedPreferences("${packageName}_preferences", MODE_PRIVATE)
+
+            val purposeConsents = sharePreference.getString("IABTCF_PurposeConsents", "")
+            if (!purposeConsents.isNullOrEmpty()) {
+                val purposeOneString = purposeConsents.first().toString()
+                val hasConsentForPurposeOne = purposeOneString == "1"
+
+                if (hasConsentForPurposeOne) runAdsCampion()
+            } else {
+                runAdsCampion()
+            }
+        }
+    }
+
+    override fun onNetworkLost() {
+
+    }
 
 }

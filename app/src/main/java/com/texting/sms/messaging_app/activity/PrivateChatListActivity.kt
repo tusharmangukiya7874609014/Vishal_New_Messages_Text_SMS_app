@@ -49,6 +49,8 @@ import com.texting.sms.messaging_app.listener.OnClickMessagesFeature
 import com.texting.sms.messaging_app.model.ChatUser
 import com.texting.sms.messaging_app.utils.getDrawableFromAttr
 import com.texting.sms.messaging_app.adapter.PrivateChatsAdapter
+import com.texting.sms.messaging_app.listener.NetworkAvailableListener
+import com.texting.sms.messaging_app.utils.NetworkConnectionUtil
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -56,15 +58,29 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kotlin.collections.iterator
 
-class PrivateChatListActivity : BaseActivity(), OnChatUserInterface, OnClickMessagesFeature {
+class PrivateChatListActivity : BaseActivity(), OnChatUserInterface, OnClickMessagesFeature, NetworkAvailableListener {
     private lateinit var binding: ActivityPrivateChatListBinding
     private lateinit var privateMessageList: List<ChatUser>
     private lateinit var rvPrivateListAdapter: PrivateChatsAdapter
     private var storeThreadIDList = ArrayList<String>()
     private var isMultiSelectionEnable = false
 
+    private lateinit var networkUtil: NetworkConnectionUtil
+
+    override fun onStart() {
+        super.onStart()
+        networkUtil.register()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        networkUtil.unregister()
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        networkUtil = NetworkConnectionUtil(this)
+        networkUtil.setListener(this)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_private_chat_list)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
@@ -72,7 +88,6 @@ class PrivateChatListActivity : BaseActivity(), OnChatUserInterface, OnClickMess
             insets
         }
         SharedPreferencesHelper.saveLong(this, "CURRENT_THREAD_ID", -1L)
-        runAdsCampion()
         initView()
         initClickListener()
         receiverSMSOrMMS()
@@ -146,20 +161,24 @@ class PrivateChatListActivity : BaseActivity(), OnChatUserInterface, OnClickMess
             withContext(Dispatchers.Main) {
                 if (isFinishing || isDestroyed) return@withContext
 
-                if (isCurrentPageNativeAdsEnabled && !isCurrentPageBannerAdsEnabled) {
-                    runNativeAds(
-                        nativeAdsType = nativeAdsType, nativeAdsId = currentPageNativeAdsId
-                    )
-                } else if (isCurrentPageBannerAdsEnabled && !isCurrentPageNativeAdsEnabled) {
-                    runBannerAds(
-                        bannerAdsId = currentPageBannerAdsID, bannerAdsType = bannerAdsType
-                    )
-                }
-
                 if (isAppInterstitialAdsEnabled) {
                     InterstitialAdHelper.apply {
                         loadAd(this@PrivateChatListActivity)
                     }
+                }
+
+                if (isCurrentPageNativeAdsEnabled && !isCurrentPageBannerAdsEnabled) {
+                    if (binding.nativeAdContainer.isVisible) return@withContext
+
+                    runNativeAds(
+                        nativeAdsType = nativeAdsType, nativeAdsId = currentPageNativeAdsId
+                    )
+                } else if (isCurrentPageBannerAdsEnabled && !isCurrentPageNativeAdsEnabled) {
+                    if (binding.bannerAdContainer.root.isVisible) return@withContext
+
+                    runBannerAds(
+                        bannerAdsId = currentPageBannerAdsID, bannerAdsType = bannerAdsType
+                    )
                 }
             }
         }
@@ -300,7 +319,7 @@ class PrivateChatListActivity : BaseActivity(), OnChatUserInterface, OnClickMess
                 }
                 clearSelectionViewOrUpdate()
             } else {
-                showToast(getString(R.string.first_select_message_atleast_one_or_more))
+                showToast(getString(R.string.first_select_message_at_least_one_or_more))
             }
         }
 
@@ -311,7 +330,7 @@ class PrivateChatListActivity : BaseActivity(), OnChatUserInterface, OnClickMess
                 binding.iSelectionHeader.cvMoreOptionsDialog.fadeOut()
                 showDeleteMultipleConversationDialog()
             } else {
-                showToast(getString(R.string.first_select_message_atleast_one_or_more))
+                showToast(getString(R.string.first_select_message_at_least_one_or_more))
             }
         }
 
@@ -345,7 +364,7 @@ class PrivateChatListActivity : BaseActivity(), OnChatUserInterface, OnClickMess
                     }
                     binding.iSelectionHeader.cvMoreOptionsDialog.fadeIn()
                 } else {
-                    showToast(getString(R.string.first_select_message_atleast_one_or_more))
+                    showToast(getString(R.string.first_select_message_at_least_one_or_more))
                 }
             }
         }
@@ -374,7 +393,7 @@ class PrivateChatListActivity : BaseActivity(), OnChatUserInterface, OnClickMess
                 CallbackHolder.listener?.onUpdateTheRecyclerView(true)
                 clearSelectionViewOrUpdate()
             } else {
-                showToast(getString(R.string.first_select_message_atleast_one_or_more))
+                showToast(getString(R.string.first_select_message_at_least_one_or_more))
             }
         }
 
@@ -437,7 +456,7 @@ class PrivateChatListActivity : BaseActivity(), OnChatUserInterface, OnClickMess
         val dialogBlockOrUnblockBinding: DialogBlockNumberBinding =
             DialogBlockNumberBinding.inflate(LayoutInflater.from(this))
         dialog.setContentView(dialogBlockOrUnblockBinding.root)
-        dialog.window?.setBackgroundDrawableResource(R.color.transparent)
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
 
         dialogBlockOrUnblockBinding.rvBlockNumber.visibility = View.GONE
         dialogBlockOrUnblockBinding.txtStatement.visibility = View.VISIBLE
@@ -485,7 +504,7 @@ class PrivateChatListActivity : BaseActivity(), OnChatUserInterface, OnClickMess
         val dialogBlockOrUnblockBinding: DialogBlockNumberBinding =
             DialogBlockNumberBinding.inflate(LayoutInflater.from(this))
         dialog.setContentView(dialogBlockOrUnblockBinding.root)
-        dialog.window?.setBackgroundDrawableResource(R.color.transparent)
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
 
         dialogBlockOrUnblockBinding.rvBlockNumber.visibility = View.GONE
         dialogBlockOrUnblockBinding.txtStatement.visibility = View.VISIBLE
@@ -565,7 +584,7 @@ class PrivateChatListActivity : BaseActivity(), OnChatUserInterface, OnClickMess
         val deleteConversationDialogBinding: DialogDeleteConversationBinding =
             DialogDeleteConversationBinding.inflate(LayoutInflater.from(this))
         dialog.setContentView(deleteConversationDialogBinding.root)
-        dialog.window?.setBackgroundDrawableResource(R.color.transparent)
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
 
         deleteConversationDialogBinding.btnNever.setOnClickListener {
             dialog.dismiss()
@@ -1107,5 +1126,25 @@ class PrivateChatListActivity : BaseActivity(), OnChatUserInterface, OnClickMess
                 showDeleteMultipleConversationDialog()
             }
         }
+    }
+
+    override fun onNetworkAvailable() {
+        runOnUiThread {
+            val sharePreference = getSharedPreferences("${packageName}_preferences", MODE_PRIVATE)
+
+            val purposeConsents = sharePreference.getString("IABTCF_PurposeConsents", "")
+            if (!purposeConsents.isNullOrEmpty()) {
+                val purposeOneString = purposeConsents.first().toString()
+                val hasConsentForPurposeOne = purposeOneString == "1"
+
+                if (hasConsentForPurposeOne) runAdsCampion()
+            } else {
+                runAdsCampion()
+            }
+        }
+    }
+
+    override fun onNetworkLost() {
+
     }
 }

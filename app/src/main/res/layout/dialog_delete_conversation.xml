@@ -35,8 +35,8 @@
                 android:fontFamily="@font/regular_sans"
                 android:text="@string/are_you_sure_you_would_you_like_to_delete_this_conversation"
                 android:textAlignment="center"
-                android:textColor="?attr/subTextColor"
-                android:textSize="@dimen/_11ssp" />
+                android:textColor="?attr/subHeadingColor"
+                android:textSize="@dimen/features_title_size" />
 
             <LinearLayout
                 android:layout_width="match_parent"

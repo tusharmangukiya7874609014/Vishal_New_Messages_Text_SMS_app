@@ -5,6 +5,9 @@
 
     <data>
 
+        <variable
+            name="userContactAddress"
+            type="String" />
     </data>
 
     <RelativeLayout
@@ -44,7 +47,7 @@
             android:orientation="vertical">
 
             <androidx.cardview.widget.CardView
-                android:id="@+id/cvProfileView"
+                android:id="@+id/cvMessageUserProfile"
                 android:layout_width="@dimen/_100sdp"
                 android:layout_height="@dimen/_100sdp"
                 android:layout_gravity="center_horizontal"
@@ -56,18 +59,22 @@
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    tools:background="@drawable/bg_profile_ios_background">
 
                     <androidx.appcompat.widget.AppCompatImageView
-                        android:id="@+id/ivOriginalProfile"
+                        android:id="@+id/ivOriginalPhotoUri"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_centerInParent="true"
                         android:scaleType="centerCrop"
-                        android:visibility="gone" />
+                        app:cardViewOfProfile="@{cvMessageUserProfile}"
+                        app:firstChar="@{txtSpecialChar}"
+                        app:ivBlockedProfile="@{ivBlockMessageUser}"
+                        app:userContactAddress="@{userContactAddress}" />
 
                     <androidx.appcompat.widget.AppCompatImageView
-                        android:id="@+id/ivBlockProfile"
+                        android:id="@+id/ivBlockMessageUser"
                         android:layout_width="@dimen/_55sdp"
                         android:layout_height="@dimen/_55sdp"
                         android:layout_centerInParent="true"
@@ -75,13 +82,15 @@
                         android:src="@drawable/ic_block"
                         android:visibility="gone" />
 
-                    <androidx.appcompat.widget.AppCompatImageView
-                        android:id="@+id/ivDefaultProfile"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                    <TextView
+                        android:id="@+id/txtSpecialChar"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_centerInParent="true"
-                        android:visibility="visible"
-                        android:src="@drawable/ic_dark_profile_popup" />
+                        android:fontFamily="@font/bold_sans"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/_44ssp"
+                        tools:text="A" />
 
                 </RelativeLayout>
 
@@ -98,7 +107,7 @@
                 android:maxLines="2"
                 android:textAlignment="center"
                 android:textColor="?attr/titleTextColor"
-                android:textSize="@dimen/_17ssp"
+                android:textSize="@dimen/_18ssp"
                 tools:text="James Bond" />
 
             <TextView
@@ -108,11 +117,11 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginHorizontal="@dimen/_10sdp"
                 android:layout_marginTop="@dimen/_3sdp"
-                android:fontFamily="@font/regular_sans"
+                android:fontFamily="@font/medium_sans"
                 android:maxLines="1"
                 android:textAlignment="center"
                 android:textColor="?attr/subTextColor"
-                android:textSize="@dimen/_12ssp"
+                android:textSize="@dimen/features_title_size"
                 tools:text="+91 78628 21545" />
 
             <LinearLayout
@@ -147,7 +156,7 @@
                     android:fontFamily="@font/medium_sans"
                     android:text="@string/call"
                     android:textColor="?attr/titleTextColor"
-                    android:textSize="@dimen/_11ssp" />
+                    android:textSize="@dimen/features_title_size" />
 
             </LinearLayout>
 
@@ -155,8 +164,8 @@
                 android:id="@+id/rvNotification"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="?attr/itemBackground"
                 android:layout_marginVertical="@dimen/_7sdp"
+                android:background="?attr/itemBackground"
                 android:orientation="horizontal"
                 android:padding="@dimen/_4sdp"
                 tools:visibility="visible">
@@ -183,7 +192,7 @@
                     android:fontFamily="@font/medium_sans"
                     android:text="@string/notification_setting"
                     android:textColor="?attr/titleTextColor"
-                    android:textSize="@dimen/_11ssp" />
+                    android:textSize="@dimen/features_title_size" />
 
             </LinearLayout>
 
@@ -191,8 +200,8 @@
                 android:id="@+id/rvArchive"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
                 android:background="?attr/itemBackground"
+                android:orientation="horizontal"
                 android:padding="@dimen/_4sdp"
                 tools:visibility="visible">
 
@@ -219,7 +228,7 @@
                     android:fontFamily="@font/medium_sans"
                     android:text="@string/archive"
                     android:textColor="?attr/titleTextColor"
-                    android:textSize="@dimen/_11ssp" />
+                    android:textSize="@dimen/features_title_size" />
 
             </LinearLayout>
 
@@ -227,8 +236,8 @@
                 android:id="@+id/rvBlock"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="?attr/itemBackground"
                 android:layout_marginVertical="@dimen/_7sdp"
+                android:background="?attr/itemBackground"
                 android:orientation="horizontal"
                 android:padding="@dimen/_4sdp"
                 tools:visibility="visible">
@@ -256,7 +265,7 @@
                     android:fontFamily="@font/medium_sans"
                     android:text="@string/block"
                     android:textColor="?attr/titleTextColor"
-                    android:textSize="@dimen/_11ssp" />
+                    android:textSize="@dimen/features_title_size" />
 
             </LinearLayout>
 
@@ -264,8 +273,8 @@
                 android:id="@+id/rvDeleteConversation"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
                 android:background="?attr/itemBackground"
+                android:orientation="horizontal"
                 android:padding="@dimen/_4sdp"
                 tools:visibility="visible">
 
@@ -291,7 +300,7 @@
                     android:fontFamily="@font/medium_sans"
                     android:text="@string/delete_conversation"
                     android:textColor="@color/blocked_user_profile"
-                    android:textSize="@dimen/_11ssp" />
+                    android:textSize="@dimen/features_title_size" />
 
             </LinearLayout>
 

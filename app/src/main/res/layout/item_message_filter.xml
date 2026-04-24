@@ -28,7 +28,7 @@
             android:layout_marginHorizontal="@dimen/_5sdp"
             android:fontFamily="@font/medium_sans"
             android:text="@string/transactions"
-            android:textSize="@dimen/_10ssp" />
+            android:textSize="13.5sp" />
 
     </LinearLayout>
 </layout>

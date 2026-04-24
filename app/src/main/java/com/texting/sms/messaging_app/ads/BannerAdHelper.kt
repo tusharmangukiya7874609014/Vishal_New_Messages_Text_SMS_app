@@ -43,7 +43,7 @@ object BannerAdHelper {
                 }
 
                 BannerType.MEDIUM_RECTANGLE -> {
-                    AdSize(adWidth, 250)
+                    AdSize(adWidth, 300)
                 }
             }
 
@@ -52,51 +52,54 @@ object BannerAdHelper {
                 shimmerLayout.visibility = View.VISIBLE
             }
 
-            adContainer.loadAd(
-                BannerAdRequest.Builder(bannerAdsId, adSize).build(),
-                object : AdLoadCallback<BannerAd> {
-                    override fun onAdLoaded(ad: BannerAd) {
-                        ad.adEventCallback =
-                            object : BannerAdEventCallback {
-                                override fun onAdImpression() {
-                                    Log.d("BannerAd", "Banner ad recorded an impression.")
+            AdsManager.runWhenReady(activity) {
+                adContainer.loadAd(
+                    BannerAdRequest.Builder(bannerAdsId, adSize).build(),
+                    object : AdLoadCallback<BannerAd> {
+                        override fun onAdLoaded(ad: BannerAd) {
+                            ad.adEventCallback =
+                                object : BannerAdEventCallback {
+                                    override fun onAdImpression() {
+                                        Log.d("BannerAd", "Banner ad recorded an impression.")
+                                    }
+
+                                    override fun onAdClicked() {
+                                        Log.d("BannerAd", "Banner ad recorded a click.")
+                                    }
+                                }
+                            ad.bannerAdRefreshCallback =
+                                object : BannerAdRefreshCallback {
+                                    override fun onAdRefreshed() {
+                                        Log.d("BannerAd", "Banner ad refreshed.")
+                                    }
+
+                                    override fun onAdFailedToRefresh(adError: LoadAdError) {
+                                        Log.d("BannerAd", "Banner ad failed to refresh: $adError")
+                                    }
                                 }
 
-                                override fun onAdClicked() {
-                                    Log.d("BannerAd", "Banner ad recorded a click.")
-                                }
+                            Log.d("BannerAd", "Banner ad loaded.")
+
+                            it.runOnUiThread {
+                                shimmerLayout.stopShimmer()
+                                shimmerLayout.visibility = View.GONE
+                                adContainer.visibility = View.VISIBLE
                             }
-                        ad.bannerAdRefreshCallback =
-                            object : BannerAdRefreshCallback {
-                                override fun onAdRefreshed() {
-                                    Log.d("BannerAd", "Banner ad refreshed.")
-                                }
+                        }
 
-                                override fun onAdFailedToRefresh(adError: LoadAdError) {
-                                    Log.d("BannerAd", "Banner ad failed to refresh: $adError")
-                                }
+                        override fun onAdFailedToLoad(adError: LoadAdError) {
+                            Log.w("BannerAd", "Banner ad failed to load: $adError")
+
+                            it.runOnUiThread {
+                                shimmerLayout.stopShimmer()
+                                shimmerLayout.visibility = View.GONE
+                                adContainer.visibility = View.GONE
+                                view.visibility = View.GONE
                             }
-
-                        Log.d("BannerAd", "Banner ad loaded.")
-
-                        it.runOnUiThread {
-                            shimmerLayout.stopShimmer()
-                            shimmerLayout.visibility = View.GONE
-                            adContainer.visibility = View.VISIBLE
                         }
-                    }
-
-                    override fun onAdFailedToLoad(adError: LoadAdError) {
-                        Log.w("BannerAd", "Banner ad failed to load: $adError")
-                        it.runOnUiThread {
-                            shimmerLayout.stopShimmer()
-                            shimmerLayout.visibility = View.GONE
-                            adContainer.visibility = View.GONE
-                            view.visibility = View.GONE
-                        }
-                    }
-                },
-            )
+                    },
+                )
+            }
         }
     }
 }

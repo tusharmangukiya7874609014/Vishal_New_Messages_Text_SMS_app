@@ -1,5 +1,6 @@
 package com.texting.sms.messaging_app.activity
 
+import android.app.Dialog
 import android.app.NotificationManager
 import android.content.Intent
 import android.os.Build
@@ -7,11 +8,16 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.provider.Settings
+import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
+import android.view.WindowManager
 import androidx.activity.OnBackPressedCallback
+import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.lifecycleScope
 import com.texting.sms.messaging_app.R
@@ -21,26 +27,45 @@ import com.texting.sms.messaging_app.ads.NativeAdHelper
 import com.texting.sms.messaging_app.database.Const
 import com.texting.sms.messaging_app.database.SharedPreferencesHelper
 import com.texting.sms.messaging_app.databinding.ActivityOverlayPermissionBinding
+import com.texting.sms.messaging_app.databinding.DialogPermissionDeniedBinding
+import com.texting.sms.messaging_app.listener.NetworkAvailableListener
 import com.texting.sms.messaging_app.services.CallOverlayService
 import com.texting.sms.messaging_app.services.OverlayPermissionMonitorService
+import com.texting.sms.messaging_app.utils.NetworkConnectionUtil
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class OverlayPermissionActivity : BaseActivity() {
+class OverlayPermissionActivity : BaseActivity(), NetworkAvailableListener {
     private lateinit var binding: ActivityOverlayPermissionBinding
     private var isAskForPermissions = false
 
+    private lateinit var networkUtil: NetworkConnectionUtil
+
+    override fun onStart() {
+        super.onStart()
+        networkUtil.register()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        networkUtil.unregister()
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        networkUtil = NetworkConnectionUtil(this)
+        networkUtil.setListener(this)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_overlay_permission)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        runAdsCampion()
+        firebaseLogEvent(
+            this@OverlayPermissionActivity, "OVERLAY_PERMISSION_PAGE", "OVERLAY_PERMISSION_SHOWN"
+        )
         initClickListener()
     }
 
@@ -109,10 +134,14 @@ class OverlayPermissionActivity : BaseActivity() {
                 if (isFinishing || isDestroyed) return@withContext
 
                 if (isCurrentPageNativeAdsEnabled && !isCurrentPageBannerAdsEnabled) {
+                    if (binding.nativeAdContainer.isVisible) return@withContext
+
                     runNativeAds(
                         nativeAdsType = nativeAdsType, nativeAdsId = currentPageNativeAdsId
                     )
                 } else if (isCurrentPageBannerAdsEnabled && !isCurrentPageNativeAdsEnabled) {
+                    if (binding.bannerAdContainer.root.isVisible) return@withContext
+
                     runBannerAds(
                         bannerAdsId = currentPageBannerAdsID, bannerAdsType = bannerAdsType
                     )
@@ -167,8 +196,54 @@ class OverlayPermissionActivity : BaseActivity() {
 
     private fun initClickListener() {
         binding.btnAllowPermission.setOnClickListener {
+            firebaseLogEvent(
+                this@OverlayPermissionActivity, "OVERLAY_PERMISSION_PAGE", "BTN_OVERLAY_PERMISSION_TAP"
+            )
+
             requestOverlayAndFullScreenNotificationsPermission()
         }
+
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                showPermissionRequiredInformationDialog()
+            }
+        })
+    }
+
+    private fun showPermissionRequiredInformationDialog() {
+        val dialog = Dialog(this)
+        val permissionDeniedDialogBinding: DialogPermissionDeniedBinding =
+            DialogPermissionDeniedBinding.inflate(LayoutInflater.from(this))
+        dialog.setContentView(permissionDeniedDialogBinding.root)
+
+        dialog.window?.let { window ->
+            window.setBackgroundDrawableResource(android.R.color.transparent)
+            window.addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
+            window.setDimAmount(0.6f)
+
+            val metrics = resources.displayMetrics
+            window.attributes = window.attributes.apply {
+                width = (metrics.widthPixels * 0.9f).toInt()
+                height = WindowManager.LayoutParams.WRAP_CONTENT
+            }
+        }
+
+        permissionDeniedDialogBinding.txtStatement.text =
+            getString(R.string.this_permission_is_required_to_after_call_features_please_allow_this_permission)
+
+        permissionDeniedDialogBinding.btnSettings.text = getString(R.string.allow)
+
+        permissionDeniedDialogBinding.btnNever.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        permissionDeniedDialogBinding.btnSettings.setOnClickListener {
+            dialog.dismiss()
+
+            requestOverlayAndFullScreenNotificationsPermission()
+        }
+
+        if (!isFinishing && !isDestroyed) dialog.show()
     }
 
     private fun requestOverlayAndFullScreenNotificationsPermission() {
@@ -226,10 +301,17 @@ class OverlayPermissionActivity : BaseActivity() {
 
             if (isFullScreenNotificationAllowed() || Settings.canDrawOverlays(this)) {
                 if (isEnablePostCallScreen && !CallOverlayService.isRunning) {
-                    val cmdIntent = Intent(this, CallOverlayService::class.java).apply {
-                        putExtra("CALL_STATE", "100000")
+                    if (!CallOverlayService.isRunning) {
+                        val serviceIntent = Intent(this, CallOverlayService::class.java).apply {
+                            putExtra("CALL_STATE", "10000")
+                        }
+
+                        try {
+                            ContextCompat.startForegroundService(this, serviceIntent)
+                        } catch (e: Exception) {
+                            Log.d("ABCD","Overlay Service :- ${e.localizedMessage}")
+                        }
                     }
-                    startService(cmdIntent)
                 }
             }
 
@@ -253,5 +335,25 @@ class OverlayPermissionActivity : BaseActivity() {
             finish()
         }
         super.onResume()
+    }
+
+    override fun onNetworkAvailable() {
+        runOnUiThread {
+            val sharePreference = getSharedPreferences("${packageName}_preferences", MODE_PRIVATE)
+
+            val purposeConsents = sharePreference.getString("IABTCF_PurposeConsents", "")
+            if (!purposeConsents.isNullOrEmpty()) {
+                val purposeOneString = purposeConsents.first().toString()
+                val hasConsentForPurposeOne = purposeOneString == "1"
+
+                if (hasConsentForPurposeOne) runAdsCampion()
+            } else {
+                runAdsCampion()
+            }
+        }
+    }
+
+    override fun onNetworkLost() {
+
     }
 }

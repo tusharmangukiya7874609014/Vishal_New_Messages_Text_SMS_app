@@ -36,7 +36,7 @@
                 android:fontFamily="@font/medium_sans"
                 android:text="@string/cancel"
                 android:textColor="?attr/subTextColor"
-                android:textSize="@dimen/_13ssp" />
+                android:textSize="@dimen/_12ssp" />
 
             <TextView
                 android:id="@+id/txtApplyFilter"
@@ -50,7 +50,7 @@
                 android:text="@string/apply_filters"
                 android:textAlignment="viewEnd"
                 android:textColor="@color/app_theme_color"
-                android:textSize="@dimen/_13ssp" />
+                android:textSize="@dimen/_12ssp" />
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/ivFilter"
@@ -85,10 +85,10 @@
                         android:layout_alignParentStart="true"
                         android:layout_centerVertical="true"
                         android:layout_toStartOf="@+id/ivDefaultFilter"
-                        android:fontFamily="@font/regular_sans"
+                        android:fontFamily="@font/medium_sans"
                         android:text="@string/txt_default"
                         android:textColor="?attr/titleTextColor"
-                        android:textSize="@dimen/_11ssp" />
+                        android:textSize="@dimen/features_title_size" />
 
                     <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/ivDefaultFilter"
@@ -116,10 +116,10 @@
                         android:layout_alignParentStart="true"
                         android:layout_centerVertical="true"
                         android:layout_toStartOf="@+id/ivTodayFilter"
-                        android:fontFamily="@font/regular_sans"
+                        android:fontFamily="@font/medium_sans"
                         android:text="@string/today"
                         android:textColor="?attr/titleTextColor"
-                        android:textSize="@dimen/_11ssp" />
+                        android:textSize="@dimen/features_title_size" />
 
                     <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/ivTodayFilter"
@@ -148,10 +148,10 @@
                         android:layout_alignParentStart="true"
                         android:layout_centerVertical="true"
                         android:layout_toStartOf="@+id/ivMonthFilter"
-                        android:fontFamily="@font/regular_sans"
+                        android:fontFamily="@font/medium_sans"
                         android:text="@string/month"
                         android:textColor="?attr/titleTextColor"
-                        android:textSize="@dimen/_11ssp" />
+                        android:textSize="@dimen/features_title_size" />
 
                     <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/ivMonthFilter"
@@ -189,10 +189,10 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:fontFamily="@font/regular_sans"
+                            android:fontFamily="@font/medium_sans"
                             android:text="@string/select_month"
-                            android:textColor="?attr/titleTextColor"
-                            android:textSize="@dimen/_10ssp" />
+                            android:textColor="?attr/subHeadingColor"
+                            android:textSize="@dimen/_9ssp" />
 
                         <TextView
                             android:id="@+id/txtSelectedMonth"
@@ -202,7 +202,7 @@
                             android:layout_marginTop="2dp"
                             android:fontFamily="@font/semi_bold_sans"
                             android:textColor="@color/app_theme_color"
-                            android:textSize="@dimen/_11ssp"
+                            android:textSize="@dimen/features_title_size"
                             tools:text="January" />
 
                     </LinearLayout>
@@ -220,10 +220,10 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:fontFamily="@font/regular_sans"
+                            android:fontFamily="@font/medium_sans"
                             android:text="@string/select_year"
-                            android:textColor="?attr/titleTextColor"
-                            android:textSize="@dimen/_10ssp" />
+                            android:textColor="?attr/subHeadingColor"
+                            android:textSize="@dimen/_9ssp" />
 
                         <TextView
                             android:id="@+id/txtSelectedYear"
@@ -233,7 +233,7 @@
                             android:layout_marginTop="2dp"
                             android:fontFamily="@font/semi_bold_sans"
                             android:textColor="@color/app_theme_color"
-                            android:textSize="@dimen/_11ssp"
+                            android:textSize="@dimen/features_title_size"
                             tools:text="2025" />
 
                     </LinearLayout>
@@ -256,10 +256,10 @@
                         android:layout_alignParentStart="true"
                         android:layout_centerVertical="true"
                         android:layout_toStartOf="@+id/ivYearFilter"
-                        android:fontFamily="@font/regular_sans"
+                        android:fontFamily="@font/medium_sans"
                         android:text="@string/year"
                         android:textColor="?attr/titleTextColor"
-                        android:textSize="@dimen/_11ssp" />
+                        android:textSize="@dimen/features_title_size" />
 
                     <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/ivYearFilter"
@@ -288,10 +288,10 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/regular_sans"
+                        android:fontFamily="@font/medium_sans"
                         android:text="@string/select_year"
-                        android:textColor="?attr/titleTextColor"
-                        android:textSize="@dimen/_10ssp" />
+                        android:textColor="?attr/subHeadingColor"
+                        android:textSize="@dimen/_9ssp" />
 
                     <TextView
                         android:id="@+id/txtSelectedSpecificYear"
@@ -301,7 +301,7 @@
                         android:layout_marginTop="3dp"
                         android:fontFamily="@font/semi_bold_sans"
                         android:textColor="@color/app_theme_color"
-                        android:textSize="@dimen/_11ssp"
+                        android:textSize="@dimen/features_title_size"
                         tools:text="2025" />
 
                 </LinearLayout>
@@ -322,10 +322,10 @@
                         android:layout_alignParentStart="true"
                         android:layout_centerVertical="true"
                         android:layout_toStartOf="@+id/ivDateRangeFilter"
-                        android:fontFamily="@font/regular_sans"
+                        android:fontFamily="@font/medium_sans"
                         android:text="@string/date_range"
                         android:textColor="?attr/titleTextColor"
-                        android:textSize="@dimen/_11ssp" />
+                        android:textSize="@dimen/features_title_size" />
 
                     <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/ivDateRangeFilter"
@@ -363,10 +363,10 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:fontFamily="@font/regular_sans"
+                            android:fontFamily="@font/medium_sans"
                             android:text="@string/select_from_date"
-                            android:textColor="?attr/titleTextColor"
-                            android:textSize="@dimen/_10ssp" />
+                            android:textColor="?attr/subHeadingColor"
+                            android:textSize="@dimen/_9ssp" />
 
                         <TextView
                             android:id="@+id/txtSelectedFromDate"
@@ -376,7 +376,7 @@
                             android:layout_marginTop="2dp"
                             android:fontFamily="@font/semi_bold_sans"
                             android:textColor="@color/app_theme_color"
-                            android:textSize="@dimen/_11ssp"
+                            android:textSize="@dimen/features_title_size"
                             tools:text="18 Feb 2025" />
 
                     </LinearLayout>
@@ -394,10 +394,10 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:fontFamily="@font/regular_sans"
+                            android:fontFamily="@font/medium_sans"
                             android:text="@string/select_to_date"
-                            android:textColor="?attr/titleTextColor"
-                            android:textSize="@dimen/_10ssp" />
+                            android:textColor="?attr/subHeadingColor"
+                            android:textSize="@dimen/_9ssp" />
 
                         <TextView
                             android:id="@+id/txtSelectedToDate"
@@ -407,7 +407,7 @@
                             android:layout_marginTop="2dp"
                             android:fontFamily="@font/semi_bold_sans"
                             android:textColor="@color/app_theme_color"
-                            android:textSize="@dimen/_11ssp"
+                            android:textSize="@dimen/features_title_size"
                             tools:text="18 May 2025" />
 
                     </LinearLayout>

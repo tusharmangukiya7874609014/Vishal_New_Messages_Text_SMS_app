@@ -9,14 +9,15 @@
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/_15sdp"
+        android:layout_margin="@dimen/_10sdp"
         app:cardCornerRadius="@dimen/_8sdp"
+        app:cardBackgroundColor="@android:color/transparent"
         app:cardElevation="0dp">
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="?attr/itemBackground"
+            android:background="?attr/itemBackgroundColor"
             android:padding="@dimen/_10sdp">
 
             <TextView
@@ -42,7 +43,7 @@
                 android:text="@string/you_have_forcefully_denied_some_of_the_required_permissions_for_this_action_please_open_settings_go_to_permissions_and_allow_them"
                 android:textAlignment="center"
                 android:textColor="?attr/subTextColor"
-                android:textSize="@dimen/_11ssp" />
+                android:textSize="@dimen/_10ssp" />
 
             <LinearLayout
                 android:layout_width="match_parent"

@@ -16,6 +16,7 @@ import com.google.android.libraries.ads.mobile.sdk.initialization.Initialization
 import com.google.firebase.FirebaseApp
 import com.google.firebase.perf.FirebasePerformance
 import com.texting.sms.messaging_app.activity.AdsAppOpenActivity
+import com.texting.sms.messaging_app.ads.AdsManager
 import com.texting.sms.messaging_app.ads.AppOpenAdManager
 import com.texting.sms.messaging_app.database.Const
 import com.texting.sms.messaging_app.database.SharedPreferencesHelper
@@ -33,9 +34,6 @@ class MyApplication : Application(), Application.ActivityLifecycleCallbacks,
     private var currentActivity: Activity? = null
     private var isAppInBackground = true
 
-    @Volatile
-    private var isAdsInitialized = false
-
     override fun onCreate() {
         super<Application>.onCreate()
         FirebaseApp.initializeApp(this)
@@ -50,38 +48,43 @@ class MyApplication : Application(), Application.ActivityLifecycleCallbacks,
         registerActivityLifecycleCallbacks(this)
         ProcessLifecycleOwner.get().lifecycle.addObserver(this)
 
-        initializeAdsSafely()
-
         appOpenAdManager = AppOpenAdManager()
 
-        val isAdsEnabled = SharedPreferencesHelper.getBoolean(
-            this, Const.IS_ADS_ENABLED, false
-        )
+        val sharePreference = getSharedPreferences("${packageName}_preferences", MODE_PRIVATE)
 
-        initializeAdsSafely {
-            if (isAdsEnabled) {
-                Handler(Looper.getMainLooper()).postDelayed({
-                    appOpenAdManager.loadAd(this)
-                }, 1000)
-            }
-        }
-    }
+        val purposeConsents = sharePreference.getString("IABTCF_PurposeConsents", "")
+        if (!purposeConsents.isNullOrEmpty()) {
+            val purposeOneString = purposeConsents.first().toString()
+            val hasConsentForPurposeOne = purposeOneString == "1"
 
-    private fun initializeAdsSafely(onComplete: (() -> Unit)? = null) {
-        CoroutineScope(Dispatchers.IO).launch {
-            try {
-                MobileAds.initialize(
-                    this@MyApplication,
-                    InitializationConfig.Builder("ca-app-pub-5550085346779978~8891033445").build()
-                ) {
-                    isAdsInitialized = true
+            val isAdsEnabled = SharedPreferencesHelper.getBoolean(
+                this, Const.IS_ADS_ENABLED, false
+            )
 
-                    Handler(Looper.getMainLooper()).post {
-                        onComplete?.invoke()
+            val isAppOpenAdsEnabled = SharedPreferencesHelper.getBoolean(
+                this, Const.IS_APP_OPEN_ENABLED, false
+            )
+
+            if (hasConsentForPurposeOne && isAdsEnabled && isAppOpenAdsEnabled) {
+                if (!AdsManager.isReady()) {
+                    CoroutineScope(Dispatchers.IO).launch {
+                        try {
+                            MobileAds.initialize(
+                                applicationContext,
+                                InitializationConfig.Builder("ca-app-pub-5550085346779978~8891033445")
+                                    .build()
+                            ) {
+                                Handler(Looper.getMainLooper()).post {
+                                    appOpenAdManager.loadAd(applicationContext)
+                                }
+                            }
+                        } catch (e: Exception) {
+                            e.printStackTrace()
+                        }
                     }
+                } else {
+                    appOpenAdManager.loadAd(applicationContext)
                 }
-            } catch (e: Exception) {
-                e.printStackTrace()
             }
         }
     }
@@ -113,6 +116,13 @@ class MyApplication : Application(), Application.ActivityLifecycleCallbacks,
 
     override fun onStart(owner: LifecycleOwner) {
         super.onStart(owner)
+        val isNoAdsAppOpenAds = SharedPreferencesHelper.getBoolean(this, "NO_ADS_APP_OPEN", false)
+
+        if (isNoAdsAppOpenAds) {
+            SharedPreferencesHelper.saveBoolean(this, "NO_ADS_APP_OPEN", false)
+            return
+        }
+
         if (!isAppInBackground) return
         isAppInBackground = false
 
@@ -121,13 +131,70 @@ class MyApplication : Application(), Application.ActivityLifecycleCallbacks,
         )
 
         if (!isAdsEnabled) return
-        if (!appOpenAdManager.isAdAvailable()) return
+
+        val isAppOpenAdsEnabled = SharedPreferencesHelper.getBoolean(
+            this, Const.IS_APP_OPEN_ENABLED, false
+        )
+
+        if (!isAppOpenAdsEnabled) return
+
+        if (!appOpenAdManager.isAdAvailable()) {
+            val sharePreference = getSharedPreferences("${packageName}_preferences", MODE_PRIVATE)
+
+            val purposeConsents = sharePreference.getString("IABTCF_PurposeConsents", "")
+            if (!purposeConsents.isNullOrEmpty()) {
+                val purposeOneString = purposeConsents.first().toString()
+                val hasConsentForPurposeOne = purposeOneString == "1"
+
+                if (hasConsentForPurposeOne ) {
+                    if (!AdsManager.isReady()) {
+                        CoroutineScope(Dispatchers.IO).launch {
+                            try {
+                                MobileAds.initialize(
+                                    applicationContext,
+                                    InitializationConfig.Builder("ca-app-pub-5550085346779978~8891033445")
+                                        .build()
+                                ) {
+                                    Handler(Looper.getMainLooper()).post {
+                                        appOpenAdManager.loadAd(applicationContext)
+                                    }
+                                }
+                            } catch (e: Exception) {
+                                e.printStackTrace()
+                            }
+                        }
+                    } else {
+                        appOpenAdManager.loadAd(applicationContext)
+                    }
+                }
+            } else {
+                if (!AdsManager.isReady()) {
+                    CoroutineScope(Dispatchers.IO).launch {
+                        try {
+                            MobileAds.initialize(
+                                applicationContext,
+                                InitializationConfig.Builder("ca-app-pub-5550085346779978~8891033445")
+                                    .build()
+                            ) {
+                                Handler(Looper.getMainLooper()).post {
+                                    appOpenAdManager.loadAd(applicationContext)
+                                }
+                            }
+                        } catch (e: Exception) {
+                            e.printStackTrace()
+                        }
+                    }
+                } else {
+                    appOpenAdManager.loadAd(applicationContext)
+                }
+            }
+            return
+        }
 
         val blockedScreens = setOf(
             "CustomLunchActivity",
             "DefaultPermissionActivity",
             "PrivacyPolicyActivity",
-            "RootDeviceFoundActivity",
             "NotificationsActivity",
             "AfterCallBackActivity",
             "OverlayPermissionActivity",

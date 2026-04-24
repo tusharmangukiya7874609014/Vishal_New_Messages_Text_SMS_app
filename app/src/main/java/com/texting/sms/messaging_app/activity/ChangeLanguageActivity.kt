@@ -6,6 +6,7 @@ import android.view.View
 import androidx.activity.OnBackPressedCallback
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -22,27 +23,42 @@ import com.texting.sms.messaging_app.listener.LanguageInterface
 import com.texting.sms.messaging_app.model.AppLanguage
 import com.texting.sms.messaging_app.utils.LocaleHelper.setLocale
 import com.texting.sms.messaging_app.adapter.LanguageAdapter
+import com.texting.sms.messaging_app.listener.NetworkAvailableListener
+import com.texting.sms.messaging_app.utils.NetworkConnectionUtil
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class ChangeLanguageActivity : BaseActivity(), LanguageInterface {
+class ChangeLanguageActivity : BaseActivity(), LanguageInterface, NetworkAvailableListener {
     private lateinit var binding: ActivityChangeLanguageBinding
     private lateinit var rvLanguageAdapter: LanguageAdapter
     private lateinit var languageList: List<AppLanguage>
     private var countryName = "English"
     private var locale = "en"
 
+    private lateinit var networkUtil: NetworkConnectionUtil
+
+    override fun onStart() {
+        super.onStart()
+        networkUtil.register()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        networkUtil.unregister()
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        networkUtil = NetworkConnectionUtil(this)
+        networkUtil.setListener(this)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_change_language)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        runAdsCampion()
         initView()
         initClickListener()
     }
@@ -115,20 +131,24 @@ class ChangeLanguageActivity : BaseActivity(), LanguageInterface {
             withContext(Dispatchers.Main) {
                 if (isFinishing || isDestroyed) return@withContext
 
-                if (isCurrentPageNativeAdsEnabled && !isCurrentPageBannerAdsEnabled) {
-                    runNativeAds(
-                        nativeAdsType = nativeAdsType, nativeAdsId = currentPageNativeAdsId
-                    )
-                } else if (isCurrentPageBannerAdsEnabled && !isCurrentPageNativeAdsEnabled) {
-                    runBannerAds(
-                        bannerAdsId = currentPageBannerAdsID, bannerAdsType = bannerAdsType
-                    )
-                }
-
                 if (isAppInterstitialAdsEnabled) {
                     InterstitialAdHelper.apply {
                         loadAd(this@ChangeLanguageActivity)
                     }
+                }
+
+                if (isCurrentPageNativeAdsEnabled && !isCurrentPageBannerAdsEnabled) {
+                    if (binding.nativeAdContainer.isVisible) return@withContext
+
+                    runNativeAds(
+                        nativeAdsType = nativeAdsType, nativeAdsId = currentPageNativeAdsId
+                    )
+                } else if (isCurrentPageBannerAdsEnabled && !isCurrentPageNativeAdsEnabled) {
+                    if (binding.bannerAdContainer.root.isVisible) return@withContext
+
+                    runBannerAds(
+                        bannerAdsId = currentPageBannerAdsID, bannerAdsType = bannerAdsType
+                    )
                 }
             }
         }
@@ -186,6 +206,9 @@ class ChangeLanguageActivity : BaseActivity(), LanguageInterface {
         languageList = listOf(
             AppLanguage("English", "(English)", "en"),
             AppLanguage("Hindi", "(हिंदी)", "hi"),
+            AppLanguage("Spanish", "(español)", "es"),
+            AppLanguage("Dutch", "(Nederlands)", "nl"),
+            AppLanguage("German", "(Deutsch)", "de"),
             AppLanguage("Chinese", "(中国人)", "zh"),
             AppLanguage("Arabic", "(العربية)", "ar"),
             AppLanguage("Turkish", "(Türkçe)", "tr"),
@@ -193,16 +216,13 @@ class ChangeLanguageActivity : BaseActivity(), LanguageInterface {
             AppLanguage("Tamil", "(தமிழ்)", "ta"),
             AppLanguage("Telugu", "(తెలుగు)", "te"),
             AppLanguage("Russian", "(Русский)", "ru"),
-            AppLanguage("Dutch", "(Nederlands)", "nl"),
             AppLanguage("Estonian", "(eesti)", "et"),
             AppLanguage("Filipino", "(Filipino)", "tl"),
-            AppLanguage("German", "(Deutsch)", "de"),
             AppLanguage("French", "(Français)", "fr"),
             AppLanguage("Danish", "(Dansk)", "da"),
             AppLanguage("Finnish", "(suomi)", "fi"),
             AppLanguage("Swedish", "(svensk)", "sv"),
             AppLanguage("Italian", "(Italiana)", "it"),
-            AppLanguage("Spanish", "(español)", "es"),
             AppLanguage("Norwegian", "(norsk)", "no"),
             AppLanguage("Vietnamese", "(Tiếng Việt)", "vi"),
             AppLanguage("Portuguese", "(Português)", "pt"),
@@ -238,11 +258,11 @@ class ChangeLanguageActivity : BaseActivity(), LanguageInterface {
                 if (adsEnabled && interstitialEnabled) {
                     InterstitialAdHelper.showAd(this@ChangeLanguageActivity) {
                         isEnabled = false
-                        onBackPressedDispatcher.onBackPressed()
+                        finish()
                     }
                 } else {
                     isEnabled = false
-                    onBackPressedDispatcher.onBackPressed()
+                    finish()
                 }
             }
         })
@@ -269,6 +289,7 @@ class ChangeLanguageActivity : BaseActivity(), LanguageInterface {
                         countryName
                     )
                     startActivity(Intent(this@ChangeLanguageActivity, HomeActivity::class.java))
+                    finishAffinity()
                 }
             } else {
                 setLocale(this, locale)
@@ -279,8 +300,8 @@ class ChangeLanguageActivity : BaseActivity(), LanguageInterface {
                     countryName
                 )
                 startActivity(Intent(this, HomeActivity::class.java))
+                finishAffinity()
             }
-            finishAffinity()
         }
     }
 
@@ -288,5 +309,25 @@ class ChangeLanguageActivity : BaseActivity(), LanguageInterface {
         countryName = language.countryName.toString()
         locale = language.languageCode.toString()
         rvLanguageAdapter.updateSelectedLanguage(position)
+    }
+
+    override fun onNetworkAvailable() {
+        runOnUiThread {
+            val sharePreference = getSharedPreferences("${packageName}_preferences", MODE_PRIVATE)
+
+            val purposeConsents = sharePreference.getString("IABTCF_PurposeConsents", "")
+            if (!purposeConsents.isNullOrEmpty()) {
+                val purposeOneString = purposeConsents.first().toString()
+                val hasConsentForPurposeOne = purposeOneString == "1"
+
+                if (hasConsentForPurposeOne) runAdsCampion()
+            } else {
+                runAdsCampion()
+            }
+        }
+    }
+
+    override fun onNetworkLost() {
+
     }
 }

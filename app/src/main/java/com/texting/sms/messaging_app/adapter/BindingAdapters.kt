@@ -36,7 +36,7 @@ fun setLanguageTextColor(view: TextView, isSelected: Boolean) {
     val color = if (isSelected) {
         ContextCompat.getColor(view.context, R.color.app_theme_color)
     } else {
-        view.context.getColorFromAttr(R.attr.subTextColor)
+        view.context.getColorFromAttr(R.attr.subHeadingColor)
     }
     view.setTextColor(color)
 }
@@ -249,13 +249,14 @@ fun TextView.bindMessageTime(timestamp: Long?) {
 }
 
 @BindingAdapter(
-    value = ["profileMessage", "profileCard", "blockedProfile", "messageTitle"],
+    value = ["profileMessage", "profileCard", "blockedProfile", "messageTitle", "specialChar"],
     requireAll = true
 )
 fun AppCompatImageView.bindProfile(
     address: String?, cvProfileView: CardView,
     blockedProfile: AppCompatImageView,
-    messageTitle: TextView
+    messageTitle: TextView,
+    specialChar: TextView
 ) {
     if (address.isNullOrBlank()) {
         visibility = View.GONE
@@ -263,11 +264,6 @@ fun AppCompatImageView.bindProfile(
     }
 
     val context = context
-
-    var photoUri = ProfileCache.getPhoto(address)
-    if (photoUri == null) {
-        photoUri = ProfileCache.getOrLoadPhoto(context, address)
-    }
 
     val isBlocked = ProfileCache.isAddressBlocked(context, address)
     if (isBlocked) {
@@ -284,12 +280,28 @@ fun AppCompatImageView.bindProfile(
     messageTitle.setTextColor(context.getColorFromAttr(R.attr.titleTextColor))
     visibility = View.VISIBLE
 
+    val photoUri = ProfileCache.getPhoto(address)
+        ?: ProfileCache.getOrLoadPhoto(context, address)
+
     if (!photoUri.isNullOrBlank() && photoUri != "null") {
+        visibility = View.VISIBLE
+        specialChar.visibility = View.GONE
+
         Glide.with(context)
             .load(photoUri.toUri())
             .dontAnimate()
             .into(this)
-    } else {
+
+        return
+    }
+
+    val name = ContactNameCache.getName(address)
+        ?: ContactNameCache.extractName(context, address)
+
+    if (!name.isNullOrBlank()) {
+        specialChar.visibility = View.VISIBLE
+        specialChar.text = name.trim().first().uppercaseChar().toString()
+
         val res = if (
             SharedPreferencesHelper.getBoolean(
                 context,
@@ -297,26 +309,122 @@ fun AppCompatImageView.bindProfile(
                 false
             )
         ) {
-            R.drawable.ic_profile
+            R.drawable.bg_profile_background
         } else {
-            R.drawable.ic_dark_profile_popup
+            R.drawable.bg_profile_ios_background
         }
 
         setImageResource(res)
+        visibility = View.VISIBLE
+
+        return
     }
+
+    visibility = View.VISIBLE
+    specialChar.visibility = View.GONE
+
+    val res = if (
+        SharedPreferencesHelper.getBoolean(
+            context,
+            Const.IS_CHANGE_PROFILE_COLOR,
+            false
+        )
+    ) {
+        R.drawable.ic_profile
+    } else {
+        R.drawable.ic_dark_profile_popup
+    }
+
+    setImageResource(res)
 }
 
-@BindingAdapter("unreadTitleFont")
-fun TextView.bindUnreadTitle(unreadCount: Int) {
-    if (unreadCount > 0) {
-        setTypeface(null, Typeface.BOLD)
-        ResourcesCompat.getFont(context, R.font.medium_sans)
-    } else {
-        setTypeface(null, Typeface.NORMAL)
-        ResourcesCompat.getFont(context, R.font.medium_sans)
+@BindingAdapter(
+    value = ["userContactAddress", "cardViewOfProfile", "ivBlockedProfile", "firstChar"],
+    requireAll = true
+)
+fun AppCompatImageView.setProfileViewOfSpecificView(
+    address: String?,
+    cvProfileView: CardView,
+    blockedProfile: AppCompatImageView,
+    specialChar: TextView
+) {
+    if (address.isNullOrBlank()) {
+        visibility = View.GONE
+        return
     }
 
-    setTextColor(context.getColorFromAttr(R.attr.titleTextColor))
+    val context = context
+
+    val isBlocked = ProfileCache.isAddressBlocked(context, address)
+    if (isBlocked) {
+        visibility = View.GONE
+        cvProfileView.setCardBackgroundColor(context.getColor(R.color.blocked_user_profile))
+        blockedProfile.setImageResource(R.drawable.ic_block)
+        specialChar.visibility = View.INVISIBLE
+        blockedProfile.visibility = View.VISIBLE
+        return
+    }
+
+    blockedProfile.visibility = View.GONE
+    cvProfileView.setCardBackgroundColor(context.getColorFromAttr(R.attr.itemBackgroundColor))
+    visibility = View.VISIBLE
+
+    val photoUri = ProfileCache.getPhoto(address)
+        ?: ProfileCache.getOrLoadPhoto(context, address)
+
+    if (!photoUri.isNullOrBlank() && photoUri != "null") {
+        visibility = View.VISIBLE
+        specialChar.visibility = View.GONE
+
+        Glide.with(context)
+            .load(photoUri.toUri())
+            .dontAnimate()
+            .into(this)
+
+        return
+    }
+
+    val name = ContactNameCache.getName(address)
+        ?: ContactNameCache.extractName(context, address)
+
+    if (!name.isNullOrBlank()) {
+        specialChar.visibility = View.VISIBLE
+        specialChar.text = name.trim().first().uppercaseChar().toString()
+
+        val res = if (
+            SharedPreferencesHelper.getBoolean(
+                context,
+                Const.IS_CHANGE_PROFILE_COLOR,
+                false
+            )
+        ) {
+            R.drawable.bg_profile_background
+        } else {
+            R.drawable.bg_profile_ios_background
+        }
+
+        setImageResource(res)
+        visibility = View.VISIBLE
+
+        return
+    }
+
+    visibility = View.VISIBLE
+    specialChar.visibility = View.GONE
+
+    val res = if (
+        SharedPreferencesHelper.getBoolean(
+            context,
+            Const.IS_CHANGE_PROFILE_COLOR,
+            false
+        )
+    ) {
+        R.drawable.ic_profile
+    } else {
+        R.drawable.ic_dark_profile_popup
+    }
+
+    setImageResource(res)
 }
 
 @BindingAdapter("unreadMessageFont")
@@ -330,7 +438,7 @@ fun TextView.bindUnreadMessage(unreadCount: Int) {
         setTypeface(null, Typeface.NORMAL)
         ResourcesCompat.getFont(context, R.font.regular_sans)
         maxLines = 1
-        setTextColor(context.getColorFromAttr(R.attr.subTextColor))
+        setTextColor(context.getColorFromAttr(R.attr.subHeadingColor))
     }
 }
 
@@ -384,14 +492,21 @@ fun TextView.bindContactWithSearch(
         return
     }
 
-    val name = ContactNameCache.getName(address)
-        ?: ContactNameCache.extractName(context, address).also {
-            ContactNameCache.putName(address, it)
-        }
-        ?: address
+    val name = try {
+        ContactNameCache.getName(address)
+            ?: ContactNameCache.extractName(context, address)?.also {
+                ContactNameCache.putName(address, it)
+            }
+    } catch (_: Exception) {
+        ""
+    } ?: address
 
     text = if (!searchQuery.isNullOrBlank()) {
-        highlightAllMatches(name, searchQuery)
+        try {
+            highlightAllMatches(name, searchQuery)
+        } catch (_: Exception) {
+            SpannableString(name)
+        }
     } else {
         SpannableString(name)
     }

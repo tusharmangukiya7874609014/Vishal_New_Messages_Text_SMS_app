@@ -5,6 +5,9 @@
 
     <data>
 
+        <variable
+            name="userContactAddress"
+            type="String" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -36,7 +39,7 @@
                     android:fontFamily="@font/semi_bold_sans"
                     android:maxLines="1"
                     android:textColor="@color/app_theme_color"
-                    android:textSize="@dimen/_11ssp"
+                    android:textSize="@dimen/features_title_size"
                     tools:text="78628 21545" />
 
                 <View
@@ -60,7 +63,7 @@
                         android:maxLines="1"
                         android:text="@string/call_auto"
                         android:textColor="?attr/titleTextColor"
-                        android:textSize="@dimen/_11ssp" />
+                        android:textSize="@dimen/features_title_size" />
 
                     <androidx.appcompat.widget.AppCompatImageView
                         android:layout_width="@dimen/_15sdp"
@@ -92,7 +95,7 @@
                         android:maxLines="1"
                         android:text="@string/send_messages"
                         android:textColor="?attr/titleTextColor"
-                        android:textSize="@dimen/_11ssp" />
+                        android:textSize="@dimen/features_title_size" />
 
                     <androidx.appcompat.widget.AppCompatImageView
                         android:layout_width="@dimen/_16sdp"
@@ -124,7 +127,7 @@
                         android:maxLines="1"
                         android:text="@string/whatsapp"
                         android:textColor="?attr/titleTextColor"
-                        android:textSize="@dimen/_11ssp" />
+                        android:textSize="@dimen/features_title_size" />
 
                     <androidx.appcompat.widget.AppCompatImageView
                         android:layout_width="@dimen/_15sdp"
@@ -192,7 +195,7 @@
                         android:maxLines="1"
                         android:text="@string/copy_message"
                         android:textColor="?attr/titleTextColor"
-                        android:textSize="@dimen/_11ssp" />
+                        android:textSize="@dimen/features_title_size" />
 
                     <androidx.appcompat.widget.AppCompatImageView
                         android:layout_width="@dimen/_16sdp"
@@ -224,7 +227,7 @@
                         android:maxLines="1"
                         android:text="@string/view_in_chat"
                         android:textColor="?attr/titleTextColor"
-                        android:textSize="@dimen/_11ssp" />
+                        android:textSize="@dimen/features_title_size" />
 
                     <androidx.appcompat.widget.AppCompatImageView
                         android:layout_width="@dimen/_16sdp"
@@ -255,7 +258,7 @@
                 android:padding="@dimen/_8sdp">
 
                 <androidx.cardview.widget.CardView
-                    android:id="@+id/cvProfileView"
+                    android:id="@+id/cvMessageUserProfile"
                     android:layout_width="@dimen/_30sdp"
                     android:layout_height="@dimen/_30sdp"
                     app:cardBackgroundColor="?attr/titleTextColor"
@@ -264,18 +267,23 @@
 
                     <RelativeLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent">
+                        android:layout_height="match_parent"
+                        tools:background="@drawable/bg_profile_ios_background">
 
                         <androidx.appcompat.widget.AppCompatImageView
-                            android:id="@+id/ivOriginalProfile"
+                            android:id="@+id/ivOriginalPhotoUri"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_centerInParent="true"
                             android:scaleType="centerCrop"
-                            android:visibility="gone" />
+                            app:blockedProfile="@{ivBlockMessageUser}"
+                            app:messageTitle="@{txtUserName}"
+                            app:profileCard="@{cvMessageUserProfile}"
+                            app:specialChar="@{txtSpecialChar}"
+                            app:profileMessage="@{userContactAddress}"/>
 
                         <androidx.appcompat.widget.AppCompatImageView
-                            android:id="@+id/ivBlockProfile"
+                            android:id="@+id/ivBlockMessageUser"
                             android:layout_width="@dimen/_20sdp"
                             android:layout_height="@dimen/_20sdp"
                             android:layout_centerInParent="true"
@@ -283,12 +291,15 @@
                             android:src="@drawable/ic_block"
                             android:visibility="gone" />
 
-                        <androidx.appcompat.widget.AppCompatImageView
-                            android:id="@+id/ivDefaultProfile"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
+                        <TextView
+                            android:id="@+id/txtSpecialChar"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
                             android:layout_centerInParent="true"
-                            android:src="@drawable/ic_dark_profile_popup" />
+                            android:fontFamily="@font/bold_sans"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/_16ssp"
+                            tools:text="A" />
 
                     </RelativeLayout>
 
@@ -303,7 +314,7 @@
                     android:layout_gravity="center"
                     android:layout_marginStart="@dimen/_8sdp"
                     android:layout_marginEnd="@dimen/_5sdp"
-                    android:layout_toEndOf="@+id/cvProfileView"
+                    android:layout_toEndOf="@+id/cvMessageUserProfile"
                     android:ellipsize="end"
                     android:fontFamily="@font/semi_bold_sans"
                     android:maxLines="1"

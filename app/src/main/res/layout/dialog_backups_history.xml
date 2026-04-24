@@ -43,10 +43,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/txtTitle"
-                android:layout_marginTop="@dimen/_1sdp"
+                android:layout_marginTop="@dimen/_2sdp"
                 android:fontFamily="@font/regular_sans"
                 android:text="@string/download_sms_messages_backups"
-                android:textSize="@dimen/_11ssp" />
+                android:textSize="@dimen/features_title_size" />
 
             <View
                 android:id="@+id/viewLine"

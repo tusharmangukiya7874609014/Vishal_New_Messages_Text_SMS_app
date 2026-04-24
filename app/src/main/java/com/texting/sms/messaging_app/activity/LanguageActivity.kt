@@ -4,12 +4,14 @@ import android.app.NotificationManager
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.provider.Settings
+import android.util.Log
 import android.view.View
+import androidx.activity.OnBackPressedCallback
+import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -18,63 +20,56 @@ import com.texting.sms.messaging_app.R
 import com.texting.sms.messaging_app.adapter.LanguageAdapter
 import com.texting.sms.messaging_app.ads.BannerAdHelper
 import com.texting.sms.messaging_app.ads.BannerType
+import com.texting.sms.messaging_app.ads.InterstitialAdHelper
 import com.texting.sms.messaging_app.ads.NativeAdHelper
 import com.texting.sms.messaging_app.database.Const
 import com.texting.sms.messaging_app.database.SharedPreferencesHelper
 import com.texting.sms.messaging_app.databinding.ActivityLanguageBinding
 import com.texting.sms.messaging_app.listener.LanguageInterface
+import com.texting.sms.messaging_app.listener.NetworkAvailableListener
 import com.texting.sms.messaging_app.model.AppLanguage
 import com.texting.sms.messaging_app.services.CallOverlayService
 import com.texting.sms.messaging_app.utils.LocaleHelper.setLocale
+import com.texting.sms.messaging_app.utils.NetworkConnectionUtil
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class LanguageActivity : BaseActivity(), LanguageInterface {
+class LanguageActivity : BaseActivity(), LanguageInterface, NetworkAvailableListener {
     private lateinit var binding: ActivityLanguageBinding
     private lateinit var rvLanguageAdapter: LanguageAdapter
     private lateinit var languageList: List<AppLanguage>
     private var locale = "en"
     private var countryName = "English"
-    private val mainHandler = Handler(Looper.getMainLooper())
-    private var isFlowStarted = false
+
+    private lateinit var networkUtil: NetworkConnectionUtil
+
+    override fun onStart() {
+        super.onStart()
+        networkUtil.register()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        networkUtil.unregister()
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        networkUtil = NetworkConnectionUtil(this)
+        networkUtil.setListener(this)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_language)
         ViewCompat.setOnApplyWindowInsetsListener(binding.main) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+        firebaseLogEvent(
+            this@LanguageActivity, "LANGUAGE_SELECTED_PAGE", "LANGUAGE_SELECTED_PAGE"
+        )
         initView()
         initClickListener()
-    }
-
-    private fun waitForAdsConfig() {
-        val checkRunnable = object : Runnable {
-            override fun run() {
-                val isReady = SharedPreferencesHelper.getBoolean(
-                    this@LanguageActivity,
-                    Const.IS_ADS_CONFIG_READY,
-                    false
-                )
-
-                if (isReady) {
-                    runAdsCampion()
-                    SharedPreferencesHelper.saveBoolean(
-                        this@LanguageActivity,
-                        Const.IS_ADS_CONFIG_READY,
-                        false
-                    )
-                } else {
-                    mainHandler.postDelayed(this, 250)
-                }
-            }
-        }
-
-        mainHandler.post(checkRunnable)
     }
 
     private fun runAdsCampion() {
@@ -86,6 +81,10 @@ class LanguageActivity : BaseActivity(), LanguageInterface {
             )
 
             if (!isAppAdsShowing) return@launch
+
+            val isAppInterstitialAdsEnabled = SharedPreferencesHelper.getBoolean(
+                this@LanguageActivity, Const.IS_INTERSTITIAL_ENABLED, false
+            )
 
             val isAppNativeAdsEnabled = SharedPreferencesHelper.getBoolean(
                 this@LanguageActivity, Const.IS_NATIVE_ENABLED, false
@@ -140,14 +139,23 @@ class LanguageActivity : BaseActivity(), LanguageInterface {
             withContext(Dispatchers.Main) {
                 if (isFinishing || isDestroyed) return@withContext
 
+                if (isAppInterstitialAdsEnabled) {
+                    InterstitialAdHelper.apply {
+                        loadAd(this@LanguageActivity)
+                    }
+                }
+
                 if (isCurrentPageNativeAdsEnabled && !isCurrentPageBannerAdsEnabled) {
+                    if (binding.nativeAdContainer.isVisible) return@withContext
+
                     runNativeAds(
                         nativeAdsType = nativeAdsType, nativeAdsId = currentPageNativeAdsId
                     )
                 } else if (isCurrentPageBannerAdsEnabled && !isCurrentPageNativeAdsEnabled) {
+                    if (binding.bannerAdContainer.root.isVisible) return@withContext
+
                     runBannerAds(
-                        bannerAdsId = currentPageBannerAdsID,
-                        bannerAdsType = bannerAdsType
+                        bannerAdsId = currentPageBannerAdsID, bannerAdsType = bannerAdsType
                     )
                 }
             }
@@ -164,8 +172,7 @@ class LanguageActivity : BaseActivity(), LanguageInterface {
     }
 
     private fun runBannerAds(
-        bannerAdsId: String,
-        bannerAdsType: String
+        bannerAdsId: String, bannerAdsType: String
     ) {
         val bannerType = when (bannerAdsType) {
             "medium_rectangle" -> {
@@ -200,12 +207,6 @@ class LanguageActivity : BaseActivity(), LanguageInterface {
     }
 
     private fun initView() {
-        SharedPreferencesHelper.saveBoolean(
-            this@LanguageActivity,
-            Const.IS_ADS_CONFIG_READY,
-            false
-        )
-
         listOfLanguage()
     }
 
@@ -213,6 +214,9 @@ class LanguageActivity : BaseActivity(), LanguageInterface {
         languageList = listOf(
             AppLanguage("English", "(English)", "en"),
             AppLanguage("Hindi", "(हिंदी)", "hi"),
+            AppLanguage("Spanish", "(español)", "es"),
+            AppLanguage("Dutch", "(Nederlands)", "nl"),
+            AppLanguage("German", "(Deutsch)", "de"),
             AppLanguage("Chinese", "(中国人)", "zh"),
             AppLanguage("Arabic", "(العربية)", "ar"),
             AppLanguage("Turkish", "(Türkçe)", "tr"),
@@ -220,16 +224,13 @@ class LanguageActivity : BaseActivity(), LanguageInterface {
             AppLanguage("Tamil", "(தமிழ்)", "ta"),
             AppLanguage("Telugu", "(తెలుగు)", "te"),
             AppLanguage("Russian", "(Русский)", "ru"),
-            AppLanguage("Dutch", "(Nederlands)", "nl"),
             AppLanguage("Estonian", "(eesti)", "et"),
             AppLanguage("Filipino", "(Filipino)", "tl"),
-            AppLanguage("German", "(Deutsch)", "de"),
             AppLanguage("French", "(Français)", "fr"),
             AppLanguage("Danish", "(Dansk)", "da"),
             AppLanguage("Finnish", "(suomi)", "fi"),
             AppLanguage("Swedish", "(svensk)", "sv"),
             AppLanguage("Italian", "(Italiana)", "it"),
-            AppLanguage("Spanish", "(español)", "es"),
             AppLanguage("Norwegian", "(norsk)", "no"),
             AppLanguage("Vietnamese", "(Tiếng Việt)", "vi"),
             AppLanguage("Portuguese", "(Português)", "pt"),
@@ -241,9 +242,7 @@ class LanguageActivity : BaseActivity(), LanguageInterface {
         val layoutManager: RecyclerView.LayoutManager = LinearLayoutManager(this)
         binding.rvLanguageList.setLayoutManager(layoutManager)
         rvLanguageAdapter = LanguageAdapter(
-            languageList = mutableListOf(),
-            languageInterface = this,
-            context = this
+            languageList = mutableListOf(), languageInterface = this, context = this
         )
         binding.rvLanguageList.adapter = rvLanguageAdapter
 
@@ -253,15 +252,22 @@ class LanguageActivity : BaseActivity(), LanguageInterface {
     }
 
     private fun initClickListener() {
+        onBackPressedDispatcher.addCallback(
+            this@LanguageActivity, object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    startActivity(Intent(this@LanguageActivity, HomeActivity::class.java))
+                    isEnabled = false
+                    finish()
+                }
+            })
+
         binding.btnContinue.setOnClickListener {
             SharedPreferencesHelper.saveBoolean(this, "IS_FIRST_TIME_LANGUAGE_SELECTED", true)
 
             setLocale(this, locale)
             SharedPreferencesHelper.setLanguage(this, locale)
             SharedPreferencesHelper.saveString(
-                this,
-                Const.SELECTED_LANGUAGE_NAME,
-                countryName
+                this, Const.SELECTED_LANGUAGE_NAME, countryName
             )
             startActivity(Intent(this, HomeActivity::class.java))
             finish()
@@ -281,18 +287,16 @@ class LanguageActivity : BaseActivity(), LanguageInterface {
 
         if (isFullScreenNotificationAllowed() || Settings.canDrawOverlays(this)) {
             if (isEnablePostCallScreen && !CallOverlayService.isRunning) {
-                val cmdIntent = Intent(this, CallOverlayService::class.java).apply {
-                    putExtra("CALL_STATE", "100000")
+                val serviceIntent = Intent(this, CallOverlayService::class.java).apply {
+                    putExtra("CALL_STATE", "10000")
                 }
-                startService(cmdIntent)
+
+                try {
+                    ContextCompat.startForegroundService(this, serviceIntent)
+                } catch (e: Exception) {
+                    Log.d("ABCD","Overlay Service :- ${e.localizedMessage}")
+                }
             }
-        }
-
-        if (isFlowStarted) return
-        isFlowStarted = true
-
-        mainHandler.post {
-            startAdsConfigFlow()
         }
     }
 
@@ -303,11 +307,23 @@ class LanguageActivity : BaseActivity(), LanguageInterface {
         } else true
     }
 
-    private fun startAdsConfigFlow() {
-        if (!isInternetAvailable(this)) {
-            return
-        }
+    override fun onNetworkAvailable() {
+        runOnUiThread {
+            val sharePreference = getSharedPreferences("${packageName}_preferences", MODE_PRIVATE)
 
-        waitForAdsConfig()
+            val purposeConsents = sharePreference.getString("IABTCF_PurposeConsents", "")
+            if (!purposeConsents.isNullOrEmpty()) {
+                val purposeOneString = purposeConsents.first().toString()
+                val hasConsentForPurposeOne = purposeOneString == "1"
+
+                if (hasConsentForPurposeOne) runAdsCampion()
+            } else {
+                runAdsCampion()
+            }
+        }
+    }
+
+    override fun onNetworkLost() {
+
     }
 }

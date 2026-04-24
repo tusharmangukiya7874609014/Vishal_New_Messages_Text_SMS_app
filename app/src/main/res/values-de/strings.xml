@@ -1,5 +1,4 @@
 <resources>
-    <string name="app_name">Nachrichten: Text SMS</string>
     <string name="sms_messages">SMS-Nachrichten</string>
     <string name="set_as_a_default_app">Als Standard-App festlegen</string>
     <string name="this_app_needs_to_be_set_as_your_default_sms_app_to_send_receive_and_manage_your_text_messages_without_setting_it_as_default_you_might_miss_important_messages_or_notifications_you_can_always_change_this_later_in_your_phone_settings">Diese App muss als Ihre Standard-SMS-App festgelegt werden, um Textnachrichten zu senden, zu empfangen und zu verwalten. Ohne diese Einstellung könnten wichtige Nachrichten oder Benachrichtigungen verloren gehen. Sie können dies später jederzeit in den Telefoneinstellungen ändern.</string>
@@ -14,7 +13,6 @@
     <string name="enable">Aktivieren</string>
     <string name="messages">Nachrichten</string>
     <string name="search_here">Hier suchen…</string>
-    <string name="message_text_sms">Nachricht: Text-SMS</string>
     <string name="archived">Archiviert</string>
     <string name="backup_amp_restore"><![CDATA[Sichern & Wiederherstellen]]></string>
     <string name="scheduled">Geplant</string>
@@ -173,7 +171,6 @@
     <string name="sim_1_slot_set_as_default">SIM 1-Slot als Standard festgelegt</string>
     <string name="sim_2_already_set_as_default">SIM 2 ist bereits als Standard festgelegt</string>
     <string name="sim_2_slot_set_as_default">SIM 2-Slot als Standard festgelegt</string>
-    <string name="code_copy">Code kopiert: %1$s</string>
     <string name="backups">Backups</string>
     <string name="download_sms_messages_backups">/Download/sms/messages/Backups</string>
     <string name="backup_history">Backup-Verlauf</string>
@@ -535,7 +532,6 @@
     <string name="are_you_sure_you_would_you_like_to_delete_this_message">Möchten Sie diese Nachricht wirklich löschen?</string>
     <string name="pin">Anheften</string>
     <string name="unpin">Lösen</string>
-    <string name="first_select_message_atleast_one_or_more">Wählen Sie zuerst eine oder mehrere Nachrichten</string>
     <string name="remove_from_private_chats">Aus privaten Chats entfernen</string>
     <string name="view_full_chat_to_unlock_all_options">Vollständigen Chat anzeigen, um alle Optionen freizuschalten</string>
     <string name="no_app_found_to_share_content">Keine App gefunden, um Inhalte zu teilen</string>
@@ -569,7 +565,6 @@
     <string name="we_need_this_permission_to_give_you_better_user_experience">Wir benötigen diese Berechtigung, um Ihnen eine bessere Benutzererfahrung zu bieten</string>
     <string name="allow_permission">Berechtigung erlauben</string>
     <string name="turn_on_message_notifications">Benachrichtigungen aktivieren</string>
-    <string name="never_miss_an_important_message">Verpassen Sie keine wichtige Nachricht 💬</string>
     <string name="allow_app_to_read_phone_state">App das Lesen des Telefonstatus erlauben</string>
     <string name="quick_messaging_access_after_call">Schneller Nachrichten-Zugriff nach Anruf</string>
     <string name="enable_our_quick_action_feature_in_3_steps">Aktivieren Sie unsere Schnellaktionsfunktion in 3 Schritten</string>
@@ -608,6 +603,20 @@
     <string name="step_3_permission">Schritt 3 :</string>
     <string name="swipe_the_toggle_to_turn_on">Schieben Sie den Schalter, um ihn zu aktivieren.</string>
     <string name="slide_the_toggle_switch_to_enable_and_activate_the_feature">Schieben Sie den Schalter, um die Funktion zu aktivieren.</string>
-    <string name="this_app_requires_access_to_your_phone_state_to_detect_when_a_call_ends_so_it_can_provide_the_after_call_messaging_screen_no_call_logs_are_stored_or_shared">Diese App benötigt Zugriff auf Ihren Telefonstatus, um das Ende eines Anrufs zu erkennen und den Nachrichtenbildschirm nach dem Anruf anzuzeigen. Es werden keine Anrufprotokolle gespeichert oder weitergegeben.</string>
     <string name="privacy_policy">Datenschutzerklärung</string>
+    <string name="code_copy">OTP kopieren : %1$s</string>
+    <string name="no_contacts_app_found_on_this_device">Keine Kontakte-App auf diesem Gerät gefunden</string>
+    <string name="spam_amp_block"><![CDATA[Spam &amp; Blockiert]]></string>
+    <string name="allow">Zulassen</string>
+    <string name="this_permission_is_required_to_after_call_features_please_allow_this_permission">Diese Berechtigung ist für Funktionen nach dem Anruf erforderlich. Bitte erlaube diese Berechtigung.</string>
+    <string name="please_wait_while_the_ad_loads">Bitte warten, während die Anzeige geladen wird…</string>
+    <string name="you_re_offline_turn_on_your_internet_connection_to_access_all_messages_features">Du bist offline.\nAktiviere deine Internetverbindung, um alle Nachrichtenfunktionen zu nutzen.</string>
+    <string name="message_text_sms">Nachrichten</string>
+    <string name="app_name">Nachrichten</string>
+    <string name="you_can_quickly_send_a_message_right_after_a_call">Du kannst direkt nach einem Anruf schnell eine Nachricht senden</string>
+    <string name="turn_on_notifications_to_receive_message_alerts">Aktiviere Benachrichtigungen, um Nachrichtenhinweise zu erhalten.</string>
+    <string name="first_select_message_at_least_one_or_more">Wähle zuerst eine oder mehrere Nachrichten aus</string>
+    <string name="we_do_not_store_track_or_share_your_call_or_message_data">Wir speichern oder teilen deine Anruf- oder Nachrichtendaten nicht.</string>
+    <string name="outgoing_call">Ausgehender Anruf</string>
+    <string name="enable_required_features_to_use_messaging_your_data_stays_private_and_secure_on_your_device">Aktiviere erforderliche Funktionen, um Nachrichten zu nutzen. Deine Daten bleiben privat und sicher auf deinem Gerät.</string>
 </resources>

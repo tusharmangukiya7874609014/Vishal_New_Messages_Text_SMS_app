@@ -10,14 +10,15 @@
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/_15sdp"
+        android:layout_margin="@dimen/_10sdp"
         app:cardCornerRadius="@dimen/_9sdp"
+        app:cardBackgroundColor="@android:color/transparent"
         app:cardElevation="0dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="?attr/itemBackground"
+            android:background="?attr/itemBackgroundColor"
             android:orientation="vertical"
             android:padding="@dimen/_10sdp">
 
@@ -57,11 +58,11 @@
                     android:maxLines="2"
                     android:textAlignment="center"
                     android:layout_marginTop="@dimen/_5sdp"
-                    android:textColor="?attr/subTextColor"
+                    android:textColor="?attr/subHeadingColor"
                     android:textSize="@dimen/_11ssp"
                     android:visibility="gone"
                     tools:text="Are you sure you want to unblock this number?"
-                    tools:visibility="gone" />
+                    tools:visibility="visible" />
 
                 <RelativeLayout
                     android:id="@+id/rvBlockNumber"
@@ -72,7 +73,7 @@
                     android:layout_marginTop="@dimen/_10sdp"
                     android:backgroundTint="?attr/dialogBoxColor"
                     android:visibility="gone"
-                    tools:visibility="visible">
+                    tools:visibility="gone">
 
                     <EditText
                         android:id="@+id/etBlockContacts"
@@ -83,7 +84,7 @@
                         android:autofillHints="name"
                         android:background="@null"
                         android:ellipsize="end"
-                        android:fontFamily="@font/regular_sans"
+                        android:fontFamily="@font/medium_sans"
                         android:hint="@string/enter_a_phone_number"
                         android:inputType="number"
                         android:maxLines="1"

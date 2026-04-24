@@ -20,11 +20,10 @@
             android:layout_centerInParent="true"
             android:layout_marginStart="5dp"
             android:layout_toStartOf="@+id/ivEditView"
-            android:fontFamily="@font/regular_sans"
+            android:fontFamily="@font/medium_sans"
             android:maxLines="1"
             android:textColor="?attr/titleTextColor"
-            android:textSize="@dimen/_12ssp"
-            android:textStyle="bold"
+            android:textSize="@dimen/features_title_size"
             tools:text="How are you ?" />
 
         <androidx.appcompat.widget.AppCompatImageView

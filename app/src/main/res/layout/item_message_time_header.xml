@@ -17,10 +17,9 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:layout_marginHorizontal="@dimen/_10sdp"
-            android:fontFamily="@font/regular_sans"
+            android:fontFamily="@font/semi_bold_sans"
             android:textColor="?attr/subTextColor"
-            android:textStyle="bold"
-            android:textSize="@dimen/_9ssp"
+            android:textSize="@dimen/_8ssp"
             tools:text="Mon 10:31 PM" />
 
     </RelativeLayout>

@@ -9,9 +9,9 @@
         android:id="@+id/txtLanguage"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/regular_sans"
+        android:fontFamily="@font/medium_sans"
         android:padding="@dimen/_7sdp"
         android:text="@string/english"
-        android:textColor="?attr/subTextColor"
-        android:textSize="@dimen/_12ssp" />
+        android:textColor="?attr/subHeadingColor"
+        android:textSize="@dimen/features_title_size" />
 </layout>

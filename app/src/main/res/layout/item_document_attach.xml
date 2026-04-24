@@ -57,7 +57,7 @@
                         android:fontFamily="@font/medium_sans"
                         android:maxLines="2"
                         android:textColor="?attr/titleTextColor"
-                        android:textSize="@dimen/_11ssp"
+                        android:textSize="@dimen/features_title_size"
                         tools:text="Wedding Pics.pdf" />
 
                     <TextView
@@ -66,10 +66,10 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:layout_marginStart="@dimen/_7sdp"
-                        android:layout_marginTop="@dimen/_2sdp"
+                        android:layout_marginTop="@dimen/_1sdp"
                         android:fontFamily="@font/regular_sans"
                         android:textColor="?attr/subHeadingColor"
-                        android:textSize="@dimen/_9ssp"
+                        android:textSize="@dimen/features_sub_title_size"
                         tools:text="138.50 KB" />
 
                 </LinearLayout>

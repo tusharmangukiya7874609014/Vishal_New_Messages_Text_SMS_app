@@ -25,7 +25,7 @@
                 android:id="@+id/rvMessageDetails"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:padding="@dimen/_8sdp"
+                android:padding="@dimen/_9sdp"
                 app:layout_constraintEnd_toStartOf="@+id/relativeLayout"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
@@ -35,11 +35,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:ellipsize="end"
-                    android:fontFamily="@font/medium_sans"
+                    android:fontFamily="@font/semi_bold_sans"
                     android:maxWidth="@dimen/_160sdp"
                     android:maxLines="1"
                     android:textColor="?attr/titleTextColor"
-                    android:textSize="@dimen/_12ssp"
+                    android:textSize="@dimen/features_title_size"
                     tools:text="https://bit.ly/3ZR4H3P" />
 
                 <TextView
@@ -47,12 +47,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/txtMessageTitle"
-                    android:layout_marginTop="3dp"
+                    android:layout_marginTop="2dp"
                     android:ellipsize="end"
-                    android:fontFamily="@font/regular_sans"
+                    android:fontFamily="@font/medium_sans"
                     android:maxLines="2"
                     android:textColor="?attr/subTextColor"
-                    android:textSize="@dimen/_10ssp"
+                    android:textSize="@dimen/features_sub_title_size"
                     tools:text="AD- ARWGOV-S 15 Jun M" />
 
             </RelativeLayout>

@@ -69,7 +69,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/medium_sans"
                     android:textColor="?attr/titleTextColor"
-                    android:textSize="@dimen/_11ssp"
+                    android:textSize="@dimen/_10ssp"
                     android:maxLines="2"
                     android:ellipsize="end"
                     android:maxWidth="@dimen/_150sdp"

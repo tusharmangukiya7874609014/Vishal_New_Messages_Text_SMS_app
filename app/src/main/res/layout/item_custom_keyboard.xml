@@ -24,10 +24,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:fontFamily="@font/medium_sans"
+            android:fontFamily="@font/bold_sans"
             android:text="@{item.number}"
             android:textSize="@dimen/_20ssp"
-            android:textStyle="bold"
             app:selectedTextColor="@{item.isNumberSelected}"
             tools:text="@string/_0" />
 

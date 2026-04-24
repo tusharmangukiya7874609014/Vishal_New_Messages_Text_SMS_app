@@ -430,6 +430,8 @@ class ArchivedChatAdapter(
         (dialogViewBinding.rvSenderChatView.itemAnimator as? SimpleItemAnimator)?.supportsChangeAnimations =
             false
 
+        rvPersonalChatListAdapter.updateProfileView(address)
+
         CoroutineScope(Dispatchers.IO).launch {
             val originalMessages = getMessagesForThread(context, threadId)
 

@@ -154,7 +154,7 @@ class BlockedNumberActivity : BaseActivity(), UnblockUserInterface {
         dialog.setContentView(dialogBlockOrUnblockBinding.root)
 
         dialog.window?.let { window ->
-            window.setBackgroundDrawableResource(R.color.transparent)
+            window.setBackgroundDrawableResource(android.R.color.transparent)
             window.addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
             window.setDimAmount(0.6f)
 

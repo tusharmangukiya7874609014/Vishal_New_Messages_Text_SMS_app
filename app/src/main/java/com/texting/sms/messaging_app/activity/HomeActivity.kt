@@ -27,6 +27,7 @@ import android.provider.BlockedNumberContract
 import android.provider.ContactsContract
 import android.provider.Settings
 import android.provider.Telephony
+import android.telephony.PhoneNumberUtils
 import android.telephony.SubscriptionManager
 import android.util.Log
 import android.util.TypedValue
@@ -50,12 +51,14 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.lifecycleScope
-import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
+import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.android.material.datepicker.MaterialDatePicker
+import com.google.android.material.snackbar.Snackbar
 import com.texting.sms.messaging_app.R
 import com.texting.sms.messaging_app.adapter.ChatUserAdapter
 import com.texting.sms.messaging_app.adapter.CustomMonthPickerAdapter
@@ -74,6 +77,7 @@ import com.texting.sms.messaging_app.databinding.DialogDeleteConversationBinding
 import com.texting.sms.messaging_app.databinding.DialogRatingStarFeedbackBinding
 import com.texting.sms.messaging_app.listener.CallbackHolder
 import com.texting.sms.messaging_app.listener.MonthInterface
+import com.texting.sms.messaging_app.listener.NetworkAvailableListener
 import com.texting.sms.messaging_app.listener.OnArchivedRemoveInterface
 import com.texting.sms.messaging_app.listener.OnChatUserInterface
 import com.texting.sms.messaging_app.listener.OnClickMessagesFeature
@@ -83,13 +87,11 @@ import com.texting.sms.messaging_app.model.ChatUser
 import com.texting.sms.messaging_app.model.MessageFilter
 import com.texting.sms.messaging_app.model.MonthFile
 import com.texting.sms.messaging_app.services.CallOverlayService
+import com.texting.sms.messaging_app.utils.NetworkConnectionUtil
 import com.texting.sms.messaging_app.utils.WorkScheduler
 import com.texting.sms.messaging_app.utils.getColorFromAttr
 import com.texting.sms.messaging_app.utils.getDrawableFromAttr
 import com.texting.sms.messaging_app.viewmodel.ContactsViewModel
-import com.google.android.material.bottomsheet.BottomSheetDialog
-import com.google.android.material.datepicker.MaterialDatePicker
-import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -106,12 +108,11 @@ import java.time.format.TextStyle
 import java.util.Calendar
 import java.util.Date
 import java.util.Locale
-import kotlin.collections.iterator
 import kotlin.math.abs
 import kotlin.math.min
 
 class HomeActivity : BaseActivity(), OnMessageFilterInterface, OnChatUserInterface, MonthInterface,
-    YearInterface, OnClickMessagesFeature {
+    YearInterface, OnClickMessagesFeature, NetworkAvailableListener {
     private lateinit var binding: ActivityHomeBinding
     private lateinit var rvMessageFilterAdapter: MessageFilterAdapter
     private lateinit var messageFilterList: List<MessageFilter>
@@ -160,14 +161,31 @@ class HomeActivity : BaseActivity(), OnMessageFilterInterface, OnChatUserInterfa
     private lateinit var smsDefaultLauncher: ActivityResultLauncher<Intent>
     private var isFirstTimeAskPermissions = true
 
+    private lateinit var networkUtil: NetworkConnectionUtil
+
+    override fun onStart() {
+        super.onStart()
+        networkUtil.register()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        networkUtil.unregister()
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        networkUtil = NetworkConnectionUtil(this)
+        networkUtil.setListener(this)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_home)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+        firebaseLogEvent(
+            this@HomeActivity, "HOME_PAGE", "HOME_PAGE_SHOWN"
+        )
         isLastProfileColorToChange =
             SharedPreferencesHelper.getBoolean(this, Const.IS_CHANGE_PROFILE_COLOR, false)
         SharedPreferencesHelper.saveLong(this, "CURRENT_THREAD_ID", -1L)
@@ -226,6 +244,24 @@ class HomeActivity : BaseActivity(), OnMessageFilterInterface, OnChatUserInterfa
             disableSwipeRightToLeft()
         }
 
+        smsDefaultLauncher =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+                if (it.resultCode == RESULT_OK) {
+                    firebaseLogEvent(
+                        this@HomeActivity, "HOME_PAGE", "SMS_DEFAULT_PERMISSION_ALLOWED"
+                    )
+                    afterEnablePermissionView()
+                    initView()
+                    initClickListener()
+                    initDrawerClickListener()
+                } else {
+                    firebaseLogEvent(
+                        this@HomeActivity, "HOME_PAGE", "SMS_DEFAULT_PERMISSION_DENIED"
+                    )
+                    showToast(resources.getString(R.string.permission_denied_and_app_not_set_as_default_sms_app))
+                }
+            }
+
         editContactLauncher =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
                 if (result.resultCode == RESULT_OK) {
@@ -256,11 +292,9 @@ class HomeActivity : BaseActivity(), OnMessageFilterInterface, OnChatUserInterfa
                 }
             }
         }
-        runAdsCampion()
         initClickListener()
         initDrawerClickListener()
         setupDrawerWidth()
-        prepareIntentLauncher()
     }
 
     /**  Drawer width setup according to screen size  **/
@@ -354,10 +388,14 @@ class HomeActivity : BaseActivity(), OnMessageFilterInterface, OnChatUserInterfa
                 }
 
                 if (isCurrentPageNativeAdsEnabled && !isCurrentPageBannerAdsEnabled) {
+                    if (binding.nativeAdContainer.isVisible) return@withContext
+
                     runNativeAds(
                         nativeAdsType = nativeAdsType, nativeAdsId = currentPageNativeAdsId
                     )
                 } else if (isCurrentPageBannerAdsEnabled && !isCurrentPageNativeAdsEnabled) {
+                    if (binding.bannerAdContainer.root.isVisible) return@withContext
+
                     runBannerAds(
                         bannerAdsId = currentPageBannerAdsID, bannerAdsType = bannerAdsType
                     )
@@ -416,7 +454,7 @@ class HomeActivity : BaseActivity(), OnMessageFilterInterface, OnChatUserInterfa
             DialogRatingStarFeedbackBinding.inflate(LayoutInflater.from(this))
         dialog.setContentView(dialogRatingStarFeedbackBinding.root)
         dialog.window?.let { window ->
-            window.setBackgroundDrawableResource(R.color.transparent)
+            window.setBackgroundDrawableResource(android.R.color.transparent)
             window.addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
             window.setDimAmount(0.6f)
 
@@ -429,6 +467,12 @@ class HomeActivity : BaseActivity(), OnMessageFilterInterface, OnChatUserInterfa
 
         dialogRatingStarFeedbackBinding.btnCancel.setOnClickListener {
             dialog.dismiss()
+
+            Handler(Looper.getMainLooper()).postDelayed(
+                {
+                    finishAffinity()
+                }, 800
+            )
         }
 
         dialogRatingStarFeedbackBinding.btnSubmit.setOnClickListener {
@@ -793,7 +837,7 @@ class HomeActivity : BaseActivity(), OnMessageFilterInterface, OnChatUserInterfa
             DialogDeleteConversationBinding.inflate(LayoutInflater.from(this))
         dialog.setContentView(deleteConversationDialogBinding.root)
         dialog.window?.let { window ->
-            window.setBackgroundDrawableResource(R.color.transparent)
+            window.setBackgroundDrawableResource(android.R.color.transparent)
             window.addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
             window.setDimAmount(0.6f)
 
@@ -847,7 +891,7 @@ class HomeActivity : BaseActivity(), OnMessageFilterInterface, OnChatUserInterfa
             DialogDeleteConversationBinding.inflate(LayoutInflater.from(this))
         dialog.setContentView(deleteConversationDialogBinding.root)
         dialog.window?.let { window ->
-            window.setBackgroundDrawableResource(R.color.transparent)
+            window.setBackgroundDrawableResource(android.R.color.transparent)
             window.addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
             window.setDimAmount(0.6f)
 
@@ -1273,12 +1317,15 @@ class HomeActivity : BaseActivity(), OnMessageFilterInterface, OnChatUserInterfa
         (binding.rvMessageList.itemAnimator as? SimpleItemAnimator)?.supportsChangeAnimations =
             false
 
-        val layoutManager: RecyclerView.LayoutManager =
-            LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
-        binding.rvMessageFilterView.setLayoutManager(layoutManager)
         rvMessageFilterAdapter = MessageFilterAdapter(messageFilterList, this, this)
-        binding.rvMessageFilterView.adapter = rvMessageFilterAdapter
-        binding.rvMessageFilterView.itemAnimator = DefaultItemAnimator()
+
+        binding.rvMessageFilterView.apply {
+            layoutManager =
+                LinearLayoutManager(this@HomeActivity, LinearLayoutManager.HORIZONTAL, false)
+            adapter = rvMessageFilterAdapter
+            setHasFixedSize(true)
+            itemAnimator = null
+        }
 
         receiverSMSOrMMS()
         getSMSResponse()
@@ -1530,7 +1577,9 @@ class HomeActivity : BaseActivity(), OnMessageFilterInterface, OnChatUserInterfa
 
         binding.ivNavigationDrawer.setOnClickListener {
             if (!isDefaultSmsApp(this)) {
-                requestSmsRole()
+                if (shouldRequestSmsRole()) {
+                    requestSmsRole()
+                }
                 return@setOnClickListener
             }
 
@@ -1711,7 +1760,7 @@ class HomeActivity : BaseActivity(), OnMessageFilterInterface, OnChatUserInterfa
                 snackbarView.layoutParams = params
                 snackbar.show()
             } else {
-                showToast(getString(R.string.first_select_message_atleast_one_or_more))
+                showToast(getString(R.string.first_select_message_at_least_one_or_more))
             }
         }
 
@@ -1725,7 +1774,7 @@ class HomeActivity : BaseActivity(), OnMessageFilterInterface, OnChatUserInterfa
                 }
                 clearSelectionViewOrUpdate()
             } else {
-                showToast(getString(R.string.first_select_message_atleast_one_or_more))
+                showToast(getString(R.string.first_select_message_at_least_one_or_more))
             }
         }
 
@@ -1742,7 +1791,7 @@ class HomeActivity : BaseActivity(), OnMessageFilterInterface, OnChatUserInterfa
                 }
                 clearSelectionViewOrUpdate()
             } else {
-                showToast(getString(R.string.first_select_message_atleast_one_or_more))
+                showToast(getString(R.string.first_select_message_at_least_one_or_more))
             }
         }
 
@@ -1789,7 +1838,7 @@ class HomeActivity : BaseActivity(), OnMessageFilterInterface, OnChatUserInterfa
                     }
                     binding.iSelectionHeader.cvMoreOptionsDialog.fadeIn()
                 } else {
-                    showToast(getString(R.string.first_select_message_atleast_one_or_more))
+                    showToast(getString(R.string.first_select_message_at_least_one_or_more))
                 }
             }
         }
@@ -1883,7 +1932,9 @@ class HomeActivity : BaseActivity(), OnMessageFilterInterface, OnChatUserInterfa
 
         binding.ivSearchView.setOnClickListener {
             if (!isDefaultSmsApp(this)) {
-                requestSmsRole()
+                if (shouldRequestSmsRole()) {
+                    requestSmsRole()
+                }
                 return@setOnClickListener
             }
 
@@ -1892,7 +1943,9 @@ class HomeActivity : BaseActivity(), OnMessageFilterInterface, OnChatUserInterfa
 
         binding.rvFilter.setOnClickListener {
             if (!isDefaultSmsApp(this)) {
-                requestSmsRole()
+                if (shouldRequestSmsRole()) {
+                    requestSmsRole()
+                }
                 return@setOnClickListener
             }
 
@@ -1907,7 +1960,9 @@ class HomeActivity : BaseActivity(), OnMessageFilterInterface, OnChatUserInterfa
 
         binding.rvMultiSelection.setOnClickListener {
             if (!isDefaultSmsApp(this)) {
-                requestSmsRole()
+                if (shouldRequestSmsRole()) {
+                    requestSmsRole()
+                }
                 return@setOnClickListener
             }
 
@@ -1942,7 +1997,7 @@ class HomeActivity : BaseActivity(), OnMessageFilterInterface, OnChatUserInterfa
             DialogBlockNumberBinding.inflate(LayoutInflater.from(this))
         dialog.setContentView(dialogBlockOrUnblockBinding.root)
         dialog.window?.let { window ->
-            window.setBackgroundDrawableResource(R.color.transparent)
+            window.setBackgroundDrawableResource(android.R.color.transparent)
             window.addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
             window.setDimAmount(0.6f)
 
@@ -1992,7 +2047,7 @@ class HomeActivity : BaseActivity(), OnMessageFilterInterface, OnChatUserInterfa
             DialogBlockNumberBinding.inflate(LayoutInflater.from(this))
         dialog.setContentView(dialogBlockOrUnblockBinding.root)
         dialog.window?.let { window ->
-            window.setBackgroundDrawableResource(R.color.transparent)
+            window.setBackgroundDrawableResource(android.R.color.transparent)
             window.addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
             window.setDimAmount(0.6f)
 
@@ -2038,7 +2093,7 @@ class HomeActivity : BaseActivity(), OnMessageFilterInterface, OnChatUserInterfa
             type = "text/plain"
             putExtra(
                 Intent.EXTRA_TEXT,
-                "Check out this amazing app: https://play.google.com/store/apps/details?id=$packageName"
+                "Upgrade your messaging experience ✨\n\nSend messages faster with a clean, smooth, and distraction-free app.\n\nTry it now: https://play.google.com/store/apps/details?id=$packageName"
             )
         }
         startActivity(Intent.createChooser(shareIntent, "Share via"))
@@ -4163,10 +4218,15 @@ class HomeActivity : BaseActivity(), OnMessageFilterInterface, OnChatUserInterfa
 
         if (isFullScreenNotificationAllowed() || Settings.canDrawOverlays(this)) {
             if (isEnablePostCallScreen && !CallOverlayService.isRunning) {
-                val cmdIntent = Intent(this, CallOverlayService::class.java).apply {
-                    putExtra("CALL_STATE", "100000")
+                val serviceIntent = Intent(this, CallOverlayService::class.java).apply {
+                    putExtra("CALL_STATE", "10000")
                 }
-                startService(cmdIntent)
+
+                try {
+                    ContextCompat.startForegroundService(this, serviceIntent)
+                } catch (e: Exception) {
+                    Log.d("ABCD","Overlay Service :- ${e.localizedMessage}")
+                }
             }
         }
 
@@ -4277,12 +4337,16 @@ class HomeActivity : BaseActivity(), OnMessageFilterInterface, OnChatUserInterfa
             if (isFirstTimeAskPermissions) {
                 Handler(Looper.getMainLooper()).postDelayed({
                     isFirstTimeAskPermissions = false
-                    requestSmsRole()
+                    if (shouldRequestSmsRole()) {
+                        requestSmsRole()
+                    }
                 }, 300)
             }
 
             binding.btnSetDefaultPermission.setOnClickListener {
-                requestSmsRole()
+                if (shouldRequestSmsRole()) {
+                    requestSmsRole()
+                }
             }
         }
         super.onResume()
@@ -4298,6 +4362,15 @@ class HomeActivity : BaseActivity(), OnMessageFilterInterface, OnChatUserInterfa
         binding.rvDefaultPermissionView.visibility = View.GONE
         binding.paginationProgress.visibility = View.VISIBLE
         binding.fabStartChat.visibility = View.VISIBLE
+    }
+
+    private fun shouldRequestSmsRole(): Boolean {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            val roleManager = getSystemService(RoleManager::class.java) ?: return false
+            return roleManager.isRoleAvailable(RoleManager.ROLE_SMS) &&
+                    !roleManager.isRoleHeld(RoleManager.ROLE_SMS)
+        }
+        return false
     }
 
     private fun requestSmsRole() {
@@ -4319,20 +4392,6 @@ class HomeActivity : BaseActivity(), OnMessageFilterInterface, OnChatUserInterfa
             }
             smsDefaultLauncher.launch(intent)
         }
-    }
-
-    private fun prepareIntentLauncher() {
-        smsDefaultLauncher =
-            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-                if (it.resultCode == RESULT_OK) {
-                    afterEnablePermissionView()
-                    initView()
-                    initClickListener()
-                    initDrawerClickListener()
-                } else {
-                    showToast(resources.getString(R.string.permission_denied_and_app_not_set_as_default_sms_app))
-                }
-            }
     }
 
     private fun disableSwipeLeftToRight() {
@@ -4485,26 +4544,36 @@ class HomeActivity : BaseActivity(), OnMessageFilterInterface, OnChatUserInterfa
         )
     }
 
-    private fun getContactName(context: Context, phoneNumber: String): String? {
-        val contentResolver = context.contentResolver
-        val uri = Uri.withAppendedPath(
-            ContactsContract.PhoneLookup.CONTENT_FILTER_URI,
-            Uri.encode(phoneNumber)
-        )
+    private fun getContactName(context: Context, phoneNumber: String?): String? {
+        if (phoneNumber.isNullOrBlank()) return null
 
-        val projection = arrayOf(
-            ContactsContract.PhoneLookup.DISPLAY_NAME
-        )
+        val normalizedNumber = PhoneNumberUtils.normalizeNumber(phoneNumber)
+        if (normalizedNumber.isBlank()) return null
 
-        contentResolver.query(uri, projection, null, null, null)?.use { cursor ->
-            if (cursor.moveToFirst()) {
-                val name =
-                    cursor.getString(cursor.getColumnIndexOrThrow(ContactsContract.PhoneLookup.DISPLAY_NAME))
-                return name
+        return try {
+            val uri = Uri.withAppendedPath(
+                ContactsContract.PhoneLookup.CONTENT_FILTER_URI,
+                Uri.encode(normalizedNumber)
+            )
+
+            val projection = arrayOf(ContactsContract.PhoneLookup.DISPLAY_NAME)
+
+            context.contentResolver.query(uri, projection, null, null, null)?.use { cursor ->
+                if (cursor.moveToFirst()) {
+                    return cursor.getString(
+                        cursor.getColumnIndexOrThrow(
+                            ContactsContract.PhoneLookup.DISPLAY_NAME
+                        )
+                    )
+                }
             }
-        }
 
-        return null
+            null
+        } catch (_: IllegalArgumentException) {
+            ""
+        } catch (_: Exception) {
+            ""
+        }
     }
 
     override fun onClickOfMessageFeature(
@@ -4588,5 +4657,25 @@ class HomeActivity : BaseActivity(), OnMessageFilterInterface, OnChatUserInterfa
                 showDeleteMultipleConversationDialog()
             }
         }
+    }
+
+    override fun onNetworkAvailable() {
+        runOnUiThread {
+            val sharePreference = getSharedPreferences("${packageName}_preferences", MODE_PRIVATE)
+
+            val purposeConsents = sharePreference.getString("IABTCF_PurposeConsents", "")
+            if (!purposeConsents.isNullOrEmpty()) {
+                val purposeOneString = purposeConsents.first().toString()
+                val hasConsentForPurposeOne = purposeOneString == "1"
+
+                if (hasConsentForPurposeOne) runAdsCampion()
+            } else {
+                runAdsCampion()
+            }
+        }
+    }
+
+    override fun onNetworkLost() {
+
     }
 }

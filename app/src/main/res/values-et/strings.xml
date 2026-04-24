@@ -1,5 +1,4 @@
 <resources>
-    <string name="app_name">Sõnumid: Teks SMS </string>
     <string name="sms_messages">SMS-sõnumid</string>
     <string name="set_as_a_default_app">Määra vaikeäpis</string>
     <string name="this_app_needs_to_be_set_as_your_default_sms_app_to_send_receive_and_manage_your_text_messages_without_setting_it_as_default_you_might_miss_important_messages_or_notifications_you_can_always_change_this_later_in_your_phone_settings">See rakendus peab olema määratud vaike-SMS-rakenduseks, et saata, vastu võtta ja hallata oma tekstisõnumeid. Ilma seda vaikimisi seadistamata võid jääda olulistest sõnumitest või teadetest ilma. Sa saad seda alati hiljem oma telefoni seadetes muuta.</string>
@@ -14,7 +13,6 @@
     <string name="enable">Luba</string>
     <string name="messages">Sõnumid</string>
     <string name="search_here">Otsi siit…</string>
-    <string name="message_text_sms">Sõnum: SMS</string>
     <string name="archived">Arhiveeritud</string>
     <string name="backup_amp_restore"><![CDATA[Varundamine ja taastamine]]></string>
     <string name="scheduled">Planeeritud</string>
@@ -173,7 +171,6 @@
     <string name="sim_1_slot_set_as_default">SIM 1 pesa määratud vaikevalikuks</string>
     <string name="sim_2_already_set_as_default">SIM 2 on juba määratud vaikevalikuks</string>
     <string name="sim_2_slot_set_as_default">SIM 2 pesa määratud vaikevalikuks</string>
-    <string name="code_copy">Koodi koopia: %1$s</string>
     <string name="backups">Varukoopiad</string>
     <string name="download_sms_messages_backups">/Download/sms/messages/Backups</string>
     <string name="backup_history">Varukoopiate ajalugu</string>
@@ -535,7 +532,6 @@
     <string name="are_you_sure_you_would_you_like_to_delete_this_message">Kas oled kindel, et soovid selle sõnumi kustutada?</string>
     <string name="pin">Kinnita</string>
     <string name="unpin">Eemalda kinnitus</string>
-    <string name="first_select_message_atleast_one_or_more">Vali esmalt üks või rohkem sõnumeid</string>
     <string name="remove_from_private_chats">Eemalda privaatvestlustest</string>
     <string name="view_full_chat_to_unlock_all_options">Kuva kogu vestlus, et avada kõik valikud</string>
     <string name="no_app_found_to_share_content">Sisu jagamiseks ei leitud rakendust</string>
@@ -569,7 +565,6 @@
     <string name="we_need_this_permission_to_give_you_better_user_experience">Vajame seda luba parema kasutajakogemuse pakkumiseks</string>
     <string name="allow_permission">Luba</string>
     <string name="turn_on_message_notifications">Lülita sõnumite teavitused sisse</string>
-    <string name="never_miss_an_important_message">Ära jäta kunagi olulist sõnumit vahele 💬</string>
     <string name="allow_app_to_read_phone_state">Luba rakendusel lugeda telefoni olekut</string>
     <string name="quick_messaging_access_after_call">Kiire sõnumi juurdepääs pärast kõnet</string>
     <string name="enable_our_quick_action_feature_in_3_steps">Aktiveeri meie kiirtoimingu funktsioon 3 sammuga</string>
@@ -608,6 +603,20 @@
     <string name="step_3_permission">Samm 3 :</string>
     <string name="swipe_the_toggle_to_turn_on">Libista lüliti sisse.</string>
     <string name="slide_the_toggle_switch_to_enable_and_activate_the_feature">Libista lüliti funktsiooni aktiveerimiseks.</string>
-    <string name="this_app_requires_access_to_your_phone_state_to_detect_when_a_call_ends_so_it_can_provide_the_after_call_messaging_screen_no_call_logs_are_stored_or_shared">See rakendus vajab juurdepääsu telefoni olekule, et tuvastada kõne lõpp ja kuvada kõnejärgne sõnumiekraan. Kõnelogisid ei salvestata ega jagata.</string>
     <string name="privacy_policy">Privaatsuspoliitika</string>
+    <string name="code_copy">Kopeeri OTP : %1$s</string>
+    <string name="no_contacts_app_found_on_this_device">Selles seadmes ei leitud kontaktide rakendust</string>
+    <string name="spam_amp_block"><![CDATA[Rämpspost ja blokeeritud]]></string>
+    <string name="allow">Luba</string>
+    <string name="this_permission_is_required_to_after_call_features_please_allow_this_permission">See luba on vajalik kõnejärgsete funktsioonide jaoks. Palun luba see.</string>
+    <string name="please_wait_while_the_ad_loads">Palun oota, kuni reklaam laaditakse…</string>
+    <string name="you_re_offline_turn_on_your_internet_connection_to_access_all_messages_features">Oled võrguühenduseta.\nLülita internet sisse, et kasutada kõiki sõnumifunktsioone.</string>
+    <string name="message_text_sms">Sõnumid</string>
+    <string name="app_name">Sõnumid</string>
+    <string name="you_can_quickly_send_a_message_right_after_a_call">Saad kiiresti saata sõnumi kohe pärast kõnet</string>
+    <string name="turn_on_notifications_to_receive_message_alerts">Lülita teavitused sisse, et saada sõnumite märguandeid.</string>
+    <string name="first_select_message_at_least_one_or_more">Vali esmalt üks või mitu sõnumit</string>
+    <string name="we_do_not_store_track_or_share_your_call_or_message_data">Me ei salvesta ega jaga sinu kõne- ega sõnumiandmeid.</string>
+    <string name="outgoing_call">Väljuv kõne</string>
+    <string name="enable_required_features_to_use_messaging_your_data_stays_private_and_secure_on_your_device">Luba vajalikud funktsioonid sõnumite kasutamiseks. Sinu andmed jäävad sinu seadmes privaatseks ja turvaliseks.</string>
 </resources>

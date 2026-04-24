@@ -16,6 +16,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
@@ -25,7 +26,6 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
 import com.texting.sms.messaging_app.R
-import com.texting.sms.messaging_app.databinding.ActivityAppereanceBinding
 import com.texting.sms.messaging_app.adapter.ChatBoxColorAdapter
 import com.texting.sms.messaging_app.adapter.ChatBoxStyleAdapter
 import com.texting.sms.messaging_app.adapter.ChatWallpaperAdapter
@@ -35,12 +35,15 @@ import com.texting.sms.messaging_app.ads.InterstitialAdHelper
 import com.texting.sms.messaging_app.ads.NativeAdHelper
 import com.texting.sms.messaging_app.database.Const
 import com.texting.sms.messaging_app.database.SharedPreferencesHelper
+import com.texting.sms.messaging_app.databinding.ActivityAppereanceBinding
+import com.texting.sms.messaging_app.listener.NetworkAvailableListener
 import com.texting.sms.messaging_app.listener.OnChatBoxClickInterface
 import com.texting.sms.messaging_app.listener.OnChatBoxColorClickInterface
 import com.texting.sms.messaging_app.listener.OnChatWallpaperClickInterface
 import com.texting.sms.messaging_app.model.ChatBoxColor
 import com.texting.sms.messaging_app.model.ChatBoxStyle
 import com.texting.sms.messaging_app.model.ChatWallpaper
+import com.texting.sms.messaging_app.utils.NetworkConnectionUtil
 import com.texting.sms.messaging_app.utils.getColorFromAttr
 import jp.wasabeef.glide.transformations.BlurTransformation
 import kotlinx.coroutines.Dispatchers
@@ -49,7 +52,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class AppearanceActivity : BaseActivity(), OnChatBoxClickInterface, OnChatBoxColorClickInterface,
-    OnChatWallpaperClickInterface {
+    OnChatWallpaperClickInterface, NetworkAvailableListener {
     private lateinit var binding: ActivityAppereanceBinding
     private lateinit var rvChatStyleBoxAdapter: ChatBoxStyleAdapter
     private lateinit var rvChatBoxColorAdapter: ChatBoxColorAdapter
@@ -216,14 +219,29 @@ class AppearanceActivity : BaseActivity(), OnChatBoxClickInterface, OnChatBoxCol
     private var onPermissionGranted: (() -> Unit)? = null
     private var imageUri: Uri? = null
 
+    private lateinit var networkUtil: NetworkConnectionUtil
+
+    override fun onStart() {
+        super.onStart()
+        networkUtil.register()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        networkUtil.unregister()
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        networkUtil = NetworkConnectionUtil(this)
+        networkUtil.setListener(this)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_appereance)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+
         permissionLauncher = registerForActivityResult(
             ActivityResultContracts.RequestMultiplePermissions()
         ) { permissions ->
@@ -233,7 +251,7 @@ class AppearanceActivity : BaseActivity(), OnChatBoxClickInterface, OnChatBoxCol
                 showToast(getString(R.string.permission_denied))
             }
         }
-        runAdsCampion()
+
         initView()
         initClickListener()
     }
@@ -305,20 +323,24 @@ class AppearanceActivity : BaseActivity(), OnChatBoxClickInterface, OnChatBoxCol
             withContext(Dispatchers.Main) {
                 if (isFinishing || isDestroyed) return@withContext
 
-                if (isCurrentPageNativeAdsEnabled && !isCurrentPageBannerAdsEnabled) {
-                    runNativeAds(
-                        nativeAdsType = nativeAdsType, nativeAdsId = currentPageNativeAdsId
-                    )
-                } else if (isCurrentPageBannerAdsEnabled && !isCurrentPageNativeAdsEnabled) {
-                    runBannerAds(
-                        bannerAdsId = currentPageBannerAdsID, bannerAdsType = bannerAdsType
-                    )
-                }
-
                 if (isAppInterstitialAdsEnabled) {
                     InterstitialAdHelper.apply {
                         loadAd(this@AppearanceActivity)
                     }
+                }
+
+                if (isCurrentPageNativeAdsEnabled && !isCurrentPageBannerAdsEnabled) {
+                    if (binding.nativeAdContainer.isVisible) return@withContext
+
+                    runNativeAds(
+                        nativeAdsType = nativeAdsType, nativeAdsId = currentPageNativeAdsId
+                    )
+                } else if (isCurrentPageBannerAdsEnabled && !isCurrentPageNativeAdsEnabled) {
+                    if (binding.bannerAdContainer.root.isVisible) return@withContext
+
+                    runBannerAds(
+                        bannerAdsId = currentPageBannerAdsID, bannerAdsType = bannerAdsType
+                    )
                 }
             }
         }
@@ -661,11 +683,11 @@ class AppearanceActivity : BaseActivity(), OnChatBoxClickInterface, OnChatBoxCol
                 if (adsEnabled && interstitialEnabled) {
                     InterstitialAdHelper.showAd(this@AppearanceActivity) {
                         isEnabled = false
-                        onBackPressedDispatcher.onBackPressed()
+                        finish()
                     }
                 } else {
                     isEnabled = false
-                    onBackPressedDispatcher.onBackPressed()
+                    finish()
                 }
             }
         })
@@ -851,5 +873,25 @@ class AppearanceActivity : BaseActivity(), OnChatBoxClickInterface, OnChatBoxCol
         SharedPreferencesHelper.saveInt(this, Const.OTHERS_WALLPAPER_POSITION, position)
 
         rvChatWallpaperAdapter.updateSelectedChatWallpaper(position)
+    }
+
+    override fun onNetworkAvailable() {
+        runOnUiThread {
+            val sharePreference = getSharedPreferences("${packageName}_preferences", MODE_PRIVATE)
+
+            val purposeConsents = sharePreference.getString("IABTCF_PurposeConsents", "")
+            if (!purposeConsents.isNullOrEmpty()) {
+                val purposeOneString = purposeConsents.first().toString()
+                val hasConsentForPurposeOne = purposeOneString == "1"
+
+                if (hasConsentForPurposeOne) runAdsCampion()
+            } else {
+                runAdsCampion()
+            }
+        }
+    }
+
+    override fun onNetworkLost() {
+
     }
 }

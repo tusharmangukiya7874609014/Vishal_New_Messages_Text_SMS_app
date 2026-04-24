@@ -16,14 +16,15 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/shimmerEnablePermission"
             android:orientation="vertical">
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:layout_width="wrap_content"
-                android:layout_height="@dimen/_265sdp"
+                android:layout_height="@dimen/_260sdp"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="@dimen/_28sdp"
+                android:layout_marginTop="@dimen/_20sdp"
                 android:src="?attr/displayOverlayPermission" />
 
             <RelativeLayout
@@ -39,7 +40,7 @@
                     android:fontFamily="@font/semi_bold_sans"
                     android:text="@string/enable_our_quick_action_feature_in_3_steps"
                     android:textColor="@color/app_theme_color"
-                    android:textSize="@dimen/_13ssp" />
+                    android:textSize="@dimen/_12ssp" />
 
             </RelativeLayout>
 
@@ -63,7 +64,7 @@
                         android:fontFamily="@font/medium_sans"
                         android:text="@string/step_1_permission"
                         android:textColor="?attr/titleTextColor"
-                        android:textSize="@dimen/_12ssp" />
+                        android:textSize="@dimen/features_title_size" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -79,7 +80,7 @@
                             android:fontFamily="@font/medium_sans"
                             android:text="@string/step_1_press_enable_button_below"
                             android:textColor="?attr/titleTextColor"
-                            android:textSize="@dimen/_12ssp" />
+                            android:textSize="@dimen/features_title_size" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -88,8 +89,8 @@
                             android:layout_marginTop="2dp"
                             android:fontFamily="@font/regular_sans"
                             android:text="@string/click_the_allow_access_button_to_proceed_with_enabling_permissions"
-                            android:textColor="?attr/titleTextColor"
-                            android:textSize="@dimen/_10ssp" />
+                            android:textColor="?attr/subHeadingColor"
+                            android:textSize="@dimen/features_sub_title_size" />
 
                     </LinearLayout>
 
@@ -108,7 +109,7 @@
                         android:fontFamily="@font/medium_sans"
                         android:text="@string/step_2_permission"
                         android:textColor="?attr/titleTextColor"
-                        android:textSize="@dimen/_12ssp" />
+                        android:textSize="@dimen/features_title_size" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -124,7 +125,7 @@
                             android:fontFamily="@font/medium_sans"
                             android:text="@string/find_messages_in_the_list"
                             android:textColor="?attr/titleTextColor"
-                            android:textSize="@dimen/_12ssp" />
+                            android:textSize="@dimen/features_title_size" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -133,8 +134,8 @@
                             android:layout_marginTop="2dp"
                             android:fontFamily="@font/regular_sans"
                             android:text="@string/locate_messages_in_the_list_to_proceed_with_the_next_step"
-                            android:textColor="?attr/titleTextColor"
-                            android:textSize="@dimen/_10ssp" />
+                            android:textColor="?attr/subHeadingColor"
+                            android:textSize="@dimen/features_sub_title_size" />
 
                     </LinearLayout>
 
@@ -152,7 +153,7 @@
                         android:fontFamily="@font/medium_sans"
                         android:text="@string/step_3_permission"
                         android:textColor="?attr/titleTextColor"
-                        android:textSize="@dimen/_12ssp" />
+                        android:textSize="@dimen/features_title_size" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -168,7 +169,7 @@
                             android:fontFamily="@font/medium_sans"
                             android:text="@string/swipe_the_toggle_to_turn_on"
                             android:textColor="?attr/titleTextColor"
-                            android:textSize="@dimen/_12ssp" />
+                            android:textSize="@dimen/features_title_size" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -177,8 +178,8 @@
                             android:layout_marginTop="2dp"
                             android:fontFamily="@font/regular_sans"
                             android:text="@string/slide_the_toggle_switch_to_enable_and_activate_the_feature"
-                            android:textColor="?attr/titleTextColor"
-                            android:textSize="@dimen/_10ssp" />
+                            android:textColor="?attr/subHeadingColor"
+                            android:textSize="@dimen/features_sub_title_size" />
 
                     </LinearLayout>
 
@@ -189,13 +190,13 @@
         </LinearLayout>
 
         <com.facebook.shimmer.ShimmerFrameLayout
+            android:id="@+id/shimmerEnablePermission"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_38sdp"
             android:layout_above="@+id/rvAdsView"
-            android:layout_alignParentBottom="true"
-            android:layout_marginHorizontal="@dimen/_45sdp"
+            android:layout_marginHorizontal="@dimen/_12sdp"
             android:layout_marginTop="@dimen/_5sdp"
-            android:layout_marginBottom="@dimen/_25sdp"
+            android:layout_marginBottom="@dimen/_10sdp"
             app:shimmer_auto_start="true"
             app:shimmer_base_alpha="0.8"
             app:shimmer_direction="left_to_right"
@@ -216,7 +217,7 @@
                 android:text="@string/enable"
                 android:textAllCaps="false"
                 android:textColor="@color/white"
-                android:textSize="@dimen/_13ssp" />
+                android:textSize="@dimen/_12ssp" />
 
         </com.facebook.shimmer.ShimmerFrameLayout>
 

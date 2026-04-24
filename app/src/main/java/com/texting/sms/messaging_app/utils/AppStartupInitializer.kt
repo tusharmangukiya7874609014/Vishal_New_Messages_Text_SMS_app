@@ -54,7 +54,7 @@ class AppStartupInitializer : Initializer<Unit> {
 
                         storeAdsManagerResponse(context = context)
                     } catch (e: Exception) {
-                        Log.e("ABCD", "Firebase Error :- ${e.localizedMessage}")
+                        Log.e("FirebaseError", "Firebase Error :- ${e.localizedMessage}")
                     }
                 }
             }
@@ -135,35 +135,17 @@ class AppStartupInitializer : Initializer<Unit> {
             retrievedAdsJson.optLong("interstitialAdsMinuteCount")
         )
 
+        SharedPreferencesHelper.saveLong(
+            context,
+            Const.APP_OPEN_ADS_MINUTE_COUNTER,
+            retrievedAdsJson.optLong("appOpenAdsMinuteCount")
+        )
+
         SharedPreferencesHelper.saveBoolean(
             context,
             Const.IS_ADS_CONFIG_READY,
             true
         )
-
-        if (SharedPreferencesHelper.getBoolean(
-                context, Const.IS_ADS_ENABLED, false
-            )
-        ) {
-            initializeAdsSafely(context) { }
-        }
-    }
-
-    private fun initializeAdsSafely(context: Context, onComplete: (() -> Unit)? = null) {
-        CoroutineScope(Dispatchers.IO).launch {
-            try {
-                MobileAds.initialize(
-                    context,
-                    InitializationConfig.Builder("ca-app-pub-5550085346779978~8891033445").build()
-                ) {
-                    Handler(Looper.getMainLooper()).post {
-                        onComplete?.invoke()
-                    }
-                }
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
-        }
     }
 
     private fun snapshotToJson(snapshot: DataSnapshot): String {

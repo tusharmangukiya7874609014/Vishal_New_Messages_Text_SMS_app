@@ -26,10 +26,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_3sdp"
-                android:fontFamily="@font/light_sans"
+                android:fontFamily="@font/regular_sans"
                 android:text="@string/select_date"
                 android:textColor="?attr/titleTextColor"
-                android:textSize="@dimen/_13ssp" />
+                android:textSize="@dimen/_12ssp" />
 
             <TextView
                 android:id="@+id/txtSelectedDate"
@@ -37,9 +37,9 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/txtTitle"
                 android:layout_marginTop="@dimen/_3sdp"
-                android:fontFamily="@font/medium_sans"
+                android:fontFamily="@font/semi_bold_sans"
                 android:textColor="?attr/titleTextColor"
-                android:textSize="@dimen/_15ssp"
+                android:textSize="@dimen/_14ssp"
                 tools:text="29 Apr 2025" />
 
             <View

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Messages: Text SMS</string>
+    <string name="app_name">Messages</string>
     <string name="app_permission_name" translatable="false">#Messages</string>
     <string name="sms_messages">SMS Messages</string>
     <string name="set_as_a_default_app">Set as Default SMS</string>
@@ -15,7 +15,7 @@
     <string name="enable">Enable</string>
     <string name="messages">Messages</string>
     <string name="search_here">Search Here…</string>
-    <string name="message_text_sms">Messages : Text SMS</string>
+    <string name="message_text_sms">Messages</string>
     <string name="archived">Archived</string>
     <string name="backup_amp_restore"><![CDATA[Backup & Restore]]></string>
     <string name="scheduled">Scheduled</string>
@@ -174,7 +174,6 @@
     <string name="sim_1_slot_set_as_default">SIM 1 Slot Set as Default</string>
     <string name="sim_2_already_set_as_default">SIM 2 Already Set as Default</string>
     <string name="sim_2_slot_set_as_default">SIM 2 Slot Set as Default</string>
-    <string name="code_copy">Code Copy : %1$s</string>
     <string name="backups">Backups</string>
     <string name="download_sms_messages_backups">/Download/sms/messages/Backups</string>
     <string name="backup_history">Backup History</string>
@@ -536,7 +535,6 @@
     <string name="are_you_sure_you_would_you_like_to_delete_this_message">Are you sure you would you like to delete this message ?</string>
     <string name="pin">Pin</string>
     <string name="unpin">Unpin</string>
-    <string name="first_select_message_atleast_one_or_more">First select one or more messages</string>
     <string name="remove_from_private_chats">Remove from Private Chats</string>
     <string name="view_full_chat_to_unlock_all_options">View full chat to unlock all options</string>
     <string name="no_app_found_to_share_content">No app found to share content</string>
@@ -571,7 +569,6 @@
     <string name="we_need_this_permission_to_give_you_better_user_experience">We need this permission to give you better user experience</string>
     <string name="allow_permission">Allow Permission</string>
     <string name="turn_on_message_notifications">Turn on message notifications</string>
-    <string name="never_miss_an_important_message">Never miss an important message 💬</string>
     <string name="allow_app_to_read_phone_state">Allow app to read phone state</string>
     <string name="quick_messaging_access_after_call">Quick messaging access after call</string>
     <string name="enable_our_quick_action_feature_in_3_steps">Enable our quick action feature in 3 steps</string>
@@ -610,7 +607,18 @@
     <string name="step_3_permission">Step 3 :</string>
     <string name="swipe_the_toggle_to_turn_on">Swipe the toggle to turn on.</string>
     <string name="slide_the_toggle_switch_to_enable_and_activate_the_feature">Slide the toggle switch to enable and activate the feature.</string>
-    <string name="this_app_requires_access_to_your_phone_state_to_detect_when_a_call_ends_so_it_can_provide_the_after_call_messaging_screen_no_call_logs_are_stored_or_shared">This app requires access to your phone state to detect when a call ends so it can provide the After-Call messaging screen. No call logs are stored or shared.</string>
     <string name="privacy_policy">Privacy Policy</string>
+    <string name="code_copy">Copy OTP : %1$s</string>
     <string name="no_contacts_app_found_on_this_device">No Contacts app found on this device</string>
+    <string name="spam_amp_block"><![CDATA[Spam & Blocked]]></string>
+    <string name="allow">Allow</string>
+    <string name="this_permission_is_required_to_after_call_features_please_allow_this_permission">This permission is required to After call features, please allow this permission.</string>
+    <string name="please_wait_while_the_ad_loads">Please wait while the ad loads…</string>
+    <string name="you_re_offline_turn_on_your_internet_connection_to_access_all_messages_features">You’re offline. \n Turn on your internet connection to access all messages features.</string>
+    <string name="you_can_quickly_send_a_message_right_after_a_call">You can quickly send a message right after a call</string>
+    <string name="turn_on_notifications_to_receive_message_alerts">Turn on notifications to receive message alerts.</string>
+    <string name="first_select_message_at_least_one_or_more">First select one or more messages</string>
+    <string name="we_do_not_store_track_or_share_your_call_or_message_data">We do not store &amp; share your call or message data.</string>
+    <string name="outgoing_call">Outgoing Call</string>
+    <string name="enable_required_features_to_use_messaging_your_data_stays_private_and_secure_on_your_device">Enable required features to use messaging. Your data stays private and secure on your device.</string>
 </resources>

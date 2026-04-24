@@ -18,11 +18,13 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.WindowManager
+import androidx.activity.OnBackPressedCallback
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -40,6 +42,9 @@ import com.texting.sms.messaging_app.listener.OnBackupClickInterface
 import com.texting.sms.messaging_app.model.SmsBackupInfo
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
+import com.texting.sms.messaging_app.ads.InterstitialAdHelper
+import com.texting.sms.messaging_app.listener.NetworkAvailableListener
+import com.texting.sms.messaging_app.utils.NetworkConnectionUtil
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -50,14 +55,28 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
-class BackupAndRestoreActivity : BaseActivity(), OnBackupClickInterface {
+class BackupAndRestoreActivity : BaseActivity(), OnBackupClickInterface, NetworkAvailableListener {
     private lateinit var binding: ActivityBackupAndRestoreBinding
     private lateinit var backupHistoryAdapter: BackupHistoryAdapter
     private lateinit var backupFilesList: List<SmsBackupInfo>
     private lateinit var dialog: Dialog
 
+    private lateinit var networkUtil: NetworkConnectionUtil
+
+    override fun onStart() {
+        super.onStart()
+        networkUtil.register()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        networkUtil.unregister()
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        networkUtil = NetworkConnectionUtil(this)
+        networkUtil.setListener(this)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_backup_and_restore)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
@@ -65,7 +84,6 @@ class BackupAndRestoreActivity : BaseActivity(), OnBackupClickInterface {
             insets
         }
         dialog = Dialog(this)
-        runAdsCampion()
         initView()
         initClickListener()
     }
@@ -79,6 +97,10 @@ class BackupAndRestoreActivity : BaseActivity(), OnBackupClickInterface {
             )
 
             if (!isAppAdsShowing) return@launch
+
+            val isAppInterstitialAdsEnabled = SharedPreferencesHelper.getBoolean(
+                this@BackupAndRestoreActivity, Const.IS_INTERSTITIAL_ENABLED, false
+            )
 
             val isAppNativeAdsEnabled = SharedPreferencesHelper.getBoolean(
                 this@BackupAndRestoreActivity, Const.IS_NATIVE_ENABLED, false
@@ -132,11 +154,21 @@ class BackupAndRestoreActivity : BaseActivity(), OnBackupClickInterface {
             withContext(Dispatchers.Main) {
                 if (isFinishing || isDestroyed) return@withContext
 
+                if (isAppInterstitialAdsEnabled) {
+                    InterstitialAdHelper.apply {
+                        loadAd(this@BackupAndRestoreActivity)
+                    }
+                }
+
                 if (isCurrentPageNativeAdsEnabled && !isCurrentPageBannerAdsEnabled) {
+                    if (binding.nativeAdContainer.isVisible) return@withContext
+
                     runNativeAds(
                         nativeAdsType = nativeAdsType, nativeAdsId = currentPageNativeAdsId
                     )
                 } else if (isCurrentPageBannerAdsEnabled && !isCurrentPageNativeAdsEnabled) {
+                    if (binding.bannerAdContainer.root.isVisible) return@withContext
+
                     runBannerAds(
                         bannerAdsId = currentPageBannerAdsID, bannerAdsType = bannerAdsType
                     )
@@ -243,6 +275,27 @@ class BackupAndRestoreActivity : BaseActivity(), OnBackupClickInterface {
     }
 
     private fun initClickListener() {
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                val adsEnabled = SharedPreferencesHelper.getBoolean(
+                    this@BackupAndRestoreActivity, Const.IS_ADS_ENABLED, false
+                )
+                val interstitialEnabled = SharedPreferencesHelper.getBoolean(
+                    this@BackupAndRestoreActivity, Const.IS_INTERSTITIAL_ENABLED, false
+                )
+
+                if (adsEnabled && interstitialEnabled) {
+                    InterstitialAdHelper.showAd(this@BackupAndRestoreActivity) {
+                        isEnabled = false
+                        finish()
+                    }
+                } else {
+                    isEnabled = false
+                    finish()
+                }
+            }
+        })
+
         binding.ivBack.setOnClickListener {
             onBackPressedDispatcher.onBackPressed()
         }
@@ -485,7 +538,7 @@ class BackupAndRestoreActivity : BaseActivity(), OnBackupClickInterface {
         dialog.setContentView(dialogBackupAndRestoreBinding.root)
 
         dialog.window?.let { window ->
-            window.setBackgroundDrawableResource(R.color.transparent)
+            window.setBackgroundDrawableResource(android.R.color.transparent)
             window.addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
             window.setDimAmount(0.6f)
 
@@ -692,5 +745,25 @@ class BackupAndRestoreActivity : BaseActivity(), OnBackupClickInterface {
             lastBackup()
         }
         super.onResume()
+    }
+
+    override fun onNetworkAvailable() {
+        runOnUiThread {
+            val sharePreference = getSharedPreferences("${packageName}_preferences", MODE_PRIVATE)
+
+            val purposeConsents = sharePreference.getString("IABTCF_PurposeConsents", "")
+            if (!purposeConsents.isNullOrEmpty()) {
+                val purposeOneString = purposeConsents.first().toString()
+                val hasConsentForPurposeOne = purposeOneString == "1"
+
+                if (hasConsentForPurposeOne) runAdsCampion()
+            } else {
+                runAdsCampion()
+            }
+        }
+    }
+
+    override fun onNetworkLost() {
+
     }
 }

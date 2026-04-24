@@ -17,6 +17,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.net.toUri
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -29,8 +30,10 @@ import com.texting.sms.messaging_app.ads.NativeAdHelper
 import com.texting.sms.messaging_app.database.Const
 import com.texting.sms.messaging_app.database.SharedPreferencesHelper
 import com.texting.sms.messaging_app.listener.CallbackHolder
+import com.texting.sms.messaging_app.listener.NetworkAvailableListener
 import com.texting.sms.messaging_app.listener.OnChatUserInterface
 import com.texting.sms.messaging_app.model.ChatUser
+import com.texting.sms.messaging_app.utils.NetworkConnectionUtil
 import com.texting.sms.messaging_app.utils.getDrawableFromAttr
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -41,14 +44,28 @@ import kotlin.collections.isNotEmpty
 import kotlin.collections.iterator
 import kotlin.math.abs
 
-class AllConversationsActivity : BaseActivity(), OnChatUserInterface {
+class AllConversationsActivity : BaseActivity(), OnChatUserInterface, NetworkAvailableListener {
     private lateinit var binding: ActivityAllConversationsBinding
     private lateinit var rvMessageListAdapter: AllConversationAdapter
     private var privateThreadIDList = ArrayList<String>()
     private var allMessageList = emptyList<ChatUser>()
 
+    private lateinit var networkUtil: NetworkConnectionUtil
+
+    override fun onStart() {
+        super.onStart()
+        networkUtil.register()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        networkUtil.unregister()
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        networkUtil = NetworkConnectionUtil(this)
+        networkUtil.setListener(this)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_all_conversations)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
@@ -56,7 +73,6 @@ class AllConversationsActivity : BaseActivity(), OnChatUserInterface {
             insets
         }
         SharedPreferencesHelper.saveLong(this, "CURRENT_THREAD_ID", -1L)
-        runAdsCampion()
         initView()
         initClickListener()
     }
@@ -109,6 +125,8 @@ class AllConversationsActivity : BaseActivity(), OnChatUserInterface {
                 if (isFinishing || isDestroyed) return@withContext
 
                 if (isCurrentPageNativeAdsEnabled) {
+                    if (binding.nativeAdContainer.isVisible) return@withContext
+
                     runNativeAds(
                         nativeAdsType = nativeAdsType, nativeAdsId = currentPageNativeAdsId
                     )
@@ -195,7 +213,7 @@ class AllConversationsActivity : BaseActivity(), OnChatUserInterface {
                 CallbackHolder.listener?.onUpdateTheRecyclerView(true)
                 onBackPressedDispatcher.onBackPressed()
             } else {
-                showToast(getString(R.string.first_select_message_atleast_one_or_more))
+                showToast(getString(R.string.first_select_message_at_least_one_or_more))
             }
         }
     }
@@ -522,5 +540,25 @@ class AllConversationsActivity : BaseActivity(), OnChatUserInterface {
             unreadCount = unreadCount,
             simSlot = simSlot
         )
+    }
+
+    override fun onNetworkAvailable() {
+        runOnUiThread {
+            val sharePreference = getSharedPreferences("${packageName}_preferences", MODE_PRIVATE)
+
+            val purposeConsents = sharePreference.getString("IABTCF_PurposeConsents", "")
+            if (!purposeConsents.isNullOrEmpty()) {
+                val purposeOneString = purposeConsents.first().toString()
+                val hasConsentForPurposeOne = purposeOneString == "1"
+
+                if (hasConsentForPurposeOne) runAdsCampion()
+            } else {
+                runAdsCampion()
+            }
+        }
+    }
+
+    override fun onNetworkLost() {
+
     }
 }

@@ -21,7 +21,7 @@
         android:paddingVertical="@dimen/_6sdp">
 
         <androidx.cardview.widget.CardView
-            android:id="@+id/cvProfileView"
+            android:id="@+id/cvMessageUserProfile"
             android:layout_width="@dimen/_36sdp"
             android:layout_height="@dimen/_36sdp"
             app:cardBackgroundColor="?attr/itemBackgroundColor"
@@ -30,27 +30,39 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                tools:background="@drawable/bg_profile_ios_background">
 
                 <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/ivOriginalProfile"
+                    android:id="@+id/ivOriginalPhotoUri"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_centerInParent="true"
                     android:scaleType="centerCrop"
-                    app:blockedProfile="@{ivBlockProfile}"
+                    app:blockedProfile="@{ivBlockMessageUser}"
                     app:messageTitle="@{txtMessageTitle}"
-                    app:profileCard="@{cvProfileView}"
+                    app:profileCard="@{cvMessageUserProfile}"
+                    app:specialChar="@{txtSpecialChar}"
                     app:profileMessage="@{item.number}" />
 
                 <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/ivBlockProfile"
+                    android:id="@+id/ivBlockMessageUser"
                     android:layout_width="@dimen/_20sdp"
                     android:layout_height="@dimen/_20sdp"
                     android:layout_centerInParent="true"
                     android:scaleType="centerCrop"
                     android:src="@drawable/ic_block"
                     android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/txtSpecialChar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:fontFamily="@font/bold_sans"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/_14ssp"
+                    tools:text="A" />
 
             </RelativeLayout>
 
@@ -62,18 +74,18 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_8sdp"
             android:layout_marginEnd="@dimen/_8sdp"
-            android:layout_toEndOf="@+id/cvProfileView">
+            android:layout_toEndOf="@+id/cvMessageUserProfile">
 
             <TextView
                 android:id="@+id/txtMessageTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
-                android:fontFamily="@font/medium_sans"
+                android:fontFamily="@font/semi_bold_sans"
                 android:maxLines="1"
                 android:text='@{!TextUtils.isEmpty(item.name) ? item.name : item.number}'
                 android:textColor="?attr/titleTextColor"
-                android:textSize="@dimen/_12ssp"
+                android:textSize="@dimen/features_title_size"
                 tools:text="Eyes Clinic" />
 
             <TextView
@@ -81,13 +93,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/txtMessageTitle"
-                android:layout_marginTop="3dp"
+                android:layout_marginTop="1dp"
                 android:ellipsize="end"
                 android:fontFamily="@font/regular_sans"
                 android:maxLines="2"
                 android:text="@{item.message}"
-                android:textColor="?attr/subTextColor"
-                android:textSize="13sp"
+                android:textColor="?attr/subHeadingColor"
+                android:textSize="@dimen/features_sub_title_size"
                 android:visibility="@{!TextUtils.isEmpty(item.message) ? View.VISIBLE : View.GONE}"
                 tools:text="Good morning. I’m Angela a dental nurse at Eyes Dental ,can I help you?" />
 
@@ -117,7 +129,7 @@
             android:maxLines="1"
             android:text="@{item.time}"
             android:textColor="@color/app_theme_color"
-            android:textSize="@dimen/_10ssp"
+            android:textSize="@dimen/features_sub_title_size"
             tools:text="May 23" />
 
         <View

@@ -42,11 +42,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="@dimen/_30sdp"
                     android:buttonTint="@color/app_theme_color"
-                    android:fontFamily="@font/regular_sans"
+                    android:fontFamily="@font/medium_sans"
                     android:paddingHorizontal="@dimen/_5sdp"
                     android:text="@string/send_now"
                     android:textColor="?attr/titleTextColor"
-                    android:textSize="@dimen/_12ssp"
+                    android:textSize="@dimen/features_title_size"
                     android:theme="@style/RadioButton" />
 
                 <RadioButton
@@ -54,11 +54,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="@dimen/_30sdp"
                     android:buttonTint="@color/app_theme_color"
-                    android:fontFamily="@font/regular_sans"
+                    android:fontFamily="@font/medium_sans"
                     android:paddingHorizontal="@dimen/_5sdp"
                     android:text="@string/copy_text"
                     android:textColor="?attr/titleTextColor"
-                    android:textSize="@dimen/_12ssp"
+                    android:textSize="@dimen/features_title_size"
                     android:theme="@style/RadioButton" />
 
                 <RadioButton
@@ -66,11 +66,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="@dimen/_30sdp"
                     android:buttonTint="@color/app_theme_color"
-                    android:fontFamily="@font/regular_sans"
+                    android:fontFamily="@font/medium_sans"
                     android:paddingHorizontal="@dimen/_5sdp"
                     android:text="@string/delete"
                     android:textColor="?attr/titleTextColor"
-                    android:textSize="@dimen/_12ssp"
+                    android:textSize="@dimen/features_title_size"
                     android:theme="@style/RadioButton" />
 
             </RadioGroup>

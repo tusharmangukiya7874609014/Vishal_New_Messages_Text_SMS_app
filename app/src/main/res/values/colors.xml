@@ -164,4 +164,8 @@
     <color name="shimmerColor">#80353434</color>
     <color name="gnt_gray">#808080</color>
     <color name="dim_black_transparent">#66000000</color>
+    <color name="messages_light_theme_title">#000000</color>
+    <color name="messages_dark_theme_title">#FFFFFF</color>
+    <color name="messages_light_theme_sub_title">#8a8a8e</color>
+    <color name="messages_dark_theme_sub_title">#707075</color>
 </resources>

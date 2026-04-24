@@ -1,5 +1,6 @@
 package com.texting.sms.messaging_app.activity
 
+import android.content.Context
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
@@ -9,39 +10,67 @@ import android.view.WindowInsetsController
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator
 import androidx.lifecycle.lifecycleScope
+import com.google.firebase.analytics.FirebaseAnalytics
 import com.texting.sms.messaging_app.R
-import com.texting.sms.messaging_app.databinding.ActivityAfterCallBackBinding
 import com.texting.sms.messaging_app.ads.BannerAdHelper
 import com.texting.sms.messaging_app.ads.BannerType
 import com.texting.sms.messaging_app.ads.NativeAdHelper
 import com.texting.sms.messaging_app.database.Const
 import com.texting.sms.messaging_app.database.SharedPreferencesHelper
+import com.texting.sms.messaging_app.databinding.ActivityAfterCallBackBinding
 import com.texting.sms.messaging_app.fragment.CustomMessageFragment
 import com.texting.sms.messaging_app.fragment.SendMessagesFragment
 import com.texting.sms.messaging_app.fragment.SettingsFragment
+import com.texting.sms.messaging_app.listener.NetworkAvailableListener
+import com.texting.sms.messaging_app.utils.NetworkConnectionUtil
 import com.texting.sms.messaging_app.viewmodel.AfterCallBackViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class AfterCallBackActivity : AppCompatActivity() {
+class AfterCallBackActivity : AppCompatActivity(), NetworkAvailableListener {
     private lateinit var binding: ActivityAfterCallBackBinding
     private val viewModel: AfterCallBackViewModel by viewModels()
+
+    private lateinit var networkUtil: NetworkConnectionUtil
+
+    override fun onStart() {
+        super.onStart()
+        networkUtil.register()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        networkUtil.unregister()
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+        networkUtil = NetworkConnectionUtil(this)
+        networkUtil.setListener(this)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_after_call_back)
-        runAdsCampion()
+        firebaseLogEvent(this)
         initView()
         initObserver()
         initClickListener()
+    }
+
+    private fun firebaseLogEvent(
+        context: Context
+    ) {
+        val bundle = Bundle().apply {
+            putString("page_name", "AFTER_CALL_BACK_PAGE_SHOWN")
+        }
+
+        FirebaseAnalytics.getInstance(context).logEvent("SHOW_AFTER_CALL_BACK_PAGE", bundle)
     }
 
     private fun runAdsCampion() {
@@ -108,10 +137,14 @@ class AfterCallBackActivity : AppCompatActivity() {
                 if (isFinishing || isDestroyed) return@withContext
 
                 if (isCurrentPageNativeAdsEnabled && !isCurrentPageBannerAdsEnabled) {
+                    if (binding.nativeAdContainer.isVisible) return@withContext
+
                     runNativeAds(
                         nativeAdsType = nativeAdsType, nativeAdsId = currentPageNativeAdsId
                     )
                 } else if (isCurrentPageBannerAdsEnabled && !isCurrentPageNativeAdsEnabled) {
+                    if (binding.bannerAdContainer.root.isVisible) return@withContext
+
                     runBannerAds(
                         bannerAdsId = currentPageBannerAdsID,
                         bannerAdsType = bannerAdsType
@@ -172,6 +205,9 @@ class AfterCallBackActivity : AppCompatActivity() {
 
             val openSpecificView = intent.getIntExtra("ClickView", 1)
             viewModel.selectTab(openSpecificView)
+
+            val callType = intent.getStringExtra("CallType")
+            binding.txtCalledType.text = callType
         } else {
             viewModel.selectTab(1)
         }
@@ -269,5 +305,25 @@ class AfterCallBackActivity : AppCompatActivity() {
             window.decorView.systemUiVisibility =
                 (View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY)
         }
+    }
+
+    override fun onNetworkAvailable() {
+        runOnUiThread {
+            val sharePreference = getSharedPreferences("${packageName}_preferences", MODE_PRIVATE)
+
+            val purposeConsents = sharePreference.getString("IABTCF_PurposeConsents", "")
+            if (!purposeConsents.isNullOrEmpty()) {
+                val purposeOneString = purposeConsents.first().toString()
+                val hasConsentForPurposeOne = purposeOneString == "1"
+
+                if (hasConsentForPurposeOne) runAdsCampion()
+            } else {
+                runAdsCampion()
+            }
+        }
+    }
+
+    override fun onNetworkLost() {
+
     }
 }

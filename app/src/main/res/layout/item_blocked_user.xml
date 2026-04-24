@@ -53,7 +53,7 @@
                 android:fontFamily="@font/medium_sans"
                 android:maxLines="1"
                 android:textColor="?attr/titleTextColor"
-                android:textSize="@dimen/_11ssp"
+                android:textSize="@dimen/features_title_size"
                 tools:text="+91 78628 21545" />
 
         </RelativeLayout>

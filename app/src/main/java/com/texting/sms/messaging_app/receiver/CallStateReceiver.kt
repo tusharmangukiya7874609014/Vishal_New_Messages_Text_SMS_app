@@ -8,6 +8,7 @@ import android.os.Build
 import android.provider.Settings
 import android.telephony.TelephonyManager
 import android.util.Log
+import androidx.core.content.ContextCompat
 import com.texting.sms.messaging_app.database.Const
 import com.texting.sms.messaging_app.database.SharedPreferencesHelper
 import com.texting.sms.messaging_app.services.CallOverlayService
@@ -15,7 +16,9 @@ import com.texting.sms.messaging_app.services.CallOverlayService
 class CallStateReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context?, intent: Intent?) {
         if (intent?.action == TelephonyManager.ACTION_PHONE_STATE_CHANGED) {
+
             if (context == null) return
+
             if (intent.action != TelephonyManager.ACTION_PHONE_STATE_CHANGED) return
 
             val state = intent.getStringExtra(TelephonyManager.EXTRA_STATE) ?: return
@@ -32,9 +35,9 @@ class CallStateReceiver : BroadcastReceiver() {
             }
 
             try {
-                context.startService(serviceIntent)
+                ContextCompat.startForegroundService(context, serviceIntent)
             } catch (e: Exception) {
-                Log.e("CallOverlay", "Failed to start overlay service", e)
+                Log.d("ABCD", "Overlay Exception :- $e")
             }
         }
     }

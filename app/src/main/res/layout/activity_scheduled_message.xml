@@ -68,12 +68,12 @@
                 android:id="@+id/txtSubTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/light_sans"
+                android:fontFamily="@font/regular_sans"
                 android:layout_centerHorizontal="true"
                 android:text="@string/automatically_send_a_message_at_the_exact_moment_you_d_like"
                 android:textAlignment="center"
-                android:textColor="?attr/subTextColor"
-                android:textSize="@dimen/_10ssp" />
+                android:textColor="?attr/subHeadingColor"
+                android:textSize="@dimen/_9ssp" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvScheduledChatView"
@@ -181,10 +181,10 @@
                     android:layout_gravity="end"
                     android:layout_marginTop="@dimen/_3sdp"
                     android:layout_marginEnd="@dimen/_5sdp"
-                    android:fontFamily="@font/semi_bold_sans"
+                    android:fontFamily="@font/regular_sans"
                     android:text="@string/sending_on_march_6th"
-                    android:textColor="?attr/subTextColor"
-                    android:textSize="@dimen/_11ssp" />
+                    android:textColor="?attr/subHeadingColor"
+                    android:textSize="@dimen/_9ssp" />
 
             </LinearLayout>
 

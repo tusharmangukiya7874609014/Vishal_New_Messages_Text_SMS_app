@@ -13,6 +13,7 @@ import android.view.View
 import androidx.core.net.toUri
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -35,6 +36,10 @@ import com.texting.sms.messaging_app.utils.StarCategory
 import com.texting.sms.messaging_app.adapter.StarredImagesAdapter
 import com.texting.sms.messaging_app.adapter.StarredLinkAdapter
 import com.texting.sms.messaging_app.adapter.StarredPlainMessageAdapter
+import com.texting.sms.messaging_app.ads.InterstitialAdHelper
+import com.texting.sms.messaging_app.ads.InterstitialAdHelper.loadAd
+import com.texting.sms.messaging_app.listener.NetworkAvailableListener
+import com.texting.sms.messaging_app.utils.NetworkConnectionUtil
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -42,7 +47,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class StarredMessagesActivity : BaseActivity(), OnStarredTextClick, OnStarredLinkClick,
-    OnStarredImageClick {
+    OnStarredImageClick, NetworkAvailableListener {
     private lateinit var binding: ActivityStarredMessagesBinding
     private lateinit var rvStarredMessageAdapter: StarredPlainMessageAdapter
     private lateinit var rvStarredImagesAdapter: StarredImagesAdapter
@@ -54,8 +59,22 @@ class StarredMessagesActivity : BaseActivity(), OnStarredTextClick, OnStarredLin
     private lateinit var onStarredImageClick: OnStarredImageClick
     private var threadId = 0L
 
+    private lateinit var networkUtil: NetworkConnectionUtil
+
+    override fun onStart() {
+        super.onStart()
+        networkUtil.register()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        networkUtil.unregister()
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        networkUtil = NetworkConnectionUtil(this)
+        networkUtil.setListener(this)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_starred_messages)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
@@ -65,7 +84,6 @@ class StarredMessagesActivity : BaseActivity(), OnStarredTextClick, OnStarredLin
         onStarredTextClick = this
         onStarredLinkClick = this
         onStarredImageClick = this
-        runAdsCampion()
         initView()
         initClickListener()
     }
@@ -135,10 +153,14 @@ class StarredMessagesActivity : BaseActivity(), OnStarredTextClick, OnStarredLin
                 if (isFinishing || isDestroyed) return@withContext
 
                 if (isCurrentPageNativeAdsEnabled && !isCurrentPageBannerAdsEnabled) {
+                    if (binding.nativeAdContainer.isVisible) return@withContext
+
                     runNativeAds(
                         nativeAdsType = nativeAdsType, nativeAdsId = currentPageNativeAdsId
                     )
                 } else if (isCurrentPageBannerAdsEnabled && !isCurrentPageNativeAdsEnabled) {
+                    if (binding.bannerAdContainer.root.isVisible) return@withContext
+
                     runBannerAds(
                         bannerAdsId = currentPageBannerAdsID, bannerAdsType = bannerAdsType
                     )
@@ -600,5 +622,25 @@ class StarredMessagesActivity : BaseActivity(), OnStarredTextClick, OnStarredLin
             finishAffinity()
         }
         super.onResume()
+    }
+
+    override fun onNetworkAvailable() {
+        runOnUiThread {
+            val sharePreference = getSharedPreferences("${packageName}_preferences", MODE_PRIVATE)
+
+            val purposeConsents = sharePreference.getString("IABTCF_PurposeConsents", "")
+            if (!purposeConsents.isNullOrEmpty()) {
+                val purposeOneString = purposeConsents.first().toString()
+                val hasConsentForPurposeOne = purposeOneString == "1"
+
+                if (hasConsentForPurposeOne) runAdsCampion()
+            } else {
+                runAdsCampion()
+            }
+        }
+    }
+
+    override fun onNetworkLost() {
+
     }
 }
