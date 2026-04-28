@@ -94,4 +94,5 @@
     <attr name="displayOverlayPermission" format="reference" />
     <attr name="message_title_color" format="color" />
     <attr name="message_sub_title_color" format="color" />
+    <attr name="mobile_frame_color" format="color" />
 </resources>

@@ -103,6 +103,7 @@
         <item name="displayOverlayPermission">@drawable/img_light_display_overlay_permission</item>
         <item name="message_title_color">@color/messages_light_theme_title</item>
         <item name="message_sub_title_color">@color/messages_light_theme_sub_title</item>
+        <item name="mobile_frame_color">@color/mobile_frame_light_color</item>
     </style>
 
     <style name="BottomSheetDialogTheme" parent="Theme.Design.Light.BottomSheetDialog">

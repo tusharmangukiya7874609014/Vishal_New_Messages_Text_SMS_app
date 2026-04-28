@@ -17,6 +17,7 @@ import com.texting.sms.messaging_app.database.SharedPreferencesHelper
 import com.texting.sms.messaging_app.databinding.ActivitySwipeActionsBinding
 import com.texting.sms.messaging_app.databinding.DialogSwipeActionsBinding
 import com.texting.sms.messaging_app.listener.NetworkAvailableListener
+import com.texting.sms.messaging_app.model.SwipeAction
 import com.texting.sms.messaging_app.utils.NetworkConnectionUtil
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -121,21 +122,9 @@ class SwipeActionsActivity : BaseActivity(), NetworkAvailableListener {
     }
 
     private fun initView() {
-        rightSwipeAction = SwipeAction.fromStoredValue(
-            SharedPreferencesHelper.getString(
-                this,
-                Const.RIGHT_SWIPE_ACTIONS,
-                SwipeAction.DELETE.name
-            )
-        ) ?: SwipeAction.DELETE
+        rightSwipeAction = SharedPreferencesHelper.getLeftToRightSwipeAction(this)
 
-        leftSwipeAction = SwipeAction.fromStoredValue(
-            SharedPreferencesHelper.getString(
-                this,
-                Const.LEFT_SWIPE_ACTIONS,
-                SwipeAction.ARCHIVED.name
-            )
-        ) ?: SwipeAction.ARCHIVED
+        leftSwipeAction = SharedPreferencesHelper.getRightToLeftSwipeAction(this)
 
         binding.txtLeftSideSelected.text = getString(leftSwipeAction.resId)
         binding.txtRightSideSelected.text = getString(rightSwipeAction.resId)
@@ -209,21 +198,6 @@ class SwipeActionsActivity : BaseActivity(), NetworkAvailableListener {
         }
     }
 
-    enum class SwipeAction(val resId: Int) {
-        NONE(R.string.none),
-        ARCHIVED(R.string.archive),
-        DELETE(R.string.delete),
-        CALL(R.string.call),
-        MARK_AS_READ(R.string.mark_read),
-        MARK_AS_UNREAD(R.string.mark_unread),
-        ADD_TO_PRIVATE_CHAT(R.string.add_to_private_chat);
-
-        companion object {
-            fun fromStoredValue(value: String?): SwipeAction? =
-                runCatching { value?.let { valueOf(it) } }.getOrDefault(NONE)
-        }
-    }
-
     private fun showChangeSwipeActions(swipeSide: String) {
         val dialog = Dialog(this)
         val bindingDialog = DialogSwipeActionsBinding.inflate(layoutInflater)
@@ -284,11 +258,17 @@ class SwipeActionsActivity : BaseActivity(), NetworkAvailableListener {
             val label =
                 if (swipeSide == "Left") binding.txtLeftSideSelected else binding.txtRightSideSelected
 
-            SharedPreferencesHelper.saveString(
-                this,
-                if (swipeSide == "Left") Const.LEFT_SWIPE_ACTIONS else Const.RIGHT_SWIPE_ACTIONS,
-                action.name
-            )
+            if (swipeSide == "Left") {
+                SharedPreferencesHelper.saveRightToLeftSwipeAction(
+                    this,
+                    action
+                )
+            } else {
+                SharedPreferencesHelper.saveLeftToRightSwipeAction(
+                    this,
+                    action
+                )
+            }
 
             label.text = getString(action.resId)
 

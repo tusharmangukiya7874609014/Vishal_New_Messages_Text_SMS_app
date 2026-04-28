@@ -7,30 +7,345 @@
 
     </data>
 
-    <RelativeLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/main"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="?attr/mainBackground"
         tools:context=".activity.OverlayPermissionActivity">
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_above="@+id/shimmerEnablePermission"
-            android:orientation="vertical">
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@+id/clBottomEnableView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-            <androidx.appcompat.widget.AppCompatImageView
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:id="@+id/llPostCallMobileFrame"
+                android:layout_width="@dimen/_240sdp"
                 android:layout_height="@dimen/_260sdp"
                 android:layout_gravity="center_horizontal"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
                 android:layout_marginTop="@dimen/_20sdp"
-                android:src="?attr/displayOverlayPermission" />
+                android:background="@drawable/ic_phone_frame_full"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_80sdp"
+                    android:layout_marginHorizontal="@dimen/_9sdp"
+                    android:layout_marginTop="@dimen/_29sdp"
+                    android:background="@drawable/bg_top_rounded_10dp_app_theme_color"
+                    android:padding="@dimen/_10sdp">
+
+                    <RelativeLayout
+                        android:id="@+id/cvProfileView"
+                        android:layout_width="@dimen/_34sdp"
+                        android:layout_height="@dimen/_34sdp"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:background="@drawable/bg_oval_number_keyboard"
+                        android:backgroundTint="@color/white">
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:id="@+id/ivDefaultProfile"
+                            android:layout_width="@dimen/_20sdp"
+                            android:layout_height="@dimen/_20sdp"
+                            android:layout_centerInParent="true"
+                            android:src="@drawable/ic_profile_avatar"
+                            android:tint="@color/app_theme_color" />
+
+                    </RelativeLayout>
+
+                    <TextView
+                        android:id="@+id/txtContactName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentTop="true"
+                        android:layout_marginHorizontal="@dimen/_12sdp"
+                        android:layout_marginTop="@dimen/_7sdp"
+                        android:layout_toEndOf="@+id/cvProfileView"
+                        android:ellipsize="end"
+                        android:fontFamily="@font/semi_bold_sans"
+                        android:maxLines="1"
+                        android:text="@string/private_number"
+                        android:textColor="@color/white"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/txtCalledType"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/txtContactName"
+                        android:layout_marginHorizontal="@dimen/_12sdp"
+                        android:layout_marginTop="@dimen/_2sdp"
+                        android:layout_toEndOf="@+id/cvProfileView"
+                        android:fontFamily="@font/medium_sans"
+                        android:maxLines="1"
+                        android:text="@string/outgoing_call"
+                        android:textAlignment="center"
+                        android:textColor="@color/white"
+                        android:textSize="10.5sp" />
+
+                    <TextView
+                        android:id="@+id/txtCallDuration"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/txtCalledType"
+                        android:layout_marginHorizontal="@dimen/_12sdp"
+                        android:layout_marginTop="@dimen/_2sdp"
+                        android:layout_toEndOf="@+id/cvProfileView"
+                        android:fontFamily="@font/medium_sans"
+                        android:maxLines="1"
+                        android:text="@string/_00_10"
+                        android:textAlignment="center"
+                        android:textColor="@color/white"
+                        android:textSize="10.5sp" />
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:layout_width="@dimen/_32sdp"
+                        android:layout_height="@dimen/_32sdp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:src="@drawable/ic_message_fab" />
+
+                </RelativeLayout>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cvCustomTabView"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_34sdp"
+                    android:layout_below="@+id/rvTopHeaderView"
+                    android:layout_marginHorizontal="@dimen/_9sdp"
+                    android:layout_marginTop="-5dp"
+                    android:background="@color/white"
+                    android:elevation="@dimen/_3sdp"
+                    app:cardBackgroundColor="?attr/itemBackgroundColor"
+                    app:cardCornerRadius="0dp">
+
+                    <LinearLayout
+                        android:id="@+id/rvBottomView"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:baselineAligned="false"
+                        android:orientation="horizontal">
+
+                        <RelativeLayout
+                            android:id="@+id/rvViewMessages"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1">
+
+                            <androidx.appcompat.widget.AppCompatImageView
+                                android:id="@+id/ivNotes"
+                                android:layout_width="@dimen/_18sdp"
+                                android:layout_height="@dimen/_18sdp"
+                                android:layout_centerInParent="true"
+                                android:padding="1dp"
+                                android:src="@drawable/ic_view_messages"
+                                android:tint="@color/app_theme_color"
+                                tools:tint="@color/app_theme_color" />
+
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:id="@+id/rvMessage"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1">
+
+                            <androidx.appcompat.widget.AppCompatImageView
+                                android:id="@+id/ivMessage"
+                                android:layout_width="@dimen/_17sdp"
+                                android:layout_height="@dimen/_17sdp"
+                                android:layout_centerInParent="true"
+                                android:padding="1.5dp"
+                                android:src="@drawable/ic_message_call"
+                                android:tint="@color/gnt_gray" />
+
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:id="@+id/rvOtherSettings"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1">
+
+                            <androidx.appcompat.widget.AppCompatImageView
+                                android:id="@+id/ivOtherSettings"
+                                android:layout_width="@dimen/_17sdp"
+                                android:layout_height="@dimen/_17sdp"
+                                android:layout_centerInParent="true"
+                                android:layout_gravity="center"
+                                android:src="@drawable/ic_settings_call"
+                                android:tint="@color/gnt_gray" />
+
+                        </RelativeLayout>
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginHorizontal="@dimen/_9sdp"
+                    android:background="?attr/mainBackground"
+                    android:orientation="vertical"
+                    android:padding="@dimen/_8sdp"
+                    tools:context=".fragment.SendMessagesFragment">
+
+                    <LinearLayout
+                        android:id="@+id/rvSendMessage"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:background="?attr/itemBackground"
+                        android:orientation="horizontal"
+                        android:padding="@dimen/_6sdp"
+                        tools:visibility="visible">
+
+                        <RelativeLayout
+                            android:layout_width="@dimen/_24sdp"
+                            android:layout_height="@dimen/_24sdp">
+
+                            <androidx.appcompat.widget.AppCompatImageView
+                                android:layout_width="@dimen/_15sdp"
+                                android:layout_height="@dimen/_15sdp"
+                                android:layout_centerInParent="true"
+                                android:src="@drawable/ic_sent_call"
+                                app:tint="?attr/subTextColor" />
+
+                        </RelativeLayout>
+
+                        <LinearLayout
+                            android:layout_width="@dimen/_150sdp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginStart="@dimen/_5sdp"
+                                android:fontFamily="@font/medium_sans"
+                                android:text="@string/send_message"
+                                android:textColor="?attr/titleTextColor"
+                                android:textSize="10sp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginStart="@dimen/_5sdp"
+                                android:layout_marginTop="@dimen/_1sdp"
+                                android:fontFamily="@font/regular_sans"
+                                android:text="@string/send_message_to_anyone_with_ease"
+                                android:textColor="?attr/subHeadingColor"
+                                android:textSize="9sp" />
+
+                        </LinearLayout>
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+
+                            <androidx.appcompat.widget.AppCompatImageView
+                                android:layout_width="@dimen/_13sdp"
+                                android:layout_height="@dimen/_13sdp"
+                                android:layout_alignParentEnd="true"
+                                android:layout_centerVertical="true"
+                                android:layout_marginEnd="@dimen/_5sdp"
+                                android:src="@drawable/ic_open_view"
+                                app:tint="?attr/subTextColor" />
+
+                        </RelativeLayout>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/rvViewMessage"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginVertical="@dimen/_7sdp"
+                        android:background="?attr/itemBackground"
+                        android:orientation="horizontal"
+                        android:padding="@dimen/_6sdp"
+                        tools:visibility="visible">
+
+                        <RelativeLayout
+                            android:layout_width="@dimen/_24sdp"
+                            android:layout_height="@dimen/_24sdp">
+
+                            <androidx.appcompat.widget.AppCompatImageView
+                                android:layout_width="@dimen/_15sdp"
+                                android:layout_height="@dimen/_15sdp"
+                                android:layout_centerInParent="true"
+                                android:src="@drawable/ic_message_notification"
+                                app:tint="?attr/subTextColor" />
+
+                        </RelativeLayout>
+
+                        <LinearLayout
+                            android:layout_width="@dimen/_150sdp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginStart="@dimen/_5sdp"
+                                android:fontFamily="@font/medium_sans"
+                                android:text="@string/view_message"
+                                android:textColor="?attr/titleTextColor"
+                                android:textSize="10sp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginStart="@dimen/_5sdp"
+                                android:layout_marginTop="@dimen/_1sdp"
+                                android:fontFamily="@font/regular_sans"
+                                android:text="@string/view_message_by_just_one_tap"
+                                android:textColor="?attr/subHeadingColor"
+                                android:textSize="9sp" />
+
+                        </LinearLayout>
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+
+                            <androidx.appcompat.widget.AppCompatImageView
+                                android:layout_width="@dimen/_13sdp"
+                                android:layout_height="@dimen/_13sdp"
+                                android:layout_alignParentEnd="true"
+                                android:layout_centerVertical="true"
+                                android:layout_marginEnd="@dimen/_5sdp"
+                                android:src="@drawable/ic_open_view"
+                                app:tint="?attr/subTextColor" />
+
+                        </RelativeLayout>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </LinearLayout>
 
             <RelativeLayout
+                android:id="@+id/rvTitleView"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_34sdp"
                 android:layout_marginTop="@dimen/_12sdp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/llPostCallMobileFrame"
                 android:background="?attr/itemBackgroundColor">
 
                 <TextView
@@ -45,16 +360,21 @@
             </RelativeLayout>
 
             <LinearLayout
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/rvTitleView"
                 android:layout_marginHorizontal="@dimen/_18sdp"
-                android:layout_marginTop="@dimen/_12sdp"
                 android:orientation="vertical"
                 android:visibility="visible">
 
                 <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal">
 
                     <TextView
                         android:id="@+id/txtStepOne"
@@ -66,38 +386,21 @@
                         android:textColor="?attr/titleTextColor"
                         android:textSize="@dimen/features_title_size" />
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
+                    <TextView
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
                         android:layout_marginStart="@dimen/_7sdp"
                         android:layout_toEndOf="@+id/txtStepOne"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:fontFamily="@font/medium_sans"
-                            android:text="@string/step_1_press_enable_button_below"
-                            android:textColor="?attr/titleTextColor"
-                            android:textSize="@dimen/features_title_size" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:layout_marginTop="2dp"
-                            android:fontFamily="@font/regular_sans"
-                            android:text="@string/click_the_allow_access_button_to_proceed_with_enabling_permissions"
-                            android:textColor="?attr/subHeadingColor"
-                            android:textSize="@dimen/features_sub_title_size" />
-
-                    </LinearLayout>
+                        android:fontFamily="@font/medium_sans"
+                        android:text="@string/press_the_enable_button_below"
+                        android:textColor="?attr/titleTextColor"
+                        android:textSize="@dimen/features_title_size" />
 
                 </RelativeLayout>
 
                 <RelativeLayout
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginVertical="@dimen/_8sdp">
 
@@ -111,33 +414,16 @@
                         android:textColor="?attr/titleTextColor"
                         android:textSize="@dimen/features_title_size" />
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
+                    <TextView
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
                         android:layout_marginStart="@dimen/_7sdp"
                         android:layout_toEndOf="@+id/txtStepTwo"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:fontFamily="@font/medium_sans"
-                            android:text="@string/find_messages_in_the_list"
-                            android:textColor="?attr/titleTextColor"
-                            android:textSize="@dimen/features_title_size" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:layout_marginTop="2dp"
-                            android:fontFamily="@font/regular_sans"
-                            android:text="@string/locate_messages_in_the_list_to_proceed_with_the_next_step"
-                            android:textColor="?attr/subHeadingColor"
-                            android:textSize="@dimen/features_sub_title_size" />
-
-                    </LinearLayout>
+                        android:fontFamily="@font/medium_sans"
+                        android:text="@string/find_the_app_in_the_list"
+                        android:textColor="?attr/titleTextColor"
+                        android:textSize="@dimen/features_title_size" />
 
                 </RelativeLayout>
 
@@ -155,79 +441,90 @@
                         android:textColor="?attr/titleTextColor"
                         android:textSize="@dimen/features_title_size" />
 
-                    <LinearLayout
+                    <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
                         android:layout_marginStart="@dimen/_7sdp"
                         android:layout_toEndOf="@+id/txtStepThree"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:fontFamily="@font/medium_sans"
-                            android:text="@string/swipe_the_toggle_to_turn_on"
-                            android:textColor="?attr/titleTextColor"
-                            android:textSize="@dimen/features_title_size" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:layout_marginTop="2dp"
-                            android:fontFamily="@font/regular_sans"
-                            android:text="@string/slide_the_toggle_switch_to_enable_and_activate_the_feature"
-                            android:textColor="?attr/subHeadingColor"
-                            android:textSize="@dimen/features_sub_title_size" />
-
-                    </LinearLayout>
+                        android:fontFamily="@font/medium_sans"
+                        android:text="@string/enable_the_toggle_button"
+                        android:textColor="?attr/titleTextColor"
+                        android:textSize="@dimen/features_title_size" />
 
                 </RelativeLayout>
 
             </LinearLayout>
 
-        </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <com.facebook.shimmer.ShimmerFrameLayout
-            android:id="@+id/shimmerEnablePermission"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/clBottomEnableView"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/_38sdp"
-            android:layout_above="@+id/rvAdsView"
-            android:layout_marginHorizontal="@dimen/_12sdp"
-            android:layout_marginTop="@dimen/_5sdp"
-            android:layout_marginBottom="@dimen/_10sdp"
-            app:shimmer_auto_start="true"
-            app:shimmer_base_alpha="0.8"
-            app:shimmer_direction="left_to_right"
-            app:shimmer_duration="1600"
-            app:shimmer_highlight_alpha="1"
-            app:shimmer_intensity="0.9">
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/_30sdp"
+            app:layout_constraintBottom_toTopOf="@+id/rvAdsView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
 
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btnAllowPermission"
+            <com.facebook.shimmer.ShimmerFrameLayout
+                android:id="@+id/shimmerEnablePermission"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_38sdp"
-                android:background="@drawable/bg_theme_rounded_button_10dp"
-                android:elevation="0dp"
-                android:fontFamily="@font/semi_bold_sans"
-                android:outlineProvider="none"
-                android:shadowColor="@android:color/transparent"
-                android:stateListAnimator="@null"
-                android:text="@string/enable"
-                android:textAllCaps="false"
-                android:textColor="@color/white"
-                android:textSize="@dimen/_12ssp" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/txtSuggestionText"
+                android:layout_marginHorizontal="@dimen/_12sdp"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:layout_marginBottom="@dimen/_4sdp"
+                app:shimmer_auto_start="true"
+                app:shimmer_base_alpha="0.8"
+                app:shimmer_direction="left_to_right"
+                app:shimmer_duration="1600"
+                app:shimmer_highlight_alpha="1"
+                app:shimmer_intensity="0.9">
 
-        </com.facebook.shimmer.ShimmerFrameLayout>
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btnAllowPermission"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_38sdp"
+                    android:background="@drawable/bg_theme_rounded_button_10dp"
+                    android:elevation="0dp"
+                    android:fontFamily="@font/semi_bold_sans"
+                    android:outlineProvider="none"
+                    android:shadowColor="@android:color/transparent"
+                    android:stateListAnimator="@null"
+                    android:text="@string/enable"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/_12ssp" />
+
+            </com.facebook.shimmer.ShimmerFrameLayout>
+
+            <TextView
+                android:id="@+id/txtSuggestionText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@+id/txtStepOne"
+                android:fontFamily="@font/medium_sans"
+                android:paddingHorizontal="@dimen/_5sdp"
+                android:text="You can enable or disable these features anytime in the settings"
+                android:textAlignment="center"
+                android:textColor="?attr/subTextColor"
+                android:textSize="9.5sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <RelativeLayout
             android:id="@+id/rvAdsView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentBottom="true">
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
 
             <FrameLayout
                 android:id="@+id/nativeAdContainer"
@@ -246,5 +543,5 @@
 
         </RelativeLayout>
 
-    </RelativeLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

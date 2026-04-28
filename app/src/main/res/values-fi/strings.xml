@@ -619,4 +619,7 @@
     <string name="we_do_not_store_track_or_share_your_call_or_message_data">Emme tallenna tai jaa puhelu- tai viestitietojasi.</string>
     <string name="outgoing_call">Lähtevä puhelu</string>
     <string name="enable_required_features_to_use_messaging_your_data_stays_private_and_secure_on_your_device">Ota tarvittavat ominaisuudet käyttöön viestien käyttöä varten. Tietosi pysyvät yksityisinä ja turvassa laitteellasi.</string>
+    <string name="press_the_enable_button_below">Paina alla olevaa käyttöönottopainiketta</string>
+    <string name="enable_the_toggle_button">Ota kytkin käyttöön</string>
+    <string name="find_the_app_in_the_list">Etsi sovellus listasta</string>
 </resources>

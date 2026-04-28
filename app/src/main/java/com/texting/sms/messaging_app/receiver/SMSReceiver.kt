@@ -150,7 +150,7 @@ class SMSReceiver : BroadcastReceiver() {
                             if (isDefaultSmsApp(it)) {
                                 val threadID = getThreadIdForAddress(it, senderAddress)
                                 val (name, number) = getContactInfoFromThreadId(it, threadID)
-                                Log.e("ABCD","Name :- $name  $senderAddress")
+
                                 val photoUri = getContactPhotoUriFromThreadId(it, threadID)
 
                                 insertSmsInbox(it, senderAddress, mergedBody)

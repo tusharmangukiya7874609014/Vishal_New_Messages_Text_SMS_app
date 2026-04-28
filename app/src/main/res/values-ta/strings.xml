@@ -619,4 +619,7 @@
     <string name="we_do_not_store_track_or_share_your_call_or_message_data">உங்கள் அழைப்பு அல்லது செய்தி தரவை நாங்கள் சேமிக்கவோ பகிரவோ செய்யமாட்டோம்.</string>
     <string name="outgoing_call">வெளியேறும் அழைப்பு</string>
     <string name="enable_required_features_to_use_messaging_your_data_stays_private_and_secure_on_your_device">செய்திகளை பயன்படுத்த தேவையான அம்சங்களை இயக்கவும். உங்கள் தரவு உங்கள் சாதனத்தில் தனிப்பட்டதாகவும் பாதுகாப்பாகவும் இருக்கும்.</string>
+    <string name="press_the_enable_button_below">கீழே உள்ள இயக்கு பொத்தானை அழுத்தவும்</string>
+    <string name="enable_the_toggle_button">டாகிள் பொத்தானை இயக்கு</string>
+    <string name="find_the_app_in_the_list">பட்டியலில் செயலியை கண்டுபிடிக்கவும்</string>
 </resources>

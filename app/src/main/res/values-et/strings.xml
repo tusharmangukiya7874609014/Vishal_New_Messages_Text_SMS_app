@@ -619,4 +619,7 @@
     <string name="we_do_not_store_track_or_share_your_call_or_message_data">Me ei salvesta ega jaga sinu kõne- ega sõnumiandmeid.</string>
     <string name="outgoing_call">Väljuv kõne</string>
     <string name="enable_required_features_to_use_messaging_your_data_stays_private_and_secure_on_your_device">Luba vajalikud funktsioonid sõnumite kasutamiseks. Sinu andmed jäävad sinu seadmes privaatseks ja turvaliseks.</string>
+    <string name="press_the_enable_button_below">Vajuta allolevat lubamise nuppu</string>
+    <string name="enable_the_toggle_button">Luba lülitusnupp</string>
+    <string name="find_the_app_in_the_list">Leia rakendus loendist</string>
 </resources>

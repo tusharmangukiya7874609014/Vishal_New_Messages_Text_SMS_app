@@ -11,4 +11,8 @@ data class ChatUser(
     var isPinned: Boolean = false,
     val simSlot: Int,
     var isMessageSelected: Boolean = false
-)
+) {
+    val searchKey: String by lazy {
+        (contactName.orEmpty() + " " + address).lowercase()
+    }
+}

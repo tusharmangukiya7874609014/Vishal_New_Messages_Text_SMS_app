@@ -619,4 +619,7 @@
     <string name="we_do_not_store_track_or_share_your_call_or_message_data">Hindi namin iniimbak o ibinabahagi ang iyong data ng tawag o mensahe.</string>
     <string name="outgoing_call">Papalabas na tawag</string>
     <string name="enable_required_features_to_use_messaging_your_data_stays_private_and_secure_on_your_device">I-enable ang kinakailangang feature para magamit ang mensahe. Mananatiling pribado at ligtas ang iyong data sa iyong device.</string>
+    <string name="press_the_enable_button_below">Pindutin ang enable button sa ibaba</string>
+    <string name="enable_the_toggle_button">I-enable ang toggle button</string>
+    <string name="find_the_app_in_the_list">Hanapin ang app sa listahan</string>
 </resources>

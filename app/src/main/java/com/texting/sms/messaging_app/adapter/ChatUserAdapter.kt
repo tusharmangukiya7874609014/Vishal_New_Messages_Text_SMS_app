@@ -12,6 +12,7 @@ import android.net.Uri
 import android.os.Build
 import android.provider.BlockedNumberContract
 import android.text.format.DateUtils
+import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -22,15 +23,18 @@ import android.widget.Toast
 import androidx.core.graphics.drawable.toDrawable
 import androidx.core.graphics.toColorInt
 import androidx.core.net.toUri
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
 import com.texting.sms.messaging_app.R
+import com.texting.sms.messaging_app.activity.HomeActivity
+import com.texting.sms.messaging_app.activity.PersonalChatActivity
 import com.texting.sms.messaging_app.database.Const
 import com.texting.sms.messaging_app.database.SharedPreferencesHelper
 import com.texting.sms.messaging_app.databinding.ItemDirectSingleReadMessagesBinding
 import com.texting.sms.messaging_app.databinding.ItemMessageHistoryBinding
+import com.texting.sms.messaging_app.diffutils.MessagesDiffCallback
 import com.texting.sms.messaging_app.listener.OnChatUserInterface
 import com.texting.sms.messaging_app.listener.OnClickMessagesFeature
 import com.texting.sms.messaging_app.listener.OnClickPreviewImageInterface
@@ -41,8 +45,6 @@ import com.texting.sms.messaging_app.model.ChatUser
 import com.texting.sms.messaging_app.model.MessagesResult
 import com.texting.sms.messaging_app.utils.ContactNameCache
 import com.texting.sms.messaging_app.utils.getDrawableFromAttr
-import com.texting.sms.messaging_app.activity.HomeActivity
-import com.texting.sms.messaging_app.activity.PersonalChatActivity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -54,14 +56,13 @@ import java.util.Locale
 import kotlin.math.abs
 
 class ChatUserAdapter(
-    private var messageFilterList: MutableList<ChatUser>,
     private var selectedThreadIDList: ArrayList<String>,
     private var onChartUserInterface: OnChatUserInterface,
     private var onClickMessagesFeature: OnClickMessagesFeature,
     private var activeSIM: Int = 0,
     private var isLongClickedWork: Boolean = false,
     private var context: Context
-) : RecyclerView.Adapter<ChatUserAdapter.ViewHolder>() {
+) : ListAdapter<ChatUser, RecyclerView.ViewHolder>(MessagesDiffCallback) {
 
     private var isLongClicked = false
     private var contactName = Const.STRING_DEFAULT_VALUE
@@ -70,69 +71,72 @@ class ChatUserAdapter(
     private var storeThreadIDList = ArrayList<String>()
     private var isMultiSelectionEnableFromPage = false
 
-    class ViewHolder(val binding: ItemMessageHistoryBinding) : RecyclerView.ViewHolder(binding.root)
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val binding =
-            ItemMessageHistoryBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return ViewHolder(binding)
+    init {
+        setHasStableIds(true)
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        with(holder) {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        val binding =
+            ItemMessageHistoryBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return ChatUserViewHolder(binding)
+    }
+
+    override fun onBindViewHolder(
+        holder: RecyclerView.ViewHolder,
+        position: Int
+    ) {
+        (holder as ChatUserViewHolder).bind(getItem(position))
+    }
+
+    inner class ChatUserViewHolder(val binding: ItemMessageHistoryBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+        fun bind(chatUser: ChatUser) {
             binding.apply {
+                executePendingBindings()
+
                 isMultiSelectionOptionsEnable = isMultiSelectionEnableFromPage
                 activateSimDetails = activeSIM
-
-                executePendingBindings()
             }
 
             itemView.setOnLongClickListener {
-                if (absoluteAdapterPosition == RecyclerView.NO_POSITION || absoluteAdapterPosition >= messageFilterList.size) return@setOnLongClickListener true
+                if (bindingAdapterPosition == RecyclerView.NO_POSITION) return@setOnLongClickListener true
 
                 if (!isMultiSelectionEnableFromPage) {
-                    messageFilterList[absoluteAdapterPosition].apply {
-                        showContactPopup(
-                            itemView,
-                            threadId, contactName.toString(), address
-                        )
-                    }
+                    showContactPopup(
+                        itemView,
+                        chatUser.threadId, contactName, chatUser.address
+                    )
                 }
                 true
             }
 
-            val threadId = messageFilterList[absoluteAdapterPosition].threadId.toString()
-            messageFilterList[absoluteAdapterPosition].isMessageSelected =
-                selectedThreadIDList.contains(threadId)
-
-            binding.item = messageFilterList[absoluteAdapterPosition]
+            chatUser.isMessageSelected = selectedThreadIDList.contains(chatUser.threadId.toString())
+            binding.item = chatUser
 
             itemView.setOnClickListener {
-                if (absoluteAdapterPosition == RecyclerView.NO_POSITION || absoluteAdapterPosition >= messageFilterList.size) return@setOnClickListener
-
-                val threadId = messageFilterList[absoluteAdapterPosition].threadId.toString()
+                if (bindingAdapterPosition == RecyclerView.NO_POSITION) return@setOnClickListener
 
                 if (isMultiSelectionEnableFromPage) {
-                    if (selectedThreadIDList.contains(threadId)) {
-                        selectedThreadIDList.remove(threadId)
-                        messageFilterList[absoluteAdapterPosition].isMessageSelected = false
+                    if (selectedThreadIDList.contains(chatUser.threadId.toString())) {
+                        selectedThreadIDList.remove(chatUser.threadId.toString())
+                        chatUser.isMessageSelected = false
                     } else {
-                        selectedThreadIDList.add(threadId)
-                        messageFilterList[absoluteAdapterPosition].isMessageSelected = true
+                        selectedThreadIDList.add(chatUser.threadId.toString())
+                        chatUser.isMessageSelected = true
                     }
 
-                    binding.item = messageFilterList[absoluteAdapterPosition]
+                    binding.item = chatUser
                     SharedPreferencesHelper.saveArrayList(
                         context, Const.SELECTED_MESSAGE_IDS, selectedThreadIDList
                     )
                     (context as HomeActivity).updateSelectedCount(selectedThreadIDList.size)
                 } else {
-                    onChartUserInterface.chatUserClick(messageFilterList[absoluteAdapterPosition])
+                    onChartUserInterface.chatUserClick(chatUser)
                 }
             }
 
             binding.rvCopyCode.setOnClickListener {
-                if (absoluteAdapterPosition == RecyclerView.NO_POSITION || absoluteAdapterPosition >= messageFilterList.size) return@setOnClickListener
+                if (bindingAdapterPosition == RecyclerView.NO_POSITION) return@setOnClickListener
 
                 val detectedOtp = binding.rvCopyCode.tag as? String ?: return@setOnClickListener
 
@@ -141,80 +145,88 @@ class ChatUserAdapter(
                 }
             }
         }
+
+        fun partialClear(chatUser: ChatUser) {
+            binding.isMultiSelectionOptionsEnable = false
+            chatUser.isMessageSelected = false
+            binding.item = chatUser
+        }
+
+        fun partialUpdateProfile(chatUser: ChatUser) {
+            if (isAddressBlocked(
+                    context, chatUser.address
+                )
+            ) {
+                SharedPreferencesHelper.addToBlockList(
+                    context, chatUser.address
+                )
+            } else {
+                SharedPreferencesHelper.removeFromBlockList(
+                    context, chatUser.address
+                )
+            }
+            chatUser.isMessageSelected = false
+            binding.item = chatUser
+        }
+
+        fun partialSavedContacts(chatUser: ChatUser) {
+            val updateName = ContactNameCache.extractName(context, chatUser.address)
+            ContactNameCache.putName(chatUser.address, updateName)
+            binding.item = chatUser
+        }
+
+        fun partialUpdateOfAllItem() {
+            binding.isMultiSelectionOptionsEnable = isMultiSelectionEnableFromPage
+        }
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int, payloads: MutableList<Any>) {
+    override fun onBindViewHolder(
+        holder: RecyclerView.ViewHolder,
+        position: Int,
+        payloads: MutableList<Any>
+    ) {
         if (payloads.isNotEmpty()) {
             val payload = payloads[0]
-            if (holder.absoluteAdapterPosition >= messageFilterList.size) return
-            with(holder) {
-                when (payload) {
-                    "partialClear" -> {
-                        binding.isMultiSelectionOptionsEnable = false
-                        messageFilterList[absoluteAdapterPosition].isMessageSelected = false
-                        binding.item = messageFilterList[absoluteAdapterPosition]
-                    }
 
-                    "partialBlocked" -> {
-                        if (isAddressBlocked(context, messageFilterList[absoluteAdapterPosition].address)) {
-                            SharedPreferencesHelper.addToBlockList(
-                                context, messageFilterList[absoluteAdapterPosition].address
-                            )
-                        } else {
-                            SharedPreferencesHelper.removeFromBlockList(
-                                context, messageFilterList[absoluteAdapterPosition].address
-                            )
-                        }
-                        messageFilterList[absoluteAdapterPosition].isMessageSelected = false
-                        binding.item = messageFilterList[absoluteAdapterPosition]
-                    }
+            when (payload) {
+                "partialClear" -> {
+                    (holder as ChatUserViewHolder).partialClear(getItem(position))
+                }
 
-                    "partialMarkAsRead" -> {
-                        if (isAddressBlocked(context, messageFilterList[absoluteAdapterPosition].address)) {
-                            SharedPreferencesHelper.addToBlockList(
-                                context, messageFilterList[absoluteAdapterPosition].address
-                            )
-                        } else {
-                            SharedPreferencesHelper.removeFromBlockList(
-                                context, messageFilterList[absoluteAdapterPosition].address
-                            )
-                        }
-                        messageFilterList[absoluteAdapterPosition].isMessageSelected = false
-                        binding.item = messageFilterList[absoluteAdapterPosition]
-                    }
+                "partialBlocked" -> {
+                    (holder as ChatUserViewHolder).partialUpdateProfile(getItem(position))
+                }
 
-                    "partialSavedContacts" -> {
-                        val address = messageFilterList[absoluteAdapterPosition].address
-                        val updateName = ContactNameCache.extractName(context, address)
-                        ContactNameCache.putName(address, updateName)
-                        binding.item = messageFilterList[absoluteAdapterPosition]
-                    }
+                "partialMarkAsRead" -> {
+                    (holder as ChatUserViewHolder).partialUpdateProfile(getItem(position))
+                }
 
-                    "partialUpdateOfAllItem" -> {
-                        binding.isMultiSelectionOptionsEnable = isMultiSelectionEnableFromPage
-                    }
+                "partialSavedContacts" -> {
+                    (holder as ChatUserViewHolder).partialSavedContacts(getItem(position))
+                }
 
-                    "partialUpdateProfile" -> {
-                        if (isAddressBlocked(context, messageFilterList[absoluteAdapterPosition].address)) {
-                            SharedPreferencesHelper.addToBlockList(
-                                context, messageFilterList[absoluteAdapterPosition].address
-                            )
-                        } else {
-                            SharedPreferencesHelper.removeFromBlockList(
-                                context, messageFilterList[absoluteAdapterPosition].address
-                            )
-                        }
-                        messageFilterList[absoluteAdapterPosition].isMessageSelected = false
-                        binding.item = messageFilterList[absoluteAdapterPosition]
-                    }
+                "partialUpdateOfAllItem" -> {
+                    (holder as ChatUserViewHolder).partialUpdateOfAllItem()
+                }
 
-                    else -> {
-                        super.onBindViewHolder(holder, absoluteAdapterPosition, payloads)
-                    }
+                "partialUpdateProfile" -> {
+                    (holder as ChatUserViewHolder).partialUpdateProfile(getItem(position))
+                }
+
+                else -> {
+                    super.onBindViewHolder(holder, position, payloads)
                 }
             }
         } else {
             super.onBindViewHolder(holder, position, payloads)
+        }
+    }
+
+    fun getItemAt(position: Int): ChatUser? {
+        return if (position in currentList.indices) {
+            currentList[position]
+        } else {
+            null
         }
     }
 
@@ -235,88 +247,85 @@ class ChatUserAdapter(
         ).show()
     }
 
-    fun updateData(newList: List<ChatUser>) {
-        val diffCallback = MessagesDiffCallback(messageFilterList, newList)
-        val diffResult = DiffUtil.calculateDiff(diffCallback)
-        messageFilterList.clear()
-        messageFilterList.addAll(newList)
-        diffResult.dispatchUpdatesTo(this)
-    }
-
-    override fun getItemCount(): Int {
-        return messageFilterList.size
-    }
-
-    fun getItemAt(position: Int): ChatUser {
-        return messageFilterList[position]
+    override fun getItemId(position: Int): Long {
+        return getItem(position).threadId.hashCode().toLong()
     }
 
     fun removeAt(position: Int) {
-        messageFilterList.removeAt(position)
-        notifyItemRemoved(position)
+        if (position !in currentList.indices) return
+
+        val newList = currentList.toMutableList()
+        newList.removeAt(position)
+        submitList(newList)
     }
 
     fun clearAndUpdateView() {
         isMultiSelectionEnableFromPage = false
         selectedThreadIDList.clear()
         isLongClicked = false
+
         notifyItemRangeChanged(
             0,
-            messageFilterList.size,
+            currentList.size,
             "partialClear"
         )
     }
 
     fun updateBlockContacts() {
         val blockedList = SharedPreferencesHelper.getAllBlocked(context)
-        blockedList.forEach { address ->
-            val index = messageFilterList.indexOfFirst { it.address == address }
-            if (index != -1) {
+
+        currentList.forEachIndexed { index, item ->
+            if (blockedList.contains(item.address)) {
                 notifyItemChanged(index, "partialBlocked")
             }
         }
     }
 
     fun updateProfileColor() {
-        messageFilterList.forEach { address ->
-            val index = messageFilterList.indexOfFirst { it == address }
-            if (index != -1) {
-                notifyItemChanged(index, "partialUpdateProfile")
-            }
-        }
+        notifyItemRangeChanged(0, currentList.size, "partialUpdateProfile")
     }
 
     fun updateMarkAsRead(threadID: Long) {
         selectedThreadIDList.clear()
         isLongClicked = false
-        val index = messageFilterList.indexOfFirst { it.threadId == threadID }
-        notifyItemChanged(index, "partialMarkAsRead")
+
+        val index = currentList.indexOfFirst { it.threadId == threadID }
+        if (index != -1) {
+            notifyItemChanged(index, "partialMarkAsRead")
+        }
     }
 
     fun updateAfterAddToContacts(threadID: Long, savedContactName: String?) {
-        contactName = savedContactName.toString()
         selectedThreadIDList.clear()
         isLongClicked = false
-        val index = messageFilterList.indexOfFirst { it.threadId == threadID }
-        notifyItemChanged(index, "partialSavedContacts")
+
+        val newList = currentList.map {
+            if (it.threadId == threadID) {
+                it.copy(contactName = savedContactName.orEmpty())
+            } else it
+        }
+
+        submitList(newList)
     }
 
     fun removeByThreadId(threadID: Long) {
-        val index = messageFilterList.indexOfFirst { it.threadId == threadID }
-        if (index != -1) {
-            messageFilterList.removeAt(index)
-            notifyItemRemoved(index)
-        }
+        val index = currentList.indexOfFirst { it.threadId == threadID }
+        if (index == -1) return
+
+        val newList = currentList.toMutableList()
+        newList.removeAt(index)
+        submitList(newList)
     }
 
     fun updateItemByThreadId(threadId: Long, chatUser: ChatUser?) {
-        val position = messageFilterList.indexOfFirst { it.threadId == threadId }
-        if (position != -1) {
-            if (chatUser != null) {
-                messageFilterList[position] = chatUser
-            }
-            notifyItemChanged(position)
-        }
+        if (chatUser == null) return
+
+        val index = currentList.indexOfFirst { it.threadId == threadId }
+        if (index == -1) return
+
+        val newList = currentList.toMutableList()
+        newList[index] = chatUser
+        submitList(newList)
     }
 
     private fun showContactPopup(
@@ -633,10 +642,13 @@ class ChatUserAdapter(
     }
 
     fun updateSelectionView(multiSelection: Boolean) {
+        Log.d("ABCD", "updateSelectionView :- $multiSelection")
+
         isMultiSelectionEnableFromPage = multiSelection
+
         notifyItemRangeChanged(
             0,
-            messageFilterList.size,
+            currentList.size,
             "partialUpdateOfAllItem"
         )
     }
@@ -771,22 +783,5 @@ class ChatUserAdapter(
         val last10 = if (sorted.size > 10) sorted.takeLast(10) else sorted
 
         return MessagesResult(messages = last10, hasMore = hasMore)
-    }
-}
-
-class MessagesDiffCallback(
-    private val oldList: List<ChatUser>, private val newList: List<ChatUser>
-) : DiffUtil.Callback() {
-    override fun getOldListSize(): Int = oldList.size
-    override fun getNewListSize(): Int = newList.size
-
-    override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-        return oldList[oldItemPosition].threadId == newList[newItemPosition].threadId
-    }
-
-    override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-        val oldItem = oldList[oldItemPosition]
-        val newItem = newList[newItemPosition]
-        return oldItem == newItem
     }
 }

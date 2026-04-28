@@ -266,8 +266,10 @@ fun AppCompatImageView.bindProfile(
     val context = context
 
     val isBlocked = ProfileCache.isAddressBlocked(context, address)
+
     if (isBlocked) {
         visibility = View.GONE
+        specialChar.visibility = View.INVISIBLE
         messageTitle.setTextColor(context.getColor(R.color.blocked_user_profile))
         cvProfileView.setCardBackgroundColor(context.getColor(R.color.blocked_user_profile))
         blockedProfile.setImageResource(R.drawable.ic_block)

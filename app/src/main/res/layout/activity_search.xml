@@ -171,11 +171,24 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/txtResultsTitle"
                         tools:listitem="@layout/item_sms_search"
-                        tools:visibility="visible" />
+                        tools:visibility="gone" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.core.widget.NestedScrollView>
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_centerInParent="true"
+            android:visibility="invisible"
+            android:indeterminateTint="@color/app_theme_color"
+            android:progressTint="@color/app_theme_color" />
 
         <RelativeLayout
             android:id="@+id/rvAdsView"

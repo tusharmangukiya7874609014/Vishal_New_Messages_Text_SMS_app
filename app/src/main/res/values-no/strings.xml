@@ -619,4 +619,7 @@
     <string name="we_do_not_store_track_or_share_your_call_or_message_data">Vi lagrer eller deler ikke dine samtale- eller meldingsdata.</string>
     <string name="outgoing_call">Utgående samtale</string>
     <string name="enable_required_features_to_use_messaging_your_data_stays_private_and_secure_on_your_device">Aktiver nødvendige funksjoner for å bruke meldinger. Dataene dine forblir private og sikre på enheten din.</string>
+    <string name="press_the_enable_button_below">Trykk på aktiveringsknappen nedenfor</string>
+    <string name="enable_the_toggle_button">Aktiver bryterknappen</string>
+    <string name="find_the_app_in_the_list">Finn appen i listen</string>
 </resources>

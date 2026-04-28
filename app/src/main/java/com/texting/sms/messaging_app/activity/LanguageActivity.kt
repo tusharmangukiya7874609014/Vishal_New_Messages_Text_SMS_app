@@ -60,14 +60,17 @@ class LanguageActivity : BaseActivity(), LanguageInterface, NetworkAvailableList
         networkUtil = NetworkConnectionUtil(this)
         networkUtil.setListener(this)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_language)
+        firebaseCustomEvent(
+            this@LanguageActivity,
+            "first_time_language_visible",
+            "start_language_page",
+            "open"
+        )
         ViewCompat.setOnApplyWindowInsetsListener(binding.main) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        firebaseLogEvent(
-            this@LanguageActivity, "LANGUAGE_SELECTED_PAGE", "LANGUAGE_SELECTED_PAGE"
-        )
         initView()
         initClickListener()
     }
@@ -255,6 +258,13 @@ class LanguageActivity : BaseActivity(), LanguageInterface, NetworkAvailableList
         onBackPressedDispatcher.addCallback(
             this@LanguageActivity, object : OnBackPressedCallback(true) {
                 override fun handleOnBackPressed() {
+                    firebaseCustomEvent(
+                        this@LanguageActivity,
+                        "back_click_open_home",
+                        "start_language_page",
+                        "back_click_form_language"
+                    )
+
                     startActivity(Intent(this@LanguageActivity, HomeActivity::class.java))
                     isEnabled = false
                     finish()
@@ -262,6 +272,13 @@ class LanguageActivity : BaseActivity(), LanguageInterface, NetworkAvailableList
             })
 
         binding.btnContinue.setOnClickListener {
+            firebaseCustomEvent(
+                this@LanguageActivity,
+                "click_btn_continue_language",
+                "start_language_page",
+                "continue_next_page"
+            )
+
             SharedPreferencesHelper.saveBoolean(this, "IS_FIRST_TIME_LANGUAGE_SELECTED", true)
 
             setLocale(this, locale)

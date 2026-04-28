@@ -18,7 +18,6 @@ import androidx.core.net.toUri
 class BootReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
         if (intent.action == Intent.ACTION_BOOT_COMPLETED) {
-            Log.d("ABCD"," BootReceiver Call ")
             CoroutineScope(Dispatchers.IO).launch {
                 val dbHelper = ScheduledSMSDatabaseHelper(context)
                 val scheduledList = dbHelper.getAllSms()

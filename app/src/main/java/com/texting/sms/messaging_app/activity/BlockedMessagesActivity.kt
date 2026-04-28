@@ -55,7 +55,7 @@ class BlockedMessagesActivity : BaseActivity(), OnChatUserInterface, OnClickMess
 
         binding.rvBlockedMessageList.layoutManager = LinearLayoutManager(this)
         rvBlockMessageListAdapter = ChatUserAdapter(
-            mutableListOf(), storeThreadIDList, this, this, 0, false, this
+            storeThreadIDList, this, this, 0, false, this
         )
         binding.rvBlockedMessageList.adapter = rvBlockMessageListAdapter
         (binding.rvBlockedMessageList.itemAnimator as? SimpleItemAnimator)?.supportsChangeAnimations =
@@ -69,7 +69,7 @@ class BlockedMessagesActivity : BaseActivity(), OnChatUserInterface, OnClickMess
                     binding.paginationProgress.visibility = View.GONE
                     binding.rvNoMessageView.visibility = View.GONE
                     binding.rvBlockedMessageList.fadeIn()
-                    rvBlockMessageListAdapter.updateData(blockMessageList)
+                    rvBlockMessageListAdapter.submitList(blockMessageList)
                 } else {
                     binding.paginationProgress.visibility = View.GONE
                     binding.rvBlockedMessageList.visibility = View.GONE
@@ -218,7 +218,7 @@ class BlockedMessagesActivity : BaseActivity(), OnChatUserInterface, OnClickMess
                             val mutableList = blockMessageList.toMutableList()
                             mutableList.removeAll { it.threadId == lastThreadID }
                             blockMessageList = mutableList.toList()
-                            rvBlockMessageListAdapter.updateData(blockMessageList)
+                            rvBlockMessageListAdapter.submitList(blockMessageList)
                         }
                     }
                 }
@@ -384,7 +384,7 @@ class BlockedMessagesActivity : BaseActivity(), OnChatUserInterface, OnClickMess
 
                 if (blockMessageList.isNotEmpty()) {
                     binding.rvNoMessageView.visibility = View.GONE
-                    rvBlockMessageListAdapter.updateData(blockMessageList)
+                    rvBlockMessageListAdapter.submitList(blockMessageList)
                 } else {
                     binding.rvBlockedMessageList.visibility = View.GONE
                     binding.rvNoMessageView.fadeIn()

@@ -57,20 +57,18 @@ class AfterCallBackActivity : AppCompatActivity(), NetworkAvailableListener {
         networkUtil = NetworkConnectionUtil(this)
         networkUtil.setListener(this)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_after_call_back)
-        firebaseLogEvent(this)
+        firebaseCustomEvent(context = this)
         initView()
         initObserver()
         initClickListener()
     }
 
-    private fun firebaseLogEvent(
-        context: Context
+    private fun firebaseCustomEvent(
+        context: Context,
     ) {
-        val bundle = Bundle().apply {
-            putString("page_name", "AFTER_CALL_BACK_PAGE_SHOWN")
-        }
-
-        FirebaseAnalytics.getInstance(context).logEvent("SHOW_AFTER_CALL_BACK_PAGE", bundle)
+        val bundle = Bundle()
+        bundle.putString("after_call_back_screen", "show_page")
+        FirebaseAnalytics.getInstance(context).logEvent("after_call_back_page_shown", bundle)
     }
 
     private fun runAdsCampion() {

@@ -619,4 +619,7 @@
     <string name="we_do_not_store_track_or_share_your_call_or_message_data">We slaan je oproep- of berichtgegevens niet op en delen ze niet.</string>
     <string name="outgoing_call">Uitgaande oproep</string>
     <string name="enable_required_features_to_use_messaging_your_data_stays_private_and_secure_on_your_device">Schakel de vereiste functies in om berichten te gebruiken. Je gegevens blijven privé en veilig op je apparaat.</string>
+    <string name="press_the_enable_button_below">Druk op de onderstaande inschakelknop</string>
+    <string name="enable_the_toggle_button">Schakel de knop in</string>
+    <string name="find_the_app_in_the_list">Vind de app in de lijst</string>
 </resources>

@@ -5,12 +5,13 @@ import androidx.activity.OnBackPressedCallback
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
-import com.texting.sms.messaging_app.utils.MyApplication
 import com.texting.sms.messaging_app.R
+import com.texting.sms.messaging_app.ads.AdsManager
 import com.texting.sms.messaging_app.databinding.ActivityAdsAppOpenBinding
+import com.texting.sms.messaging_app.utils.MyApplication
 
 class AdsAppOpenActivity : AppCompatActivity() {
-    private lateinit var binding : ActivityAdsAppOpenBinding
+    private lateinit var binding: ActivityAdsAppOpenBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -19,8 +20,10 @@ class AdsAppOpenActivity : AppCompatActivity() {
 
         val app = application as MyApplication
 
-        app.appOpenAdManager.showAdIfAvailable(this) {
-            finish()
+        AdsManager.runWhenReady(this@AdsAppOpenActivity) {
+            app.appOpenAdManager.showAdIfAvailable(this@AdsAppOpenActivity) {
+                finish()
+            }
         }
 
         onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {

@@ -589,7 +589,7 @@ class ChatInfoActivity : BaseActivity(), NetworkAvailableListener {
 
     private fun updateProfile() {
         val originalNumber = getPhoneNumberOrAddressFromThreadId(this, threadId)
-        binding.userContactAddress = originalNumber
+        binding.userContactAddress = originalNumber ?: contactUserDetails?.number
     }
 
     private fun blockNumber(context: Context, number: String): Boolean {

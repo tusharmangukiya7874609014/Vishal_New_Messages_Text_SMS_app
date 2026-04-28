@@ -68,10 +68,10 @@
                         android:layout_height="match_parent"
                         android:layout_centerInParent="true"
                         android:scaleType="centerCrop"
+                        app:userContactAddress="@{userContactAddress}"
                         app:cardViewOfProfile="@{cvMessageUserProfile}"
                         app:firstChar="@{txtSpecialChar}"
-                        app:ivBlockedProfile="@{ivBlockMessageUser}"
-                        app:userContactAddress="@{userContactAddress}" />
+                        app:ivBlockedProfile="@{ivBlockMessageUser}" />
 
                     <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/ivBlockMessageUser"

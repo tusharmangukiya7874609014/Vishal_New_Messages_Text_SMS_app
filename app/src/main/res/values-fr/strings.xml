@@ -619,4 +619,7 @@
     <string name="we_do_not_store_track_or_share_your_call_or_message_data">Nous ne stockons ni ne partageons vos données d’appel ou de message.</string>
     <string name="outgoing_call">Appel sortant</string>
     <string name="enable_required_features_to_use_messaging_your_data_stays_private_and_secure_on_your_device">Activez les fonctionnalités requises pour utiliser la messagerie. Vos données restent privées et sécurisées sur votre appareil.</string>
+    <string name="press_the_enable_button_below">Appuyez sur le bouton d’activation ci-dessous</string>
+    <string name="enable_the_toggle_button">Activez le bouton bascule</string>
+    <string name="find_the_app_in_the_list">Trouvez l’application dans la liste</string>
 </resources>

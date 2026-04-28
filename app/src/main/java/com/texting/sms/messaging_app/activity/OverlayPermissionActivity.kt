@@ -58,14 +58,17 @@ class OverlayPermissionActivity : BaseActivity(), NetworkAvailableListener {
         networkUtil = NetworkConnectionUtil(this)
         networkUtil.setListener(this)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_overlay_permission)
+        firebaseCustomEvent(
+            this@OverlayPermissionActivity,
+            "display_overlay_visible",
+            "overlay_permission_page",
+            "open"
+        )
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        firebaseLogEvent(
-            this@OverlayPermissionActivity, "OVERLAY_PERMISSION_PAGE", "OVERLAY_PERMISSION_SHOWN"
-        )
         initClickListener()
     }
 
@@ -196,8 +199,11 @@ class OverlayPermissionActivity : BaseActivity(), NetworkAvailableListener {
 
     private fun initClickListener() {
         binding.btnAllowPermission.setOnClickListener {
-            firebaseLogEvent(
-                this@OverlayPermissionActivity, "OVERLAY_PERMISSION_PAGE", "BTN_OVERLAY_PERMISSION_TAP"
+            firebaseCustomEvent(
+                this@OverlayPermissionActivity,
+                "click_enable_overlay_btn",
+                "overlay_permission_page",
+                "tap_button"
             )
 
             requestOverlayAndFullScreenNotificationsPermission()
@@ -205,6 +211,13 @@ class OverlayPermissionActivity : BaseActivity(), NetworkAvailableListener {
 
         onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
+                firebaseCustomEvent(
+                    this@OverlayPermissionActivity,
+                    "back_click_from_overlay",
+                    "overlay_permission_page",
+                    "back_click"
+                )
+
                 showPermissionRequiredInformationDialog()
             }
         })
@@ -298,6 +311,31 @@ class OverlayPermissionActivity : BaseActivity(), NetworkAvailableListener {
         if (isAskForPermissions) {
             val isEnablePostCallScreen =
                 SharedPreferencesHelper.getBoolean(this, Const.ENABLE_AFTER_CALL_SCREEN, true)
+
+            if (Settings.canDrawOverlays(this)) {
+                firebaseCustomEvent(
+                    this@OverlayPermissionActivity,
+                    "overlay_permission_allowed",
+                    "overlay_permission_page",
+                    "allowed"
+                )
+            } else {
+                firebaseCustomEvent(
+                    this@OverlayPermissionActivity,
+                    "overlay_permission_denied",
+                    "overlay_permission_page",
+                    "denied"
+                )
+            }
+
+            if (isFullScreenNotificationAllowed()) {
+                firebaseCustomEvent(
+                    this@OverlayPermissionActivity,
+                    "full_notification_allowed",
+                    "overlay_permission_page",
+                    "allowed"
+                )
+            }
 
             if (isFullScreenNotificationAllowed() || Settings.canDrawOverlays(this)) {
                 if (isEnablePostCallScreen && !CallOverlayService.isRunning) {

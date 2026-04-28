@@ -602,7 +602,7 @@
     <string name="click_the_allow_access_button_to_proceed_with_enabling_permissions">Click the <b>\"Enable\"</b> button to proceed with enabling permissions.</string>
     <string name="step_1_permission">Step 1 :</string>
     <string name="step_2_permission">Step 2 :</string>
-    <string name="find_messages_in_the_list">Find <b>#Messages</b> in the list.</string>
+    <string name="find_messages_in_the_list">Find <b>#Messages</b> app in the list.</string>
     <string name="locate_messages_in_the_list_to_proceed_with_the_next_step">Locate <b>#Messages</b> in the list to proceed with the next step.</string>
     <string name="step_3_permission">Step 3 :</string>
     <string name="swipe_the_toggle_to_turn_on">Swipe the toggle to turn on.</string>
@@ -621,4 +621,7 @@
     <string name="we_do_not_store_track_or_share_your_call_or_message_data">We do not store &amp; share your call or message data.</string>
     <string name="outgoing_call">Outgoing Call</string>
     <string name="enable_required_features_to_use_messaging_your_data_stays_private_and_secure_on_your_device">Enable required features to use messaging. Your data stays private and secure on your device.</string>
+    <string name="press_the_enable_button_below">Press the enable button below</string>
+    <string name="enable_the_toggle_button">Enable the toggle button</string>
+    <string name="find_the_app_in_the_list">Find the app in the list</string>
 </resources>

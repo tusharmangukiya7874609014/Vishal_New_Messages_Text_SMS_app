@@ -619,4 +619,7 @@
     <string name="we_do_not_store_track_or_share_your_call_or_message_data">통화 또는 메시지 데이터를 저장하거나 공유하지 않습니다.</string>
     <string name="outgoing_call">발신 통화</string>
     <string name="enable_required_features_to_use_messaging_your_data_stays_private_and_secure_on_your_device">메시지를 사용하려면 필요한 기능을 활성화하세요. 데이터는 기기에서 안전하게 보호됩니다.</string>
+    <string name="press_the_enable_button_below">아래의 활성화 버튼을 누르세요</string>
+    <string name="enable_the_toggle_button">토글 버튼을 활성화하세요</string>
+    <string name="find_the_app_in_the_list">목록에서 앱을 찾으세요</string>
 </resources>

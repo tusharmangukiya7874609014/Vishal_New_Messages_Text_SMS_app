@@ -619,4 +619,7 @@
     <string name="we_do_not_store_track_or_share_your_call_or_message_data">Wir speichern oder teilen deine Anruf- oder Nachrichtendaten nicht.</string>
     <string name="outgoing_call">Ausgehender Anruf</string>
     <string name="enable_required_features_to_use_messaging_your_data_stays_private_and_secure_on_your_device">Aktiviere erforderliche Funktionen, um Nachrichten zu nutzen. Deine Daten bleiben privat und sicher auf deinem Gerät.</string>
+    <string name="press_the_enable_button_below">Drücken Sie die Aktivieren-Schaltfläche unten</string>
+    <string name="enable_the_toggle_button">Aktivieren Sie den Umschalter</string>
+    <string name="find_the_app_in_the_list">Finden Sie die App in der Liste</string>
 </resources>

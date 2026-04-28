@@ -70,8 +70,11 @@ class ReadPermissionActivity : BaseActivity(), NetworkAvailableListener {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        firebaseLogEvent(
-            this@ReadPermissionActivity, "READ_PERMISSION_PAGE", "READ_PERMISSION_SHOWN"
+        firebaseCustomEvent(
+            this@ReadPermissionActivity,
+            "read_permission_visible",
+            "read_permission_page",
+            "shown"
         )
         applySpannableTerms()
         initClickListener()
@@ -118,13 +121,23 @@ class ReadPermissionActivity : BaseActivity(), NetworkAvailableListener {
     private val notificationPermissionLauncher =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
             if (isGranted || Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
-                firebaseLogEvent(
-                    this@ReadPermissionActivity, "READ_PERMISSION_PAGE", "NOTIFICATION_ALLOWED"
+                firebaseCustomEvent(
+                    this@ReadPermissionActivity,
+                    "notification_allowed",
+                    "read_permission_page",
+                    "allowed"
                 )
 
                 SharedPreferencesHelper.saveInt(this, "NOTIFICATION_PERMISSION_DENIED", 0)
                 requestPhonePermissions()
             } else {
+                firebaseCustomEvent(
+                    this@ReadPermissionActivity,
+                    "notification_denied",
+                    "read_permission_page",
+                    "denied"
+                )
+
                 val deniedCount =
                     (SharedPreferencesHelper.getInt(this, "NOTIFICATION_PERMISSION_DENIED", 0) + 1)
 
@@ -142,6 +155,13 @@ class ReadPermissionActivity : BaseActivity(), NetworkAvailableListener {
         registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions ->
             val allGranted = permissions.values.all { it }
             if (allGranted) {
+                firebaseCustomEvent(
+                    this@ReadPermissionActivity,
+                    "make_phone_state_allowed",
+                    "read_permission_page",
+                    "allowed"
+                )
+
                 if (!binding.checkPrivacyPolicy.isChecked) {
                     showToast(
                         getString(R.string.please_accept_the_privacy_policy_and_terms_conditions)
@@ -174,6 +194,13 @@ class ReadPermissionActivity : BaseActivity(), NetworkAvailableListener {
                 startActivity(nextIntent)
                 finish()
             } else {
+                firebaseCustomEvent(
+                    this@ReadPermissionActivity,
+                    "make_phone_state_denied",
+                    "read_permission_page",
+                    "denied"
+                )
+
                 val deniedCount = (SharedPreferencesHelper.getInt(
                     this,
                     "READ_PHONE_STATE_PERMISSION_DENIED",
@@ -220,8 +247,11 @@ class ReadPermissionActivity : BaseActivity(), NetworkAvailableListener {
         if (notGranted.isNotEmpty()) {
             phonePermissionLauncher.launch(notGranted.toTypedArray())
         } else {
-            firebaseLogEvent(
-                this@ReadPermissionActivity, "READ_PERMISSION_PAGE", "MAKE_PHONE_STATE_ALLOWED"
+            firebaseCustomEvent(
+                this@ReadPermissionActivity,
+                "make_phone_state_allowed",
+                "read_permission_page",
+                "allowed"
             )
 
             if (!binding.checkPrivacyPolicy.isChecked) {
@@ -337,8 +367,11 @@ class ReadPermissionActivity : BaseActivity(), NetworkAvailableListener {
 
     private fun initClickListener() {
         binding.btnAllowPermission.setOnClickListener {
-            firebaseLogEvent(
-                this@ReadPermissionActivity, "READ_PERMISSION_PAGE", "TAP_TO_ALLOW_PERMISSION"
+            firebaseCustomEvent(
+                this@ReadPermissionActivity,
+                "click_allow_permission_btn",
+                "read_permission_page",
+                "tap_button"
             )
 
             requestNotificationPermission()
@@ -346,6 +379,13 @@ class ReadPermissionActivity : BaseActivity(), NetworkAvailableListener {
 
         onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
+                firebaseCustomEvent(
+                    this@ReadPermissionActivity,
+                    "back_click_from_read_permission",
+                    "read_permission_page",
+                    "back_click"
+                )
+
                 showPermissionRequiredInformationDialog()
             }
         })

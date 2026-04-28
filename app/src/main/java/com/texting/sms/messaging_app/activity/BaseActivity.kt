@@ -148,13 +148,16 @@ abstract class BaseActivity : AppCompatActivity() {
         }
     }
 
-    fun firebaseLogEvent(
-        context: Context, eventName: String, paramValue: String
+    fun firebaseCustomEvent(
+        context: Context,
+        eventName: String?,
+        paramKey: String?,
+        paramValue: String?,
     ) {
-        val bundle = Bundle().apply {
-            putString("page_name", paramValue)
+        val bundle = Bundle()
+        bundle.putString(paramKey, paramValue)
+        if (eventName != null) {
+            FirebaseAnalytics.getInstance(context).logEvent(eventName, bundle)
         }
-
-        FirebaseAnalytics.getInstance(context).logEvent(eventName, bundle)
     }
 }

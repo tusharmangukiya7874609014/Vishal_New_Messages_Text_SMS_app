@@ -296,8 +296,8 @@ class PersonalChatActivity : AppCompatActivity(), RemoveImageInterface,
         networkUtil = NetworkConnectionUtil(this)
         networkUtil.setListener(this)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_personal_chat)
-        firebaseLogEvent(
-            this@PersonalChatActivity, "PERSONAL_CHAT_PAGE", "SMS_CHATS_VISIBLE"
+        firebaseCustomEvent(
+            this@PersonalChatActivity, "personal_sms_chats", "open_page"
         )
         networkReceiver = NetworkReceiver(this)
         scheduledDate = Date()
@@ -356,14 +356,16 @@ class PersonalChatActivity : AppCompatActivity(), RemoveImageInterface,
         }
     }
 
-    fun firebaseLogEvent(
-        context: Context, eventName: String, paramValue: String
+    private fun firebaseCustomEvent(
+        context: Context,
+        eventName: String?,
+        paramValue: String?,
     ) {
-        val bundle = Bundle().apply {
-            putString("page_name", paramValue)
+        val bundle = Bundle()
+        bundle.putString("personal_chat", paramValue)
+        if (eventName != null) {
+            FirebaseAnalytics.getInstance(context).logEvent(eventName, bundle)
         }
-
-        FirebaseAnalytics.getInstance(context).logEvent(eventName, bundle)
     }
 
     private fun extractIdFromLabel(label: String): String {
@@ -459,8 +461,8 @@ class PersonalChatActivity : AppCompatActivity(), RemoveImageInterface,
                 }
 
                 if (binding.rvSenderNotSupport.isVisible && isDefaultSMSChatsAdsVisible) {
-                    firebaseLogEvent(
-                        this@PersonalChatActivity, "PERSONAL_CHAT_PAGE", "DEFAULT_CHATS_VISIBLE"
+                    firebaseCustomEvent(
+                        this@PersonalChatActivity, "default_non_sent_sms_user", "default_chats_visible"
                     )
                     if (isCurrentPageNativeAdsEnabled && !isCurrentPageBannerAdsEnabled) {
                         if (binding.nativeAdContainer.isVisible) return@withContext
@@ -476,8 +478,8 @@ class PersonalChatActivity : AppCompatActivity(), RemoveImageInterface,
                         )
                     }
                 } else {
-                    firebaseLogEvent(
-                        this@PersonalChatActivity, "PERSONAL_CHAT_PAGE", "PRIVATE_CHATS_VISIBLE"
+                    firebaseCustomEvent(
+                        this@PersonalChatActivity, "sent_sms_user", "personal_sms_chats_visible"
                     )
                     if (isPrivateChatsAdsVisible && !binding.rvSenderNotSupport.isVisible) {
                         if (isCurrentPageNativeAdsEnabled && !isCurrentPageBannerAdsEnabled) {

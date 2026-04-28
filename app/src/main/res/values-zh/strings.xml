@@ -619,4 +619,7 @@
     <string name="we_do_not_store_track_or_share_your_call_or_message_data">我们不会存储或分享您的通话或消息数据。</string>
     <string name="outgoing_call">拨出电话</string>
     <string name="enable_required_features_to_use_messaging_your_data_stays_private_and_secure_on_your_device">启用所需功能以使用消息服务。您的数据始终在设备上保持私密和安全。</string>
+    <string name="press_the_enable_button_below">点击下面的启用按钮</string>
+    <string name="enable_the_toggle_button">启用切换按钮</string>
+    <string name="find_the_app_in_the_list">在列表中找到该应用</string>
 </resources>

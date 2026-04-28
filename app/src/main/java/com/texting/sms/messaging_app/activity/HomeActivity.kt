@@ -55,7 +55,6 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.SimpleItemAnimator
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.snackbar.Snackbar
@@ -86,6 +85,7 @@ import com.texting.sms.messaging_app.listener.YearInterface
 import com.texting.sms.messaging_app.model.ChatUser
 import com.texting.sms.messaging_app.model.MessageFilter
 import com.texting.sms.messaging_app.model.MonthFile
+import com.texting.sms.messaging_app.model.SwipeAction
 import com.texting.sms.messaging_app.services.CallOverlayService
 import com.texting.sms.messaging_app.utils.NetworkConnectionUtil
 import com.texting.sms.messaging_app.utils.WorkScheduler
@@ -146,10 +146,10 @@ class HomeActivity : BaseActivity(), OnMessageFilterInterface, OnChatUserInterfa
     private var fontSize = Const.STRING_DEFAULT_VALUE
     private var itemTouchHelperLeftToRight: ItemTouchHelper? = null
     private var itemTouchHelperRightToLeft: ItemTouchHelper? = null
-    private var rightToLeftSwipe = Const.STRING_DEFAULT_VALUE
-    private var leftToRightSwipe = Const.STRING_DEFAULT_VALUE
-    private var previousRightToLeftSwipe = Const.STRING_DEFAULT_VALUE
-    private var previousLeftToRightSwipe = Const.STRING_DEFAULT_VALUE
+    private var rightToLeftSwipe = SwipeAction.ARCHIVED
+    private var leftToRightSwipe = SwipeAction.DELETE
+    private var previousRightToLeftSwipe = SwipeAction.ARCHIVED
+    private var previousLeftToRightSwipe = SwipeAction.DELETE
     private lateinit var editContactLauncher: ActivityResultLauncher<Intent>
     private var storeThreadIDList = ArrayList<String>()
     private var chatSMSSelected = 0
@@ -183,8 +183,8 @@ class HomeActivity : BaseActivity(), OnMessageFilterInterface, OnChatUserInterfa
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        firebaseLogEvent(
-            this@HomeActivity, "HOME_PAGE", "HOME_PAGE_SHOWN"
+        firebaseCustomEvent(
+            this@HomeActivity, "home_page_visible", "home_page", "shown"
         )
         isLastProfileColorToChange =
             SharedPreferencesHelper.getBoolean(this, Const.IS_CHANGE_PROFILE_COLOR, false)
@@ -198,16 +198,11 @@ class HomeActivity : BaseActivity(), OnMessageFilterInterface, OnChatUserInterfa
             Const.FONT_SIZE,
             resources.getString(R.string.normal)
         )
-        previousRightToLeftSwipe = SharedPreferencesHelper.getString(
-            this,
-            Const.LEFT_SWIPE_ACTIONS,
-            resources.getString(R.string.archive)
-        )
-        previousLeftToRightSwipe = SharedPreferencesHelper.getString(
-            this,
-            Const.RIGHT_SWIPE_ACTIONS,
-            resources.getString(R.string.delete)
-        )
+        previousRightToLeftSwipe = SharedPreferencesHelper.getRightToLeftSwipeAction(this)
+        previousLeftToRightSwipe = SharedPreferencesHelper.getLeftToRightSwipeAction(this)
+
+        rightToLeftSwipe = SharedPreferencesHelper.getRightToLeftSwipeAction(this)
+        leftToRightSwipe = SharedPreferencesHelper.getLeftToRightSwipeAction(this)
 
         onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
@@ -232,13 +227,13 @@ class HomeActivity : BaseActivity(), OnMessageFilterInterface, OnChatUserInterfa
             }
         })
 
-        if (!leftToRightSwipe.contentEquals(resources.getString(R.string.none))) {
+        if (leftToRightSwipe != SwipeAction.NONE) {
             setupLeftToRightSwipe()
         } else {
             disableSwipeLeftToRight()
         }
 
-        if (!rightToLeftSwipe.contentEquals(resources.getString(R.string.none))) {
+        if (rightToLeftSwipe != SwipeAction.NONE) {
             setupRightToLeftSwipe()
         } else {
             disableSwipeRightToLeft()
@@ -247,16 +242,16 @@ class HomeActivity : BaseActivity(), OnMessageFilterInterface, OnChatUserInterfa
         smsDefaultLauncher =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
                 if (it.resultCode == RESULT_OK) {
-                    firebaseLogEvent(
-                        this@HomeActivity, "HOME_PAGE", "SMS_DEFAULT_PERMISSION_ALLOWED"
+                    firebaseCustomEvent(
+                        this@HomeActivity, "default_sms_per_allowed", "home_page","allowed"
                     )
                     afterEnablePermissionView()
                     initView()
                     initClickListener()
                     initDrawerClickListener()
                 } else {
-                    firebaseLogEvent(
-                        this@HomeActivity, "HOME_PAGE", "SMS_DEFAULT_PERMISSION_DENIED"
+                    firebaseCustomEvent(
+                        this@HomeActivity, "default_sms_per_denied", "home_page","denied"
                     )
                     showToast(resources.getString(R.string.permission_denied_and_app_not_set_as_default_sms_app))
                 }
@@ -286,7 +281,6 @@ class HomeActivity : BaseActivity(), OnMessageFilterInterface, OnChatUserInterfa
 
                         withContext(Dispatchers.Main) {
                             applyFilterOnMessageList(messageFilter)
-                            binding.rvMessageList.scrollToPosition(0)
                         }
                     }
                 }
@@ -526,121 +520,127 @@ class HomeActivity : BaseActivity(), OnMessageFilterInterface, OnChatUserInterfa
                 rvMessageListAdapter.notifyItemChanged(position)
                 val chatUser = rvMessageListAdapter.getItemAt(position)
 
-                when (rightToLeftSwipe) {
-                    resources.getString(R.string.archive) -> {
-                        SharedPreferencesHelper.saveArchivedThread(
-                            this@HomeActivity,
-                            chatUser.threadId
-                        )
-                        val mutableList = allMessageList.toMutableList()
-                        mutableList.removeAll { it.threadId == chatUser.threadId }
-                        allMessageList = mutableList.toList()
-                        rvMessageListAdapter.removeAt(position)
+                if (chatUser != null) {
+                    when (rightToLeftSwipe) {
+                        SwipeAction.NONE -> {
+                            disableSwipeRightToLeft()
+                        }
 
-                        val snackbar = Snackbar.make(
-                            binding.rvMessageList,
-                            getString(R.string.conversation_archived, 1),
-                            Snackbar.LENGTH_LONG
-                        )
-                            .setAction(getString(R.string.undo)) {
-                                singleRestoreMessageFromArchive(chatUser.threadId.toString())
-                            }
-
-                        snackbar.setActionTextColor(
-                            ContextCompat.getColor(
+                        SwipeAction.ARCHIVED -> {
+                            SharedPreferencesHelper.saveArchivedThread(
                                 this@HomeActivity,
-                                R.color.app_theme_color
+                                chatUser.threadId
                             )
-                        )
-                        val snackbarView = snackbar.view
-                        val params = snackbarView.layoutParams as FrameLayout.LayoutParams
-                        params.setMargins(
-                            params.leftMargin,
-                            params.topMargin,
-                            params.rightMargin,
-                            params.bottomMargin + resources.getDimensionPixelSize(R.dimen.snackbar_bottom_margin)
-                        )
-                        snackbarView.layoutParams = params
-                        snackbar.show()
-                    }
+                            val mutableList = allMessageList.toMutableList()
+                            mutableList.removeAll { it.threadId == chatUser.threadId }
+                            allMessageList = mutableList.toList()
+                            rvMessageListAdapter.removeAt(position)
 
-                    resources.getString(R.string.delete) -> {
-                        itemTouchHelperRightToLeft?.attachToRecyclerView(null)
-
-                        binding.rvMessageList.post {
-                            rvMessageListAdapter.notifyItemChanged(position)
-                            itemTouchHelperRightToLeft?.attachToRecyclerView(binding.rvMessageList)
-
-                            showDeleteConversationDialog(chatUser.threadId, position)
-                        }
-                    }
-
-                    resources.getString(R.string.call) -> {
-                        val phoneNumber =
-                            getPhoneNumberFromThreadId(this@HomeActivity, chatUser.threadId)
-                        val sanitizedNumber = phoneNumber?.replace(Regex("[^\\d+]"), "")
-
-                        if (sanitizedNumber?.isNotEmpty() == true) {
-                            try {
-                                val dialIntent = Intent(Intent.ACTION_DIAL).apply {
-                                    data = "tel:$phoneNumber".toUri()
-                                    flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                            val snackbar = Snackbar.make(
+                                binding.rvMessageList,
+                                getString(R.string.conversation_archived, 1),
+                                Snackbar.LENGTH_LONG
+                            )
+                                .setAction(getString(R.string.undo)) {
+                                    singleRestoreMessageFromArchive(chatUser.threadId.toString())
                                 }
-                                startActivity(dialIntent)
-                            } catch (e: Exception) {
-                                Log.e("ABCD", "Failed to start dialer", e)
+
+                            snackbar.setActionTextColor(
+                                ContextCompat.getColor(
+                                    this@HomeActivity,
+                                    R.color.app_theme_color
+                                )
+                            )
+                            val snackbarView = snackbar.view
+                            val params = snackbarView.layoutParams as FrameLayout.LayoutParams
+                            params.setMargins(
+                                params.leftMargin,
+                                params.topMargin,
+                                params.rightMargin,
+                                params.bottomMargin + resources.getDimensionPixelSize(R.dimen.snackbar_bottom_margin)
+                            )
+                            snackbarView.layoutParams = params
+                            snackbar.show()
+                        }
+
+                        SwipeAction.DELETE -> {
+                            itemTouchHelperRightToLeft?.attachToRecyclerView(null)
+
+                            binding.rvMessageList.post {
+                                rvMessageListAdapter.notifyItemChanged(position)
+                                itemTouchHelperRightToLeft?.attachToRecyclerView(binding.rvMessageList)
+
+                                showDeleteConversationDialog(chatUser.threadId, position)
                             }
                         }
 
-                        itemTouchHelperRightToLeft?.attachToRecyclerView(null)
+                        SwipeAction.CALL ->  {
+                            val phoneNumber =
+                                getPhoneNumberFromThreadId(this@HomeActivity, chatUser.threadId)
+                            val sanitizedNumber = phoneNumber?.replace(Regex("[^\\d+]"), "")
 
-                        binding.rvMessageList.post {
-                            rvMessageListAdapter.notifyItemChanged(position)
-                            itemTouchHelperRightToLeft?.attachToRecyclerView(binding.rvMessageList)
+                            if (sanitizedNumber?.isNotEmpty() == true) {
+                                try {
+                                    val dialIntent = Intent(Intent.ACTION_DIAL).apply {
+                                        data = "tel:$phoneNumber".toUri()
+                                        flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                                    }
+                                    startActivity(dialIntent)
+                                } catch (e: Exception) {
+                                    Log.e("ABCD", "Failed to start dialer", e)
+                                }
+                            }
+
+                            itemTouchHelperRightToLeft?.attachToRecyclerView(null)
+
+                            binding.rvMessageList.post {
+                                rvMessageListAdapter.notifyItemChanged(position)
+                                itemTouchHelperRightToLeft?.attachToRecyclerView(binding.rvMessageList)
+                            }
                         }
-                    }
 
-                    resources.getString(R.string.mark_read) -> {
-                        val contentValues = ContentValues().apply {
-                            put("read", 1)
+                        SwipeAction.MARK_AS_READ -> {
+                            val contentValues = ContentValues().apply {
+                                put("read", 1)
+                            }
+
+                            val uri = "content://sms/inbox".toUri()
+                            val selection = "thread_id = ? AND read = 0"
+                            val selectionArgs = arrayOf(chatUser.threadId.toString())
+
+                            try {
+                                contentResolver.update(uri, contentValues, selection, selectionArgs)
+                            } catch (e: Exception) {
+                                Log.e("ABCD", "Failed to mark messages as read", e)
+                            }
+
+                            itemTouchHelperRightToLeft?.attachToRecyclerView(null)
+
+                            binding.rvMessageList.post {
+                                rvMessageListAdapter.notifyItemChanged(position)
+                                itemTouchHelperRightToLeft?.attachToRecyclerView(binding.rvMessageList)
+                            }
                         }
 
-                        val uri = "content://sms/inbox".toUri()
-                        val selection = "thread_id = ? AND read = 0"
-                        val selectionArgs = arrayOf(chatUser.threadId.toString())
+                        SwipeAction.MARK_AS_UNREAD -> {
+                            itemTouchHelperRightToLeft?.attachToRecyclerView(null)
 
-                        try {
-                            contentResolver.update(uri, contentValues, selection, selectionArgs)
-                        } catch (e: Exception) {
-                            Log.e("ABCD", "Failed to mark messages as read", e)
+                            binding.rvMessageList.post {
+                                rvMessageListAdapter.notifyItemChanged(position)
+                                itemTouchHelperRightToLeft?.attachToRecyclerView(binding.rvMessageList)
+                            }
                         }
 
-                        itemTouchHelperRightToLeft?.attachToRecyclerView(null)
-
-                        binding.rvMessageList.post {
-                            rvMessageListAdapter.notifyItemChanged(position)
-                            itemTouchHelperRightToLeft?.attachToRecyclerView(binding.rvMessageList)
+                        SwipeAction.ADD_TO_PRIVATE_CHAT -> {
+                            SharedPreferencesHelper.savePrivateThread(
+                                this@HomeActivity,
+                                chatUser.threadId
+                            )
+                            val mutableList = allMessageList.toMutableList()
+                            mutableList.removeAll { it.threadId == chatUser.threadId }
+                            allMessageList = mutableList.toList()
+                            rvMessageListAdapter.removeAt(position)
                         }
-                    }
-
-                    resources.getString(R.string.mark_unread) -> {
-                        itemTouchHelperRightToLeft?.attachToRecyclerView(null)
-
-                        binding.rvMessageList.post {
-                            rvMessageListAdapter.notifyItemChanged(position)
-                            itemTouchHelperRightToLeft?.attachToRecyclerView(binding.rvMessageList)
-                        }
-                    }
-
-                    resources.getString(R.string.add_to_private_chat) -> {
-                        SharedPreferencesHelper.savePrivateThread(
-                            this@HomeActivity,
-                            chatUser.threadId
-                        )
-                        val mutableList = allMessageList.toMutableList()
-                        mutableList.removeAll { it.threadId == chatUser.threadId }
-                        allMessageList = mutableList.toList()
-                        rvMessageListAdapter.removeAt(position)
                     }
                 }
 
@@ -755,32 +755,32 @@ class HomeActivity : BaseActivity(), OnMessageFilterInterface, OnChatUserInterfa
         if (dX == 0f) return
 
         val icon = when (rightToLeftSwipe) {
-            resources.getString(R.string.archive) -> ContextCompat.getDrawable(
+            SwipeAction.ARCHIVED -> ContextCompat.getDrawable(
                 this,
                 R.drawable.ic_archive_swipe
             ) ?: return
 
-            resources.getString(R.string.delete) -> ContextCompat.getDrawable(
+            SwipeAction.DELETE -> ContextCompat.getDrawable(
                 this,
                 R.drawable.ic_delete_swipe
             ) ?: return
 
-            resources.getString(R.string.call) -> ContextCompat.getDrawable(
+            SwipeAction.CALL -> ContextCompat.getDrawable(
                 this,
                 R.drawable.ic_swipe_call
             ) ?: return
 
-            resources.getString(R.string.mark_read) -> ContextCompat.getDrawable(
+            SwipeAction.MARK_AS_READ -> ContextCompat.getDrawable(
                 this,
                 R.drawable.ic_read
             ) ?: return
 
-            resources.getString(R.string.mark_unread) -> ContextCompat.getDrawable(
+            SwipeAction.MARK_AS_UNREAD -> ContextCompat.getDrawable(
                 this,
                 R.drawable.ic_unread_messages
             ) ?: return
 
-            resources.getString(R.string.add_to_private_chat) -> ContextCompat.getDrawable(
+            SwipeAction.ADD_TO_PRIVATE_CHAT -> ContextCompat.getDrawable(
                 this,
                 R.drawable.ic_dark_lock
             ) ?: return
@@ -921,6 +921,7 @@ class HomeActivity : BaseActivity(), OnMessageFilterInterface, OnChatUserInterfa
                     if (SharedPreferencesHelper.isPinned(this@HomeActivity, threadId.toLong())) {
                         SharedPreferencesHelper.setPinned(this, threadId.toLong(), false)
                     }
+
                     if (SharedPreferencesHelper.isThreadArchived(
                             this@HomeActivity,
                             threadId.toLong()
@@ -931,6 +932,7 @@ class HomeActivity : BaseActivity(), OnMessageFilterInterface, OnChatUserInterfa
                             threadId.toLong()
                         )
                     }
+
                     if (SharedPreferencesHelper.isThreadPrivate(
                             this@HomeActivity,
                             threadId.toLong()
@@ -980,121 +982,129 @@ class HomeActivity : BaseActivity(), OnMessageFilterInterface, OnChatUserInterfa
                 rvMessageListAdapter.notifyItemChanged(position)
                 val chatUser = rvMessageListAdapter.getItemAt(position)
 
-                when (leftToRightSwipe) {
-                    resources.getString(R.string.archive) -> {
-                        SharedPreferencesHelper.saveArchivedThread(
-                            this@HomeActivity,
-                            chatUser.threadId
-                        )
-                        val mutableList = allMessageList.toMutableList()
-                        mutableList.removeAll { it.threadId == chatUser.threadId }
-                        allMessageList = mutableList.toList()
-                        rvMessageListAdapter.removeAt(position)
+                if (chatUser != null) {
+                    when (leftToRightSwipe) {
+                        SwipeAction.NONE -> {
+                            disableSwipeLeftToRight()
+                        }
 
-                        val snackbar = Snackbar.make(
-                            binding.rvMessageList,
-                            getString(R.string.conversation_archived, 1),
-                            Snackbar.LENGTH_LONG
-                        )
-                            .setAction(getString(R.string.undo)) {
-                                singleRestoreMessageFromArchive(chatUser.threadId.toString())
-                            }
+                        SwipeAction.ARCHIVED -> {
 
-                        snackbar.setActionTextColor(
-                            ContextCompat.getColor(
+                            SharedPreferencesHelper.saveArchivedThread(
                                 this@HomeActivity,
-                                R.color.app_theme_color
+                                chatUser.threadId
                             )
-                        )
-                        val snackbarView = snackbar.view
-                        val params = snackbarView.layoutParams as FrameLayout.LayoutParams
-                        params.setMargins(
-                            params.leftMargin,
-                            params.topMargin,
-                            params.rightMargin,
-                            params.bottomMargin + resources.getDimensionPixelSize(R.dimen.snackbar_bottom_margin)
-                        )
-                        snackbarView.layoutParams = params
-                        snackbar.show()
-                    }
+                            val mutableList = allMessageList.toMutableList()
+                            mutableList.removeAll { it.threadId == chatUser.threadId }
+                            allMessageList = mutableList.toList()
+                            rvMessageListAdapter.removeAt(position)
 
-                    resources.getString(R.string.delete) -> {
-                        itemTouchHelperLeftToRight?.attachToRecyclerView(null)
-
-                        binding.rvMessageList.post {
-                            rvMessageListAdapter.notifyItemChanged(position)
-                            itemTouchHelperLeftToRight?.attachToRecyclerView(binding.rvMessageList)
-
-                            showDeleteConversationDialog(chatUser.threadId, position)
-                        }
-                    }
-
-                    resources.getString(R.string.call) -> {
-                        val phoneNumber =
-                            getPhoneNumberFromThreadId(this@HomeActivity, chatUser.threadId)
-                        val sanitizedNumber = phoneNumber?.replace(Regex("[^\\d+]"), "")
-
-                        if (sanitizedNumber?.isNotEmpty() == true) {
-                            try {
-                                val dialIntent = Intent(Intent.ACTION_DIAL).apply {
-                                    data = "tel:$phoneNumber".toUri()
-                                    flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                            val snackbar = Snackbar.make(
+                                binding.rvMessageList,
+                                getString(R.string.conversation_archived, 1),
+                                Snackbar.LENGTH_LONG
+                            )
+                                .setAction(getString(R.string.undo)) {
+                                    singleRestoreMessageFromArchive(chatUser.threadId.toString())
                                 }
-                                startActivity(dialIntent)
-                            } catch (e: Exception) {
-                                Log.e("ABCD", "Failed to start dialer", e)
+
+                            snackbar.setActionTextColor(
+                                ContextCompat.getColor(
+                                    this@HomeActivity,
+                                    R.color.app_theme_color
+                                )
+                            )
+                            val snackbarView = snackbar.view
+                            val params = snackbarView.layoutParams as FrameLayout.LayoutParams
+                            params.setMargins(
+                                params.leftMargin,
+                                params.topMargin,
+                                params.rightMargin,
+                                params.bottomMargin + resources.getDimensionPixelSize(R.dimen.snackbar_bottom_margin)
+                            )
+                            snackbarView.layoutParams = params
+                            snackbar.show()
+                        }
+
+                        SwipeAction.DELETE -> {
+                            itemTouchHelperLeftToRight?.attachToRecyclerView(null)
+
+                            binding.rvMessageList.post {
+                                rvMessageListAdapter.notifyItemChanged(position)
+                                itemTouchHelperLeftToRight?.attachToRecyclerView(binding.rvMessageList)
+
+                                showDeleteConversationDialog(chatUser.threadId, position)
                             }
                         }
 
-                        itemTouchHelperLeftToRight?.attachToRecyclerView(null)
+                        SwipeAction.CALL -> {
 
-                        binding.rvMessageList.post {
-                            rvMessageListAdapter.notifyItemChanged(position)
-                            itemTouchHelperLeftToRight?.attachToRecyclerView(binding.rvMessageList)
+                            val phoneNumber =
+                                getPhoneNumberFromThreadId(this@HomeActivity, chatUser.threadId)
+                            val sanitizedNumber = phoneNumber?.replace(Regex("[^\\d+]"), "")
+
+                            if (sanitizedNumber?.isNotEmpty() == true) {
+                                try {
+                                    val dialIntent = Intent(Intent.ACTION_DIAL).apply {
+                                        data = "tel:$phoneNumber".toUri()
+                                        flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                                    }
+                                    startActivity(dialIntent)
+                                } catch (e: Exception) {
+                                    Log.e("ABCD", "Failed to start dialer", e)
+                                }
+                            }
+
+                            itemTouchHelperLeftToRight?.attachToRecyclerView(null)
+
+                            binding.rvMessageList.post {
+                                rvMessageListAdapter.notifyItemChanged(position)
+                                itemTouchHelperLeftToRight?.attachToRecyclerView(binding.rvMessageList)
+                            }
                         }
-                    }
 
-                    resources.getString(R.string.mark_read) -> {
-                        val contentValues = ContentValues().apply {
-                            put("read", 1)
+                        SwipeAction.MARK_AS_READ -> {
+                            val contentValues = ContentValues().apply {
+                                put("read", 1)
+                            }
+
+                            val uri = "content://sms/inbox".toUri()
+                            val selection = "thread_id = ? AND read = 0"
+                            val selectionArgs = arrayOf(chatUser.threadId.toString())
+
+                            try {
+                                contentResolver.update(uri, contentValues, selection, selectionArgs)
+                            } catch (e: Exception) {
+                                Log.e("ABCD", "Failed to mark messages as read", e)
+                            }
+
+                            itemTouchHelperLeftToRight?.attachToRecyclerView(null)
+
+                            binding.rvMessageList.post {
+                                rvMessageListAdapter.notifyItemChanged(position)
+                                itemTouchHelperLeftToRight?.attachToRecyclerView(binding.rvMessageList)
+                            }
                         }
 
-                        val uri = "content://sms/inbox".toUri()
-                        val selection = "thread_id = ? AND read = 0"
-                        val selectionArgs = arrayOf(chatUser.threadId.toString())
+                        SwipeAction.MARK_AS_UNREAD -> {
+                            itemTouchHelperLeftToRight?.attachToRecyclerView(null)
 
-                        try {
-                            contentResolver.update(uri, contentValues, selection, selectionArgs)
-                        } catch (e: Exception) {
-                            Log.e("ABCD", "Failed to mark messages as read", e)
+                            binding.rvMessageList.post {
+                                rvMessageListAdapter.notifyItemChanged(position)
+                                itemTouchHelperLeftToRight?.attachToRecyclerView(binding.rvMessageList)
+                            }
                         }
 
-                        itemTouchHelperLeftToRight?.attachToRecyclerView(null)
-
-                        binding.rvMessageList.post {
-                            rvMessageListAdapter.notifyItemChanged(position)
-                            itemTouchHelperLeftToRight?.attachToRecyclerView(binding.rvMessageList)
+                        SwipeAction.ADD_TO_PRIVATE_CHAT -> {
+                            SharedPreferencesHelper.savePrivateThread(
+                                this@HomeActivity,
+                                chatUser.threadId
+                            )
+                            val mutableList = allMessageList.toMutableList()
+                            mutableList.removeAll { it.threadId == chatUser.threadId }
+                            allMessageList = mutableList.toList()
+                            rvMessageListAdapter.removeAt(position)
                         }
-                    }
-
-                    resources.getString(R.string.mark_unread) -> {
-                        itemTouchHelperLeftToRight?.attachToRecyclerView(null)
-
-                        binding.rvMessageList.post {
-                            rvMessageListAdapter.notifyItemChanged(position)
-                            itemTouchHelperLeftToRight?.attachToRecyclerView(binding.rvMessageList)
-                        }
-                    }
-
-                    resources.getString(R.string.add_to_private_chat) -> {
-                        SharedPreferencesHelper.savePrivateThread(
-                            this@HomeActivity,
-                            chatUser.threadId
-                        )
-                        val mutableList = allMessageList.toMutableList()
-                        mutableList.removeAll { it.threadId == chatUser.threadId }
-                        allMessageList = mutableList.toList()
-                        rvMessageListAdapter.removeAt(position)
                     }
                 }
 
@@ -1165,32 +1175,32 @@ class HomeActivity : BaseActivity(), OnMessageFilterInterface, OnChatUserInterfa
         if (dX == 0f) return
 
         val icon = when (leftToRightSwipe) {
-            resources.getString(R.string.archive) -> ContextCompat.getDrawable(
+            SwipeAction.ARCHIVED -> ContextCompat.getDrawable(
                 this,
                 R.drawable.ic_archive_swipe
             ) ?: return
 
-            resources.getString(R.string.delete) -> ContextCompat.getDrawable(
+            SwipeAction.DELETE -> ContextCompat.getDrawable(
                 this,
                 R.drawable.ic_delete_swipe
             ) ?: return
 
-            resources.getString(R.string.call) -> ContextCompat.getDrawable(
+            SwipeAction.CALL -> ContextCompat.getDrawable(
                 this,
                 R.drawable.ic_swipe_call
             ) ?: return
 
-            resources.getString(R.string.mark_read) -> ContextCompat.getDrawable(
+            SwipeAction.MARK_AS_READ -> ContextCompat.getDrawable(
                 this,
                 R.drawable.ic_read
             ) ?: return
 
-            resources.getString(R.string.mark_unread) -> ContextCompat.getDrawable(
+            SwipeAction.MARK_AS_UNREAD -> ContextCompat.getDrawable(
                 this,
                 R.drawable.ic_unread_messages
             ) ?: return
 
-            resources.getString(R.string.add_to_private_chat) -> ContextCompat.getDrawable(
+            SwipeAction.ADD_TO_PRIVATE_CHAT -> ContextCompat.getDrawable(
                 this,
                 R.drawable.ic_dark_lock
             ) ?: return
@@ -1298,10 +1308,7 @@ class HomeActivity : BaseActivity(), OnMessageFilterInterface, OnChatUserInterfa
         listOfMonth()
         listOfYear()
 
-        val layoutManagerMessage: RecyclerView.LayoutManager = LinearLayoutManager(this)
-        binding.rvMessageList.setLayoutManager(layoutManagerMessage)
         rvMessageListAdapter = ChatUserAdapter(
-            mutableListOf(),
             storeThreadIDList,
             this,
             this,
@@ -1309,13 +1316,15 @@ class HomeActivity : BaseActivity(), OnMessageFilterInterface, OnChatUserInterfa
             true,
             this
         )
-        binding.rvMessageList.adapter = rvMessageListAdapter
 
-        binding.rvMessageList.setHasFixedSize(true)
-        binding.rvMessageList.setItemViewCacheSize(20)
-        binding.rvMessageList.isNestedScrollingEnabled = false
-        (binding.rvMessageList.itemAnimator as? SimpleItemAnimator)?.supportsChangeAnimations =
-            false
+        binding.rvMessageList.apply {
+            layoutManager = LinearLayoutManager(this@HomeActivity)
+            adapter = rvMessageListAdapter
+            setHasFixedSize(true)
+            setItemViewCacheSize(20)
+            isNestedScrollingEnabled = false
+            itemAnimator = null
+        }
 
         rvMessageFilterAdapter = MessageFilterAdapter(messageFilterList, this, this)
 
@@ -1323,7 +1332,6 @@ class HomeActivity : BaseActivity(), OnMessageFilterInterface, OnChatUserInterfa
             layoutManager =
                 LinearLayoutManager(this@HomeActivity, LinearLayoutManager.HORIZONTAL, false)
             adapter = rvMessageFilterAdapter
-            setHasFixedSize(true)
             itemAnimator = null
         }
 
@@ -1954,7 +1962,9 @@ class HomeActivity : BaseActivity(), OnMessageFilterInterface, OnChatUserInterfa
 
         binding.ivScrollUp.setOnClickListener {
             binding.rvMessageList.post {
-                binding.rvMessageList.smoothScrollToPosition(0)
+                val adapterList = rvMessageListAdapter.currentList
+                rvMessageListAdapter.submitList(null)
+                rvMessageListAdapter.submitList(adapterList)
             }
         }
 
@@ -4156,7 +4166,7 @@ class HomeActivity : BaseActivity(), OnMessageFilterInterface, OnChatUserInterfa
         } else {
             binding.rvNoMessageView.visibility = View.GONE
             binding.rvMessageList.fadeIn()
-            rvMessageListAdapter.updateData(pinnedMessageList)
+            rvMessageListAdapter.submitList(pinnedMessageList)
             binding.paginationProgress.fadeOut()
             binding.rvMessageList.alpha = 1f
         }
@@ -4225,7 +4235,7 @@ class HomeActivity : BaseActivity(), OnMessageFilterInterface, OnChatUserInterfa
                 try {
                     ContextCompat.startForegroundService(this, serviceIntent)
                 } catch (e: Exception) {
-                    Log.d("ABCD","Overlay Service :- ${e.localizedMessage}")
+                    Log.d("ABCD", "Overlay Service :- ${e.localizedMessage}")
                 }
             }
         }
@@ -4262,18 +4272,9 @@ class HomeActivity : BaseActivity(), OnMessageFilterInterface, OnChatUserInterfa
                         }
                     }
                 }
-                leftToRightSwipe =
-                    SharedPreferencesHelper.getString(
-                        this,
-                        Const.RIGHT_SWIPE_ACTIONS,
-                        resources.getString(R.string.delete)
-                    )
-                rightToLeftSwipe =
-                    SharedPreferencesHelper.getString(
-                        this,
-                        Const.LEFT_SWIPE_ACTIONS,
-                        resources.getString(R.string.archive)
-                    )
+                leftToRightSwipe = SharedPreferencesHelper.getLeftToRightSwipeAction(this)
+
+                rightToLeftSwipe = SharedPreferencesHelper.getRightToLeftSwipeAction(this)
 
                 if (fontSize != SharedPreferencesHelper.getString(
                         this,
@@ -4286,21 +4287,21 @@ class HomeActivity : BaseActivity(), OnMessageFilterInterface, OnChatUserInterfa
                     finishAffinity()
                 }
 
-                if (leftToRightSwipe.contentEquals(resources.getString(R.string.none))) {
+                if (leftToRightSwipe == SwipeAction.NONE) {
                     previousLeftToRightSwipe = leftToRightSwipe
                     disableSwipeLeftToRight()
                 } else {
-                    if (previousLeftToRightSwipe.contentEquals(resources.getString(R.string.none))) {
+                    if (previousLeftToRightSwipe == SwipeAction.NONE) {
                         previousLeftToRightSwipe = leftToRightSwipe
                         setupLeftToRightSwipe()
                     }
                 }
 
-                if (rightToLeftSwipe.contentEquals(resources.getString(R.string.none))) {
+                if (rightToLeftSwipe == SwipeAction.NONE) {
                     previousRightToLeftSwipe = rightToLeftSwipe
                     disableSwipeRightToLeft()
                 } else {
-                    if (previousRightToLeftSwipe.contentEquals(resources.getString(R.string.none))) {
+                    if (previousRightToLeftSwipe == SwipeAction.NONE) {
                         previousRightToLeftSwipe = rightToLeftSwipe
                         setupRightToLeftSwipe()
                     }
@@ -4380,6 +4381,9 @@ class HomeActivity : BaseActivity(), OnMessageFilterInterface, OnChatUserInterfa
             if (isRoleAvailable) {
                 val isRoleHeld = roleManager.isRoleHeld(RoleManager.ROLE_SMS)
                 if (!isRoleHeld) {
+                    firebaseCustomEvent(
+                        this@HomeActivity, "default_sms_per_asked", "home_page","ask_permission"
+                    )
                     smsDefaultLauncher.launch(roleManager.createRequestRoleIntent(RoleManager.ROLE_SMS))
                 }
             }
@@ -4390,6 +4394,10 @@ class HomeActivity : BaseActivity(), OnMessageFilterInterface, OnChatUserInterfa
                     packageName
                 )
             }
+            firebaseCustomEvent(
+                this@HomeActivity, "default_sms_per_asked", "home_page","ask_permission"
+            )
+
             smsDefaultLauncher.launch(intent)
         }
     }

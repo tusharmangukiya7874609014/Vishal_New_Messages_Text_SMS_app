@@ -22,7 +22,6 @@ import com.google.android.libraries.ads.mobile.sdk.common.AdLoadCallback
 import com.google.android.libraries.ads.mobile.sdk.common.AdRequest
 import com.google.android.libraries.ads.mobile.sdk.common.FullScreenContentError
 import com.google.android.libraries.ads.mobile.sdk.common.LoadAdError
-import com.google.android.ump.ConsentDebugSettings
 import com.google.android.ump.ConsentInformation
 import com.google.android.ump.ConsentRequestParameters
 import com.google.android.ump.UserMessagingPlatform
@@ -128,21 +127,42 @@ class CustomLunchActivity : BaseActivity(), NetworkAvailableListener {
                     this@CustomLunchActivity, Const.IS_ADS_ENABLED, false
                 )
 
-                if (hasConsentForPurposeOne && isAdsEnabled) {
-                    firebaseLogEvent(this@CustomLunchActivity, "SPLASH_PAGE", "CONSENT_ALLOWED")
+                if (hasConsentForPurposeOne) {
+                    firebaseCustomEvent(
+                        this@CustomLunchActivity,
+                        "consent_form_action_accepted",
+                        "splash_consent_status",
+                        "accepted"
+                    )
 
-                    AdsManager.initialize(this@CustomLunchActivity) {
-                        if (isFlowStarted) return@initialize
-                        isFlowStarted = true
+                    if (isAdsEnabled) {
+                        AdsManager.initialize(this@CustomLunchActivity) {
+                            if (isFlowStarted) return@initialize
+                            isFlowStarted = true
 
-                        mainHandler.post {
-                            startSplashFlow()
+                            mainHandler.post {
+                                startSplashFlow()
+                            }
                         }
                     }
                 } else {
+                    firebaseCustomEvent(
+                        this@CustomLunchActivity,
+                        "consent_form_action_denied",
+                        "splash_consent_status",
+                        "denied"
+                    )
+
                     executeNextTask()
                 }
             } else {
+                firebaseCustomEvent(
+                    this@CustomLunchActivity,
+                    "non_eu_user",
+                    "splash_consent_status",
+                    "non_eu_user"
+                )
+
                 val isAdsEnabled = SharedPreferencesHelper.getBoolean(
                     this@CustomLunchActivity, Const.IS_ADS_ENABLED, false
                 )
@@ -207,8 +227,6 @@ class CustomLunchActivity : BaseActivity(), NetworkAvailableListener {
                         this@CustomLunchActivity, Const.IS_ADS_CONFIG_READY, false
                     )
                 } else {
-                    Log.d("ABCD","isStartProcess $isStartProcess")
-
                     if (!isStartProcess) getAdsManagerResponse(this@CustomLunchActivity)
 
                     mainHandler.postDelayed(this, 250)
@@ -479,9 +497,6 @@ class CustomLunchActivity : BaseActivity(), NetworkAvailableListener {
                 ).build(),
                 object : AdLoadCallback<AppOpenAd> {
                     override fun onAdLoaded(ad: AppOpenAd) {
-                        firebaseLogEvent(
-                            this@CustomLunchActivity, "SPLASH_PAGE", "APP_OPEN_ADS_LOADED"
-                        )
                         appOpenAd = ad
                         isLoadingAd = false
                         Log.d("AppOpenAd", "App open ad loaded.")
@@ -528,7 +543,6 @@ class CustomLunchActivity : BaseActivity(), NetworkAvailableListener {
 
             appOpenAd?.adEventCallback = object : AppOpenAdEventCallback {
                 override fun onAdShowedFullScreenContent() {
-                    firebaseLogEvent(this@CustomLunchActivity, "SPLASH_PAGE", "APP_OPEN_ADS_SHOWED")
                     Log.d("AppOpenAd", "App open ad showed.")
                     cancelSplashTimeout()
                 }

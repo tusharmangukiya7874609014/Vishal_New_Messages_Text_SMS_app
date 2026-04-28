@@ -619,4 +619,7 @@
     <string name="we_do_not_store_track_or_share_your_call_or_message_data">Non memorizziamo né condividiamo i dati delle tue chiamate o dei tuoi messaggi.</string>
     <string name="outgoing_call">Chiamata in uscita</string>
     <string name="enable_required_features_to_use_messaging_your_data_stays_private_and_secure_on_your_device">Abilita le funzionalità necessarie per utilizzare i messaggi. I tuoi dati restano privati e sicuri sul tuo dispositivo.</string>
+    <string name="press_the_enable_button_below">Premi il pulsante di abilitazione qui sotto</string>
+    <string name="enable_the_toggle_button">Abilita il pulsante di attivazione</string>
+    <string name="find_the_app_in_the_list">Trova l\'app nell\'elenco</string>
 </resources>

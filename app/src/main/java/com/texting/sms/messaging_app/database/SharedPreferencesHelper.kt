@@ -10,6 +10,7 @@ import com.texting.sms.messaging_app.model.QuickResponse
 import com.texting.sms.messaging_app.utils.StarCategory
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import com.texting.sms.messaging_app.model.SwipeAction
 import org.json.JSONObject
 
 object SharedPreferencesHelper {
@@ -502,5 +503,31 @@ object SharedPreferencesHelper {
                 putStringSet(getKeyForCategory(category, threadId), starred)
             }
         }
+    }
+
+    fun saveLeftToRightSwipeAction(context: Context, action: SwipeAction) {
+        val prefs = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
+        prefs.edit()
+            .putString("leftSwipeActions", action.name)
+            .apply()
+    }
+
+    fun getLeftToRightSwipeAction(context: Context): SwipeAction {
+        val prefs = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
+        val value = prefs.getString("leftSwipeActions", null)
+        return SwipeAction.fromStoredValue(value) ?: SwipeAction.DELETE
+    }
+
+    fun saveRightToLeftSwipeAction(context: Context, action: SwipeAction) {
+        val prefs = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
+        prefs.edit()
+            .putString("rightSwipeActions", action.name)
+            .apply()
+    }
+
+    fun getRightToLeftSwipeAction(context: Context): SwipeAction {
+        val prefs = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
+        val value = prefs.getString("rightSwipeActions", null)
+        return SwipeAction.fromStoredValue(value) ?: SwipeAction.ARCHIVED
     }
 }

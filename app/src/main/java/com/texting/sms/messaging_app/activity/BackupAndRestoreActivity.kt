@@ -29,23 +29,22 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import com.texting.sms.messaging_app.R
 import com.texting.sms.messaging_app.adapter.BackupHistoryAdapter
 import com.texting.sms.messaging_app.ads.BannerAdHelper
 import com.texting.sms.messaging_app.ads.BannerType
+import com.texting.sms.messaging_app.ads.InterstitialAdHelper
 import com.texting.sms.messaging_app.ads.NativeAdHelper
 import com.texting.sms.messaging_app.database.Const
 import com.texting.sms.messaging_app.database.SharedPreferencesHelper
 import com.texting.sms.messaging_app.databinding.ActivityBackupAndRestoreBinding
 import com.texting.sms.messaging_app.databinding.DialogBackupsHistoryBinding
+import com.texting.sms.messaging_app.listener.NetworkAvailableListener
 import com.texting.sms.messaging_app.listener.OnBackupClickInterface
 import com.texting.sms.messaging_app.model.SmsBackupInfo
-import com.google.gson.Gson
-import com.google.gson.GsonBuilder
-import com.texting.sms.messaging_app.ads.InterstitialAdHelper
-import com.texting.sms.messaging_app.listener.NetworkAvailableListener
 import com.texting.sms.messaging_app.utils.NetworkConnectionUtil
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -310,7 +309,7 @@ class BackupAndRestoreActivity : BaseActivity(), OnBackupClickInterface, Network
             binding.txtProgressMessages.text = getString(R.string.backing_up_messages)
             binding.txtBackUpProcess.text = getString(R.string.in_progress)
 
-            CoroutineScope(Dispatchers.IO).launch {
+            lifecycleScope.launch(Dispatchers.IO) {
                 val smsList = getAllSmsMessages(this@BackupAndRestoreActivity)
 
                 withContext(Dispatchers.Main) {
@@ -382,7 +381,7 @@ class BackupAndRestoreActivity : BaseActivity(), OnBackupClickInterface, Network
     private fun getAllSmsMessages(context: Context): List<SmsMessage> {
         val messages = mutableListOf<SmsMessage>()
 
-        // Fetch SMS
+        // Fetch Messages
         val smsUri = "content://sms".toUri()
         val smsProjection = arrayOf("_id", "address", "body", "date", "type", "read")
         context.contentResolver.query(smsUri, smsProjection, null, null, "date DESC")
@@ -591,11 +590,11 @@ class BackupAndRestoreActivity : BaseActivity(), OnBackupClickInterface, Network
         binding.txtProgressMessages.text = getString(R.string.restoring_messages)
         binding.txtBackUpProcess.text = getString(R.string.in_progress)
 
-        CoroutineScope(Dispatchers.IO).launch {
+        lifecycleScope.launch(Dispatchers.IO) {
             val file = File(backupName.filePath)
             val backup = readBackupFromFile(file)
             if (backup != null) {
-                restoreSmsBackup(this@BackupAndRestoreActivity, backup)
+                restoreSmsBackup(backup)
             } else {
                 showToast(getString(R.string.failed_to_read_backup))
             }
@@ -617,8 +616,8 @@ class BackupAndRestoreActivity : BaseActivity(), OnBackupClickInterface, Network
         }
     }
 
-    private fun restoreSmsBackup(context: Context, backup: SmsBackup) {
-        val contentResolver = context.contentResolver
+    private fun restoreSmsBackup(backup: SmsBackup) {
+        val contentResolver = contentResolver
         val smsUri = "content://sms".toUri()
 
         backup.messages.forEach { message ->
@@ -646,7 +645,7 @@ class BackupAndRestoreActivity : BaseActivity(), OnBackupClickInterface, Network
         try {
             backup.messages.forEach { message ->
                 if (message.isMms) {
-                    val threadId = getThreadIdFromPhoneNumber(context, message.address)
+                    val threadId = getThreadIdFromPhoneNumber(message.address)
 
                     val isIncoming = message.type == 1
 
@@ -660,7 +659,7 @@ class BackupAndRestoreActivity : BaseActivity(), OnBackupClickInterface, Network
                         put("sub", "")
                     }
 
-                    val mmsUri = context.contentResolver.insert("content://mms".toUri(), mmsValues)
+                    val mmsUri = contentResolver.insert("content://mms".toUri(), mmsValues)
                         ?: throw Exception("Failed to insert MMS")
                     val messageId = ContentUris.parseId(mmsUri)
 
@@ -671,7 +670,7 @@ class BackupAndRestoreActivity : BaseActivity(), OnBackupClickInterface, Network
                         put("charset", 106)
                     }
 
-                    context.contentResolver.insert(
+                    contentResolver.insert(
                         "content://mms/$messageId/addr".toUri(), addrValues
                     )
 
@@ -685,19 +684,19 @@ class BackupAndRestoreActivity : BaseActivity(), OnBackupClickInterface, Network
                         put("seq", 0)
                     }
 
-                    context.contentResolver.insert(
+                    contentResolver.insert(
                         "content://mms/$messageId/part".toUri(), textPartValues
                     )
 
                     // Insert image part
                     val inputStream = message.imageUri?.let {
-                        context.contentResolver.openInputStream(it)
+                        contentResolver.openInputStream(it)
                     } ?: throw Exception("Cannot open URI: ${message.imageUri}")
 
                     val bytes = inputStream.readBytes()
                     inputStream.close()
 
-                    val mimeType = message.imageUri?.let { context.contentResolver.getType(it) }
+                    val mimeType = message.imageUri?.let { contentResolver.getType(it) }
                         ?: "image/jpeg"
 
                     val partValues = ContentValues().apply {
@@ -709,11 +708,11 @@ class BackupAndRestoreActivity : BaseActivity(), OnBackupClickInterface, Network
                         put("seq", 1)
                     }
 
-                    val partUri = context.contentResolver.insert(
+                    val partUri = contentResolver.insert(
                         "content://mms/$messageId/part".toUri(), partValues
                     ) ?: throw Exception("Failed to insert MMS image part")
 
-                    context.contentResolver.openOutputStream(partUri)?.use { outputStream ->
+                    contentResolver.openOutputStream(partUri)?.use { outputStream ->
                         outputStream.write(bytes)
                         outputStream.flush()
                     }
@@ -724,11 +723,11 @@ class BackupAndRestoreActivity : BaseActivity(), OnBackupClickInterface, Network
         }
     }
 
-    private fun getThreadIdFromPhoneNumber(context: Context, phoneNumber: String): Long {
+    private fun getThreadIdFromPhoneNumber(phoneNumber: String): Long {
         val uri = "content://mms-sms/threadID".toUri().buildUpon()
             .appendQueryParameter("recipient", phoneNumber).build()
 
-        context.contentResolver.query(uri, arrayOf("_id"), null, null, null)?.use { cursor ->
+        contentResolver.query(uri, arrayOf("_id"), null, null, null)?.use { cursor ->
             if (cursor.moveToFirst()) {
                 val threadId = cursor.getLong(cursor.getColumnIndexOrThrow("_id"))
                 return threadId

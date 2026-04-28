@@ -2,11 +2,15 @@ package com.texting.sms.messaging_app.activity
 
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
-import android.provider.Telephony
+import android.provider.ContactsContract
+import android.telephony.PhoneNumberUtils
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import androidx.core.net.toUri
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -18,12 +22,9 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
 import com.texting.sms.messaging_app.R
 import com.texting.sms.messaging_app.adapter.SearchContactsAdapter
-import com.texting.sms.messaging_app.adapter.SearchSMSAdapter
 import com.texting.sms.messaging_app.adapter.TopContactsAdapter
 import com.texting.sms.messaging_app.ads.BannerAdHelper
 import com.texting.sms.messaging_app.ads.BannerType
-import com.texting.sms.messaging_app.ads.InterstitialAdHelper
-import com.texting.sms.messaging_app.ads.InterstitialAdHelper.loadAd
 import com.texting.sms.messaging_app.ads.NativeAdHelper
 import com.texting.sms.messaging_app.database.Const
 import com.texting.sms.messaging_app.database.SharedPreferencesHelper
@@ -33,7 +34,6 @@ import com.texting.sms.messaging_app.listener.OnChatUserInterface
 import com.texting.sms.messaging_app.listener.OnSearchResultClickInterface
 import com.texting.sms.messaging_app.model.ChatMatchResult
 import com.texting.sms.messaging_app.model.ChatUser
-import com.texting.sms.messaging_app.model.SMSMessage
 import com.texting.sms.messaging_app.utils.NetworkConnectionUtil
 import com.texting.sms.messaging_app.utils.getDrawableFromAttr
 import com.vanniktech.ui.hideKeyboard
@@ -49,11 +49,11 @@ class SearchActivity : BaseActivity(), OnChatUserInterface, OnSearchResultClickI
     private lateinit var binding: ActivitySearchBinding
     private lateinit var rvTopContactsAdapter: TopContactsAdapter
     private lateinit var rvSearchContactsAdapter: SearchContactsAdapter
-    private lateinit var rvSearchSMSAdapter: SearchSMSAdapter
     private lateinit var allConversationsList: List<ChatUser>
-    private lateinit var allSMSWithChatsConversation: Map<Long, List<SMSMessage>>
     private var searchQuery: String = ""
     private var searchJob: Job? = null
+
+    private var allMessageWithContactsNameList = emptyList<ChatUser>()
 
     private lateinit var networkUtil: NetworkConnectionUtil
 
@@ -79,61 +79,6 @@ class SearchActivity : BaseActivity(), OnChatUserInterface, OnSearchResultClickI
         }
         initView()
         initClickListener()
-    }
-
-    private fun getAllConversations(context: Context): Map<Long, List<SMSMessage>> {
-        val allMessages = getAllSms(context)
-        return allMessages
-            .groupBy { it.threadId }
-            .mapValues { entry ->
-                entry.value.sortedByDescending { it.timestamp }
-            }
-    }
-
-    private fun getAllSms(context: Context): List<SMSMessage> {
-        val smsList = mutableListOf<SMSMessage>()
-
-        val projection = arrayOf(
-            Telephony.Sms.THREAD_ID,
-            Telephony.Sms.ADDRESS,
-            Telephony.Sms.BODY,
-            Telephony.Sms.DATE
-        )
-
-        val cursor = context.contentResolver.query(
-            Telephony.Sms.CONTENT_URI,
-            projection,
-            null,
-            null,
-            Telephony.Sms.DEFAULT_SORT_ORDER // newest first
-        )
-
-        cursor?.use {
-            val threadIdIndex = it.getColumnIndexOrThrow(Telephony.Sms.THREAD_ID)
-            val addressIndex = it.getColumnIndexOrThrow(Telephony.Sms.ADDRESS)
-            val bodyIndex = it.getColumnIndexOrThrow(Telephony.Sms.BODY)
-            val dateIndex = it.getColumnIndexOrThrow(Telephony.Sms.DATE)
-
-            while (it.moveToNext()) {
-                val threadId = it.getLong(threadIdIndex)
-                val address = it.getString(addressIndex) ?: ""
-                val body = it.getString(bodyIndex) ?: ""
-                val timestamp = it.getLong(dateIndex)
-
-                smsList.add(
-                    SMSMessage(
-                        threadId = threadId,
-                        address = address,
-                        body = body,
-                        contactName = "",
-                        photoUri = "",
-                        timestamp = timestamp
-                    )
-                )
-            }
-        }
-
-        return smsList
     }
 
     private fun runAdsCampion() {
@@ -283,19 +228,16 @@ class SearchActivity : BaseActivity(), OnChatUserInterface, OnSearchResultClickI
         (binding.rvSearchViewInContacts.itemAnimator as? SimpleItemAnimator)?.supportsChangeAnimations =
             false
 
-        val layoutManagerSMSContact: RecyclerView.LayoutManager =
-            LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
-        binding.rvSearchViewInAllSMS.setLayoutManager(layoutManagerSMSContact)
-        rvSearchSMSAdapter = SearchSMSAdapter(
-            mutableListOf(),
-            this
-        )
-        binding.rvSearchViewInAllSMS.adapter = rvSearchSMSAdapter
-        (binding.rvSearchViewInAllSMS.itemAnimator as? SimpleItemAnimator)?.supportsChangeAnimations =
-            false
-
         getTopContactsList()
-        getAllConversationWithThreads()
+
+        binding.etSearchContacts.requestFocus()
+        binding.etSearchContacts.post {
+            val imm = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+            imm.showSoftInput(
+                binding.etSearchContacts,
+                InputMethodManager.SHOW_IMPLICIT
+            )
+        }
 
         binding.rvSearchViewInContacts.layoutManager = object : LinearLayoutManager(this) {
             override fun canScrollVertically(): Boolean {
@@ -310,24 +252,53 @@ class SearchActivity : BaseActivity(), OnChatUserInterface, OnSearchResultClickI
         }
     }
 
-    private fun getAllConversationWithThreads() {
-        allSMSWithChatsConversation = getAllConversations(this)
-    }
-
     private fun getTopContactsList() {
-        CoroutineScope(Dispatchers.IO).launch {
+        lifecycleScope.launch(Dispatchers.IO) {
+            val contactsMap = getAllContactsMap(this@SearchActivity)
+
             allConversationsList = getAllSmsThreads(this@SearchActivity)
 
+            allConversationsList.forEach { item ->
+                if (item.contactName.isNullOrEmpty()) {
+                    item.contactName = contactsMap[item.address] ?: item.address
+                }
+            }
+
+            val finalChatsList = SharedPreferencesHelper.filterNonPrivateThreads(
+                this@SearchActivity,
+                allConversationsList
+            )
+
             withContext(Dispatchers.Main) {
-                val finalChatsList = SharedPreferencesHelper.filterNonPrivateThreads(
-                    this@SearchActivity,
-                    allConversationsList
-                )
-                rvTopContactsAdapter.updateData(finalChatsList)
+                allMessageWithContactsNameList = finalChatsList.toMutableList()
+                rvTopContactsAdapter.updateData(allMessageWithContactsNameList)
             }
         }
     }
 
+    private fun getAllContactsMap(context: Context): Map<String, String> {
+        val map = mutableMapOf<String, String>()
+
+        val uri = ContactsContract.CommonDataKinds.Phone.CONTENT_URI
+        val projection = arrayOf(
+            ContactsContract.CommonDataKinds.Phone.NUMBER,
+            ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME
+        )
+
+        context.contentResolver.query(uri, projection, null, null, null)?.use { cursor ->
+            val numberIndex = cursor.getColumnIndexOrThrow(ContactsContract.CommonDataKinds.Phone.NUMBER)
+            val nameIndex = cursor.getColumnIndexOrThrow(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME)
+
+            while (cursor.moveToNext()) {
+                val number = cursor.getString(numberIndex)
+                val name = cursor.getString(nameIndex)
+
+                map[number] = name
+            }
+        }
+
+        return map
+    }
 
     data class SmsPart(
         val address: String,
@@ -456,38 +427,30 @@ class SearchActivity : BaseActivity(), OnChatUserInterface, OnSearchResultClickI
 
                 if (searchQuery.isEmpty()) {
                     rvSearchContactsAdapter.updateData(emptyList(), "")
-                    rvSearchSMSAdapter.updateData(emptyList())
-                    binding.txtResultsTitle.visibility = View.GONE
                     return
                 }
 
-                searchJob = CoroutineScope(Dispatchers.Default).launch {
-                    delay(150)
+                searchJob = lifecycleScope.launch {
+                    delay(300)
+
+                    binding.progressBar.visibility = View.VISIBLE
 
                     val filterList = filterChatUsers(allConversationsList, searchQuery)
 
                     val finalChatsList = SharedPreferencesHelper
                         .filterNonPrivateThreads(this@SearchActivity, filterList)
 
-                    val chatUsersList = allSMSWithChatsConversation.map { (threadId, _) ->
-                        ChatUser(threadId, "", 0L, "", null, null, 0, false, 0)
-                    }
-
                     val finalAllowedIds = SharedPreferencesHelper
-                        .filterNonPrivateThreads(this@SearchActivity, chatUsersList)
+                        .filterNonPrivateThreads(this@SearchActivity, finalChatsList)
                         .map { it.threadId }
 
-                    val filteredMap = allSMSWithChatsConversation.filter { (threadId, _) ->
+                    val filteredMap = finalChatsList.filter { (threadId, _) ->
                         threadId in finalAllowedIds
                     }
 
-                    val result = searchInChatsBackground(filteredMap, searchQuery)
-
                     withContext(Dispatchers.Main) {
-                        rvSearchContactsAdapter.updateData(finalChatsList, searchQuery)
-                        rvSearchSMSAdapter.updateData(result)
-                        binding.txtResultsTitle.visibility =
-                            if (result.isNotEmpty()) View.VISIBLE else View.GONE
+                        binding.progressBar.visibility = View.INVISIBLE
+                        rvSearchContactsAdapter.updateData(filteredMap, searchQuery)
                     }
                 }
             }
@@ -508,19 +471,19 @@ class SearchActivity : BaseActivity(), OnChatUserInterface, OnSearchResultClickI
         }
     }
 
-    private fun filterChatUsers(originalList: List<ChatUser>, query: String): List<ChatUser> {
-        val trimmedQuery = query.trim()
-        if (trimmedQuery.isEmpty()) return emptyList()
+    private fun filterChatUsers(
+        originalList: List<ChatUser>,
+        query: String
+    ): List<ChatUser> {
 
-        return originalList.filter { user ->
-            val name = user.contactName ?: ""
-            val address = user.address
+        val q = query.trim().lowercase()
+        if (q.isEmpty()) return emptyList()
 
-            name.contains(trimmedQuery, ignoreCase = true) || address.contains(
-                trimmedQuery,
-                ignoreCase = true
-            )
-        }
+        return originalList
+            .asSequence()
+            .filter { it.searchKey.contains(q) }
+            .take(30)
+            .toList()
     }
 
     override fun chatUserClick(userChatDetails: ChatUser) {
@@ -528,34 +491,6 @@ class SearchActivity : BaseActivity(), OnChatUserInterface, OnSearchResultClickI
         intent.putExtra(Const.THREAD_ID, userChatDetails.threadId)
         intent.putExtra(Const.SENDER_ID, userChatDetails.address)
         startActivity(intent)
-    }
-
-    private suspend fun searchInChatsBackground(
-        groupedSMS: Map<Long, List<SMSMessage>>,
-        query: String,
-    ): List<ChatMatchResult> = withContext(Dispatchers.Default) {
-        val trimmedQuery = query.trim()
-        if (trimmedQuery.isEmpty()) return@withContext emptyList()
-
-        groupedSMS.mapNotNull { (threadId, messages) ->
-            val matchCount = messages.count {
-                it.body.contains(trimmedQuery, ignoreCase = true)
-            }
-
-            if (matchCount > 0) {
-                val address = messages.firstOrNull()?.address ?: return@mapNotNull null
-                val contactName = messages.firstOrNull()?.contactName ?: address
-                val photoUri = messages.firstOrNull()?.photoUri ?: ""
-
-                ChatMatchResult(
-                    threadId = threadId,
-                    address = address,
-                    contactName = contactName,
-                    photoUri = photoUri,
-                    matchCount = matchCount
-                )
-            } else null
-        }.take(40)
     }
 
     override fun onItemClick(chatDetails: ChatMatchResult) {

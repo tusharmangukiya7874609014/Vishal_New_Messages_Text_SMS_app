@@ -6,8 +6,6 @@ object Const {
     const val IS_INTERSTITIAL_COUNT = "isInterstitialCount"
     const val APP_THEME = "appTheme"
     const val STRING_DEFAULT_VALUE = ""
-    const val LEFT_SWIPE_ACTIONS = "leftSwipeActions"
-    const val RIGHT_SWIPE_ACTIONS = "rightSwipeActions"
     const val DELAYED_SENDING_MESSAGE_TIMING = "delayedSendingMessageTiming"
     const val FONT_SIZE = "fontSize"
     const val NOTIFICATIONS_PREVIEW = "notificationsPreview"

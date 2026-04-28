@@ -168,4 +168,5 @@
     <color name="messages_dark_theme_title">#FFFFFF</color>
     <color name="messages_light_theme_sub_title">#8a8a8e</color>
     <color name="messages_dark_theme_sub_title">#707075</color>
+    <color name="mobile_frame_light_color">#aaaaaa</color>
 </resources>

@@ -619,4 +619,7 @@
     <string name="we_do_not_store_track_or_share_your_call_or_message_data">हम आपके कॉल या संदेश डेटा को संग्रहीत या साझा नहीं करते हैं।</string>
     <string name="outgoing_call">आउटगोइंग कॉल</string>
     <string name="enable_required_features_to_use_messaging_your_data_stays_private_and_secure_on_your_device">मैसेजिंग उपयोग करने के लिए आवश्यक सुविधाएं सक्षम करें। आपका डेटा आपके डिवाइस पर निजी और सुरक्षित रहता है।</string>
+    <string name="press_the_enable_button_below">नीचे दिए गए सक्षम करें बटन को दबाएं</string>
+    <string name="enable_the_toggle_button">टॉगल बटन सक्षम करें</string>
+    <string name="find_the_app_in_the_list">सूची में ऐप को खोजें</string>
 </resources>
