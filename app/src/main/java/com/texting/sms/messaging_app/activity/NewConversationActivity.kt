@@ -239,7 +239,6 @@ class NewConversationActivity : AppCompatActivity(), OnClickContactInterface, Ne
         }
 
         rvAllContactListAdapter = AllContactsAdapter(
-            mutableListOf(),
             this,
             isMobileNumbersOnly
         ).apply {
@@ -266,7 +265,7 @@ class NewConversationActivity : AppCompatActivity(), OnClickContactInterface, Ne
                         binding.rvNoFavouriteContacts.visibility = View.GONE
                         binding.paginationProgress.visibility = View.GONE
                         binding.rvAllContactsList.fadeIn()
-                        rvAllContactListAdapter.updateData(allContactsList)
+                        rvAllContactListAdapter.submitList(allContactsList)
 
                         binding.etSearchContacts.requestFocus()
                         binding.etSearchContacts.post {
@@ -410,7 +409,7 @@ class NewConversationActivity : AppCompatActivity(), OnClickContactInterface, Ne
                             if (allContactsList.isNotEmpty()) {
                                 binding.rvNoFavouriteContacts.visibility = View.GONE
                                 binding.rvAllContactsList.fadeIn()
-                                rvAllContactListAdapter.updateData(allContactsList)
+                                rvAllContactListAdapter.submitList(allContactsList)
                             } else {
                                 binding.rvAllContactsList.visibility = View.GONE
                                 binding.rvNoFavouriteContacts.fadeIn()
@@ -475,7 +474,7 @@ class NewConversationActivity : AppCompatActivity(), OnClickContactInterface, Ne
                 if (filtered.isNotEmpty()) {
                     binding.rvNoFavouriteContacts.visibility = View.GONE
                     binding.rvAllContactsList.visibility = View.VISIBLE
-                    rvAllContactListAdapter.updateData(filtered)
+                    rvAllContactListAdapter.submitList(filtered)
                 } else {
                     binding.rvAllContactsList.visibility = View.GONE
                     if (!withNumberSearch) {

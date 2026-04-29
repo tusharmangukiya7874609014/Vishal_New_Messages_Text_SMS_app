@@ -47,16 +47,18 @@
             android:layout_below="@+id/rvTopHeaderView"
             android:layout_marginHorizontal="@dimen/_10sdp"
             android:layout_marginTop="@dimen/_10sdp"
+            android:background="?attr/itemBackground"
             android:orientation="vertical"
+            android:padding="@dimen/_4sdp"
             tools:visibility="visible">
 
             <LinearLayout
                 android:id="@+id/rvModifyPassword"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="?attr/itemBackground"
+                android:layout_marginTop="@dimen/_1sdp"
                 android:orientation="horizontal"
-                android:padding="@dimen/_4sdp">
+                android:padding="@dimen/_2sdp">
 
                 <RelativeLayout
                     android:layout_width="@dimen/_28sdp"
@@ -103,14 +105,19 @@
 
             </LinearLayout>
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.6dp"
+                android:layout_marginHorizontal="@dimen/_6sdp"
+                android:layout_marginVertical="@dimen/_5sdp"
+                android:background="?attr/stroke_color_settings" />
+
             <LinearLayout
                 android:id="@+id/rvModifySecurityQue"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_7sdp"
-                android:background="?attr/itemBackground"
-                android:padding="@dimen/_4sdp"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:padding="@dimen/_2sdp">
 
                 <RelativeLayout
                     android:layout_width="@dimen/_28sdp"
@@ -157,13 +164,18 @@
 
             </LinearLayout>
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.6dp"
+                android:layout_marginHorizontal="@dimen/_6sdp"
+                android:layout_marginVertical="@dimen/_5sdp"
+                android:background="?attr/stroke_color_settings" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="?attr/itemBackground"
-                android:layout_marginTop="@dimen/_7sdp"
                 android:orientation="horizontal"
-                android:padding="@dimen/_4sdp">
+                android:padding="@dimen/_2sdp">
 
                 <RelativeLayout
                     android:layout_width="@dimen/_28sdp"
@@ -210,14 +222,15 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginEnd="@dimen/_5sdp">
+                    android:layout_marginEnd="3dp">
 
                     <com.kyleduo.switchbutton.SwitchButton
                         android:id="@+id/switchNotifications"
                         android:layout_width="36dp"
-                        android:layout_height="22dp"
+                        android:layout_height="21dp"
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
+                        android:layout_marginEnd="@dimen/_5sdp"
                         app:kswBackColor="?attr/switchColor"
                         app:kswThumbColor="@color/white" />
 
@@ -225,14 +238,20 @@
 
             </LinearLayout>
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.6dp"
+                android:layout_marginHorizontal="@dimen/_6sdp"
+                android:layout_marginVertical="@dimen/_5sdp"
+                android:background="?attr/stroke_color_settings" />
+
             <LinearLayout
                 android:id="@+id/rvAddContacts"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_7sdp"
-                android:background="?attr/itemBackground"
-                android:padding="@dimen/_4sdp"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:layout_marginBottom="@dimen/_3sdp"
+                android:padding="@dimen/_2sdp">
 
                 <RelativeLayout
                     android:layout_width="@dimen/_28sdp"

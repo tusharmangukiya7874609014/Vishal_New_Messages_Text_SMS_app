@@ -2,20 +2,21 @@ package com.texting.sms.messaging_app.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.l4digital.fastscroll.FastScroller
 import com.texting.sms.messaging_app.databinding.ItemContactBinding
 import com.texting.sms.messaging_app.databinding.ItemHeaderWithFirstContactBinding
+import com.texting.sms.messaging_app.diffutils.AllContactDiffCallback
 import com.texting.sms.messaging_app.listener.OnClickContactInterface
 import com.texting.sms.messaging_app.model.ContactModel
 
 class AllContactsAdapter(
-    private var callHistoryList: MutableList<ContactModel>,
     private var onContactInterface: OnClickContactInterface,
     private var isVisibleNumber: Boolean = true
-) : RecyclerView.Adapter<RecyclerView.ViewHolder>(),
-    FastScroller.SectionIndexer {
+) : ListAdapter<ContactModel, RecyclerView.ViewHolder>(
+    AllContactDiffCallback
+), FastScroller.SectionIndexer {
 
     init {
         setHasStableIds(true)
@@ -23,23 +24,21 @@ class AllContactsAdapter(
 
     companion object {
         const val VIEW_TYPE_HEADER_WITH_FIRST = 0
-        const val VIEW_TYPE_LOG = 1
-    }
-
-    override fun getItemId(position: Int): Long {
-        return when (val item = callHistoryList[position]) {
-            is ContactModel.ContactItem ->
-                item.contactId.hashCode().toLong()
-
-            is ContactModel.HeaderWithFirstItem ->
-                item.title.hashCode().toLong()
-        }
+        const val VIEW_TYPE_CONTACT_ITEM = 1
     }
 
     override fun getItemViewType(position: Int): Int {
-        return when (callHistoryList[position]) {
+        return when (getItem(position)) {
             is ContactModel.HeaderWithFirstItem -> VIEW_TYPE_HEADER_WITH_FIRST
-            is ContactModel.ContactItem -> VIEW_TYPE_LOG
+            is ContactModel.ContactItem -> VIEW_TYPE_CONTACT_ITEM
+        }
+    }
+
+    override fun getItemId(position: Int): Long {
+        return when (val item = getItem(position)) {
+            is ContactModel.ContactItem -> item.contactId.hashCode().toLong()
+
+            is ContactModel.HeaderWithFirstItem -> item.firstContact.contactId.hashCode().toLong()
         }
     }
 
@@ -56,32 +55,24 @@ class AllContactsAdapter(
                 val binding = ItemContactBinding.inflate(
                     LayoutInflater.from(parent.context), parent, false
                 )
-                LogViewHolder(binding)
+                ContactViewHolder(binding)
             }
         }
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        when (val item = callHistoryList[position]) {
+        when (val item = getItem(position)) {
             is ContactModel.HeaderWithFirstItem -> (holder as HeaderWithFirstViewHolder).bind(item)
-            is ContactModel.ContactItem -> (holder as LogViewHolder).bind(item)
+            is ContactModel.ContactItem -> (holder as ContactViewHolder).bind(item)
         }
     }
 
-    override fun onBindViewHolder(
-        holder: RecyclerView.ViewHolder,
-        position: Int,
-        payloads: MutableList<Any>
-    ) {
-        onBindViewHolder(holder, position)
-    }
-
     override fun getSectionText(position: Int): CharSequence {
-        if (callHistoryList.isEmpty()) return ""
+        if (currentList.isEmpty()) return ""
 
-        return when (val item = callHistoryList[position]) {
+        return when (val item = getItem(position)) {
             is ContactModel.HeaderWithFirstItem -> {
-                item.title
+                item.firstContact.name?.firstOrNull()?.uppercase() ?: "#"
             }
 
             is ContactModel.ContactItem -> {
@@ -100,14 +91,14 @@ class AllContactsAdapter(
             binding.executePendingBindings()
 
             binding.root.setOnClickListener {
-                if (absoluteAdapterPosition != RecyclerView.NO_POSITION) {
-                    onContactInterface.onItemClick(contactInfo.firstContact)
-                }
+                if (bindingAdapterPosition == RecyclerView.NO_POSITION) return@setOnClickListener
+
+                onContactInterface.onItemClick(contactInfo.firstContact)
             }
         }
     }
 
-    inner class LogViewHolder(private val binding: ItemContactBinding) :
+    inner class ContactViewHolder(private val binding: ItemContactBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(contactInfo: ContactModel.ContactItem) {
             binding.isContactsVisible = isVisibleNumber
@@ -115,49 +106,10 @@ class AllContactsAdapter(
             binding.executePendingBindings()
 
             binding.root.setOnClickListener {
-                if (absoluteAdapterPosition != RecyclerView.NO_POSITION) {
-                    onContactInterface.onItemClick(contactInfo)
-                }
+                if (bindingAdapterPosition == RecyclerView.NO_POSITION) return@setOnClickListener
+
+                onContactInterface.onItemClick(contactInfo)
             }
         }
-    }
-
-    override fun getItemCount(): Int {
-        return callHistoryList.size
-    }
-
-    fun updateData(newList: List<ContactModel>) {
-        val diffCallback = AllContactDiffCallback(callHistoryList, newList)
-        val diffResult = DiffUtil.calculateDiff(diffCallback)
-        callHistoryList.clear()
-        callHistoryList.addAll(newList)
-        diffResult.dispatchUpdatesTo(this)
-    }
-}
-
-class AllContactDiffCallback(
-    private val oldList: List<ContactModel>, private val newList: List<ContactModel>
-) : DiffUtil.Callback() {
-    override fun getOldListSize() = oldList.size
-    override fun getNewListSize() = newList.size
-
-    override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-        val old = oldList[oldItemPosition]
-        val new = newList[newItemPosition]
-        return when (old) {
-            is ContactModel.ContactItem if new is ContactModel.ContactItem -> {
-                old.contactId == new.contactId
-            }
-
-            is ContactModel.HeaderWithFirstItem if new is ContactModel.HeaderWithFirstItem -> {
-                old.title == new.title
-            }
-
-            else -> false
-        }
-    }
-
-    override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-        return oldList[oldItemPosition] == newList[newItemPosition]
     }
 }

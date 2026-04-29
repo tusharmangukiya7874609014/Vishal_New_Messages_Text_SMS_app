@@ -50,103 +50,117 @@
             android:layout_marginTop="@dimen/_10sdp"
             android:orientation="vertical">
 
-            <RelativeLayout
-                android:id="@+id/rvNotification"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="?attr/itemBackground"
-                android:padding="@dimen/_5sdp">
+                android:orientation="vertical"
+                android:padding="@dimen/_4sdp"
+                tools:visibility="visible">
 
-                <LinearLayout
+                <RelativeLayout
+                    android:id="@+id/rvNotification"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:orientation="vertical">
+                    android:layout_marginTop="@dimen/_1sdp"
+                    android:padding="@dimen/_2sdp">
 
-                    <TextView
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:layout_marginStart="@dimen/_5sdp"
-                        android:fontFamily="@font/medium_sans"
-                        android:gravity="center_vertical"
-                        android:text="@string/notifications"
-                        android:textColor="?attr/titleTextColor"
-                        android:textSize="@dimen/features_title_size" />
+                        android:orientation="vertical">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginStart="@dimen/_5sdp"
-                        android:layout_marginTop="@dimen/_1sdp"
-                        android:fontFamily="@font/regular_sans"
-                        android:text="@string/tap_to_customize"
-                        android:textColor="?attr/subHeadingColor"
-                        android:textSize="@dimen/features_sub_title_size" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:fontFamily="@font/medium_sans"
+                            android:gravity="center_vertical"
+                            android:text="@string/notifications"
+                            android:textColor="?attr/titleTextColor"
+                            android:textSize="@dimen/features_title_size" />
 
-                </LinearLayout>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginTop="@dimen/_1sdp"
+                            android:fontFamily="@font/regular_sans"
+                            android:text="@string/tap_to_customize"
+                            android:textColor="?attr/subHeadingColor"
+                            android:textSize="@dimen/features_sub_title_size" />
 
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:layout_width="@dimen/_20sdp"
-                    android:layout_height="@dimen/_20sdp"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginEnd="@dimen/_5sdp"
-                    android:src="@drawable/ic_open_view"
-                    app:tint="?attr/subTextColor" />
+                    </LinearLayout>
 
-            </RelativeLayout>
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:layout_width="@dimen/_18sdp"
+                        android:layout_height="@dimen/_18sdp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="@dimen/_5sdp"
+                        android:src="@drawable/ic_open_view"
+                        app:tint="?attr/subTextColor" />
 
-            <RelativeLayout
-                android:id="@+id/rvNotificationPreviews"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_7sdp"
-                android:background="?attr/itemBackground"
-                android:padding="@dimen/_5sdp">
+                </RelativeLayout>
 
-                <LinearLayout
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.6dp"
+                    android:layout_marginHorizontal="@dimen/_6sdp"
+                    android:layout_marginVertical="@dimen/_5sdp"
+                    android:background="?attr/stroke_color_settings" />
+
+                <RelativeLayout
+                    android:id="@+id/rvNotificationPreviews"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:orientation="vertical">
+                    android:layout_marginBottom="@dimen/_1sdp"
+                    android:padding="@dimen/_2sdp">
 
-                    <TextView
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:layout_marginStart="@dimen/_5sdp"
-                        android:fontFamily="@font/medium_sans"
-                        android:gravity="center_vertical"
-                        android:text="@string/notification_previews"
-                        android:textColor="?attr/titleTextColor"
-                        android:textSize="@dimen/features_title_size" />
+                        android:orientation="vertical">
 
-                    <TextView
-                        android:id="@+id/txtNotificationPreviewValue"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginStart="@dimen/_5sdp"
-                        android:layout_marginTop="@dimen/_1sdp"
-                        android:fontFamily="@font/regular_sans"
-                        android:text="@string/show_name_amp_message"
-                        android:textColor="?attr/subHeadingColor"
-                        android:textSize="@dimen/features_sub_title_size" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:fontFamily="@font/medium_sans"
+                            android:gravity="center_vertical"
+                            android:text="@string/notification_previews"
+                            android:textColor="?attr/titleTextColor"
+                            android:textSize="@dimen/features_title_size" />
 
-                </LinearLayout>
+                        <TextView
+                            android:id="@+id/txtNotificationPreviewValue"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginTop="@dimen/_1sdp"
+                            android:fontFamily="@font/regular_sans"
+                            android:text="@string/show_name_amp_message"
+                            android:textColor="?attr/subHeadingColor"
+                            android:textSize="@dimen/features_sub_title_size" />
 
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:layout_width="@dimen/_20sdp"
-                    android:layout_height="@dimen/_20sdp"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginEnd="@dimen/_5sdp"
-                    android:src="@drawable/ic_open_view"
-                    app:tint="?attr/subTextColor" />
+                    </LinearLayout>
 
-            </RelativeLayout>
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:layout_width="@dimen/_18sdp"
+                        android:layout_height="@dimen/_18sdp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="@dimen/_5sdp"
+                        android:src="@drawable/ic_open_view"
+                        app:tint="?attr/subTextColor" />
+
+                </RelativeLayout>
+
+            </LinearLayout>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -157,154 +171,175 @@
                 android:textColor="@color/app_theme_color"
                 android:textSize="@dimen/main_title_size" />
 
-            <RelativeLayout
-                android:id="@+id/rvButtonOne"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="?attr/itemBackground"
+                android:orientation="vertical"
                 android:layout_marginTop="@dimen/_10sdp"
-                android:background="?attr/itemBackground"
-                android:padding="@dimen/_5sdp">
+                android:padding="@dimen/_4sdp"
+                tools:visibility="visible">
 
-                <LinearLayout
+                <RelativeLayout
+                    android:id="@+id/rvButtonOne"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:orientation="vertical">
+                    android:layout_marginTop="@dimen/_1sdp"
+                    android:padding="@dimen/_2sdp">
 
-                    <TextView
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:layout_marginStart="@dimen/_5sdp"
-                        android:fontFamily="@font/medium_sans"
-                        android:gravity="center_vertical"
-                        android:text="@string/button_1"
-                        android:textColor="?attr/titleTextColor"
-                        android:textSize="@dimen/features_title_size" />
+                        android:orientation="vertical">
 
-                    <TextView
-                        android:id="@+id/txtButtonOne"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginStart="@dimen/_5sdp"
-                        android:layout_marginTop="@dimen/_1sdp"
-                        android:fontFamily="@font/regular_sans"
-                        android:text="@string/call"
-                        android:textColor="?attr/subHeadingColor"
-                        android:textSize="@dimen/features_sub_title_size" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:fontFamily="@font/medium_sans"
+                            android:gravity="center_vertical"
+                            android:text="@string/button_1"
+                            android:textColor="?attr/titleTextColor"
+                            android:textSize="@dimen/features_title_size" />
 
-                </LinearLayout>
+                        <TextView
+                            android:id="@+id/txtButtonOne"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginTop="@dimen/_1sdp"
+                            android:fontFamily="@font/regular_sans"
+                            android:text="@string/call"
+                            android:textColor="?attr/subHeadingColor"
+                            android:textSize="@dimen/features_sub_title_size" />
 
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:layout_width="@dimen/_20sdp"
-                    android:layout_height="@dimen/_20sdp"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginEnd="@dimen/_5sdp"
-                    android:src="@drawable/ic_open_view"
-                    app:tint="?attr/subTextColor" />
+                    </LinearLayout>
 
-            </RelativeLayout>
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:layout_width="@dimen/_18sdp"
+                        android:layout_height="@dimen/_18sdp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="@dimen/_5sdp"
+                        android:src="@drawable/ic_open_view"
+                        app:tint="?attr/subTextColor" />
 
-            <RelativeLayout
-                android:id="@+id/rvButtonTwo"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginVertical="@dimen/_7sdp"
-                android:background="?attr/itemBackground"
-                android:padding="@dimen/_5sdp">
+                </RelativeLayout>
 
-                <LinearLayout
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.6dp"
+                    android:layout_marginHorizontal="@dimen/_6sdp"
+                    android:layout_marginVertical="@dimen/_5sdp"
+                    android:background="?attr/stroke_color_settings" />
+
+                <RelativeLayout
+                    android:id="@+id/rvButtonTwo"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:orientation="vertical">
+                    android:background="?attr/itemBackground"
+                    android:padding="@dimen/_2sdp">
 
-                    <TextView
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:layout_marginStart="@dimen/_5sdp"
-                        android:fontFamily="@font/medium_sans"
-                        android:gravity="center_vertical"
-                        android:text="@string/button_2"
-                        android:textColor="?attr/titleTextColor"
-                        android:textSize="@dimen/features_title_size" />
+                        android:orientation="vertical">
 
-                    <TextView
-                        android:id="@+id/txtButtonTwo"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginStart="@dimen/_5sdp"
-                        android:layout_marginTop="@dimen/_1sdp"
-                        android:fontFamily="@font/regular_sans"
-                        android:text="@string/mark_read"
-                        android:textColor="?attr/subHeadingColor"
-                        android:textSize="@dimen/features_sub_title_size" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:fontFamily="@font/medium_sans"
+                            android:gravity="center_vertical"
+                            android:text="@string/button_2"
+                            android:textColor="?attr/titleTextColor"
+                            android:textSize="@dimen/features_title_size" />
 
-                </LinearLayout>
+                        <TextView
+                            android:id="@+id/txtButtonTwo"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginTop="@dimen/_1sdp"
+                            android:fontFamily="@font/regular_sans"
+                            android:text="@string/mark_read"
+                            android:textColor="?attr/subHeadingColor"
+                            android:textSize="@dimen/features_sub_title_size" />
 
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:layout_width="@dimen/_20sdp"
-                    android:layout_height="@dimen/_20sdp"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginEnd="@dimen/_5sdp"
-                    android:src="@drawable/ic_open_view"
-                    app:tint="?attr/subTextColor" />
+                    </LinearLayout>
 
-            </RelativeLayout>
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:layout_width="@dimen/_18sdp"
+                        android:layout_height="@dimen/_18sdp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="@dimen/_5sdp"
+                        android:src="@drawable/ic_open_view"
+                        app:tint="?attr/subTextColor" />
 
-            <RelativeLayout
-                android:id="@+id/rvButtonThree"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="?attr/itemBackground"
-                android:padding="@dimen/_5sdp">
+                </RelativeLayout>
 
-                <LinearLayout
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.6dp"
+                    android:layout_marginHorizontal="@dimen/_6sdp"
+                    android:layout_marginVertical="@dimen/_5sdp"
+                    android:background="?attr/stroke_color_settings" />
+
+                <RelativeLayout
+                    android:id="@+id/rvButtonThree"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:orientation="vertical">
+                    android:background="?attr/itemBackground"
+                    android:layout_marginBottom="@dimen/_1sdp"
+                    android:padding="@dimen/_2sdp">
 
-                    <TextView
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:layout_marginStart="@dimen/_5sdp"
-                        android:fontFamily="@font/medium_sans"
-                        android:gravity="center_vertical"
-                        android:text="@string/button_3"
-                        android:textColor="?attr/titleTextColor"
-                        android:textSize="@dimen/features_title_size" />
+                        android:orientation="vertical">
 
-                    <TextView
-                        android:id="@+id/txtButtonThree"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginStart="@dimen/_5sdp"
-                        android:layout_marginTop="@dimen/_1sdp"
-                        android:fontFamily="@font/regular_sans"
-                        android:text="@string/reply"
-                        android:textColor="?attr/subHeadingColor"
-                        android:textSize="@dimen/features_sub_title_size" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:fontFamily="@font/medium_sans"
+                            android:gravity="center_vertical"
+                            android:text="@string/button_3"
+                            android:textColor="?attr/titleTextColor"
+                            android:textSize="@dimen/features_title_size" />
 
-                </LinearLayout>
+                        <TextView
+                            android:id="@+id/txtButtonThree"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginTop="@dimen/_1sdp"
+                            android:fontFamily="@font/regular_sans"
+                            android:text="@string/reply"
+                            android:textColor="?attr/subHeadingColor"
+                            android:textSize="@dimen/features_sub_title_size" />
 
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:layout_width="@dimen/_20sdp"
-                    android:layout_height="@dimen/_20sdp"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginEnd="@dimen/_5sdp"
-                    android:src="@drawable/ic_open_view"
-                    app:tint="?attr/subTextColor" />
+                    </LinearLayout>
 
-            </RelativeLayout>
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:layout_width="@dimen/_18sdp"
+                        android:layout_height="@dimen/_18sdp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="@dimen/_5sdp"
+                        android:src="@drawable/ic_open_view"
+                        app:tint="?attr/subTextColor" />
+
+                </RelativeLayout>
+
+            </LinearLayout>
 
         </LinearLayout>
 

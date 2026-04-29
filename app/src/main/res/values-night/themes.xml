@@ -102,6 +102,9 @@
         <item name="message_title_color">@color/messages_dark_theme_title</item>
         <item name="message_sub_title_color">@color/messages_dark_theme_sub_title</item>
         <item name="mobile_frame_color">@color/chat_box_dark_color</item>
+        <item name="profile_dark_color">@color/profile_dark_color_dark_theme</item>
+        <item name="profile_light_color">@color/profile_light_color_dark_theme</item>
+        <item name="stroke_color_settings">@color/stroke_color_settings_theme_dark</item>
     </style>
 
     <style name="BottomSheetDialogTheme" parent="Theme.Design.Light.BottomSheetDialog">

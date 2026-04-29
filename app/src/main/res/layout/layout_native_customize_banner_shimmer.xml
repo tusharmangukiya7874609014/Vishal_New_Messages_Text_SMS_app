@@ -5,8 +5,7 @@
 
     </data>
 
-    <com.google.android.libraries.ads.mobile.sdk.nativead.NativeAdView
-        android:id="@+id/native_ad_view"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -107,5 +106,5 @@
                 android:textColor="@color/white" />
 
         </RelativeLayout>
-    </com.google.android.libraries.ads.mobile.sdk.nativead.NativeAdView>
+    </RelativeLayout>
 </layout>

@@ -304,6 +304,7 @@ class BackupAndRestoreActivity : BaseActivity(), OnBackupClickInterface, Network
         }
 
         binding.rvBackupNow.setOnClickListener {
+            binding.viewShown.visibility = View.VISIBLE
             binding.progressBar.fadeIn()
             binding.rvBackingUpMessage.fadeIn()
             binding.txtProgressMessages.text = getString(R.string.backing_up_messages)
@@ -585,6 +586,7 @@ class BackupAndRestoreActivity : BaseActivity(), OnBackupClickInterface, Network
 
     override fun onSelectBackupClick(backupName: SmsBackupInfo) {
         dialog.dismiss()
+        binding.viewShown.visibility = View.VISIBLE
         binding.progressBar.fadeIn()
         binding.rvBackingUpMessage.fadeIn()
         binding.txtProgressMessages.text = getString(R.string.restoring_messages)

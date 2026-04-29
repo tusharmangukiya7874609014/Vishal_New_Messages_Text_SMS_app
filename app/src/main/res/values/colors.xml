@@ -169,4 +169,9 @@
     <color name="messages_light_theme_sub_title">#8a8a8e</color>
     <color name="messages_dark_theme_sub_title">#707075</color>
     <color name="mobile_frame_light_color">#aaaaaa</color>
+    <color name="profile_dark_color_light_theme">#96959d</color>
+    <color name="profile_dark_color_dark_theme">#59595E</color>
+    <color name="profile_light_color_light_theme">#909196</color>
+    <color name="profile_light_color_dark_theme">#6D6E73</color>
+    <color name="stroke_color_settings_theme_dark">#4A4A4C</color>
 </resources>

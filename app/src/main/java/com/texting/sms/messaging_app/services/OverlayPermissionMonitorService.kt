@@ -27,6 +27,11 @@ class OverlayPermissionMonitorService : Service() {
                 )
 
                 val intent = if (!isFirstTimeLanguageSelected) {
+                    SharedPreferencesHelper.saveBoolean(
+                        this@OverlayPermissionMonitorService,
+                        "NO_ADS_APP_OPEN",
+                        true
+                    )
                     Intent(this@OverlayPermissionMonitorService, LanguageActivity::class.java)
                 } else {
                     SharedPreferencesHelper.saveBoolean(
@@ -60,6 +65,7 @@ class OverlayPermissionMonitorService : Service() {
                 )
 
                 val intent = if (!isFirstTimeLanguageSelected) {
+
                     Intent(this@OverlayPermissionMonitorService, LanguageActivity::class.java)
                 } else {
                     SharedPreferencesHelper.saveBoolean(

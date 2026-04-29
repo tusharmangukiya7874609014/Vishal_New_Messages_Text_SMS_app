@@ -95,4 +95,7 @@
     <attr name="message_title_color" format="color" />
     <attr name="message_sub_title_color" format="color" />
     <attr name="mobile_frame_color" format="color" />
+    <attr name="profile_dark_color" format="color" />
+    <attr name="profile_light_color" format="color" />
+    <attr name="stroke_color_settings" format="color" />
 </resources>

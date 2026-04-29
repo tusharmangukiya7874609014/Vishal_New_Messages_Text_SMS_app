@@ -434,12 +434,10 @@ fun TextView.bindUnreadMessage(unreadCount: Int) {
     if (unreadCount > 0) {
         setTypeface(null, Typeface.BOLD)
         ResourcesCompat.getFont(context, R.font.regular_sans)
-        maxLines = 2
         setTextColor(context.getColorFromAttr(R.attr.titleTextColor))
     } else {
         setTypeface(null, Typeface.NORMAL)
         ResourcesCompat.getFont(context, R.font.regular_sans)
-        maxLines = 1
         setTextColor(context.getColorFromAttr(R.attr.subHeadingColor))
     }
 }

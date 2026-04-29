@@ -6,7 +6,8 @@
     <dimen name="speech_bubble_tail">25dp</dimen>
     <dimen name="snackbar_bottom_margin">60dp</dimen>
     <dimen name="_8sdp">8dp</dimen>
-    <dimen name="_7sp">7sp</dimen>
+    <dimen name="_7sp">7.5sp</dimen>
+    <dimen name="_10sp">11sp</dimen>
     <item name="gnt_text_row_weight" format="float" type="dimen">0.25</item>
     <dimen name="main_title_size" >15.5sp</dimen>
     <dimen name="features_title_size" >14sp</dimen>

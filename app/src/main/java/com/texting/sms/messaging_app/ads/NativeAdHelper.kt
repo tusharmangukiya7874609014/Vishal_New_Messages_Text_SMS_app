@@ -15,6 +15,7 @@ import androidx.appcompat.widget.AppCompatImageView
 import com.facebook.shimmer.ShimmerFrameLayout
 import com.google.android.libraries.ads.mobile.sdk.common.FullScreenContentError
 import com.google.android.libraries.ads.mobile.sdk.common.LoadAdError
+import com.google.android.libraries.ads.mobile.sdk.common.VideoOptions
 import com.google.android.libraries.ads.mobile.sdk.nativead.MediaView
 import com.google.android.libraries.ads.mobile.sdk.nativead.NativeAd
 import com.google.android.libraries.ads.mobile.sdk.nativead.NativeAdEventCallback
@@ -67,53 +68,63 @@ object NativeAdHelper {
             adView.let { adsView ->
                 val shimmer =
                     adsView.findViewById<ShimmerFrameLayout>(R.id.shimmer_native_view_container)
-                val rvFillNativeAdsView = adsView.findViewById<RelativeLayout>(R.id.rvFillNativeAds)
 
                 it.runOnUiThread {
                     shimmer.startShimmer()
                 }
 
+                val rvFillNativeAdsView = adsView.findViewById<RelativeLayout>(R.id.rvFillNativeAds)
+                val nativeAdTemplate = rvFillNativeAdsView.findViewById<RelativeLayout>(R.id.native_ad_template)
+                val nativeAdView = nativeAdTemplate.findViewById<NativeAdView>(R.id.native_ad_view)
+
                 // Destroy previous ad safely
                 currentNativeAd?.destroy()
                 currentNativeAd = null
 
-                val adRequest = NativeAdRequest.Builder(
-                    nativeAdsId,
-                    listOf(NativeAd.NativeAdType.NATIVE)
-                ).build()
+                val videoOptions: VideoOptions =
+                    VideoOptions.Builder().setStartMuted(true).build()
+                val adRequest =
+                    NativeAdRequest.Builder(finalNativeAdsID, listOf(NativeAd.NativeAdType.NATIVE))
+                        .setVideoOptions(videoOptions)
+                        .build()
 
-                val callback = object : NativeAdLoaderCallback {
-                    override fun onNativeAdLoaded(nativeAd: NativeAd) {
-                        Log.d("NativeAd", "Native ad loaded.")
+                val adCallback =
+                    object : NativeAdLoaderCallback {
+                        override fun onNativeAdLoaded(nativeAd: NativeAd) {
+                            Log.d("NativeAd", "Native ad loaded.")
 
-                        isLoading = false
-                        currentNativeAd = nativeAd
+                            CoroutineScope(Dispatchers.Main).launch {
+                                isLoading = false
+                                currentNativeAd = nativeAd
 
-                        it.runOnUiThread {
-                            shimmer?.stopShimmer()
-                            shimmer?.visibility = View.GONE
+                                it.runOnUiThread {
+                                    shimmer?.stopShimmer()
+                                    shimmer?.visibility = View.GONE
+                                }
+
+                                it.runOnUiThread {
+                                    rvFillNativeAdsView.visibility = View.VISIBLE
+                                    setEventCallback(nativeAd)
+                                    nativeAdView?.let { nativeAdsView ->
+                                        displayNativeAd(nativeAd, nativeAdsView)
+                                    }
+                                    currentNativeAd = nativeAd
+                                }
+                            }
                         }
 
-                        it.runOnUiThread {
-                            setEventCallback(nativeAd)
-                            displayNativeAd(nativeAd, adsView)
-                            currentNativeAd = nativeAd
-                            rvFillNativeAdsView.visibility = View.VISIBLE
+                        override fun onAdFailedToLoad(adError: LoadAdError) {
+                            Log.e("NativeAd", "Native ad failed to load: $adError")
+
+                            it.runOnUiThread {
+                                isLoading = false
+                                adContainer.visibility = View.GONE
+                            }
                         }
                     }
-
-                    override fun onAdFailedToLoad(adError: LoadAdError) {
-                        Log.e("NativeAd", "Native ad failed to load: $adError")
-
-                        it.runOnUiThread {
-                            isLoading = false
-                            adContainer.visibility = View.GONE
-                        }
-                    }
-                }
 
                 AdsManager.runWhenReady(activity) {
-                    NativeAdLoader.load(adRequest, callback)
+                    NativeAdLoader.load(adRequest, adCallback)
                 }
             }
         }
@@ -149,15 +160,13 @@ object NativeAdHelper {
             }
     }
 
-    private fun displayNativeAd(nativeAd: NativeAd, adsView: View) {
-        val nativeAdView = adsView.findViewById<NativeAdView>(R.id.native_ad_view)
-
-        val headLineView = adsView.findViewById<TextView>(R.id.primary)
-        val bodyView = adsView.findViewById<TextView>(R.id.body)
-        val adsActionButton = adsView.findViewById<AppCompatButton>(R.id.cta)
-        val adsIcon = adsView.findViewById<AppCompatImageView>(R.id.icon)
-        val adAdvertiserView = adsView.findViewById<TextView>(R.id.ad_notification_view)
-        val mediaView = adsView.findViewById<MediaView>(R.id.media_view)
+    private fun displayNativeAd(nativeAd: NativeAd,  nativeAdView: NativeAdView) {
+        val headLineView = nativeAdView.findViewById<TextView>(R.id.primary)
+        val bodyView = nativeAdView.findViewById<TextView>(R.id.body)
+        val adsActionButton = nativeAdView.findViewById<AppCompatButton>(R.id.cta)
+        val adsIcon = nativeAdView.findViewById<AppCompatImageView>(R.id.icon)
+        val adAdvertiserView = nativeAdView.findViewById<TextView>(R.id.ad_notification_view)
+        val mediaView = nativeAdView.findViewById<MediaView>(R.id.media_view)
 
         nativeAdView.advertiserView = adAdvertiserView
         nativeAdView.bodyView = bodyView

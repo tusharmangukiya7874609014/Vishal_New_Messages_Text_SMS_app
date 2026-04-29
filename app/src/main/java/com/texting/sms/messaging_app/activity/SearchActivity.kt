@@ -2,13 +2,10 @@ package com.texting.sms.messaging_app.activity
 
 import android.content.Context
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.provider.ContactsContract
-import android.telephony.PhoneNumberUtils
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.core.net.toUri
@@ -37,7 +34,6 @@ import com.texting.sms.messaging_app.model.ChatUser
 import com.texting.sms.messaging_app.utils.NetworkConnectionUtil
 import com.texting.sms.messaging_app.utils.getDrawableFromAttr
 import com.vanniktech.ui.hideKeyboard
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -435,7 +431,7 @@ class SearchActivity : BaseActivity(), OnChatUserInterface, OnSearchResultClickI
 
                     binding.progressBar.visibility = View.VISIBLE
 
-                    val filterList = filterChatUsers(allConversationsList, searchQuery)
+                    val filterList = filterChatUsers(allMessageWithContactsNameList, searchQuery)
 
                     val finalChatsList = SharedPreferencesHelper
                         .filterNonPrivateThreads(this@SearchActivity, filterList)
@@ -482,7 +478,7 @@ class SearchActivity : BaseActivity(), OnChatUserInterface, OnSearchResultClickI
         return originalList
             .asSequence()
             .filter { it.searchKey.contains(q) }
-            .take(30)
+            .take(50)
             .toList()
     }
 
